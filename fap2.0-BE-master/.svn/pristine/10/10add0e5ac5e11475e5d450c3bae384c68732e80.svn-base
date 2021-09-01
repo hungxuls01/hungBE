@@ -1,0 +1,56 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Search_keywordDto : Search_keyword
+    {
+    }
+    public class Search_keywordSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+    public class Search_keywordAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string imgpath { get; set; }
+        public Nullable<int> CargoTypeId { get; set; }
+        public Nullable<int> catid { get; set; }
+        public int ishome { get; set; }
+    }
+
+    public class Search_keywordDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Search_keywordGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class Search_keywordLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Search_keywordList
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public int islock { get; set; }
+        public string categoryname { get; set; }
+        
+    }
+    public class Search_keywordListXH
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string titlesearch { get; set; }
+        public string imgpath { get; set; }
+        public int numberSearch { get; set; }
+
+    }
+}

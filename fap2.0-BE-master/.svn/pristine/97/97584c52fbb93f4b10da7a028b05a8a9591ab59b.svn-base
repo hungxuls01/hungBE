@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Images
+{
+    public class ImagesDal : DbInteractionBase, IImagesDal
+    {
+        #region BACKEND
+        public Tuple<int, List<ImageList>> SelectPaging(ImageSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<ImageList>("sp_ImagesSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "catalogid", ValueParam = obj.catalogid},
+                 new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+            });
+        }
+        public bool Insert(ImageAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_ImagesInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "catalogid", ValueParam = objAdd.catalogid},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title}
+            });
+        }
+
+        #endregion
+
+    }
+}

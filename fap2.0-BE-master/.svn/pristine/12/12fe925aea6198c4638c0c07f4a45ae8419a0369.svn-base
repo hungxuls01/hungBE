@@ -1,0 +1,81 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Evaluate_OrderDto : Evaluate_Order
+    {
+    }
+
+    public class Evaluate_OrderSearchDto : SearchIncompetentBase
+    {
+        public DateTime ToDate { get; set; }
+        public DateTime FromDate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class Evaluate_OrderAdd : SearchIncompetentBase
+    {
+        public int id { get; set; }
+        public string Comment { get; set; }
+        public Nullable<int> idOrder { get; set; }
+        public int Point { get; set; }
+        public string customer_tel { get; set; }
+        public string customer_email { get; set; }
+        public string customer_name { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class Evaluate_OrderDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+
+    public class Evaluate_OrderGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+
+    public class Evaluate_OrderLock : IncompetentBase
+    {
+        public int IsLock { get; set; }
+        public string arrayId { get; set; }
+    }
+
+    public class Evaluate_OrderList
+    {
+        public int id { get; set; }
+        public Nullable<int> idOrder { get; set; }
+        public int Point { get; set; }
+        public string customer_tel { get; set; }
+        public string customer_email { get; set; }
+        public string customer_name { get; set; }
+        public string dateadded { get; set; }
+        public int CargoTypeId { get; set; }
+        public int IsLock { get; set; }
+    }
+    public class Valuate_OrderGetList
+    {
+        public Nullable<int> id { get; set; }
+        public string comment { get; set; }      
+        public Nullable<int> point { get; set; }
+        public string fullname { get; set; }       
+        public string imgpath { get; set; }       
+    }
+    public class Valuate_OrderUserList
+    {       
+        public string comment { get; set; }
+        public string dateadded { get; set; }
+        public Nullable<int> point { get; set; }
+        public string imgpath { get; set; }
+        public string title { get; set; }
+    }
+    public class ValuatePadingDto : SearchIncompetentBase
+    {
+        public int productid { get; set; }
+
+    }
+}

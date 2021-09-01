@@ -1,0 +1,15 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Nations
+{
+    public interface INationsDal
+    {
+        Tuple<int, List<NationsCombobox>> SelectPaging(NationsSearchDto companySearch, int pageIndex, int pageSize);
+
+        NationsAdd GetById(NationsGetbyId id);
+    }
+}

@@ -1,0 +1,50 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class RewardDto : Reward
+    {
+    }
+    public class RewardSearchDto : SearchIncompetentBase
+    {
+        public int districtid { get; set; }
+    }
+    public class RewardAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string code { get; set; }
+        public Nullable<int> districtid { get; set; }
+        public string type { get; set; }
+    }
+
+    public class RewardDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class RewardGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class RewardLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class RewardList
+    {
+        public int Id { get; set; }
+        public string title { get; set; }
+        public string type { get; set; }
+        public int IsLock { get; set; }
+    }
+    public class RewardCombobox
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+    }
+}

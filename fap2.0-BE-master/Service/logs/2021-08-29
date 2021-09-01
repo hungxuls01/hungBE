@@ -1,0 +1,13 @@
+2021-08-29 01:50:59.5994|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.DateTime]'.
+2021-08-29 01:51:12.2234|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.DateTime]'.
+2021-08-29 01:51:12.8604|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.DateTime]'.
+2021-08-29 01:51:13.3744|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.DateTime]'.
+2021-08-29 02:47:06.5206|ERROR|Service.Controllers.UsersController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-08-29 02:50:08.4694|ERROR|Service.Controllers.StudentsController|Nullable object must have a value.
+2021-08-29 03:11:33.3733|ERROR|Service.Controllers.UsersController|Incorrect syntax near ')'.
+2021-08-29 03:11:40.9363|ERROR|Service.Controllers.UsersController|Incorrect syntax near ')'.
+2021-08-29 03:45:46.6220|ERROR|Service.Controllers.UsersController|Invalid column name 'True'.
+2021-08-29 17:22:51.9672|ERROR|Service.Controllers.UsersController|Object of type 'System.DBNull' cannot be converted to type 'System.Int32'.
+2021-08-29 17:23:03.7108|ERROR|Service.Controllers.UsersController|Object of type 'System.DBNull' cannot be converted to type 'System.Int32'.
+2021-08-29 17:23:24.0061|ERROR|Service.Controllers.UsersController|Object of type 'System.DBNull' cannot be converted to type 'System.Int32'.
+2021-08-29 17:29:11.3173|ERROR|Service.Controllers.UsersController|Invalid column name 'Departmentid'.

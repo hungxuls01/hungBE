@@ -1,0 +1,26 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Permision_Catalog
+{
+    public interface IPermision_CatalogDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Permision_CatalogList>, int> SelectPaging(Permision_CatalogSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Permision_CatalogLock obj);
+
+        int Delete(Permision_CatalogDeleted arrayId);
+
+        Tuple<Permision_CatalogAdd, int> GetById(Permision_CatalogGetbyId objGetbyId);
+
+        int Insert(Permision_CatalogAdd objAdd);
+
+        #endregion
+    }
+}

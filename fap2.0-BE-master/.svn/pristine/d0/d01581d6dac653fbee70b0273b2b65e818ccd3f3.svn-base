@@ -1,0 +1,78 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class BannerDto : Banner
+    {
+    }
+
+    public class BannerSearchDto :  SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+
+    public class BannerAdd : SearchIncompetentBase
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string imgpath { get; set; }
+        public string linkurl { get; set; }
+        public string code { get; set; }
+        public Nullable<int> order { get; set; }
+        public string LinkFacebook { get; set; }
+        public string LinkGoogle { get; set; }
+        public string LinkTwitter { get; set; }
+        public string detail { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public int CargoTypeId { get; set; }
+        public int ParentId { get; set; }
+        public string titlesearch { get; set; }
+    }
+
+    public class BannerDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+
+    public class BannerGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+
+    public class BannerLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+
+    public class BannerList
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string code { get; set; }
+        public int IsLock { get; set; }
+        public int CargoTypeId { get; set; }
+        public string imgpath { get; set; }
+        public Nullable<int> order { get; set; }
+    }
+    public class BannerListFontend
+    {
+        public int id { get; set; }
+        public string imgpath { get; set; }
+        public string linkurl { get; set; }
+        public string code { get; set; }
+    }
+    public class BannerListFontendCatalog
+    {
+        public int id { get; set; }
+        public string imgpath { get; set; }
+        public string linkurl { get; set; }
+        public string code { get; set; }
+        public int ParentId { get; set; }
+    }
+}

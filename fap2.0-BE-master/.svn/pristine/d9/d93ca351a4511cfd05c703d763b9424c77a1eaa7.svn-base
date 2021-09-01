@@ -1,0 +1,164 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class ReportDto
+    {
+    }
+    public class ReportSales : IncompetentBase
+    {
+        public int Type { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int CargoTypeId { get; set; }
+        public int CompanyId { get; set; }
+
+    }
+    public class ReportSalesList
+    {
+        public int Type { get; set; }
+        public string MonthNumber { get; set; }
+        public string CreatedDate { get; set; }
+        public float SaleEstimate { get; set; }
+        public float SaleReality { get; set; }
+    }
+    public class ReportProducts : IncompetentBase
+    {
+        public int Type { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int CompanyId { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportProductsList
+    {
+        public float Total { get; set; }
+        public float TotalMoney { get; set; }
+        public int productid { get; set; }
+        public string ProductName { get; set; }
+        public string UnitName { get; set; }
+    }
+    public class ReportOrderStatus : IncompetentBase
+    {
+        public int Type { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportOrderStatusList
+    {
+        public float Total { get; set; }
+        public string Title { get; set; }
+    }
+    public class ReportTopProvince : IncompetentBase
+    {
+        public int Type { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportTopProvinceList
+    {
+        public float Total { get; set; }
+        public string Title { get; set; }
+    }
+    public class ReportPaymentType : IncompetentBase
+    {
+        public int Type { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportPaymentTypeList
+    {
+        public float Total { get; set; }
+        public string Title { get; set; }
+    }
+    public class ReportServiceTransport : IncompetentBase
+    {
+        public int Type { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportServiceTransportList
+    {
+        public float Total { get; set; }
+        public string Title { get; set; }
+    }
+    public class ReportOrder : SearchIncompetentBase
+    {
+        public int provinceid { get; set; }
+        public int ispayment { get; set; }
+        public int paymenttype { get; set; }
+        public int CompanyId { get; set; }
+        public int IsReport { get; set; }
+        public DateTime fromdate { get; set; }
+        public DateTime todate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportOrderList
+    {
+        public int id { get; set; }
+        public string code { get; set; }
+        public string mavandon { get; set; }
+        public string receiver_fullname { get; set; }
+        public string CompanyCode { get; set; }
+        public string ProvinceName { get; set; }
+        public string dateorder { get; set; }
+        public float money_total { get; set; }
+        public float money_discount { get; set; }
+        public string VoucherCode { get; set; }
+        public float VoucherAmount { get; set; }
+        public float money_cod { get; set; }
+        public int PaymentType { get; set; }
+        public float cpvc { get; set; }
+        public float cod { get; set; }
+        public int IsPayment { get; set; }
+        public string STATUS { get; set; }
+    }
+    public class ReportOrderDetail : SearchIncompetentBase
+    {
+        public int provinceid { get; set; }
+        public int ispayment { get; set; }
+        public int paymenttype { get; set; }
+        public int CompanyId { get; set; }
+        public int IsReport { get; set; }
+        public DateTime fromdate { get; set; }
+        public DateTime todate { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class ReportOrderDetailList
+    {
+        public int id { get; set; }
+        public string code { get; set; }
+        public string CompanyCode { get; set; }
+        public string CompanyName { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_tel { get; set; }
+        public string dateadded { get; set; }
+        public string ProductName { get; set; }
+        //public string StoreEmail { get; set; }
+        //public string ContactName { get; set; }
+        //public string ContactNumber { get; set; }
+        //public string StoreAddress { get; set; }
+        public int qty { get; set; }
+        public string UnitName { get; set; }
+        public float Weight { get; set; }
+        public float price_sale { get; set; }
+        public float Total { get; set; }
+        public float cpvc { get; set; }
+        public float cod { get; set; }
+        public float money_discount { get; set; }
+        public float VoucherAmount { get; set; }
+        public float TotalAll { get; set; }
+        public int PaymentType { get; set; }
+        public int IsPayment { get; set; }
+        public string status { get; set; }
+        public string note { get; set; }
+    }
+}

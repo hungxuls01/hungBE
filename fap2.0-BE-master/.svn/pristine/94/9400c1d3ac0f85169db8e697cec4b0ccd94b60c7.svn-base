@@ -1,0 +1,61 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Product_UnitsDto : Product_Units
+    {
+    }
+    public class Product_UnitsSearchDto : SearchBase
+    {
+    }
+    public class Product_UnitsAdd 
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string code { get; set; }
+        public string title { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+    }
+
+    public class Product_UnitsDeleted 
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Product_UnitsGetbyId 
+    {
+        public System.Guid id { get; set; }
+    }
+
+    public class Product_UnitsGetId
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string title { get; set; }
+        public string code { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+    }
+    public class Product_UnitsCheckName
+    {
+        public string Keyword { get; set; }
+    }
+    public class Product_UnitsLock 
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Product_UnitsList
+    {
+        public System.Guid id { get; set; }
+        public string title { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public string nameuser { get; set; }
+    }
+    public class Product_UnitsSelectAll
+    {
+        public System.Guid id { get; set; }
+        public string title { get; set; }
+    }
+}

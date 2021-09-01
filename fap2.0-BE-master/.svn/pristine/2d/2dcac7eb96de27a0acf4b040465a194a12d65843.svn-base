@@ -1,0 +1,398 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class ProductDto : Product
+    {
+    }
+    public class ProductSearchDto : SearchBase
+    {
+        public Nullable<System.Guid> companyid { get; set; }
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+        public string fromapproval { get; set; }
+        public string toapproval { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public string sdk { get; set; }
+        public int productcatalogid { get; set; }
+        public int isview { get; set; }
+        public int isConsignment { get; set; }
+    }
+
+    public class ProductAllSearchDto : SearchBase
+    {
+        public string code { get; set; }
+        public string name { get; set; }
+        public string namecompany { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public int productcatalogid { get; set; }
+    }
+    public class ProductSale_OrderSearchDto : SearchBase
+    {
+        public string code { get; set; }
+        public string name { get; set; }
+        public Nullable<System.Guid> CompanyId { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public int productcatalogid { get; set; }
+    }
+    public class ProductAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public int productcatalogid { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string code { get; set; }
+
+        public string sdk { get; set; }
+        public string name { get; set; }
+        public Nullable<decimal> price { get; set; }
+        public Nullable<System.Guid> unit { get; set; }
+        public string otherunits { get; set; }
+        public string sickcatalogid { get; set; }
+        public string sick { get; set; }
+        public string quycachsanpham { get; set; }
+        public string thanhphan { get; set; }
+        public string congdung { get; set; }
+        public string chidinh { get; set; }
+        public string chongchidinh { get; set; }
+        public string lieudung_cachdung { get; set; }
+        public string thantrong { get; set; }
+        public bool choconbu { get; set; }
+        public bool khananglaixe { get; set; }
+        public string tuongtacthuoc { get; set; }
+        public string tacdungkhongmuon { get; set; }
+        public string qualieu_cachxuly { get; set; }
+        public string baoquan { get; set; }
+        public string handung { get; set; }
+        public string tieuchuan { get; set; }
+        public string cososanxuat { get; set; }
+        public string diachisanxuat { get; set; }
+        public string imanges { get; set; }
+        public string filegdk { get; set; }
+        public string filegknsp { get; set; }
+        public string filegcnGMP { get; set; }
+        public string baiviet { get; set; }
+        public string giaycnthocgiatruyen { get; set; }
+        public string danhmuchotro { get; set; }
+        public string thuonghieu { get; set; }
+        public string xuatxu { get; set; }
+        public string nguongoc { get; set; }
+        public string thanhphanhoahoc { get; set; }
+        public string doituongsudung { get; set; }
+        public string luuysudung { get; set; }
+        public string soCOCQ { get; set; }
+        public string fileCOCQ { get; set; }
+        public decimal khohang { get; set; }
+        public int cannang { get; set; }
+        public int ktcao { get; set; }
+        public int ktdai { get; set; }
+        public int ktrong { get; set; }
+        public bool kiguisanpham { get; set; }
+        public int isview { get; set; }
+        public int status { get; set; }
+        public string chietxuat { get; set; }
+        public bool lathuocgiatruyen { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+        public string metatitle { get; set; }
+        public string metadesc { get; set; }
+        public string metakeyword { get; set; }
+        public string metaog { get; set; }
+
+    }
+
+    public class ProductGetid
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public int productcatalogid { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string companyname { get; set; }
+        public string code { get; set; }
+
+        public string sdk { get; set; }
+        public string name { get; set; }
+        public Nullable<decimal> price { get; set; }
+        public Nullable<System.Guid> unit { get; set; }
+        public string otherunits { get; set; }
+        public string sickcatalogid { get; set; }
+        public string sick { get; set; }
+        public string quycachsanpham { get; set; }
+        public string thanhphan { get; set; }
+        public string congdung { get; set; }
+        public string chidinh { get; set; }
+        public string chongchidinh { get; set; }
+        public string lieudung_cachdung { get; set; }
+        public string thantrong { get; set; }
+        public bool choconbu { get; set; }
+        public bool khananglaixe { get; set; }
+        public string tuongtacthuoc { get; set; }
+        public string tacdungkhongmuon { get; set; }
+        public string qualieu_cachxuly { get; set; }
+        public string baoquan { get; set; }
+        public string handung { get; set; }
+        public string tieuchuan { get; set; }
+        public string cososanxuat { get; set; }
+        public string diachisanxuat { get; set; }
+        public string imanges { get; set; }
+        public string filegdk { get; set; }
+        public string filegknsp { get; set; }
+        public string filegcnGMP { get; set; }
+        public string baiviet { get; set; }
+        public string giaycnthocgiatruyen { get; set; }
+        public string danhmuchotro { get; set; }
+        public string thuonghieu { get; set; }
+        public string xuatxu { get; set; }
+        public string nguongoc { get; set; }
+        public string thanhphanhoahoc { get; set; }
+        public string doituongsudung { get; set; }
+        public string luuysudung { get; set; }
+        public string soCOCQ { get; set; }
+        public string fileCOCQ { get; set; }
+        public decimal khohang { get; set; }
+        public int cannang { get; set; }
+        public int ktcao { get; set; }
+        public int ktdai { get; set; }
+        public int ktrong { get; set; }
+        public bool kiguisanpham { get; set; }
+        public int isview { get; set; }
+        public int status { get; set; }
+        public string chietxuat { get; set; }
+        public bool lathuocgiatruyen { get; set; }
+        public bool isConsignment { get; set; }
+        public string metatitle { get; set; }
+        public string metadesc { get; set; }
+        public string metakeyword { get; set; }
+        public string metaog { get; set; }
+
+    }
+    public class ProductDeleted 
+    {
+        public System.Guid id { get; set; }
+    }
+    public class ProductGetbyId 
+    {
+        public System.Guid id { get; set; }
+    }
+
+    public class ProductGetbyList
+    {
+        public string id { get; set; }
+    }
+
+    public class ProductLock 
+    {
+        public bool isview { get; set; }
+        public string ArrayId { get; set; }
+    }
+
+    public class ProductStatus
+    {
+        public int status { get; set; }
+        public System.Guid id { get; set; }
+        public string note { get; set; }
+    }
+
+    public class ProductGetCompany
+    {
+        public System.Guid id { get; set; }
+        public System.Guid companyid { get; set; }
+        public string nameAdmin { get; set; }
+        public string nameStall { get; set; }
+        public string email { get; set; }
+        public string note { get; set; }
+        public string datereturn { get; set; }
+    }
+
+    public class ProductList
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public int productcatalogid { get; set; }
+        public decimal price { get; set; }
+        public decimal khohang { get; set; }
+        public int status { get; set; }
+        public string dateadded { get; set; }
+        public string dateapproval { get; set; }
+        public string titlestatus { get; set; }
+        public string titleproductcatalogid { get; set; }
+        public bool isview { get; set; }
+        public string titleview { get; set; }
+
+
+    }
+
+    public class ProductListAll
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string dateadded { get; set; }
+        public decimal price { get; set; }
+        public int productcatalogid { get; set; }
+        public int status { get; set; }
+        public Nullable<System.Guid> unit { get; set; }
+        public string titleunit { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public string codename { get; set; }
+        public decimal khohang { get; set; }
+
+    }
+
+    public class ProductListSale_Order
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public string dateapproval { get; set; }
+        public decimal price { get; set; }
+        public decimal khohang { get; set; }
+        public string name { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public string titleunit { get; set; }
+        public int productcatalogid { get; set; }
+        public int status { get; set; }
+        public bool isview { get; set; }
+        public Nullable<System.Guid> unit { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public int cannang { get; set; }
+        public int isConsignment { get; set; }
+        
+
+
+    }
+    public class ProductListFlash
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> discount { get; set; }
+        public int sellNumber { get; set; }
+        public string imgpath { get; set; }
+        public string rewite { get; set; }
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public int point { get; set; }
+        public int issale { get; set; }
+    }
+    public class ProductListTop
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> discount { get; set; }
+        public int sellNumber { get; set; }
+        public string imgpath { get; set; }
+        public string rewite { get; set; }
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public int point { get; set; }
+        public int issale { get; set; }
+    }
+    public class ProductListForUser
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> discount { get; set; }
+        public int sellNumber { get; set; }
+        public string imgpath { get; set; }
+        public string rewite { get; set; }
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public int point { get; set; }
+        public int issale { get; set; }
+    }
+    public class ProductGetDetail
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> discount { get; set; }
+        public string imgpath { get; set; }
+        public string longdesc { get; set; }
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public Nullable<int> catid { get; set; }
+        public Nullable<int> companyid { get; set; }
+        public Nullable<int> point { get; set; }
+        public int issale { get; set; }
+        
+
+    }
+    public class ProductGetTopSale
+    {
+        public int id { get; set; }
+        public string title { get; set; }      
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public Nullable<int> sellnumber { get; set; }
+
+    }
+    public class ProductGetId
+    {
+        public int id { get; set; }
+        public int Quantity { get; set; }
+        public int companyid { get; set; }
+        public decimal price { get; set; }
+        public int Coupon { get; set; }
+        public int weight { get; set; }
+        public string Name { get; set; }
+        public string image { get; set; }
+        public string rewite { get; set; }
+        public string companyName { get; set; }
+        public int unitid { get; set; }
+        public int catalogid { get; set; }
+        public int discount { get; set; }
+    }
+    public class ProductGetSeen
+    {
+        public int id { get; set; }
+        public int issale { get; set; }
+        public string title { get; set; }
+        public Nullable<int> discount { get; set; }
+        public int sellNumber { get; set; }
+        public string imgpath { get; set; }
+        public string rewite { get; set; }
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public int point { get; set; }
+
+    }
+    public class ProductsUpdateisView
+    {
+        public string id { get; set; }
+        public bool isview { get; set; }
+    }
+
+    public class ProductsAddKho
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string sdk { get; set; }
+        public string name { get; set; }
+        public Nullable<decimal> price { get; set; }
+        public Nullable<System.Guid> unit { get; set; }
+        public string otherunits { get; set; }
+        public string quycachsanpham { get; set; }
+        public string imanges { get; set; }
+        public int cannang { get; set; }
+        public int ktcao { get; set; }
+        public int ktdai { get; set; }
+        public int ktrong { get; set; }
+        public int status { get; set; }
+        public Nullable<int> productcatalogid { get; set; }
+        public string sickcatalogid { get; set; }
+        public string sick { get; set; }
+        public string note { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public decimal khohang { get; set; }
+    }
+}

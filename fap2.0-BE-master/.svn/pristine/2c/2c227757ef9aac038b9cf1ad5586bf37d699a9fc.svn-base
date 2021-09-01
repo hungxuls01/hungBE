@@ -1,0 +1,17 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Home
+{
+    public interface IHomeDal
+    {
+
+        #region FONTEND
+        HomeDto HomeGet(int id);
+        #endregion
+    }
+}

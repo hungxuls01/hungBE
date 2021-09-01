@@ -1,0 +1,1970 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
+using System.Web;
+
+namespace _1.DataAccessLayer
+{
+    public class DbInteractionBase
+    {
+        /// <summary>
+        ///     Tiền tố của Store Procedue
+        /// </summary>
+        public const string PrefixCmd = "dbo.";
+
+        /// <summary>
+        ///     Key để kết nối đến database qua file webconfig
+        /// </summary> 
+        public readonly string ConnectString = ConfigurationManager.ConnectionStrings["ADOConnection"].ConnectionString;
+        public readonly string ConnectStringFE = ConfigurationManager.ConnectionStrings["ADOConnectionFE"].ConnectionString;
+        public readonly string ConnectStringKHO = ConfigurationManager.ConnectionStrings["ADOConnectionKHO"].ConnectionString;
+
+        /// <summary>
+        ///     Trả về List đối tượng
+        /// </summary>
+        /// <typeparam name="T">Đối tượng cần lấy ra List</typeparam>
+        /// <param name="cmdText">Tên Store Procedue cần để lấy ra dữ liệu</param>
+        /// <param name="queryParams">Những tham số cần truyền vào Store Procedue (mặc định = null nếu không truyền gì)</param>
+        /// <param name="prefixCmdText">Tiền tố của Store Procedue</param>
+        /// <returns></returns>
+        public List<T> ExecuteReader<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam, queryParam.ValueParam));
+                    using (var reader = command.ExecuteReader())
+                    {
+                        var list = new List<T>();
+                        if (!reader.HasRows) return list;
+                        while (reader.Read())
+                            list.Add(GetObjectFromReader<T>(reader));
+                        return list;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        ///     Trả về List đối tượng Output
+        /// </summary>
+        /// <typeparam name="T">Đối tượng cần lấy ra List</typeparam>
+        /// <param name="cmdText">Tên Store Procedue cần để lấy ra dữ liệu</param>
+        /// <param name="queryParams">Những tham số cần truyền vào Store Procedue (mặc định = null nếu không truyền gì)</param>
+        /// <param name="prefixCmdText">Tiền tố của Store Procedue</param>
+        /// <returns></returns>
+        public Tuple<int, List<T>> ExecuteReaderOutput<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var nameOuputParam = string.Empty;
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                nameOuputParam = "@" + queryParam.NameParam;
+                                command.Parameters.Add(new SqlParameter(nameOuputParam, queryParam.TypeOutParam,
+                                    queryParam.SizeOutParam)
+                                {
+                                    Direction = ParameterDirection.Output
+                                });
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    var list = new List<T>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                            while (reader.Read())
+                                list.Add(GetObjectFromReader<T>(reader));
+                    }
+                    var recordCount = Convert.ToInt32(command.Parameters[nameOuputParam].Value);
+                    return Tuple.Create(recordCount, list);
+                }
+            }
+        }
+        /// <summary>
+        ///     Trả về List đã phân trang
+        /// </summary>
+        /// <typeparam name="T">Đối tượng cần lấy ra List</typeparam>
+        /// <param name="cmdText">Tên Store Procedue cần để lấy ra dữ liệu</param>
+        /// <param name="queryParams">Những tham số cần truyền vào Store Procedue (mặc định = null nếu không truyền gì)</param>
+        /// <param name="prefixCmdText">Tiền tố của Store Procedue</param>
+        /// <returns></returns>
+        public Tuple<int, List<T>> ExecuteReaderPaging<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var nameOuputParam = string.Empty;
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                nameOuputParam = "@" + queryParam.NameParam;
+                                command.Parameters.Add(new SqlParameter(nameOuputParam, queryParam.TypeOutParam,
+                                    queryParam.SizeOutParam)
+                                {
+                                    Direction = ParameterDirection.Output
+                                });
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    var list = new List<T>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                            while (reader.Read())
+                                list.Add(GetObjectFromReader<T>(reader));
+                    }
+                    var recordCount = Convert.ToInt32(command.Parameters[nameOuputParam].Value);
+                    return Tuple.Create(recordCount, list);
+                }
+            }
+        }
+        /// <summary>
+        ///     Trả về List đã phân trang Output
+        /// </summary>
+        /// <typeparam name="T">Đối tượng cần lấy ra List</typeparam>
+        /// <param name="cmdText">Tên Store Procedue cần để lấy ra dữ liệu</param>
+        /// <param name="queryParams">Những tham số cần truyền vào Store Procedue (mặc định = null nếu không truyền gì)</param>
+        /// <param name="prefixCmdText">Tiền tố của Store Procedue</param>
+        /// <returns></returns>
+        public Tuple<int, List<T>, int> ExecuteReaderPagingOutput<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var nameOuputParam = string.Empty;
+                    var nameOuputParam1 = string.Empty;
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                if (nameOuputParam == string.Empty)
+                                {
+                                    nameOuputParam = "@" + queryParam.NameParam;
+                                    command.Parameters.Add(new SqlParameter(nameOuputParam, queryParam.TypeOutParam,
+                                        queryParam.SizeOutParam)
+                                    {
+                                        Direction = ParameterDirection.Output
+                                    });
+                                }
+                                else
+                                {
+                                    nameOuputParam1 = "@" + queryParam.NameParam;
+                                    command.Parameters.Add(new SqlParameter(nameOuputParam1, queryParam.TypeOutParam,
+                                        queryParam.SizeOutParam)
+                                    {
+                                        Direction = ParameterDirection.Output
+                                    });
+                                }
+
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    var list = new List<T>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                            while (reader.Read())
+                                list.Add(GetObjectFromReader<T>(reader));
+                    }
+                    var recordCount = Convert.ToInt32(command.Parameters[nameOuputParam].Value);
+                    var isIncompetent = Convert.ToInt32(command.Parameters[nameOuputParam1].Value);
+                    return Tuple.Create(recordCount, list, isIncompetent);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Trả về đối tượng
+        /// </summary>
+        /// <typeparam name="T">Đối tượng cần lấy ra List</typeparam>
+        /// <param name="cmdText">Tên Store Procedue cần để lấy ra dữ liệu</param>
+        /// <param name="queryParams">Những tham số cần truyền vào Store Procedue (mặc định = null nếu không truyền gì)</param>
+        /// <param name="prefixCmdText">Tiền tố của Store Procedue</param>
+        /// <returns></returns>
+        public T ExecuteReaderObject<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            try
+            {
+                var asyncConnectionString =
+                    new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+                using (var conn = new SqlConnection(asyncConnectionString))
+                {
+                    using (var command = new SqlCommand(prefixCmdText + cmdText))
+                    {
+                        command.Connection = conn;
+                        command.CommandType = CommandType.StoredProcedure;
+                        conn.Open();
+                        if (queryParams != null)
+                            foreach (var queryParam in queryParams)
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                        using (var reader = command.ExecuteReader())
+                        {
+                            var list = new List<T>();
+                            if (!reader.HasRows) return default(T);
+                            while (reader.Read())
+                                list.Add(GetObjectFromReader<T>(reader));
+                            return list[0];
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /// <summary>
+        ///     Trả về đối tượng và output
+        /// </summary>
+        /// <typeparam name="T">Đối tượng cần lấy ra List</typeparam>
+        /// <param name="cmdText">Tên Store Procedue cần để lấy ra dữ liệu</param>
+        /// <param name="queryParams">Những tham số cần truyền vào Store Procedue (mặc định = null nếu không truyền gì)</param>
+        /// <param name="prefixCmdText">Tiền tố của Store Procedue</param>
+        /// <returns></returns>
+        public Tuple<T, int> ExecuteReaderObjectOutput<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            try
+            {
+                var list = new List<T>();
+                var isIncompetent = -1;
+                var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+                using (var conn = new SqlConnection(asyncConnectionString))
+                {
+                    using (var command = new SqlCommand(prefixCmdText + cmdText))
+                    {
+                        var nameOuputParam = string.Empty;
+                        command.Connection = conn;
+                        command.CommandType = CommandType.StoredProcedure;
+                        conn.Open();
+                        if (queryParams != null)
+                            foreach (var queryParam in queryParams)
+                                if (queryParam.IsOutParam)
+                                {
+                                    nameOuputParam = "@" + queryParam.NameParam;
+                                    command.Parameters.Add(new SqlParameter(nameOuputParam, queryParam.TypeOutParam,
+                                        queryParam.SizeOutParam)
+                                    {
+                                        Direction = ParameterDirection.Output
+                                    });
+                                }
+                                else
+                                {
+                                    command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                        queryParam.ValueParam));
+                                }
+
+                        using (var reader = command.ExecuteReader())
+                        {
+
+                            if (!reader.HasRows) return default(Tuple<T, int>);
+                            while (reader.Read())
+                                list.Add(GetObjectFromReader<T>(reader));
+
+                        }
+                        isIncompetent = Convert.ToInt32(command.Parameters[nameOuputParam].Value);
+                        return Tuple.Create(list[0], isIncompetent);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Trả về nhiều giá trị output từ câu lệnh select
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="prefixCmdText"></param>
+        /// <returns></returns>
+        public async Task<Dictionary<string, string>> ExecuteReaderMultiOutput(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var listOutput = new List<string>();
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                listOutput.Add(queryParam.NameParam);
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.TypeOutParam, queryParam.SizeOutParam)
+                                {
+                                    Direction = ParameterDirection.Output
+                                });
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    using (await command.ExecuteReaderAsync())
+                    {
+                        return listOutput.Count <= 0
+                            ? null
+                            : listOutput.ToDictionary(item => item,
+                                item => command.Parameters["@" + item].Value.ToString());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Thực hiện việc Insert Update Delete dữ liệu
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="prefixCmdText"></param>
+        /// <returns></returns>
+        public bool ExecuteNonQuery(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam, queryParam.ValueParam));
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+
+            }
+        }
+        /// <summary>
+        ///     Thực hiện việc Insert Update Delete output
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="prefixCmdText"></param>
+        /// <returns></returns>
+        public int ExecuteNonQueryOutput(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var isIncompetent = -1;
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var nameOuputParam = string.Empty;
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                nameOuputParam = "@" + queryParam.NameParam;
+                                command.Parameters.Add(new SqlParameter(nameOuputParam, queryParam.TypeOutParam,
+                                    queryParam.SizeOutParam)
+                                {
+                                    Direction = ParameterDirection.Output
+                                });
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    command.ExecuteNonQuery();
+                    isIncompetent = Convert.ToInt32(command.Parameters[nameOuputParam].Value);
+                    return isIncompetent;
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Thực hiện việc Insert Update Delete output id
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="prefixCmdText"></param>
+        /// <returns></returns>
+        public String ExecuteNonQueryOutputGuid(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var isIncompetent = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var nameOuputParam = string.Empty;
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                nameOuputParam = "@" + queryParam.NameParam;
+                                command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                    50)
+                                {
+                                    Direction = ParameterDirection.Output
+                                });
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    command.ExecuteNonQuery();
+                    isIncompetent = command.Parameters[nameOuputParam].Value.ToString();
+                    return isIncompetent;
+                }
+            }
+        }
+        /// <summary>
+        ///     Thực hiện việc Insert Update Delete dữ liệu trả về giá trị output
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="prefixCmdText"></param>
+        /// <returns></returns>
+        public async Task<T> ExecuteNonQuery<T>(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            using (var conn = new SqlConnection(asyncConnectionString))
+            {
+                using (var command = new SqlCommand(prefixCmdText + cmdText))
+                {
+                    var nameOuputParam = string.Empty;
+                    command.Connection = conn;
+                    command.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    if (queryParams != null)
+                        foreach (var queryParam in queryParams)
+                            if (queryParam.IsOutParam)
+                            {
+                                nameOuputParam = "@" + queryParam.NameParam;
+                                command.Parameters.Add(new SqlParameter(nameOuputParam, queryParam.TypeOutParam,
+                                    queryParam.SizeOutParam)
+                                {
+                                    Direction = ParameterDirection.Output
+                                });
+                            }
+                            else
+                            {
+                                command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                    queryParam.ValueParam));
+                            }
+                    await command.ExecuteNonQueryAsync();
+                    return (T)Convert.ChangeType(command.Parameters[nameOuputParam].Value, typeof(T));
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Hàm lấy ra giá trị của Object từ IDataReader
+        /// </summary>
+        /// <typeparam name="T">Class cần lấy dữ liệu</typeparam>
+        /// <param name="reader">IDataReader</param>
+        /// <returns></returns>
+        private static T GetObjectFromReader<T>(IDataRecord reader)
+        {
+            var columnDb = string.Empty;
+            object value = null;
+            try
+            {
+                var properties = typeof(T).GetProperties();
+                var element = Activator.CreateInstance<T>();
+                foreach (var prt in properties)
+                {
+                    var cusAttrs = prt.GetCustomAttributes(false);
+                    if (cusAttrs.Length > 0)
+                    {
+                        foreach (var customAttributeData in cusAttrs)
+                            if (!(customAttributeData is ColumnAttribute))
+                            {
+                                if (!IsColumnExists(reader, prt.Name)) continue;
+                                value = reader[prt.Name];
+                                var typeColumn = Nullable.GetUnderlyingType(prt.PropertyType) ?? prt.PropertyType;
+                                if (value.GetType() != typeof(DBNull))
+                                    prt.SetValue(element, Convert.ChangeType(value, typeColumn), null);
+                            }
+                            else
+                            {
+                                columnDb = ((ColumnAttribute)customAttributeData).Name;
+                                if (!IsColumnExists(reader, columnDb)) continue;
+                                value = reader[columnDb];
+                                var typeColumn = Nullable.GetUnderlyingType(prt.PropertyType) ?? prt.PropertyType;
+                                if (value.GetType() != typeof(DBNull))
+                                    prt.SetValue(element, Convert.ChangeType(value, typeColumn), null);
+                            }
+                    }
+                    else
+                    {
+                        if (!IsColumnExists(reader, prt.Name)) continue;
+                        value = reader[prt.Name];
+                        var typeColumn = Nullable.GetUnderlyingType(prt.PropertyType) ?? prt.PropertyType;
+                        if (value.GetType() != typeof(DBNull))
+                            prt.SetValue(element, Convert.ChangeType(value, typeColumn), null);
+                    }
+                }
+                return element;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(columnDb + ": " + value + " => " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Hàm kiểm tra cột có tồn tại trong IDataReader không
+        /// </summary>
+        /// <param name="dataReader"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        private static bool IsColumnExists(IDataRecord dataReader, string columnName)
+        {
+            try
+            {
+                for (var i = 0; i < dataReader.FieldCount; i++)
+                    if (dataReader.GetName(i).Equals(columnName, StringComparison.InvariantCultureIgnoreCase))
+                        return true;
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+        public static List<QueryParam> QueryParamForProcedure<T>(T t) where T : new()
+        {
+
+            var obj = new List<QueryParam>();
+            var properties = t.GetType().GetProperties(); //typeof(T).GetProperties(); // to get all properties from Class(Object)
+            foreach (var property in properties)
+            {
+                var param = new QueryParam { NameParam = property.Name, ValueParam = property.GetValue(t) ?? "" };
+                obj.Add(param);
+            }
+            return obj;
+        }
+
+        /// <summary>
+        ///     Thực hiện việc Insert Update Delete output id
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="prefixCmdText"></param>
+        /// <returns></returns>
+        public string ExecuteNonQueryOutputGuidTRANSACTIONFE(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string isIncompetent = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            isIncompetent = command.Parameters[nameOuputParam].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                if (queryParam.NameParam == "id")
+                                                {
+                                                    command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   isIncompetent));
+                                                }
+                                                else
+                                                {
+                                                    command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   queryParam.ValueParam));
+                                                }
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                    using (var conn3 = new SqlConnection(asyncConnectionStringKHO))
+                                    {
+                                        using (var command3 = new SqlCommand(prefixCmdText + cmdText))
+                                        {
+                                            var nameOuputParam3 = string.Empty;
+                                            command3.Connection = conn3;
+                                            command3.CommandType = CommandType.StoredProcedure;
+                                            conn3.Open();
+                                            if (queryParams != null)
+                                                foreach (var queryParam in queryParams)
+                                                    if (queryParam.IsOutParam)
+                                                    {
+                                                        nameOuputParam = "@" + queryParam.NameParam;
+                                                        command3.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                            50)
+                                                        {
+                                                            Direction = ParameterDirection.Output
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        if (queryParam.NameParam == "id")
+                                                        {
+                                                            command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                           isIncompetent));
+                                                        }
+                                                        else
+                                                        {
+                                                            command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                           queryParam.ValueParam));
+                                                        }
+
+                                                    }
+                                            command3.ExecuteNonQuery();
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return isIncompetent;
+        }
+
+
+
+        public string ExecuteNonQueryOutputTRANSACTIONProduct(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string idout = "";
+            string otherunitsout = "";
+            string unitidout = "";
+            string unitcodeout = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            idout = command.Parameters["@idout"].Value.ToString();
+                            otherunitsout = command.Parameters["@otherunitsout"].Value.ToString();
+                            unitidout = command.Parameters["@unitidout"].Value.ToString();
+                            if (unitidout == "")
+                            {
+                                unitidout = null;
+                            }
+                            unitcodeout = command.Parameters["@unitcodeout"].Value.ToString();
+                            if (unitcodeout == "")
+                            {
+                                unitcodeout = null;
+                            }
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                switch (queryParam.NameParam)
+                                                {
+                                                    case "id":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   idout));
+                                                        break;
+                                                    case "otherunits":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      otherunitsout));
+                                                        break;
+                                                    case "unit":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      unitidout));
+                                                        break;
+                                                    default:
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                                        break;
+                                                }
+                                            }
+                                    command2.ExecuteNonQuery();
+                                    using (var conn3 = new SqlConnection(asyncConnectionStringKHO))
+                                    {
+                                        using (var command3 = new SqlCommand(prefixCmdText + cmdText))
+                                        {
+                                            var nameOuputParam3 = string.Empty;
+                                            command3.Connection = conn3;
+                                            command3.CommandType = CommandType.StoredProcedure;
+                                            conn3.Open();
+                                            if (queryParams != null)
+                                                foreach (var queryParam in queryParams)
+                                                    if (queryParam.IsOutParam)
+                                                    {
+                                                        nameOuputParam = "@" + queryParam.NameParam;
+                                                        command3.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                            50)
+                                                        {
+                                                            Direction = ParameterDirection.Output
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (queryParam.NameParam)
+                                                        {
+                                                            case "id":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                           idout));
+                                                                break;
+                                                            case "otherunits":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              otherunitsout));
+                                                                break;
+                                                            case "unit":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              unitidout));
+                                                                break;
+                                                            default:
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                               queryParam.ValueParam));
+                                                                break;
+                                                        }
+                                                    }
+                                            command3.ExecuteNonQuery();
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return idout;
+        }
+
+
+        public string ExecuteNonQueryTRANSACTIONFE_ADMIN(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string isIncompetent = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            isIncompetent = command.Parameters[nameOuputParam].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                if (queryParam.NameParam == "id")
+                                                {
+                                                    command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   isIncompetent));
+                                                }
+                                                else
+                                                {
+                                                    command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   queryParam.ValueParam));
+                                                }
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return isIncompetent;
+        }
+
+
+        public bool ExecuteNonQueryFE_ADMIN(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                {
+                                    command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                        queryParam.ValueParam));
+                                }
+                            command.ExecuteNonQuery();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                        {
+                                            command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                 queryParam.ValueParam));
+                                        }
+                                    command2.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return true;
+        }
+
+
+        public string Sale_OrdersTRANSACTIONFE_ADMIN(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string id = "";
+            string code = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            id = command.Parameters["@idout"].Value.ToString();
+                            code = command.Parameters["@codeout"].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                switch (queryParam.NameParam)
+                                                {
+                                                    case "id":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   id));
+                                                        break;
+                                                    case "code":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      code));
+                                                        break;
+                                                    default:
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                                        break;
+                                                }
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return id;
+        }
+
+        public string Sale_OrdersTRANSACTIONFE_ADMIN_KHO(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string id = "";
+            string code = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            id = command.Parameters["@idout"].Value.ToString();
+                            code = command.Parameters["@codeout"].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                switch (queryParam.NameParam)
+                                                {
+                                                    case "id":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   id));
+                                                        break;
+                                                    case "code":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      code));
+                                                        break;
+                                                    default:
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                                        break;
+                                                }
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                    using (var conn3 = new SqlConnection(asyncConnectionStringKHO))
+                                    {
+                                        using (var command3 = new SqlCommand(prefixCmdText + cmdText))
+                                        {
+                                            command3.Connection = conn3;
+                                            command3.CommandType = CommandType.StoredProcedure;
+                                            conn3.Open();
+                                            if (queryParams != null)
+                                                foreach (var queryParam in queryParams)
+                                                    if (queryParam.IsOutParam)
+                                                    {
+                                                        nameOuputParam = "@" + queryParam.NameParam;
+                                                        command3.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                            50)
+                                                        {
+                                                            Direction = ParameterDirection.Output
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (queryParam.NameParam)
+                                                        {
+                                                            case "id":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                           id));
+                                                                break;
+                                                            case "code":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              code));
+                                                                break;
+                                                            default:
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                               queryParam.ValueParam));
+                                                                break;
+                                                        }
+
+                                                    }
+                                            command3.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return id;
+        }
+
+
+        public string EvaluationTRANSACTIONFE_ADMIN_KHO(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string id = "";
+            string idproduct = "";
+            string codeproduct = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            id = command.Parameters["@idout"].Value.ToString();
+                            idproduct = command.Parameters["@idproductout"].Value.ToString();
+                            codeproduct = command.Parameters["@codeproductout"].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                switch (queryParam.NameParam)
+                                                {
+                                                    case "id":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   id));
+                                                        break;
+                                                    case "productid":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      idproduct));
+                                                        break;
+                                                    case "codeproduct":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      codeproduct));
+                                                        break;
+                                                    default:
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                                        break;
+                                                }
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                    using (var conn3 = new SqlConnection(asyncConnectionStringKHO))
+                                    {
+                                        using (var command3 = new SqlCommand(prefixCmdText + cmdText))
+                                        {
+                                            command3.Connection = conn3;
+                                            command3.CommandType = CommandType.StoredProcedure;
+                                            conn3.Open();
+                                            if (queryParams != null)
+                                                foreach (var queryParam in queryParams)
+                                                    if (queryParam.IsOutParam)
+                                                    {
+                                                        nameOuputParam = "@" + queryParam.NameParam;
+                                                        command3.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                            50)
+                                                        {
+                                                            Direction = ParameterDirection.Output
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (queryParam.NameParam)
+                                                        {
+                                                            case "id":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                           id));
+                                                                break;
+                                                            case "productid":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              idproduct));
+                                                                break;
+                                                            case "codeproduct":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              codeproduct));
+                                                                break;
+                                                            default:
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                               queryParam.ValueParam));
+                                                                break;
+                                                        }
+
+                                                    }
+                                            command3.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return id;
+        }
+
+        public string ImportGoodsTRANSACTION_KHO_ADMIN(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string id = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            id = command.Parameters["@idout"].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringKHO))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                switch (queryParam.NameParam)
+                                                {
+                                                    case "id":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                   id));
+                                                        break;
+                                                    default:
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                                        break;
+                                                }
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return id;
+        }
+
+        public bool ImportGoodStatusTRANSACTION_KHO_ADMIN(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringKHO))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+
+                                            }
+                                    command2.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw;
+            }
+
+            return true;
+        }
+
+        public bool UpdatePasswordTRANSACTIONFE_ADMIN(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                  queryParam.ValueParam));
+                                            }
+                                    command2.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return true;
+        }
+
+
+        public bool ProductConsignmentTRANSACTION(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+            string otherunitsout = "";
+            string unitidout = "";
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+                            otherunitsout = command.Parameters["@otherunitsout"].Value.ToString();
+                            unitidout = command.Parameters["@unitidout"].Value.ToString();
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                switch (queryParam.NameParam)
+                                                {
+                                                    case "otherunits":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      otherunitsout));
+                                                        break;
+                                                    case "unit":
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                      unitidout));
+                                                        break;
+                                                    default:
+                                                        command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                                        break;
+                                                }
+                                            }
+                                    command2.ExecuteNonQuery();
+                                    using (var conn3 = new SqlConnection(asyncConnectionStringKHO))
+                                    {
+                                        using (var command3 = new SqlCommand(prefixCmdText + cmdText))
+                                        {
+                                            var nameOuputParam3 = string.Empty;
+                                            command3.Connection = conn3;
+                                            command3.CommandType = CommandType.StoredProcedure;
+                                            conn3.Open();
+                                            if (queryParams != null)
+                                                foreach (var queryParam in queryParams)
+                                                    if (queryParam.IsOutParam)
+                                                    {
+                                                        nameOuputParam = "@" + queryParam.NameParam;
+                                                        command3.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                            50)
+                                                        {
+                                                            Direction = ParameterDirection.Output
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (queryParam.NameParam)
+                                                        {
+                                                            case "otherunits":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              otherunitsout));
+                                                                break;
+                                                            case "unit":
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                              unitidout));
+                                                                break;
+                                                            default:
+                                                                command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                               queryParam.ValueParam));
+                                                                break;
+                                                        }
+                                                    }
+                                            command3.ExecuteNonQuery();
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return true;
+        }
+
+
+        public bool SaleOrderUpdateExpressTRANSACTION(string cmdText, List<QueryParam> queryParams = null, string prefixCmdText = PrefixCmd)
+        {
+
+            var asyncConnectionString =
+                new SqlConnectionStringBuilder(ConnectString) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringFE =
+               new SqlConnectionStringBuilder(ConnectStringFE) { AsynchronousProcessing = true }.ToString();
+            var asyncConnectionStringKHO =
+               new SqlConnectionStringBuilder(ConnectStringKHO) { AsynchronousProcessing = true }.ToString();
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (var conn = new SqlConnection(asyncConnectionString))
+                    {
+                        using (var command = new SqlCommand(prefixCmdText + cmdText))
+                        {
+                            var nameOuputParam = string.Empty;
+                            command.Connection = conn;
+                            command.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            if (queryParams != null)
+                                foreach (var queryParam in queryParams)
+                                    if (queryParam.IsOutParam)
+                                    {
+                                        nameOuputParam = "@" + queryParam.NameParam;
+                                        command.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                            50)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        });
+                                    }
+                                    else
+                                    {
+                                        command.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                            queryParam.ValueParam));
+                                    }
+                            command.ExecuteNonQuery();
+
+                            //return isIncompetent;
+                            using (var conn2 = new SqlConnection(asyncConnectionStringFE))
+                            {
+                                using (var command2 = new SqlCommand(prefixCmdText + cmdText))
+                                {
+                                    var nameOuputParam2 = string.Empty;
+                                    command2.Connection = conn2;
+                                    command2.CommandType = CommandType.StoredProcedure;
+                                    conn2.Open();
+                                    if (queryParams != null)
+                                        foreach (var queryParam in queryParams)
+                                            if (queryParam.IsOutParam)
+                                            {
+                                                nameOuputParam = "@" + queryParam.NameParam;
+                                                command2.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                    50)
+                                                {
+                                                    Direction = ParameterDirection.Output
+                                                });
+                                            }
+                                            else
+                                            {
+                                                command2.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                       queryParam.ValueParam));
+                                            }
+                                    command2.ExecuteNonQuery();
+                                    using (var conn3 = new SqlConnection(asyncConnectionStringKHO))
+                                    {
+                                        using (var command3 = new SqlCommand(prefixCmdText + cmdText))
+                                        {
+                                            command3.Connection = conn3;
+                                            command3.CommandType = CommandType.StoredProcedure;
+                                            conn3.Open();
+                                            if (queryParams != null)
+                                                foreach (var queryParam in queryParams)
+                                                    if (queryParam.IsOutParam)
+                                                    {
+                                                        nameOuputParam = "@" + queryParam.NameParam;
+                                                        command3.Parameters.Add(new SqlParameter(nameOuputParam, SqlDbType.NVarChar,
+                                                            50)
+                                                        {
+                                                            Direction = ParameterDirection.Output
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        command3.Parameters.Add(new SqlParameter("@" + queryParam.NameParam,
+                                                               queryParam.ValueParam));
+                                                    }
+                                            command3.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return true;
+        }
+
+    }
+
+    /// <summary>
+    ///     Class chứa tham số truyền vào Store Procedue
+    /// </summary>
+    public class QueryParam
+    {
+        /// <summary>
+        ///     Tên tham số cần truyền
+        /// </summary>
+        public string NameParam { get; set; }
+
+        /// <summary>
+        ///     Giá trị tham số cần truyền
+        /// </summary>
+        public object ValueParam { get; set; }
+
+        /// <summary>
+        ///     Có phải Output Parameter
+        /// </summary>
+        public bool IsOutParam { get; set; }
+
+        /// <summary>
+        ///     Kiểu của tham số OutPut
+        /// </summary>
+        public SqlDbType TypeOutParam { get; set; }
+
+        /// <summary>
+        ///     Size của tham số Output
+        /// </summary>
+        public int SizeOutParam { get; set; }
+    }
+}

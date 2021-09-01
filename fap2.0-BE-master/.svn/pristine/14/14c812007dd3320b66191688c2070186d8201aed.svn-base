@@ -1,0 +1,35 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Store
+{
+    public interface IStoreDal
+    {
+        #region Authorize
+
+        Tuple<int, List<StoreList>> SelectPaging(StoreSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(StoreLock obj);
+
+        int Delete(StoreDeleted arrayId);
+
+        StoreAdd GetById(StoreGetbyId objGetbyId);
+
+        Tuple<StoreView, int> View(StoreGetbyId objGetbyId);
+
+        int Insert(StoreAdd objAdd);
+
+        #endregion
+
+        #region Not Authorized
+
+        List<GetStore> FeGetStore(int id);
+
+        List<StoreSelectByUserId> SelectByUserId(int id);
+        #endregion
+    }
+}

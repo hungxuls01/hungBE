@@ -1,0 +1,4 @@
+2020-05-20 14:41:56.3124|ERROR|ApiTng.Controllers.EvaluationController|Procedure or function 'sp_EvaluationInsertOrUpdate' expects parameter '@danhmucGLP', which was not supplied.
+2020-05-20 14:42:54.2166|ERROR|ApiTng.Controllers.EvaluationController|Procedure or function 'sp_EvaluationInsertOrUpdate' expects parameter '@danhmucGLP', which was not supplied.
+2020-05-20 14:43:11.7950|ERROR|ApiTng.Controllers.EvaluationController|Procedure or function 'sp_EvaluationInsertOrUpdate' expects parameter '@danhmucGLP', which was not supplied.
+2020-05-20 14:47:24.4552|ERROR|ApiTng.Controllers.EvaluationController|Procedure or function 'sp_EvaluationInsertOrUpdate' expects parameter '@danhsachpp', which was not supplied.

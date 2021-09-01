@@ -1,0 +1,173 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.ProductConsignment
+{
+    public class ProductConsignmentDal : DbInteractionBase, IProductConsignmentDal
+    {
+        public ProductConsignmentGetById GetById(ProductConsignmentGetId objGetbyId)
+        {
+            return ExecuteReaderObject<ProductConsignmentGetById>("sp_ProductConsignmentSelectById", new List<QueryParam>
+            {
+               new QueryParam {NameParam = "id", ValueParam = objGetbyId.id}
+            });
+        }
+
+        public ProductConsignmentGetByIdFE GetByIdFE(ProductConsignmentGetId objGetbyId)
+        {
+            return ExecuteReaderObject<ProductConsignmentGetByIdFE>("sp_ProductConsignmentSelectById", new List<QueryParam>
+            {
+               new QueryParam {NameParam = "id", ValueParam = objGetbyId.id}
+            });
+        }
+
+        public List<ProductConsignmentListAll> GetByList(ProductConsignmentGetList obj)
+        {
+            return ExecuteReader<ProductConsignmentListAll>("sp_ProductConsignmentSelectBylist", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id}
+            });
+        }
+
+        public ProductConsignmentGetByIdFE GetByproductid(ProductConsignmentGetId objGetbyId)
+        {
+            return ExecuteReaderObject<ProductConsignmentGetByIdFE>("sp_ProductConsignmentSelectByproductid", new List<QueryParam>
+            {
+               new QueryParam {NameParam = "id", ValueParam = objGetbyId.id}
+            });
+        }
+
+        public bool Insert(ProductConsignmentAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_ProductConsignmentUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "sdk", ValueParam = objAdd.sdk},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "price", ValueParam = objAdd.price},
+                new QueryParam {NameParam = "unit", ValueParam = objAdd.unit},
+                new QueryParam {NameParam = "otherunits", ValueParam = objAdd.otherunits},
+                new QueryParam {NameParam = "quycachsanpham", ValueParam = objAdd.quycachsanpham},
+                new QueryParam {NameParam = "thanhphan", ValueParam = objAdd.thanhphan},
+                new QueryParam {NameParam = "congdung", ValueParam = objAdd.congdung},
+                new QueryParam {NameParam = "chidinh", ValueParam = objAdd.chidinh},
+                new QueryParam {NameParam = "chongchidinh", ValueParam = objAdd.chongchidinh},
+                new QueryParam {NameParam = "lieudung_cachdung", ValueParam = objAdd.lieudung_cachdung},
+                new QueryParam {NameParam = "thantrong", ValueParam = objAdd.thantrong},
+                new QueryParam {NameParam = "choconbu", ValueParam = objAdd.choconbu},
+                new QueryParam {NameParam = "khananglaixe", ValueParam = objAdd.khananglaixe},
+                new QueryParam {NameParam = "tuongtacthuoc", ValueParam = objAdd.tuongtacthuoc},
+                new QueryParam {NameParam = "tacdungkhongmuon", ValueParam = objAdd.tacdungkhongmuon},
+                new QueryParam {NameParam = "qualieu_cachxuly", ValueParam = objAdd.qualieu_cachxuly},
+                new QueryParam {NameParam = "baoquan", ValueParam = objAdd.baoquan},
+                new QueryParam {NameParam = "handung", ValueParam = objAdd.handung},
+                new QueryParam {NameParam = "tieuchuan", ValueParam = objAdd.tieuchuan},
+                new QueryParam {NameParam = "cososanxuat", ValueParam = objAdd.cososanxuat},
+                new QueryParam {NameParam = "diachisanxuat", ValueParam = objAdd.diachisanxuat},
+                new QueryParam {NameParam = "imanges", ValueParam = objAdd.imanges},
+                new QueryParam {NameParam = "filegdk", ValueParam = objAdd.filegdk},
+                new QueryParam {NameParam = "filegknsp", ValueParam = objAdd.filegknsp},
+                new QueryParam {NameParam = "filegcnGMP", ValueParam = objAdd.filegcnGMP},
+                new QueryParam {NameParam = "baiviet", ValueParam = objAdd.baiviet},
+                new QueryParam {NameParam = "giaycnthocgiatruyen", ValueParam = objAdd.giaycnthocgiatruyen},
+                new QueryParam {NameParam = "danhmuchotro", ValueParam = objAdd.danhmuchotro},
+                new QueryParam {NameParam = "thuonghieu", ValueParam = objAdd.thuonghieu},
+                new QueryParam {NameParam = "xuatxu", ValueParam = objAdd.xuatxu},
+                new QueryParam {NameParam = "nguongoc", ValueParam = objAdd.nguongoc},
+                new QueryParam {NameParam = "thanhphanhoahoc", ValueParam = objAdd.thanhphanhoahoc},
+                new QueryParam {NameParam = "doituongsudung", ValueParam = objAdd.doituongsudung},
+                new QueryParam {NameParam = "luuysudung", ValueParam = objAdd.luuysudung},
+                new QueryParam {NameParam = "soCOCQ", ValueParam = objAdd.soCOCQ},
+                new QueryParam {NameParam = "fileCOCQ", ValueParam = objAdd.fileCOCQ},
+                new QueryParam {NameParam = "khohang", ValueParam = objAdd.khohang},
+                new QueryParam {NameParam = "cannang", ValueParam = objAdd.cannang},
+                new QueryParam {NameParam = "ktcao", ValueParam = objAdd.ktcao},
+                new QueryParam {NameParam = "ktdai", ValueParam = objAdd.ktdai},
+                new QueryParam {NameParam = "ktrong", ValueParam = objAdd.ktrong},
+                new QueryParam {NameParam = "kiguisanpham", ValueParam = objAdd.kiguisanpham},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "productcatalogid", ValueParam = objAdd.productcatalogid},
+                new QueryParam {NameParam = "isview", ValueParam = objAdd.isview},
+                new QueryParam {NameParam = "sickcatalogid", ValueParam = objAdd.sickcatalogid},
+                new QueryParam {NameParam = "sick", ValueParam = objAdd.sick},
+                new QueryParam {NameParam = "companyid", ValueParam = objAdd.companyid},
+                new QueryParam {NameParam = "lathuocgiatruyen", ValueParam = objAdd.lathuocgiatruyen},
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid},
+                new QueryParam {NameParam = "metaog", ValueParam = objAdd.metaog},
+                new QueryParam {NameParam = "metatitle", ValueParam = objAdd.metatitle},
+                new QueryParam {NameParam = "metakeyword", ValueParam = objAdd.metakeyword},
+                new QueryParam {NameParam = "metadesc", ValueParam = objAdd.metadesc},
+                 new QueryParam {NameParam = "metaappid", ValueParam = objAdd.metaappid},
+                new QueryParam {NameParam = "metatype", ValueParam = objAdd.metatype},
+                new QueryParam {NameParam = "ogtitle", ValueParam = objAdd.ogtitle},
+                new QueryParam {NameParam = "metadogdescription", ValueParam = objAdd.metadogdescription}
+            });
+        }
+
+        public bool Isfontend(ProductConsignmentGetId obj)
+        {
+            return ExecuteNonQuery("sp_ProductConsignmentIsfontend", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id}
+            });
+        }
+
+        public bool IsStatus(ProductConsignmentStatus obj)
+        {
+            return ExecuteNonQuery("sp_ProductConsignmentStatus", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id},
+                new QueryParam {NameParam ="status",ValueParam = obj.status},
+                new QueryParam {NameParam = "isview", ValueParam = obj.isview}
+            });
+        }
+
+        public Tuple<int, List<ProductConsignmentCombobox>> SelectPaging(ProductConsignmentSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<ProductConsignmentCombobox>("sp_ProductConsignmentSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "companyid", ValueParam = obj.companyid},
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "name", ValueParam = obj.name},
+                new QueryParam {NameParam = "codecompany", ValueParam = obj.codecompany},
+                new QueryParam {NameParam = "sdk", ValueParam = obj.sdk},
+                new QueryParam {NameParam = "productcatalogid", ValueParam = obj.productcatalogid},
+                new QueryParam {NameParam = "isview", ValueParam = obj.isview},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public bool UpdateKhoHang(ProductConsignmentUpdateKhoHang objAdd)
+        {
+            DataTable OderDetail = new DataTable();
+            OderDetail.Columns.Add("khohang", typeof(int));
+            OderDetail.Columns.Add("id", typeof(string));
+           
+
+            foreach (var item in objAdd.detail)
+            {
+                DataRow toInsert = OderDetail.NewRow();
+                toInsert[0] = item.khohang;
+                toInsert[1] = item.id;
+                OderDetail.Rows.Add(toInsert);
+            }
+            return ExecuteNonQuery("sp_ProductConsignmentUpdateKhoHang", new List<QueryParam>
+            {
+
+                new QueryParam {NameParam = "detail", ValueParam = OderDetail}
+            });
+        }
+    }
+}

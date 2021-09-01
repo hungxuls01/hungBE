@@ -1,0 +1,128 @@
+﻿using _1.DataAccessLayer.Sale_Orders_MSB;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.ApiPay;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class MSBController : ApiController
+    {
+        private static Logger _logger;
+        private static ISale_Orders_MSBDal _Sale_Orders_MSBDal;
+
+        public MSBController()
+        {
+            _logger = LogManager.GetCurrentClassLogger();
+            _Sale_Orders_MSBDal = new Sale_Orders_MSBDal();
+        }
+        [HttpPost]
+        public ResponeResult NotificationGet ([NakedBody] string text)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+               var result = JsonConvert.DeserializeObject<NotificationResponse>(text);
+                var data = new Sale_Orders_MSBAdd
+                {
+                    msbResponse = text,
+                    orderid = Convert.ToInt32(result.txnId.Remove(1,2))
+                };
+               var obj =  _Sale_Orders_MSBDal.Insert(data);
+                if (obj)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+    }
+    #region Classes
+    public class NotificationResponse
+    {
+        public string code { get; set; }
+        public string message { get; set; }
+        public string msgType { get; set; }
+        public string txnId { get; set; }
+        public string qrTrace { get; set; }
+        public string bankCode { get; set; }
+        public string mobile { get; set; }
+        public string accountNo { get; set; }
+        public string amount { get; set; }
+        public string payDate { get; set; }
+        public string masterMerCode { get; set; }
+        public string merchantCode { get; set; }
+        public string terminalId { get; set; }
+        public List<QrCodeItemPayment> addData { get; set; }
+        public string ccy { get; set; }
+    }
+
+    public class Notification
+    {
+        public string code { get; set; }
+        public string message { get; set; }
+        public string msgType { get; set; }
+        public string txnId { get; set; }
+        public string qrTrace { get; set; }
+        public string bankCode { get; set; }
+        public string mobile { get; set; }
+        public string accountNo { get; set; }
+        public string amount { get; set; }
+        public string payDate { get; set; }
+        public string masterMerCode { get; set; }
+        public string merchantCode { get; set; }
+        public string terminalId { get; set; }
+        public QrCodeItemPayment addData { get; set; }
+        public string ccy { get; set; }
+    }
+
+    public class QrCodeItemPayment
+    {
+        public string merchantType { get; set; }
+        public string serviceCode { get; set; }
+        public string masterMerCode { get; set; }
+        public string merchantCode { get; set; }
+        public string terminalId { get; set; }
+        public string productId { get; set; }
+        public string amount { get; set; }
+        public string tipAndFee { get; set; }
+        public string ccy { get; set; }
+        public string qty { get; set; }
+        public string note { get; set; }
+    }
+    public class QrCodeResponse
+    {
+        public string msb { get; set; }
+    }
+    #endregion
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    public sealed class NakedBodyAttribute : ParameterBindingAttribute
+    {
+        public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
+        {
+            if (parameter == null)
+                throw new ArgumentException("Invalid parameter");
+
+            return new NakedBodyParameterBinding(parameter);
+        }
+    }
+}

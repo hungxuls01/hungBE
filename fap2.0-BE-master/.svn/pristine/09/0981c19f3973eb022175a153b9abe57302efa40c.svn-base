@@ -1,0 +1,34 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Products_Comment
+{
+    public interface IProducts_CommentDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Products_CommentList>, int> SelectPaging(Products_CommentSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Products_CommentLock obj);
+
+        int Delete(Products_CommentDeleted arrayId);
+
+        Tuple<Products_CommentAdd, int> GetById(Products_CommentGetbyId objGetbyId);
+
+        int Insert(Products_CommentAdd objAdd);     
+
+        bool FeInsert(Products_FeCommentAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<Products_GetCommentList> FeGetCommentList(int productid);
+        List<Products_GetCommentList> FeGetCommentListUser(int id);
+        Tuple<int, List<Products_GetCommentList>> SelectDataPaging(ProductCommentPadingDto dataSearch, int pageIndex, int pageSize);     
+        #endregion
+
+    }
+}

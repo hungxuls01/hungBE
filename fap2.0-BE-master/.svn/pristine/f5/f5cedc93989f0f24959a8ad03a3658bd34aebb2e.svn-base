@@ -1,0 +1,5 @@
+2020-08-15 14:05:08.9247|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@birthday', which was not supplied.
+2020-08-15 14:06:20.9973|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@birthday', which was not supplied.
+2020-08-15 14:06:27.7702|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@startday', which was not supplied.
+2020-08-15 14:07:04.9453|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@startday', which was not supplied.
+2020-08-15 14:07:34.2643|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@startday', which was not supplied.

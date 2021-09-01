@@ -1,0 +1,157 @@
+﻿using _1.DataAccessLayer.Quotation;
+using _2.DataTransferObject;
+using _4.Utils;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class QuotationController : ApiController
+    {
+        private static IQuotationDal _QuotationDal;
+        private static Logger _logger;
+
+        public QuotationController()
+        {
+            _QuotationDal = new QuotationDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetPaging(QuotationSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _QuotationDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<QuotationList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(QuotationGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(QuotationAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.Insert(objAdd);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult InsertHistory(QuotationHistoryInsert objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.InsertHistory(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(QuotationGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.Delete(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

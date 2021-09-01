@@ -1,0 +1,117 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Product_Manufacturer
+{
+    public class Product_ManufacturerDal : DbInteractionBase, IProduct_ManufacturerDal
+    {
+        #region BACKEND
+        public Tuple<int, List<Product_ManufacturerList>, int> SelectPaging(Product_ManufacturerSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<Product_ManufacturerList>("sp_Product_ManufacturerSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(Product_ManufacturerLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Product_ManufacturerIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(Product_ManufacturerDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Product_ManufacturerDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<Product_ManufacturerAdd, int> GetById(Product_ManufacturerGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<Product_ManufacturerAdd>("sp_Product_ManufacturerSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(Product_ManufacturerAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_Product_ManufacturerInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "Name", ValueParam = objAdd.Name},
+                new QueryParam {NameParam = "imgpath", ValueParam = objAdd.imgpath},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = objAdd.CargoTypeId},
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+        #region FONTEND
+        public List<Product_ManufacturerSelectAll> SelectAll(int id)
+        {
+            return ExecuteReader<Product_ManufacturerSelectAll>("sp_Product_ManufacturerSelectAll", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "UserId", ValueParam = id}
+            });
+        }
+        public List<Product_ManufacturerGetName> GetAll(string id)
+        {
+            return ExecuteReader<Product_ManufacturerGetName>("fe_Product_ManufacturerList", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "rewite", ValueParam = id}
+            });
+        }
+        #endregion
+    }
+}

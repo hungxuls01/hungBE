@@ -1,0 +1,17 @@
+2020-07-31 14:31:15.1872|ERROR|ApiTng.Controllers.Sale_OrdersController|Value cannot be null.
+Parameter name: source
+2020-07-31 14:32:56.0737|ERROR|ApiTng.Controllers.Sale_OrdersController|Value cannot be null.
+Parameter name: source
+2020-07-31 14:34:23.7458|ERROR|ApiTng.Controllers.Sale_OrdersController|Value cannot be null.
+Parameter name: source
+2020-07-31 14:36:33.0185|ERROR|ApiTng.Controllers.Sale_OrdersController|Value cannot be null.
+Parameter name: source
+2020-07-31 14:37:22.9223|ERROR|ApiTng.Controllers.Sale_OrdersController|Value cannot be null.
+Parameter name: source
+2020-07-31 14:42:12.4552|ERROR|ApiTng.Controllers.Sale_OrdersController|One or more errors occurred.
+2020-07-31 14:44:01.8194|ERROR|ApiTng.Controllers.Sale_OrdersController|One or more errors occurred.
+2020-07-31 14:57:03.1274|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderUpdateExpress' expects parameter '@transfersid', which was not supplied.
+2020-07-31 14:57:24.8785|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderUpdateExpress' expects parameter '@transfersid', which was not supplied.
+2020-07-31 14:59:35.5614|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderUpdateExpress' expects parameter '@transfersid', which was not supplied.
+2020-07-31 15:00:29.4755|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderUpdateExpress' expects parameter '@transfersid', which was not supplied.
+2020-07-31 15:07:21.8190|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderUpdateExpress' expects parameter '@transfersid', which was not supplied.

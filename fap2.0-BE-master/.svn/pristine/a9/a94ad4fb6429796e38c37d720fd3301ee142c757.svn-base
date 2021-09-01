@@ -1,0 +1,27 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Banner
+{
+    public interface IBannerDal
+    {
+        Tuple<int, List<BannerList>, int> SelectPaging(BannerSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(BannerLock obj);
+        int Delete(BannerDeleted arrayId);
+        Tuple<BannerAdd, int> GetById(BannerGetbyId objGetbyId);
+        int Insert(BannerAdd objAdd);
+        #region FONTEND
+        List<BannerListFontend> GetSlide(int id);
+        List<BannerListFontend> GetSlideRight(int id);        
+        List<BannerListFontend> GetSlideBottom(int id);        
+        List<BannerListFontend> GetSlideRightBottom(int id);        
+        List<BannerListFontend> GetCatalog(int id);        
+        List<BannerListFontendCatalog> GetSlideCatalog(int id);        
+        #endregion
+    }
+}

@@ -1,0 +1,29 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Reward
+{
+    public interface IRewardDal
+    {
+        #region BACKEND
+
+
+        int IsLock(RewardLock obj);
+
+        int Delete(RewardDeleted arrayId);
+
+        Tuple<RewardAdd, int> GetById(RewardGetbyId objGetbyId);
+
+        int Insert(RewardAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<RewardCombobox> GetCombobox(int id);
+        #endregion
+
+    }
+}

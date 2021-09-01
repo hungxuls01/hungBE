@@ -1,0 +1,19 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Order_Wholesale
+{
+    public interface ISale_Order_WholesaleDal
+    {
+        Tuple<int, List<Sale_Order_WholesaleList>> SelectPaging(Sale_Order_WholesaleSearchDto companySearch, int pageIndex, int pageSize);
+
+        Sale_Order_WholesaleId GetById(Sale_Order_WholesaleGetbyId objGetbyId);
+
+        bool Insert(Sale_Order_WholesaleAdd objAdd);
+
+        bool ChangeStatus(Sale_Order_WholesaleChangeStatus obj);
+    }
+}

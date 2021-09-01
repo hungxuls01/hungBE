@@ -1,0 +1,14 @@
+2019-08-09 15:42:05.2171|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 15:42:13.7030|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 15:44:41.6574|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 15:51:39.6800|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 15:53:31.0913|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 15:55:29.2574|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 16:05:04.9458|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 16:05:33.7448|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 16:05:46.0429|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 16:06:42.7037|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 16:28:25.6675|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function sp_Products_CommentInsertOrUpdate has too many arguments specified.
+2019-08-09 16:28:36.0987|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'sp_Products_CommentInsertOrUpdate' expects parameter '@ParentId', which was not supplied.
+2019-08-09 16:28:48.5966|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'sp_Products_CommentInsertOrUpdate' expects parameter '@ParentId', which was not supplied.
+2019-08-09 16:30:37.5431|ERROR|ApiTng.Controllers.ProductCommentController|An SqlParameter with ParameterName '' is not contained by this SqlParameterCollection.

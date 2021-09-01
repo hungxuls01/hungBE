@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+
+namespace _4.Utils
+{
+    public class MConvertUtil
+    {
+        public static string ConvertToDateTime(string input)
+        {
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime toDate; // 10/22/2015 12:00:00 AM  
+            bool isSuccess5 = DateTime.TryParseExact(input, "MM-dd-yyyy", provider, DateTimeStyles.None, out toDate);
+            if (!isSuccess5 && !string.IsNullOrEmpty(input))
+            {
+                var dateArr = input.Split('/');
+                return dateArr[1] + "/" + dateArr[0] + "/" + dateArr[2];
+            }
+            else
+            {
+                return input;
+            }
+        }
+    }
+}

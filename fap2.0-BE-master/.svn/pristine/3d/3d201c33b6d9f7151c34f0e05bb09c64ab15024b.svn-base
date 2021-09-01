@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _1.DataAccessLayer.Banner;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Bank
+{
+    public class BankDal : DbInteractionBase, IBankDal
+    {
+       
+        public List<BankCombobox> Getall()
+        {
+            return ExecuteReader<BankCombobox>("sp_BankSelectAll");
+        }
+
+    }
+}

@@ -1,0 +1,6 @@
+2020-07-06 15:13:11.3452|ERROR|ApiTng.Controllers.CompanyController|String or binary data would be truncated.
+The data for table-valued parameter "@banklist" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-07-06 15:13:49.1510|ERROR|ApiTng.Controllers.CompanyController|String or binary data would be truncated.
+The data for table-valued parameter "@banklist" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.

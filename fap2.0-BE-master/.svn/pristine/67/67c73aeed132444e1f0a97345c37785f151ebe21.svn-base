@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _1.DataAccessLayer.Home;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Home
+{
+    public class HomeDal : DbInteractionBase, IHomeDal
+    {
+        public HomeDto HomeGet(int id)
+        {
+            return ExecuteReaderObject<HomeDto>("sp_HomeGet", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id},
+            });
+        }
+    }
+}

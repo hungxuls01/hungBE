@@ -1,0 +1,18 @@
+2020-09-29 16:18:21.4635|ERROR|ApiTng.Controllers.ImportGoodsController|ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-09-29 16:18:50.5923|ERROR|ApiTng.Controllers.ImportGoodsController|ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-09-29 16:18:51.1148|ERROR|ApiTng.Controllers.ImportGoodsController|ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-09-29 16:18:51.3400|ERROR|ApiTng.Controllers.ImportGoodsController|ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-09-29 16:18:56.2066|ERROR|ApiTng.Controllers.ImportGoodsController|ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-09-29 16:18:56.4331|ERROR|ApiTng.Controllers.ImportGoodsController|ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.

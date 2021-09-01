@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Products_Comment
+{
+    public class Products_CommentDal : DbInteractionBase, IProducts_CommentDal
+    {
+        #region BACKEND
+        public Tuple<int, List<Products_CommentList>, int> SelectPaging(Products_CommentSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<Products_CommentList>("sp_Products_CommentSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        public Tuple<int, List<Products_GetCommentList>> SelectDataPaging(ProductCommentPadingDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Products_GetCommentList>("fe_Product_GetComment", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},            
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+        public int IsLock(Products_CommentLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Products_CommentIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(Products_CommentDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Products_CommentDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<Products_CommentAdd, int> GetById(Products_CommentGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<Products_CommentAdd>("sp_Products_CommentSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(Products_CommentAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_Products_CommentInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "productid", ValueParam = objAdd.productid},
+                new QueryParam {NameParam = "fullname", ValueParam = objAdd.fullname},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                new QueryParam {NameParam = "comment", ValueParam = objAdd.comment},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid},
+                new QueryParam {NameParam = "numberrate", ValueParam = objAdd.numberrate},
+                new QueryParam {NameParam = "ParentId", ValueParam = objAdd.ParentId},
+                ///
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+
+        #region FONTEND
+        public List<Products_GetCommentList> FeGetCommentList(int productid)
+        {
+            return ExecuteReader<Products_GetCommentList>("fe_Product_GetComment", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "productid", ValueParam = productid}
+            });
+        }
+        public List<Products_GetCommentList> FeGetCommentListUser(int id)
+        {
+            return ExecuteReader<Products_GetCommentList>("fe_Product_CommentList", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "memberid", ValueParam = id}
+            });
+        }
+        public List<Products_GetCommentList> FeGetCommentUserList(int id)
+        {
+            return ExecuteReader<Products_GetCommentList>("fe_Product_GetComment_User", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "memberid", ValueParam = id}
+            });
+        }
+
+        public bool FeInsert(Products_FeCommentAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_Products_CommentInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "productid", ValueParam = objAdd.productid},
+                new QueryParam {NameParam = "fullname", ValueParam = objAdd.fullname},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                new QueryParam {NameParam = "comment", ValueParam = objAdd.comment},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid},
+                new QueryParam {NameParam = "numberrate", ValueParam = objAdd.numberrate},
+                new QueryParam {NameParam = "ParentId", ValueParam = objAdd.ParentId},             
+               
+            });
+        }
+        #endregion
+    }
+}

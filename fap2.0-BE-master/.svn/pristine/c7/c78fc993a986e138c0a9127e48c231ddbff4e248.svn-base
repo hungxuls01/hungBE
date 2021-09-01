@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Sale_Order_Wholesale
+{
+    public class Sale_Order_WholesaleDal : DbInteractionBase, ISale_Order_WholesaleDal
+    {
+        public bool ChangeStatus(Sale_Order_WholesaleChangeStatus obj)
+        {
+            return ExecuteNonQuery("sp_Sale_Order_WholesaleUpdateStatus", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "Id", ValueParam = obj.id},
+                new QueryParam {NameParam = "status", ValueParam = obj.status}
+            });
+        }
+
+        public Sale_Order_WholesaleId GetById(Sale_Order_WholesaleGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<Sale_Order_WholesaleId>("sp_Sale_Order_WholesaleSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public bool Insert(Sale_Order_WholesaleAdd objAdd)
+        {
+            DataTable saleorderline = new DataTable();
+            saleorderline.Columns.Add("id", typeof(string));
+            saleorderline.Columns.Add("productid", typeof(string));
+            saleorderline.Columns.Add("qty", typeof(int));
+            saleorderline.Columns.Add("unitid", typeof(string));
+            saleorderline.Columns.Add("title", typeof(string));
+            saleorderline.Columns.Add("price_sale", typeof(decimal));
+            saleorderline.Columns.Add("price_discount", typeof(decimal));
+            saleorderline.Columns.Add("discount", typeof(int));
+            saleorderline.Columns.Add("catalogid", typeof(int));
+            saleorderline.Columns.Add("Weight", typeof(int));
+            saleorderline.Columns.Add("total", typeof(int));
+            saleorderline.Columns.Add("companyid", typeof(string));
+            saleorderline.Columns.Add("note", typeof(string));
+            saleorderline.Columns.Add("entryprice", typeof(decimal));
+
+            foreach (var item in objAdd.sale_Order_WholesaleLines)
+            {
+                DataRow toInsert = saleorderline.NewRow();
+                toInsert[0] = item.id;
+                toInsert[1] = item.productid;
+                toInsert[2] = item.qty;
+                toInsert[3] = item.unitid;
+                toInsert[4] = item.title;
+                toInsert[5] = item.price_sale;
+                toInsert[6] = item.price_discount;
+                toInsert[7] = item.discount;
+                toInsert[8] = item.catalogid;
+                toInsert[9] = item.Weight;
+                toInsert[10] = item.total;
+                toInsert[11] = item.companyid;
+                toInsert[12] = item.note;
+                toInsert[13] = item.entryprice;
+
+                saleorderline.Rows.Add(toInsert);
+            }
+            
+            return ExecuteNonQuery("sp_Sale_Order_WholesaleInsertOrUpdate", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "vat", ValueParam = objAdd.vat},
+                new QueryParam {NameParam = "total", ValueParam = objAdd.total},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "deliverydate", ValueParam = objAdd.deliverydate},
+                new QueryParam {NameParam = "cpvc", ValueParam = objAdd.cpvc},
+                new QueryParam {NameParam = "receiver_fullname", ValueParam = objAdd.receiver_fullname},
+                new QueryParam {NameParam = "receiver_tel", ValueParam = objAdd.receiver_tel},
+                new QueryParam {NameParam = "receiver_address", ValueParam = objAdd.receiver_address},
+                new QueryParam {NameParam = "IsPayment", ValueParam = objAdd.IsPayment},
+                new QueryParam {NameParam = "PaymentType", ValueParam = objAdd.PaymentType},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "bankid", ValueParam = objAdd.bankid},
+                new QueryParam {NameParam = "stk", ValueParam = objAdd.stk},
+                new QueryParam {NameParam = "nametk", ValueParam = objAdd.nametk},
+                new QueryParam {NameParam = "branch", ValueParam = objAdd.branch},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid},
+                new QueryParam {NameParam = "sale_Order_WholesaleLines", ValueParam = saleorderline}
+            });
+        }
+
+        public Tuple<int, List<Sale_Order_WholesaleList>> SelectPaging(Sale_Order_WholesaleSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Sale_Order_WholesaleList>("sp_Sale_Order_WholesaleSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+    }
+}

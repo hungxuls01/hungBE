@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Store_Province
+{
+    public class Store_ProvinceDal : DbInteractionBase, IStore_ProvinceDal
+    {
+        public Store_ProvinceSelect FeGetStore(int companyid, int provinceid)
+        {
+            return ExecuteReaderObject<Store_ProvinceSelect>("fe_Store_Province_FeGetStore", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="companyid",ValueParam = companyid},
+                new QueryParam {NameParam ="provinceid",ValueParam = provinceid}
+            });
+            
+        }
+    }
+}

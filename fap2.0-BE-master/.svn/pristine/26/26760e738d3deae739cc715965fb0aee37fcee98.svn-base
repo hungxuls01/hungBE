@@ -1,0 +1,21 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sick
+{
+    public interface ISickDal
+    {
+        string Insert(SickAdd objAdd);
+
+        Tuple<int, List<SickList>> SelectPaging(SickSearchDto companySearch, int pageIndex, int pageSize);
+
+        bool Delete(SickDeleted arrayId);
+
+        SickAdd GetById(SickGetbyId objGetbyId);
+        SickAdd CheckName(string Keyword, string catalogid);
+
+    }
+}

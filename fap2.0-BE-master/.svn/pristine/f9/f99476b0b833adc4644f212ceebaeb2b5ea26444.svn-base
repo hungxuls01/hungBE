@@ -1,0 +1,82 @@
+﻿using _1.DataAccessLayer.Nations;
+using _2.DataTransferObject;
+using _4.Utils;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class NationsController : ApiController
+    {
+
+        private static INationsDal _NationsDal;
+        private static Logger _logger;
+
+        public NationsController()
+        {
+            _NationsDal = new NationsDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(NationsSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _NationsDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<NationsCombobox>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(NationsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _NationsDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+    }
+}

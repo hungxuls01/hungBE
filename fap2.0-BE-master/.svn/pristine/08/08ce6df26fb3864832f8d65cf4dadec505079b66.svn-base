@@ -1,0 +1,422 @@
+﻿using _1.DataAccessLayer.Sale_Orders;
+using _4.Utils;
+using ApiTng.EmailSender;
+using ApiTng.Models;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading;
+using System.Web;
+
+
+namespace ApiTng
+{
+    public class SendMail
+    {
+        private static ISale_OrdersDal _Sale_OrdersDal = new Sale_OrdersDal();
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        public static void SendMailNet(string SenderName, string RecieverEmail, string MailTitle, string MailContent)
+        {
+            (new Thread(new ThreadStart(
+                       delegate
+                       {
+                           string guid = System.Guid.NewGuid().ToString();
+                           try
+                           {
+                               string SenderEmail = ConfigurationManager.AppSettings["email_sender"];
+                               string senderEmailPass = ConfigurationManager.AppSettings["email_pass"];
+                               string hostmail = ConfigurationManager.AppSettings["email_host"];
+                               string portmail = ConfigurationManager.AppSettings["email_port"];
+
+                               var fromAddress = new System.Net.Mail.MailAddress(SenderEmail, "Sàn thương mại điện tử TLSOFT");
+                               var toAddress = new System.Net.Mail.MailAddress(RecieverEmail, RecieverEmail);
+
+                               string fromPassword = senderEmailPass;
+                               string subject = MailTitle;
+                               string body = MailContent;
+
+                               var smtp = new System.Net.Mail.SmtpClient
+                               {
+                                   Host = hostmail,
+                                   Port = int.Parse(portmail),
+                                   EnableSsl = true,
+                                   UseDefaultCredentials = false,
+                                   DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                                   Credentials = new System.Net.NetworkCredential(fromAddress.Address, fromPassword)
+                               };
+                               var message = new System.Net.Mail.MailMessage(fromAddress, toAddress)
+                               {
+                                   IsBodyHtml = true,
+                                   Subject = subject,
+                                   Body = body
+                               };
+                               smtp.Send(message);
+                           }
+                           catch (Exception ex)
+                           {
+                               _logger.Error(ex);
+                           }
+
+                       })
+                 )).Start();
+
+
+        }
+        public static string GetDataTemplate(string pathTemplate)
+        {
+            StreamReader sr = System.IO.File.OpenText(pathTemplate);
+            string Content = sr.ReadToEnd();
+            sr.Close();
+            sr.Dispose();
+            return Content;
+        }
+        public static string[] getInforByGuidID(int id)
+        {
+            //get orderline
+            //Tên SP, SL, thành tiền
+            var dtOrderLine = _Sale_OrdersDal.SelectByOrderidPrint(id);
+            string sHtml = "";
+            foreach (var item in dtOrderLine)
+            {
+                //Replace data
+                var htmlRow =
+                    GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/TableOrderLine.html"));
+                htmlRow = htmlRow.Replace("[Product_Code]", item.code);
+                htmlRow = htmlRow.Replace("[Product_Name]", item.title);
+                htmlRow = htmlRow.Replace("[Unit_Title]", item.UnitName);
+                htmlRow = htmlRow.Replace("[Product_Weight]", ConvertUtil.ToDecimal(item.weight.ToString()).ToString("N0"));
+                htmlRow = htmlRow.Replace("[Product_Quantity]", item.title);
+                htmlRow = htmlRow.Replace("[Product_Price]", ConvertUtil.ToDecimal(item.price_sale.ToString()).ToString("N0"));
+                htmlRow = htmlRow.Replace("[Product_Money]", ConvertUtil.ToDecimal(item.Total.ToString()).ToString("N0"));
+                sHtml += htmlRow;
+            }
+            //for (int jx = 0; jx <= dtOrderLine.Rows.Count - 1; jx++)
+            //{
+            //    var productCode = dtOrderLine.Rows[jx]["code"].ToString();
+            //    var productName = dtOrderLine.Rows[jx]["producttitle"].ToString();
+            //    var unitTitle = dtOrderLine.Rows[jx]["unittitle"].ToString();
+            //    var productWeight = dtOrderLine.Rows[jx]["Weight_Order"].ToString();
+            //    var productQuantity = dtOrderLine.Rows[jx]["qty"].ToString();
+            //    var productPrice = ConvertUtil.ToDecimal(dtOrderLine.Rows[jx]["price"].ToString()).ToString("N0");
+            //    var productMoney = ConvertUtil.ToDecimal(dtOrderLine.Rows[jx]["Total_Order"].ToString()).ToString("N0");
+            //    //Replace data
+            //    var htmlRow =
+            //        GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/TableOrderLine.html"));
+            //    htmlRow = htmlRow.Replace("[Product_Code]", productCode);
+            //    htmlRow = htmlRow.Replace("[Product_Name]", productName);
+            //    htmlRow = htmlRow.Replace("[Unit_Title]", unitTitle);
+            //    htmlRow = htmlRow.Replace("[Product_Weight]", productWeight);
+            //    htmlRow = htmlRow.Replace("[Product_Quantity]", productQuantity);
+            //    htmlRow = htmlRow.Replace("[Product_Price]", productPrice.Replace(".", ","));
+            //    htmlRow = htmlRow.Replace("[Product_Money]", productMoney.Replace(".", ","));
+            //    sHtml += htmlRow;
+            //}
+            return new string[] { sHtml };
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="arrInfo"></param>
+        /// <param name="type"></param>
+        /// <param name="timeship"></param>
+        public static void sendMailByType(string email, string[] arrInfo, string type, string timeship = "")
+        {
+            string Frontend = ConfigurationManager.AppSettings["Frontend"];
+            string titleSender = "TLSOFT - Sàn thương mại điện tử TLSOFT";
+            string title = "Đăng ký thành công";
+            string content = "";
+            //register
+            if (type == "1")
+            {
+                title = "Đăng ký thành công";
+                content = "<html><body>  Kính chào quý khách: " + arrInfo[0] + ",<br><br>" +
+                    "Quý khách vừa đăng ký tài khoản tại TLSOFT. Vui lòng click vào đường link sau để xác nhận và hoàn tất quá trình đăng ký tài khoản: " +
+                    "<a href='" + Frontend + "/Active-tai-khoan?mail=" + arrInfo[1] + "&token=" + arrInfo[2] + "'><b style='color: blue;text-decoration: underline;'>Tại đây</b></a><br />" +
+                    "Cám ơn Quý khách <br><br>" +
+                    "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                    "* Lưu ý: <br>" +
+                    "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                    "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 0388.155.886<br><br>" +
+                    "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                    "Ban quản trị TLSOFT!</body> </html>";
+            }
+            //register
+            if (type == "2")
+            {
+                title = "Quên mật khẩu";
+                content = "Kính chào quý khách,<br><br>" +
+                    "Quý khách vừa yêu cầu thay đổi mật khẩu tài khoản tại TLSOFT. Vui lòng click vào đường link sau để thay đổi mật khẩu tài khoản: " +
+                    "<a href='" + Frontend + "/change-password-in-mail/" + arrInfo[0] + "'><b style='color: blue;text-decoration: underline;'>Tại đây</b></a><br />" +
+                    "Cám ơn Quý khách <br><br>" +
+                    "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                    "* Lưu ý: <br>" +
+                    "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                    "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 0388.155.886<br><br>" +
+                    "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                    "Ban quản trị TLSOFT!";
+            }
+            //order createnew
+            if (type == "3")
+            {
+                string[] arrInforOrder = getInforByGuidID(ConvertUtil.ToInt32(arrInfo[1]));
+                //Get order
+                var dtOrder = _Sale_OrdersDal.SelectByidPrint(ConvertUtil.ToInt32(arrInfo[1])).FirstOrDefault();
+                if (dtOrder == null)
+                    return;
+                var orderCode = dtOrder.code;
+                //Thông tin khách hàng
+                var customerName = dtOrder.member_fullname;
+                var customerEmail = dtOrder.member_email;
+                var customerMobile = dtOrder.member_tel;
+                //Thông tin người nhận
+                var receiverName = dtOrder.receiver_fullname;
+                var receiverEmail = dtOrder.receiver_email;
+                var receiverMobile = dtOrder.receiver_tel;
+                var receiverProvinceName = dtOrder.ReceiverProvinceName;
+                var receiverDistrictName = dtOrder.ReceiverDistrictName;
+                var receiverRewaldName = dtOrder.ReceiverRewaldName;
+                var receiverAddress = dtOrder.receiver_address;
+                var statusPayment = dtOrder.IsPayment == 1 ? "Đã thanh toán" : "Chưa thanh toán";
+                var provider = dtOrder.CompanyName;
+                var noteOrder = dtOrder.note;
+                var cpvc = ConvertUtil.ToDecimal(dtOrder.cpvc).ToString("N0");
+                var paymentType = dtOrder.PaymentType;
+                var serviceType = "VNPost";
+                var cod = ConvertUtil.ToDecimal(dtOrder.cod).ToString("N0");
+                var totalDiscount = ConvertUtil.ToDecimal(dtOrder.money_discount).ToString("N0");
+                var voucherAmount = ConvertUtil.ToDecimal(dtOrder.VoucherAmount).ToString("N0");
+                var totalMoney = "";
+                totalMoney = (ConvertUtil.ToDecimal(dtOrder.money_total) - ConvertUtil.ToDecimal(dtOrder.money_discount) - ConvertUtil.ToDecimal(dtOrder.VoucherAmount)).ToString("N0");
+                if (!StaticEnum.IsFreeShip)
+                {
+                    totalMoney = ConvertUtil.ToDecimal(dtOrder.money_total).ToString("N0");
+                }
+                var befforeDiscount = ConvertUtil.ToDecimal(dtOrder.money_total).ToString("N0");
+
+
+
+                title = "Thông báo đặt hàng tại sàn TLSOFT - Mã đơn hàng: " + orderCode;
+                content = GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/OrderSuccess.html"));
+                content = content.Replace("[FullName_Customer]", customerName);
+                content = content.Replace("[OrderCode]", orderCode);
+                //Danh sách sản phẩm
+                content = content.Replace("[Order_Line]", arrInforOrder[0]);
+
+                //Thông tin khách hàng
+                content = content.Replace("[CustomerName]", customerName);
+                content = content.Replace("[Email]", customerEmail);
+                content = content.Replace("[Mobile]", customerMobile);
+
+                //Thông tin người nhận
+                content = content.Replace("[ReceiverName]", receiverName);
+                content = content.Replace("[ReceiverEmail]", receiverEmail);
+                content = content.Replace("[ReceiverMobile]", receiverMobile);
+                content = content.Replace("[ReceiverProvinceName]", receiverProvinceName);
+                content = content.Replace("[ReceiverDistrictName]", receiverDistrictName);
+                content = content.Replace("[ReceiverRewaldName]", receiverRewaldName);
+                content = content.Replace("[ReceiverAddress]", receiverAddress);
+                content = content.Replace("[StatusPayment]", statusPayment);
+                content = content.Replace("[Provider]", provider);
+                content = content.Replace("[NoteOrder]", noteOrder);
+                //Số liệu
+                content = StaticEnum.IsFreeShip ? content.Replace("[CPVC]", "0") : content.Replace("[CPVC]", cpvc.Replace(".", ","));
+                content = content.Replace("[PaymentType]", paymentType == 0 ? "COD" : paymentType == 1 ? "Trực tuyến" : "Chuyển khoản");
+                content = content.Replace("[ServiceType]", serviceType == "CPN" ? "Chuyển phát nhanh" : "Tiết kiệm");
+                content = StaticEnum.IsFreeShip ? content.Replace("[COD]", "0") : content.Replace("[COD]", cod.Replace(".", ","));
+                content = content.Replace("[TotalDiscount]", totalDiscount.Replace(".", ","));
+                content = content.Replace("[TotalMoney]", totalMoney.Replace(".", ","));
+                content = content.Replace("[VoucherAmount]", voucherAmount.Replace(".", ","));
+                content = content.Replace("[BefforeDiscount]", befforeDiscount.Replace(".", ","));
+            }
+            //order createnew
+            if (type == "10")
+            {
+                var id = arrInfo[0];
+                var customerName = arrInfo[1];
+
+                string[] arrInforOrder = getInforByGuidID(ConvertUtil.ToInt32(id));
+                var dtOrder = _Sale_OrdersDal.SelectByidPrint(ConvertUtil.ToInt32(id)).FirstOrDefault();
+                if (dtOrder == null)
+                    return;
+                title = "Thông báo đơn hàng mới tại sàn TLSOFT - Mã đơn hàng: " + dtOrder.code;
+                content = GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/OrderVender.html"));
+                content = content.Replace("[FullName_Customer]", customerName);
+                content = content.Replace("[OrderCode]", dtOrder.code);
+                //Danh sách sản phẩm
+                content = content.Replace("[Order_Line]", arrInforOrder[0]);
+                //Danh sách sản phẩm
+
+            }
+            ////chang status of order
+            if (type == "4")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                title = "Thông báo giao hàng thành công tại sàn TLSOFT - Mã đơn hàng: " + orderCode;
+                content = GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/OrderCompleted.html"));
+                content = content.Replace("[FullName_Customer]", customerName);
+                content = content.Replace("[OrderCode]", orderCode);
+            }
+            //chang status of order
+            if (type == "5")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                var date = arrInfo[2];
+                title = "Hủy đơn hàng";
+                content = "Thân chào : " + customerName + ",<br><br>" +
+                    "Cảm ơn " + customerName + " đã tin tưởng và đặt hàng trên sàn thương mại điện tử TLSOFT. Hiện mã đơn hàng " + orderCode + " quý khách đặt tại sàn ngày " + date + " đã hết hàng.Vậy chúng tôi xin phép được hủy đơn hàng này.<br><br>" +
+                    "Quý khách có thể tham khảo và mua các mặt hàng tương tự tại địa chỉ http://TLSOFT/ (là nghành hàng tương tự trên sàn TLSOFT).<br><br>" +
+                    "Chúng tôi xin lỗi về vấn đề này, đồng thời sẽ đề nghị nhà cung cấp tiếp tục bổ sung mặt hàng trên sàn.<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, " + customerName + " có thể liên hệ tổng đài Chăm sóc khách hàng 0961.713.066 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ Dumiho";
+            }
+            if (type == "6")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                var date = arrInfo[2];
+                title = "Hoàn thành thủ tục đơn trả góp";
+                content = "Thân chào : " + customerName + ",<br><br>" +
+                    "Cảm ơn " + customerName + " đã tin tưởng và đặt hàng trên sàn thương mại điện tử TLSOFT. Hiện mã đơn hàng " + orderCode + " quý khách đặt tại sàn ngày " + date + " đã hết hàng.Vậy chúng tôi xin phép được hủy đơn hàng này.<br><br>" +
+                    "Quý khách có thể tham khảo và mua các mặt hàng tương tự tại địa chỉ http://TLSOFT/ (là nghành hàng tương tự trên sàn TLSOFT).<br><br>" +
+                    "Chúng tôi xin lỗi về vấn đề này, đồng thời sẽ đề nghị nhà cung cấp tiếp tục bổ sung mặt hàng trên sàn.<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, " + customerName + " có thể liên hệ tổng đài Chăm sóc khách hàng 0961.713.066 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ Dumiho";
+            }
+            if (type == "7")
+            {
+                title = "Chương trình khuyến mại sàn thương mại điện Tử Dumiho nhân ngày lễ Halloween";
+                content = "Thân chào quý khách,<br><br>" +
+                    "Nhân ngày Halloween (31-10) Sàn thương mại điện tử Dumiho triển khai chương trình khuyến mại đặc biệt cho khách hàng là giảm giá 10% tất cả các sản phẩm của các mặt hàng của ngành hàng :<br><br>" +
+                    "* Thời Trang Nữ + Nam<br><br>" +
+                    "* Quà Tặng<br><br>" +
+                    "* Sức Khỏe và Làm Đẹp<br><br>" +
+                    "Chương trình khuyến mại được áp dụng từ ngày <b>25/10/2018</b> đến hết ngày <b>03/11/2018</b> và cùng nhiều phần quà hấp dẫn từ sàn thương mại điện tử Dumiho.<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, quý khách có thể liên hệ tổng đài Chăm sóc khách hàng 0961.713.066 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ Dumiho" +
+                    "<a href='http://TLSOFT/khuyen-mai-20-thang-10'>" +
+                    "<img src = 'http://admin.TLSOFT//files/20181023/20181023114752_BANNER%20HALLOWEEN%20(1).png' style = 'width:100%;height: 210px'></a>"
+                    ;
+            }
+            if (type == "8")
+            {
+                var code = arrInfo[0];
+                var name = arrInfo[1];
+                var sdt = arrInfo[2];
+                title = "Đăng kí verdor mới";
+                content = "Thông tin vendor,<br><br>" +
+                    "* Mã: " + code + "<br><br>" +
+                    "* Tên: " + name + "<br><br>" +
+                    "* Sđt: " + sdt + "<br><br>"
+
+                    ;
+            }
+            if (type == "9")
+            {
+                var code = arrInfo[0];
+                var name = arrInfo[1];
+                var pass = arrInfo[2];
+                title = "Đăng ký thành công gian hàng";
+                content = "Kính chào quý khách: " + name + ",<br><br>" +
+                     "Chúc mừng Quý khách đã đăng ký gian hàng trên website http://TLSOFT<br><br>" +
+                     "Tên đăng nhập:" + code + "<br><br>" +
+                     "Mật khẩu: "+ pass + " <br><br>" +
+                     "Cám ơn Quý khách <br><br>" +
+                     "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                     "* Lưu ý: <br>" +
+                     "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                     "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 097.606.04.59<br><br>" +
+                     "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                     "Ban quản trị TLSOFT!";
+            }
+            SendMailNet(titleSender, email, title, content);
+        }
+
+        public static bool IsMailGoogle(string email)
+        {
+            email = email.Split('@')[1];
+            var isMail = true;
+            switch (email)
+            {
+                case "vidgroup.com.vn":
+                    isMail = false;
+                    break;
+                case "tnpvn.com.vn":
+                    isMail = false;
+                    break;
+                case "tng-holdings.vn":
+                    isMail = false;
+                    break;
+                case "tnssecurity.com.vn":
+                    isMail = false;
+                    break;
+                case "goldview-tnr.com.vn":
+                    isMail = false;
+                    break;
+                case "baovenhatviet.com.vn":
+                    isMail = false;
+                    break;
+                case "m1tech.com.vn":
+                    isMail = false;
+                    break;
+                case "tnl-lease.vn":
+                    isMail = false;
+                    break;
+                case "tnh-hotels.vn":
+                    isMail = false;
+                    break;
+                case "msecurity.com.vn":
+                    isMail = false;
+                    break;
+                case "tncgroup.com.vn":
+                    isMail = false;
+                    break;
+                case "tnrholdings.com.vn":
+                    isMail = false;
+                    break;
+                case "tnsholdings.com.vn":
+                    isMail = false;
+                    break;
+                case "tnsproperty.com.vn":
+                    isMail = false;
+                    break;
+                case "tpf.com.vn":
+                    isMail = false;
+                    break;
+                case "vone.com.vn":
+                    isMail = false;
+                    break;
+                case "tnrholdings.vn":
+                    isMail = false;
+                    break;
+                case "tniholdings.vn":
+                    isMail = false;
+                    break;
+                case "tnteco.vn":
+                    isMail = false;
+                    break;
+                case "mtalent.com.vn":
+                    isMail = false;
+                    break;
+                default:
+                    isMail = true;
+                    break;
+            }
+            return isMail;
+        }
+    }
+}

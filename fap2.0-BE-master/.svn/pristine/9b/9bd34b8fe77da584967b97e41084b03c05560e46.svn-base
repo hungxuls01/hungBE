@@ -1,0 +1,1838 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="APIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="APIEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Autoids" EntityType="APIModel.Autoid" />
+    <EntitySet Name="Banks" EntityType="APIModel.Bank" />
+    <EntitySet Name="Banners" EntityType="APIModel.Banner" />
+    <EntitySet Name="Carts" EntityType="APIModel.Cart" />
+    <EntitySet Name="Categories" EntityType="APIModel.Category" />
+    <EntitySet Name="Companies" EntityType="APIModel.Company" />
+    <EntitySet Name="Company_Bank" EntityType="APIModel.Company_Bank" />
+    <EntitySet Name="Departments" EntityType="APIModel.Department" />
+    <EntitySet Name="Districts" EntityType="APIModel.District" />
+    <EntitySet Name="EmailRegisters" EntityType="APIModel.EmailRegister" />
+    <EntitySet Name="Employees" EntityType="APIModel.Employee" />
+    <EntitySet Name="Evaluate_Order" EntityType="APIModel.Evaluate_Order" />
+    <EntitySet Name="Evaluations" EntityType="APIModel.Evaluation" />
+    <EntitySet Name="Experts" EntityType="APIModel.Expert" />
+    <EntitySet Name="Feedbacks" EntityType="APIModel.Feedback" />
+    <EntitySet Name="Helps" EntityType="APIModel.Help" />
+    <EntitySet Name="Images" EntityType="APIModel.Image" />
+    <EntitySet Name="Images_Catalog" EntityType="APIModel.Images_Catalog" />
+    <EntitySet Name="ImportGoods" EntityType="APIModel.ImportGood" />
+    <EntitySet Name="ImportGoods_Lines" EntityType="APIModel.ImportGoods_Lines" />
+    <EntitySet Name="Members" EntityType="APIModel.Member" />
+    <EntitySet Name="Member_History" EntityType="APIModel.Member_History" />
+    <EntitySet Name="Member_store" EntityType="APIModel.Member_store" />
+    <EntitySet Name="Member_Token" EntityType="APIModel.Member_Token" />
+    <EntitySet Name="Member_Use" EntityType="APIModel.Member_Use" />
+    <EntitySet Name="Nations" EntityType="APIModel.Nation" />
+    <EntitySet Name="News" EntityType="APIModel.News" />
+    <EntitySet Name="News_Catalog" EntityType="APIModel.News_Catalog" />
+    <EntitySet Name="Notifications" EntityType="APIModel.Notification" />
+    <EntitySet Name="Permisions" EntityType="APIModel.Permision" />
+    <EntitySet Name="Positions" EntityType="APIModel.Position" />
+    <EntitySet Name="Product_Catalog" EntityType="APIModel.Product_Catalog" />
+    <EntitySet Name="Product_favorite" EntityType="APIModel.Product_favorite" />
+    <EntitySet Name="Product_Units" EntityType="APIModel.Product_Units" />
+    <EntitySet Name="Products" EntityType="APIModel.Product" />
+    <EntitySet Name="Provinces" EntityType="APIModel.Province" />
+    <EntitySet Name="Quotations" EntityType="APIModel.Quotation" />
+    <EntitySet Name="QuotationDetails" EntityType="APIModel.QuotationDetail" />
+    <EntitySet Name="QuotationHistories" EntityType="APIModel.QuotationHistory" />
+    <EntitySet Name="Rewards" EntityType="APIModel.Reward" />
+    <EntitySet Name="Roles" EntityType="APIModel.Role" />
+    <EntitySet Name="Sale_Order" EntityType="APIModel.Sale_Order" />
+    <EntitySet Name="Sale_Order_Express" EntityType="APIModel.Sale_Order_Express" />
+    <EntitySet Name="Sale_Order_ExpressStatus" EntityType="APIModel.Sale_Order_ExpressStatus" />
+    <EntitySet Name="Sale_Order_Lines" EntityType="APIModel.Sale_Order_Lines" />
+    <EntitySet Name="Sale_Order_Logs" EntityType="APIModel.Sale_Order_Logs" />
+    <EntitySet Name="Sale_Order_Provisional" EntityType="APIModel.Sale_Order_Provisional" />
+    <EntitySet Name="Sale_Order_ProvisionalLines" EntityType="APIModel.Sale_Order_ProvisionalLines" />
+    <EntitySet Name="Sale_Order_StatusDetail" EntityType="APIModel.Sale_Order_StatusDetail" />
+    <EntitySet Name="Sale_Order_Use" EntityType="APIModel.Sale_Order_Use" />
+    <EntitySet Name="Sale_Order_VnPay" EntityType="APIModel.Sale_Order_VnPay" />
+    <EntitySet Name="Sale_Order_Wholesale" EntityType="APIModel.Sale_Order_Wholesale" />
+    <EntitySet Name="Sale_Order_WholesaleGroup" EntityType="APIModel.Sale_Order_WholesaleGroup" />
+    <EntitySet Name="Sale_Order_WholesaleLines" EntityType="APIModel.Sale_Order_WholesaleLines" />
+    <EntitySet Name="Sale_OrderHistory" EntityType="APIModel.Sale_OrderHistory" />
+    <EntitySet Name="Search_keyword" EntityType="APIModel.Search_keyword" />
+    <EntitySet Name="Seos" EntityType="APIModel.Seo" />
+    <EntitySet Name="Sicks" EntityType="APIModel.Sick" />
+    <EntitySet Name="Stores" EntityType="APIModel.Store" />
+    <EntitySet Name="SystemHistories" EntityType="APIModel.SystemHistory" />
+    <EntitySet Name="Users" EntityType="APIModel.User" />
+    <EntitySet Name="Vouchers" EntityType="APIModel.Voucher" />
+    <EntitySet Name="Sale_Order_ExpressTransfering" EntityType="APIModel.Sale_Order_ExpressTransfering" />
+    <AssociationSet Name="FK_Company_Bank_Bank" Association="APIModel.FK_Company_Bank_Bank">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="Company_Bank" EntitySet="Company_Bank" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Company_Bank_Company" Association="APIModel.FK_Company_Bank_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Company_Bank" EntitySet="Company_Bank" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Company" Association="APIModel.FK_ImportGoods_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="ImportGood" EntitySet="ImportGoods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Company1" Association="APIModel.FK_ImportGoods_Company1">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="ImportGood" EntitySet="ImportGoods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Departments" Association="APIModel.FK_Employees_Departments">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_District" Association="APIModel.FK_Member_store_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_District" Association="APIModel.FK_Sale_Order_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_District1" Association="APIModel.FK_Sale_Order_District1">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Lines_ImportGoods" Association="APIModel.FK_ImportGoods_Lines_ImportGoods">
+      <End Role="ImportGood" EntitySet="ImportGoods" />
+      <End Role="ImportGoods_Lines" EntitySet="ImportGoods_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Stores" Association="APIModel.FK_ImportGoods_Stores">
+      <End Role="Store" EntitySet="Stores" />
+      <End Role="ImportGood" EntitySet="ImportGoods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Lines_Products" Association="APIModel.FK_ImportGoods_Lines_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ImportGoods_Lines" EntitySet="ImportGoods_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_Province" Association="APIModel.FK_Member_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="Member" EntitySet="Members" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_Member" Association="APIModel.FK_Member_store_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_Use_Member" Association="APIModel.FK_Member_Use_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Member_Use" EntitySet="Member_Use" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationHistory_Member" Association="APIModel.FK_QuotationHistory_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="QuotationHistory" EntitySet="QuotationHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_Province" Association="APIModel.FK_Member_store_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_Reward" Association="APIModel.FK_Member_store_Reward">
+      <End Role="Reward" EntitySet="Rewards" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationDetail_Product_Units" Association="APIModel.FK_QuotationDetail_Product_Units">
+      <End Role="Product_Units" EntitySet="Product_Units" />
+      <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationDetail_Products" Association="APIModel.FK_QuotationDetail_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Lines_Products" Association="APIModel.FK_Sale_Order_Lines_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Sale_Order_Lines" EntitySet="Sale_Order_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_WholesaleLines_Products" Association="APIModel.FK_Sale_Order_WholesaleLines_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Sale_Order_WholesaleLines" EntitySet="Sale_Order_WholesaleLines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Province" Association="APIModel.FK_Sale_Order_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Province1" Association="APIModel.FK_Sale_Order_Province1">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationDetail_Quotation" Association="APIModel.FK_QuotationDetail_Quotation">
+      <End Role="Quotation" EntitySet="Quotations" />
+      <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationHistory_Quotation" Association="APIModel.FK_QuotationHistory_Quotation">
+      <End Role="Quotation" EntitySet="Quotations" />
+      <End Role="QuotationHistory" EntitySet="QuotationHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Reward" Association="APIModel.FK_Sale_Order_Reward">
+      <End Role="Reward" EntitySet="Rewards" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Reward1" Association="APIModel.FK_Sale_Order_Reward1">
+      <End Role="Reward" EntitySet="Rewards" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Lines_Sale_Order" Association="APIModel.FK_Sale_Order_Lines_Sale_Order">
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+      <End Role="Sale_Order_Lines" EntitySet="Sale_Order_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Use_Sale_Order" Association="APIModel.FK_Sale_Order_Use_Sale_Order">
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+      <End Role="Sale_Order_Use" EntitySet="Sale_Order_Use" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup" Association="APIModel.FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup">
+      <End Role="Sale_Order_WholesaleGroup" EntitySet="Sale_Order_WholesaleGroup" />
+      <End Role="Sale_Order_Wholesale" EntitySet="Sale_Order_Wholesale" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale" Association="APIModel.FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale">
+      <End Role="Sale_Order_Wholesale" EntitySet="Sale_Order_Wholesale" />
+      <End Role="Sale_Order_WholesaleLines" EntitySet="Sale_Order_WholesaleLines" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Autoid">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="tables" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="autoid1" Type="Int32" Nullable="false" />
+    <Property Name="prefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="number" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="tradingname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Company_Bank" Relationship="APIModel.FK_Company_Bank_Bank" FromRole="Bank" ToRole="Company_Bank" />
+  </EntityType>
+  <EntityType Name="Banner">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="imgpath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="linkurl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="order" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="LinkFacebook" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LinkGoogle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LinkTwitter" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="FromDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ToDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CargoTypeId" Type="Int32" Nullable="false" />
+    <Property Name="titlesearch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idproduct" Type="Int32" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="idmember" Type="Int32" />
+    <Property Name="isdelete" Type="Boolean" Nullable="false" />
+    <Property Name="quantity" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="imgpath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="rewite" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Guid" />
+    <Property Name="orderstt" Type="Int32" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="nameStall" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="rewite" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mst" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sdkkd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="filegpkd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="imagecs" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="website" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="nameAdmin" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="business" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="productCatalog" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="productCatalogChildren" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="isEvaluation" Type="Boolean" Nullable="false" />
+    <Property Name="isCommercial" Type="Boolean" Nullable="false" />
+    <Property Name="isPartner" Type="Boolean" Nullable="false" />
+    <Property Name="nameUser" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="codeUser" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="mobileUser" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="emailUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="zaloUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="facebookUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="skypeUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="addressUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="sexUser" Type="Boolean" Nullable="false" />
+    <Property Name="birthdayUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="dateapproval" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="isapproval" Type="Int32" Nullable="false" />
+    <Property Name="wh_provinceid" Type="Int32" />
+    <Property Name="wh_districtid" Type="Int32" />
+    <Property Name="wh_rewardid" Type="Int32" />
+    <Property Name="wh_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="userphutrach" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobilephutrach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="images" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="KeyLock" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RegEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="tokenNoti" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="statusDesign" Type="Int32" Nullable="false" />
+    <Property Name="tokenActive" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Company_Bank" Relationship="APIModel.FK_Company_Bank_Company" FromRole="Company" ToRole="Company_Bank" />
+    <NavigationProperty Name="ImportGoods" Relationship="APIModel.FK_ImportGoods_Company" FromRole="Company" ToRole="ImportGood" />
+    <NavigationProperty Name="ImportGoods1" Relationship="APIModel.FK_ImportGoods_Company1" FromRole="Company" ToRole="ImportGood" />
+  </EntityType>
+  <EntityType Name="Company_Bank">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="bankid" Type="Guid" Nullable="false" />
+    <Property Name="number" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="branch" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="companyid" Type="Guid" />
+    <NavigationProperty Name="Bank" Relationship="APIModel.FK_Company_Bank_Bank" FromRole="Company_Bank" ToRole="Bank" />
+    <NavigationProperty Name="Company" Relationship="APIModel.FK_Company_Bank_Company" FromRole="Company_Bank" ToRole="Company" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="descs" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Employees" Relationship="APIModel.FK_Employees_Departments" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="provinceid" Type="Int32" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="titlesearch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Member_store" Relationship="APIModel.FK_Member_store_District" FromRole="District" ToRole="Member_store" />
+    <NavigationProperty Name="Sale_Order" Relationship="APIModel.FK_Sale_Order_District" FromRole="District" ToRole="Sale_Order" />
+    <NavigationProperty Name="Sale_Order1" Relationship="APIModel.FK_Sale_Order_District1" FromRole="District" ToRole="Sale_Order" />
+  </EntityType>
+  <EntityType Name="EmailRegister">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CargoTypeId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="departmentid" Type="Guid" />
+    <Property Name="birthday" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="dateexpired" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="isdeleted" Type="Boolean" />
+    <Property Name="islock" Type="Boolean" />
+    <Property Name="startday" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="positionid" Type="Guid" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="images" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="KeyLock" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RegEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="tokenNoti" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="tokenActive" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Department" Relationship="APIModel.FK_Employees_Departments" FromRole="Employee" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Evaluate_Order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="idOrder" Type="Int32" />
+    <Property Name="Point" Type="Int32" Nullable="false" />
+    <Property Name="customer_tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="customer_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="customer_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CargoTypeId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Evaluation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="nsxid" Type="Guid" />
+    <Property Name="namensx" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="addressnsx" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sdk" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="giayphepdangki" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="giaychungnhanGMP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="giaychungnhandk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mucdoGMP" Type="Int32" />
+    <Property Name="giaychungnhandatGMP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="hethongkhepkin" Type="Int32" />
+    <Property Name="hinhanhnhamay" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="hethongkhongkhi" Type="Int32" />
+    <Property Name="baocaotongthe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="hethongchatluong" Type="Int32" />
+    <Property Name="danhmucGLP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="tongspsanxuat" Type="Int32" />
+    <Property Name="danhmucthuoc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sospdatngoisao" Type="Int32" />
+    <Property Name="giaychungnhan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="namecompany" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="addresscompany" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="giaycnkinhdoanhduoc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="hethongpp" Type="Int32" />
+    <Property Name="danhsachpp" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="doanhthuthuoc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="baocaothue" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="lichsupt" Type="Int32" />
+    <Property Name="danhgianguoidung" Type="Int32" />
+    <Property Name="cungcapVNnam" Type="Int32" />
+    <Property Name="giayCNthanhlapVN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="doanhsoVN" Type="Int32" />
+    <Property Name="uytincosoVN" Type="Int32" />
+    <Property Name="sp_sdk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_filedk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_nguongoc" Type="Int32" />
+    <Property Name="sp_hinhanhbiasach" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_mucluc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_tendean" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_filedean" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_thanhphan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_mucdohieuqua" Type="Int32" />
+    <Property Name="sp_huongdansudung" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_sospcanhtranh" Type="Int32" />
+    <Property Name="sp_doanhsoban" Type="Int32" />
+    <Property Name="sp_namthanhlap" Type="Int32" />
+    <Property Name="sp_baocaosudung" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_sobenhnhan" Type="Int32" />
+    <Property Name="sp_tylekhoi" Type="Int32" />
+    <Property Name="sp_filebenhnhan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_trinhdo" Type="Int32" />
+    <Property Name="sp_bangcap" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_nguoinuoitrong" Type="Int32" />
+    <Property Name="sp_giaycndoanhnghiep" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_quytrinhnuoitrong" Type="Int32" />
+    <Property Name="sp_giaychungnhan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_dientichtrong" Type="Int32" />
+    <Property Name="sp_dientichquyhoach" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_duoclieutrongdung" Type="Int32" />
+    <Property Name="sp_hamluonghoatchat" Type="Int32" />
+    <Property Name="sp_giaykiemnghiem" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_QR" Type="Int32" />
+    <Property Name="sp_cosonhapkhau" Type="Int32" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="pointnsx" Type="Int32" Nullable="false" />
+    <Property Name="notensx" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="pointnpp" Type="Int32" Nullable="false" />
+    <Property Name="notenpp" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sp_point" Type="Int32" Nullable="false" />
+    <Property Name="sp_note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="npp_giaychungnhandk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="lichsupt_detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="tencoso" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="diachicoso" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="pointTotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="isachieved" Type="Boolean" Nullable="false" />
+    <Property Name="noteTotal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="nguonduoclieu" Type="Int32" Nullable="false" />
+    <Property Name="thanhphantinhdau" Type="Int32" Nullable="false" />
+    <Property Name="quytrinhchietxuat" Type="Int32" Nullable="false" />
+    <Property Name="tutrong" Type="Int32" Nullable="false" />
+    <Property Name="thumua" Type="Int32" Nullable="false" />
+    <Property Name="sp_namxb" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="idProductConsignment" Type="Guid" />
+  </EntityType>
+  <EntityType Name="Expert">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="position" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Feedback">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="memberid" Type="Int32" />
+    <Property Name="answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="isread" Type="Byte" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="companyid" Type="Int32" />
+    <Property Name="CargoTypeId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Help">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="longdesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="userid" Type="Guid" />
+  </EntityType>
+  <EntityType Name="Images_Catalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ImportGood">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="codecompany" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="namecompany" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="addresscompany" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mobilecompany" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="contact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mobilecontact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="storeid" Type="Guid" />
+    <Property Name="deliverydate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="storecontact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="storemobilecontact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Company" Relationship="APIModel.FK_ImportGoods_Company" FromRole="ImportGood" ToRole="Company" />
+    <NavigationProperty Name="Company1" Relationship="APIModel.FK_ImportGoods_Company1" FromRole="ImportGood" ToRole="Company" />
+    <NavigationProperty Name="ImportGoods_Lines" Relationship="APIModel.FK_ImportGoods_Lines_ImportGoods" FromRole="ImportGood" ToRole="ImportGoods_Lines" />
+    <NavigationProperty Name="Store" Relationship="APIModel.FK_ImportGoods_Stores" FromRole="ImportGood" ToRole="Store" />
+  </EntityType>
+  <EntityType Name="ImportGoods_Lines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="importGoodsid" Type="Guid" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="unitid" Type="Guid" />
+    <Property Name="pricecomnpany" Type="Decimal" Precision="14" Scale="0" />
+    <Property Name="discount" Type="Decimal" Precision="14" Scale="2" />
+    <Property Name="qty" Type="Decimal" Precision="14" Scale="0" />
+    <Property Name="total" Type="Decimal" Precision="14" Scale="2" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="slthuc" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="sltrave" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="sldat" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="notestore" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="slUpdate" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="notesale" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ImportGood" Relationship="APIModel.FK_ImportGoods_Lines_ImportGoods" FromRole="ImportGoods_Lines" ToRole="ImportGood" />
+    <NavigationProperty Name="Product" Relationship="APIModel.FK_ImportGoods_Lines_Products" FromRole="ImportGoods_Lines" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sex" Type="Boolean" Nullable="false" />
+    <Property Name="birthday" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="provinceid" Type="Int32" />
+    <Property Name="zalo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="facebook" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ispersonal" Type="Boolean" Nullable="false" />
+    <Property Name="purpose" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="field" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nameproducer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobileproducer" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="emailproducer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="productproducer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="productbuyproducer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="addressproducer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="isshowproducer" Type="Boolean" Nullable="false" />
+    <Property Name="issellproducer" Type="Boolean" Nullable="false" />
+    <Property Name="namedistributor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobiledistributor" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="emaildistributor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="productdistributor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="productbuydistributor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="addressdistributor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="isshowdistributor" Type="Boolean" Nullable="false" />
+    <Property Name="isselldistributor" Type="Boolean" Nullable="false" />
+    <Property Name="namePCT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobilePCT" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="emailPCT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="productPCT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="productbuyPCT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="addressPCT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="isshowPCT" Type="Boolean" Nullable="false" />
+    <Property Name="issellPCT" Type="Boolean" Nullable="false" />
+    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="isnews" Type="Boolean" Nullable="false" />
+    <Property Name="productcatelogyPCT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mstproducer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mstdistributor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mstPCT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="images" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="KeyLock" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RegEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="tokenNoti" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="tokenActive" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Province" Relationship="APIModel.FK_Member_Province" FromRole="Member" ToRole="Province" />
+    <NavigationProperty Name="Member_store" Relationship="APIModel.FK_Member_store_Member" FromRole="Member" ToRole="Member_store" />
+    <NavigationProperty Name="Member_Use" Relationship="APIModel.FK_Member_Use_Member" FromRole="Member" ToRole="Member_Use" />
+    <NavigationProperty Name="QuotationHistories" Relationship="APIModel.FK_QuotationHistory_Member" FromRole="Member" ToRole="QuotationHistory" />
+  </EntityType>
+  <EntityType Name="Member_History">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catid" Type="Int32" />
+    <Property Name="memberid" Type="Int32" />
+    <Property Name="dateadd" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Member_store">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="recipientName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="provinceid" Type="Int32" />
+    <Property Name="districtid" Type="Int32" />
+    <Property Name="rewardid" Type="Int32" />
+    <Property Name="addresss" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="isaddress" Type="Int32" />
+    <Property Name="isdefault" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="District" Relationship="APIModel.FK_Member_store_District" FromRole="Member_store" ToRole="District" />
+    <NavigationProperty Name="Member" Relationship="APIModel.FK_Member_store_Member" FromRole="Member_store" ToRole="Member" />
+    <NavigationProperty Name="Province" Relationship="APIModel.FK_Member_store_Province" FromRole="Member_store" ToRole="Province" />
+    <NavigationProperty Name="Reward" Relationship="APIModel.FK_Member_store_Reward" FromRole="Member_store" ToRole="Reward" />
+  </EntityType>
+  <EntityType Name="Member_Token">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Member_Use">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="isuse" Type="Boolean" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="drugnow" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="relationship" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="productcatalogid" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="filesick" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Member" Relationship="APIModel.FK_Member_Use_Member" FromRole="Member_Use" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="Nation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="imgpath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ishot" Type="Boolean" />
+    <Property Name="isnew" Type="Boolean" />
+    <Property Name="companyid" Type="Int32" />
+    <Property Name="rewite" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TotalView" Type="Int32" />
+    <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+    <Property Name="SeoTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="MetaKeywords" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="MetaDescriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="shortdesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="longdesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="CargoTypeId" Type="Int32" Nullable="false" />
+    <Property Name="titlesearch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="News_Catalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Rewrite" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="CargoTypeId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="Details" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DetailsURL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="IsRead" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsReminder" Type="Boolean" Nullable="false" />
+    <Property Name="companyid" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Permision">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SortOrder" Type="Int32" Nullable="false" />
+    <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsVender" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="isLock" Type="Boolean" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="departmentid" Type="Guid" />
+  </EntityType>
+  <EntityType Name="Product_Catalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="imgpath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="rewite" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Guid" />
+    <Property Name="orderstt" Type="Int32" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Product_favorite">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userid" Type="Int32" />
+    <Property Name="productid" Type="Int32" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product_Units">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="userid" Type="Guid" />
+    <NavigationProperty Name="QuotationDetails" Relationship="APIModel.FK_QuotationDetail_Product_Units" FromRole="Product_Units" ToRole="QuotationDetail" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="sdk" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="price" Type="Decimal" Precision="14" Scale="0" />
+    <Property Name="unit" Type="Guid" />
+    <Property Name="otherunits" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="quycachsanpham" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="chidinh" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="chongchidinh" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="thantrong" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="choconbu" Type="Boolean" Nullable="false" />
+    <Property Name="khananglaixe" Type="Boolean" Nullable="false" />
+    <Property Name="tuongtacthuoc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="tacdungkhongmuon" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="qualieu_cachxuly" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="baoquan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="handung" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="tieuchuan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="cososanxuat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="diachisanxuat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="imanges" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="filegdk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="filegknsp" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="filegcnGMP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="baiviet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="giaycnthocgiatruyen" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="danhmuchotro" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="thuonghieu" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="xuatxu" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="nguongoc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="doituongsudung" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="soCOCQ" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="fileCOCQ" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="cannang" Type="Int32" Nullable="false" />
+    <Property Name="ktcao" Type="Int32" Nullable="false" />
+    <Property Name="ktdai" Type="Int32" Nullable="false" />
+    <Property Name="ktrong" Type="Int32" Nullable="false" />
+    <Property Name="kiguisanpham" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="dateapproval" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="productcatalogid" Type="Int32" />
+    <Property Name="isview" Type="Boolean" Nullable="false" />
+    <Property Name="sickcatalogid" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sick" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="chietxuat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="khohang" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="lathuocgiatruyen" Type="Boolean" />
+    <Property Name="datereturn" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="evaluationid" Type="Guid" />
+    <Property Name="evaluationdate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="isConsignment" Type="Boolean" Nullable="false" />
+    <Property Name="metatitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metadesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metakeyword" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metaog" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="thanhphanhoahoc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="thanhphan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="congdung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="lieudung_cachdung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="luuysudung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="metaappid" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metatype" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ogtitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metadogdescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ImportGoods_Lines" Relationship="APIModel.FK_ImportGoods_Lines_Products" FromRole="Product" ToRole="ImportGoods_Lines" />
+    <NavigationProperty Name="QuotationDetails" Relationship="APIModel.FK_QuotationDetail_Products" FromRole="Product" ToRole="QuotationDetail" />
+    <NavigationProperty Name="Sale_Order_Lines" Relationship="APIModel.FK_Sale_Order_Lines_Products" FromRole="Product" ToRole="Sale_Order_Lines" />
+    <NavigationProperty Name="Sale_Order_WholesaleLines" Relationship="APIModel.FK_Sale_Order_WholesaleLines_Products" FromRole="Product" ToRole="Sale_Order_WholesaleLines" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Code_Local" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="titlesearch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Members" Relationship="APIModel.FK_Member_Province" FromRole="Province" ToRole="Member" />
+    <NavigationProperty Name="Member_store" Relationship="APIModel.FK_Member_store_Province" FromRole="Province" ToRole="Member_store" />
+    <NavigationProperty Name="Sale_Order" Relationship="APIModel.FK_Sale_Order_Province" FromRole="Province" ToRole="Sale_Order" />
+    <NavigationProperty Name="Sale_Order1" Relationship="APIModel.FK_Sale_Order_Province1" FromRole="Province" ToRole="Sale_Order" />
+  </EntityType>
+  <EntityType Name="Quotation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="userid" Type="Guid" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="islock" Type="Int32" Nullable="false" />
+    <Property Name="isdeleted" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="QuotationDetails" Relationship="APIModel.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
+    <NavigationProperty Name="QuotationHistories" Relationship="APIModel.FK_QuotationHistory_Quotation" FromRole="Quotation" ToRole="QuotationHistory" />
+  </EntityType>
+  <EntityType Name="QuotationDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="qty" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="ishoso" Type="Boolean" Nullable="false" />
+    <Property Name="isgiaychungnhan" Type="Boolean" Nullable="false" />
+    <Property Name="unitid" Type="Guid" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="quotationid" Type="Guid" />
+    <NavigationProperty Name="Product_Units" Relationship="APIModel.FK_QuotationDetail_Product_Units" FromRole="QuotationDetail" ToRole="Product_Units" />
+    <NavigationProperty Name="Product" Relationship="APIModel.FK_QuotationDetail_Products" FromRole="QuotationDetail" ToRole="Product" />
+    <NavigationProperty Name="Quotation" Relationship="APIModel.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
+  </EntityType>
+  <EntityType Name="QuotationHistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="quotationid" Type="Guid" />
+    <Property Name="memberid" Type="Guid" />
+    <NavigationProperty Name="Member" Relationship="APIModel.FK_QuotationHistory_Member" FromRole="QuotationHistory" ToRole="Member" />
+    <NavigationProperty Name="Quotation" Relationship="APIModel.FK_QuotationHistory_Quotation" FromRole="QuotationHistory" ToRole="Quotation" />
+  </EntityType>
+  <EntityType Name="Reward">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="districtid" Type="Int32" />
+    <Property Name="type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="titlesearch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Member_store" Relationship="APIModel.FK_Member_store_Reward" FromRole="Reward" ToRole="Member_store" />
+    <NavigationProperty Name="Sale_Order" Relationship="APIModel.FK_Sale_Order_Reward" FromRole="Reward" ToRole="Sale_Order" />
+    <NavigationProperty Name="Sale_Order1" Relationship="APIModel.FK_Sale_Order_Reward1" FromRole="Reward" ToRole="Sale_Order" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="money_total" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="discount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="cod" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="cpvc" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+    <Property Name="PaymentType" Type="Int32" Nullable="false" />
+    <Property Name="member_fullname" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="member_tel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="member_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="member_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="member_birthday" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="member_sex" Type="Boolean" Nullable="false" />
+    <Property Name="member_rewardid" Type="Int32" />
+    <Property Name="member_districtid" Type="Int32" />
+    <Property Name="member_provinceid" Type="Int32" />
+    <Property Name="receiver_fullname" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_tel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_birthday" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_sex" Type="Boolean" Nullable="false" />
+    <Property Name="receiver_rewardid" Type="Int32" />
+    <Property Name="receiver_districtid" Type="Int32" />
+    <Property Name="receiver_provinceid" Type="Int32" />
+    <Property Name="NoteCancel" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyId" Type="Guid" />
+    <Property Name="dateadded" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="deliverydate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="transfersmoney" Type="Int32" />
+    <Property Name="transfersnote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="useridCan" Type="Guid" />
+    <Property Name="typeuserCan" Type="Int32" Nullable="false" />
+    <Property Name="typeTransport" Type="Int32" Nullable="false" />
+    <Property Name="transferscode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="transfersid" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="storeid" Type="Guid" />
+    <Property Name="isConsignment" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="District" Relationship="APIModel.FK_Sale_Order_District" FromRole="Sale_Order" ToRole="District" />
+    <NavigationProperty Name="District1" Relationship="APIModel.FK_Sale_Order_District1" FromRole="Sale_Order" ToRole="District" />
+    <NavigationProperty Name="Province" Relationship="APIModel.FK_Sale_Order_Province" FromRole="Sale_Order" ToRole="Province" />
+    <NavigationProperty Name="Province1" Relationship="APIModel.FK_Sale_Order_Province1" FromRole="Sale_Order" ToRole="Province" />
+    <NavigationProperty Name="Reward" Relationship="APIModel.FK_Sale_Order_Reward" FromRole="Sale_Order" ToRole="Reward" />
+    <NavigationProperty Name="Reward1" Relationship="APIModel.FK_Sale_Order_Reward1" FromRole="Sale_Order" ToRole="Reward" />
+    <NavigationProperty Name="Sale_Order_Lines" Relationship="APIModel.FK_Sale_Order_Lines_Sale_Order" FromRole="Sale_Order" ToRole="Sale_Order_Lines" />
+    <NavigationProperty Name="Sale_Order_Use" Relationship="APIModel.FK_Sale_Order_Use_Sale_Order" FromRole="Sale_Order" ToRole="Sale_Order_Use" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Express">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="STT" Type="Int32" />
+    <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_ExpressStatus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="ExpressId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Lines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="sale_orderid" Type="Guid" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="qty" Type="Int32" />
+    <Property Name="unitid" Type="Guid" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="price_sale" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="price_discount" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="discount" Type="Int32" Nullable="false" />
+    <Property Name="Weight" Type="Int32" Nullable="false" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="catalogid" Type="Int32" />
+    <Property Name="isevaluate" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="APIModel.FK_Sale_Order_Lines_Products" FromRole="Sale_Order_Lines" ToRole="Product" />
+    <NavigationProperty Name="Sale_Order" Relationship="APIModel.FK_Sale_Order_Lines_Sale_Order" FromRole="Sale_Order_Lines" ToRole="Sale_Order" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Logs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedUser" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Request" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Provisional">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="issuccess" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_ProvisionalLines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="sale_orderid" Type="Guid" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="qty" Type="Int32" />
+    <Property Name="unitid" Type="Guid" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="price_sale" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="price_discount" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="discount" Type="Int32" Nullable="false" />
+    <Property Name="Weight" Type="Int32" Nullable="false" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="14" Scale="0" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="catalogid" Type="Int32" />
+    <Property Name="isevaluate" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_StatusDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="statusExpressId" Type="Int32" />
+    <Property Name="statusId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Use">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="isuse" Type="Boolean" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="drugnow" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="relationship" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="productcatalogid" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="member_Useid" Type="Guid" />
+    <Property Name="productid" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sale_Orderid" Type="Guid" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="filesick" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Sale_Order" Relationship="APIModel.FK_Sale_Order_Use_Sale_Order" FromRole="Sale_Order_Use" ToRole="Sale_Order" />
+  </EntityType>
+  <EntityType Name="Sale_Order_VnPay">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SaleOrderid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="orderId" Type="Int64" />
+    <Property Name="vnpayTranId" Type="Int64" />
+    <Property Name="vnp_ResponseCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_SecureHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_Amount" Type="Int64" />
+    <Property Name="vnp_BankCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_BankTranNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_CardType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_OrderInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_PayDate" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_TransactionNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="vnp_TxnRef" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Wholesale">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="vat" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="deliverydate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="cpvc" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="receiver_fullname" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_tel" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+    <Property Name="PaymentType" Type="Int32" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="bankid" Type="Guid" />
+    <Property Name="stk" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nametk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="branch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="groupid" Type="Guid" />
+    <Property Name="groupcode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Sale_Order_WholesaleGroup" Relationship="APIModel.FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup" FromRole="Sale_Order_Wholesale" ToRole="Sale_Order_WholesaleGroup" />
+    <NavigationProperty Name="Sale_Order_WholesaleLines" Relationship="APIModel.FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale" FromRole="Sale_Order_Wholesale" ToRole="Sale_Order_WholesaleLines" />
+  </EntityType>
+  <EntityType Name="Sale_Order_WholesaleGroup">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="vat" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="deliverydate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="cpvc" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="receiver_fullname" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_tel" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="receiver_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+    <Property Name="PaymentType" Type="Int32" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="bankid" Type="Guid" />
+    <Property Name="stk" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nametk" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="branch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="memberid" Type="Guid" />
+    <NavigationProperty Name="Sale_Order_Wholesale" Relationship="APIModel.FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup" FromRole="Sale_Order_WholesaleGroup" ToRole="Sale_Order_Wholesale" />
+  </EntityType>
+  <EntityType Name="Sale_Order_WholesaleLines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="sale_orderWholesaleid" Type="Guid" />
+    <Property Name="productid" Type="Guid" />
+    <Property Name="qty" Type="Int32" />
+    <Property Name="unitid" Type="Guid" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="price_sale" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="price_discount" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="discount" Type="Int32" Nullable="false" />
+    <Property Name="Weight" Type="Int32" Nullable="false" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="entryprice" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="catalogid" Type="Int32" />
+    <NavigationProperty Name="Product" Relationship="APIModel.FK_Sale_Order_WholesaleLines_Products" FromRole="Sale_Order_WholesaleLines" ToRole="Product" />
+    <NavigationProperty Name="Sale_Order_Wholesale" Relationship="APIModel.FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale" FromRole="Sale_Order_WholesaleLines" ToRole="Sale_Order_Wholesale" />
+  </EntityType>
+  <EntityType Name="Sale_OrderHistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="sale_orderid" Type="Guid" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Search_keyword">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="CargoTypeId" Type="Int32" />
+    <Property Name="titlesearch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="catid" Type="Int32" />
+    <Property Name="ishome" Type="Boolean" Nullable="false" />
+    <Property Name="imgpath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="numberSearch" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Seo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CargoTypeId" Type="Int32" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="keywords" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="titlesearch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Sick">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="dinhnghia" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="trieuchung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="benhchung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="kiengki" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="doituongdemac" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="nguyennhan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="loikhuyen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="dieutri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="chuandoan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="phanloai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="islock" Type="Boolean" Nullable="false" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="benhlienquan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="product_catalogid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="metatitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metakeyword" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metadesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="metaog" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Store">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="acreage" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="employeeid" Type="Guid" />
+    <Property Name="isdeleted" Type="Boolean" Nullable="false" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="provinceid" Type="Int32" />
+    <Property Name="districtid" Type="Int32" />
+    <Property Name="wardid" Type="Int32" />
+    <Property Name="employeecode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="employeename" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="employeemobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ImportGoods" Relationship="APIModel.FK_ImportGoods_Stores" FromRole="Store" ToRole="ImportGood" />
+  </EntityType>
+  <EntityType Name="SystemHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Module" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Action" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="VersionOld" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ObjectId" Type="Int32" />
+    <Property Name="dateadded" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Guid" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="images" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="tokenActive" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="departmentid" Type="Guid" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="employeeid" Type="Guid" />
+    <Property Name="KeyLock" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RegEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="zalo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="facebook" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sex" Type="Boolean" />
+    <Property Name="memberid" Type="Guid" />
+    <Property Name="dateadded" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="authoritiesid" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="companyid" Type="Guid" />
+    <Property Name="skype" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="isadmin" Type="Boolean" />
+    <Property Name="birthday" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="isdeleted" Type="Boolean" />
+    <Property Name="tokenNoti" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Islock" Type="Boolean" Nullable="false" />
+    <Property Name="dateexpired" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Voucher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Money" Type="Double" />
+    <Property Name="IsUsed" Type="Boolean" />
+    <Property Name="UserType" Type="Byte" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="AmoutPending" Type="Double" />
+    <Property Name="AmountPaid" Type="Double" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="ProductCatelogId" Type="Int32" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="FromDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ToDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Sale_Order_ExpressTransfering">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="ExpressId" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Company_Bank_Bank">
+    <End Type="APIModel.Bank" Role="Bank" Multiplicity="1" />
+    <End Type="APIModel.Company_Bank" Role="Company_Bank" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Company_Bank">
+        <PropertyRef Name="bankid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Company_Bank_Company">
+    <End Type="APIModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="APIModel.Company_Bank" Role="Company_Bank" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Company_Bank">
+        <PropertyRef Name="companyid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Company">
+    <End Type="APIModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="APIModel.ImportGood" Role="ImportGood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGood">
+        <PropertyRef Name="companyid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Company1">
+    <End Type="APIModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="APIModel.ImportGood" Role="ImportGood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGood">
+        <PropertyRef Name="companyid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Departments">
+    <End Type="APIModel.Department" Role="Department" Multiplicity="0..1" />
+    <End Type="APIModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="departmentid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_District">
+    <End Type="APIModel.District" Role="District" Multiplicity="0..1" />
+    <End Type="APIModel.Member_store" Role="Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="districtid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_District">
+    <End Type="APIModel.District" Role="District" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="member_districtid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_District1">
+    <End Type="APIModel.District" Role="District" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="receiver_districtid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Lines_ImportGoods">
+    <End Type="APIModel.ImportGood" Role="ImportGood" Multiplicity="0..1" />
+    <End Type="APIModel.ImportGoods_Lines" Role="ImportGoods_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImportGood">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGoods_Lines">
+        <PropertyRef Name="importGoodsid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Stores">
+    <End Type="APIModel.Store" Role="Store" Multiplicity="0..1" />
+    <End Type="APIModel.ImportGood" Role="ImportGood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Store">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGood">
+        <PropertyRef Name="storeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Lines_Products">
+    <End Type="APIModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="APIModel.ImportGoods_Lines" Role="ImportGoods_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGoods_Lines">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_Province">
+    <End Type="APIModel.Province" Role="Province" Multiplicity="0..1" />
+    <End Type="APIModel.Member" Role="Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_Member">
+    <End Type="APIModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="APIModel.Member_store" Role="Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_Use_Member">
+    <End Type="APIModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="APIModel.Member_Use" Role="Member_Use" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_Use">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationHistory_Member">
+    <End Type="APIModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="APIModel.QuotationHistory" Role="QuotationHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationHistory">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_Province">
+    <End Type="APIModel.Province" Role="Province" Multiplicity="0..1" />
+    <End Type="APIModel.Member_store" Role="Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_Reward">
+    <End Type="APIModel.Reward" Role="Reward" Multiplicity="0..1" />
+    <End Type="APIModel.Member_store" Role="Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reward">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="rewardid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationDetail_Product_Units">
+    <End Type="APIModel.Product_Units" Role="Product_Units" Multiplicity="0..1" />
+    <End Type="APIModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product_Units">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationDetail">
+        <PropertyRef Name="unitid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationDetail_Products">
+    <End Type="APIModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="APIModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationDetail">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Lines_Products">
+    <End Type="APIModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order_Lines" Role="Sale_Order_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Lines">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_WholesaleLines_Products">
+    <End Type="APIModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order_WholesaleLines" Role="Sale_Order_WholesaleLines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_WholesaleLines">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Province">
+    <End Type="APIModel.Province" Role="Province" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="member_provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Province1">
+    <End Type="APIModel.Province" Role="Province" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="receiver_provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationDetail_Quotation">
+    <End Type="APIModel.Quotation" Role="Quotation" Multiplicity="0..1" />
+    <End Type="APIModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quotation">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationDetail">
+        <PropertyRef Name="quotationid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationHistory_Quotation">
+    <End Type="APIModel.Quotation" Role="Quotation" Multiplicity="0..1" />
+    <End Type="APIModel.QuotationHistory" Role="QuotationHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quotation">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationHistory">
+        <PropertyRef Name="quotationid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Reward">
+    <End Type="APIModel.Reward" Role="Reward" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reward">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="member_rewardid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Reward1">
+    <End Type="APIModel.Reward" Role="Reward" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reward">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="receiver_rewardid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Lines_Sale_Order">
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order_Lines" Role="Sale_Order_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Lines">
+        <PropertyRef Name="sale_orderid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Use_Sale_Order">
+    <End Type="APIModel.Sale_Order" Role="Sale_Order" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order_Use" Role="Sale_Order_Use" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Use">
+        <PropertyRef Name="sale_Orderid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup">
+    <End Type="APIModel.Sale_Order_WholesaleGroup" Role="Sale_Order_WholesaleGroup" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order_Wholesale" Role="Sale_Order_Wholesale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order_WholesaleGroup">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Wholesale">
+        <PropertyRef Name="groupid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale">
+    <End Type="APIModel.Sale_Order_Wholesale" Role="Sale_Order_Wholesale" Multiplicity="0..1" />
+    <End Type="APIModel.Sale_Order_WholesaleLines" Role="Sale_Order_WholesaleLines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order_Wholesale">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_WholesaleLines">
+        <PropertyRef Name="sale_orderWholesaleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

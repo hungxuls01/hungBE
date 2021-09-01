@@ -1,0 +1,24 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Sale_Order_LogsDto : Sale_Order_Logs
+    {
+    }
+    public class Sale_Order_LogsSearchDto : SearchBase
+    {
+    }
+    public class Sale_Order_LogsAdd
+    {
+        public int Id { get; set; }
+        public Nullable<int> OrderId { get; set; }
+        public string Status { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedUser { get; set; }
+        public string Request { get; set; }
+    }
+}

@@ -1,0 +1,34 @@
+﻿using Microsoft.AspNet.SignalR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace ApiTng.Extentions
+{
+    public interface INotificationsHub
+    {
+        void addUserNotification(string username, string message);
+    }
+
+    public class NotificationsHub : Hub<INotificationsHub>
+    {
+    }
+
+    public class MyService
+    {
+        private readonly IHubContext<INotificationsHub> _notificationsHub;
+
+        public MyService(IHubContext<INotificationsHub> hub)
+        {
+            _notificationsHub = hub;
+        }
+
+
+        public void SomeMethod()
+        {
+            _notificationsHub.Clients.All.addUserNotification("gosho", "you have a new notification!");
+        }
+
+    }
+}

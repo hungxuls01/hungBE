@@ -1,0 +1,49 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Product_MadeInDto
+    {
+    }
+    public class Product_MadeInSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+    public class Product_MadeInAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string img { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class Product_MadeInDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Product_MadeInGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class Product_MadeInLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Product_MadeInList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int CargoTypeId { get; set; }
+        public int islock { get; set; }
+    }
+    public class Product_MadeInSelectAll
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+    }
+}

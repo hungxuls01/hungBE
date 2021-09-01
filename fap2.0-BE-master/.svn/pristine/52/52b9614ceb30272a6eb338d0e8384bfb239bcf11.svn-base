@@ -1,0 +1,6 @@
+2019-08-26 09:43:10.4380|ERROR|ApiTng.Controllers.MSBController|Procedure or function 'sp_Sale_Orders_MSBInsert' expects parameter '@msbResponse', which was not supplied.
+2019-08-26 09:46:25.8740|ERROR|ApiTng.Controllers.MSBController|Procedure or function 'sp_Sale_Orders_MSBInsert' expects parameter '@msbResponse', which was not supplied.
+2019-08-26 09:46:31.3456|ERROR|ApiTng.Controllers.MSBController|Procedure or function 'sp_Sale_Orders_MSBInsert' expects parameter '@msbResponse', which was not supplied.
+2019-08-26 09:46:32.3430|ERROR|ApiTng.Controllers.MSBController|Procedure or function 'sp_Sale_Orders_MSBInsert' expects parameter '@msbResponse', which was not supplied.
+2019-08-26 10:17:31.6449|ERROR|ApiTng.Controllers.MSBController|Input string was not in a correct format.
+2019-08-26 10:18:08.1617|ERROR|ApiTng.Controllers.MSBController|Input string was not in a correct format.

@@ -1,0 +1,178 @@
+﻿using _1.DataAccessLayer.Sick;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    
+    public class SickController : ApiController
+    {
+        private static ISickDal _SickDal;
+        private static Logger _logger;
+        private Api api;
+        public SickController()
+        {
+            _SickDal = new SickDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(SickSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _SickDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<SickList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(SickGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _SickDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                   
+                }
+                
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(SickAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (objAdd.id != null)
+                {
+                    var getid = new SickGetbyId();
+                    getid.id = (Guid)objAdd.id;
+                    var datagetid = _SickDal.GetById(getid);
+                    if (datagetid.name != objAdd.name)
+                    {
+                        var ckeckname = _SickDal.CheckName(objAdd.name,objAdd.product_catalogid);
+                        if (ckeckname != null)
+                        {
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Bệnh đã tồn tại !";
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    var ckeckname = _SickDal.CheckName(objAdd.name, objAdd.product_catalogid);
+                    if (ckeckname != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Bệnh đã tồn tại !";
+                        return response;
+                    }
+                }
+                if (objAdd.id == null)
+                {
+                    var data = _SickDal.Insert(objAdd);
+                    if (data != "")
+                    {
+                        response.Status = ConstUtil.Success;
+                        response.Message = "Thành công !";
+                        return response;
+                    }
+                }
+                else
+                {
+                    var data = _SickDal.Update(objAdd);
+                    if (data != "")
+                    {
+                        response.Status = ConstUtil.Success;
+                        response.Message = "Thành công !";
+                        return response;
+                    }
+
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(SickDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _SickDal.Delete(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+    }
+}

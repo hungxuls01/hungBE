@@ -1,0 +1,45 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class SeoDto : Seo
+    {
+    }
+    public class SeoSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+    public class SeoAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string description { get; set; }
+        public string keywords { get; set; }
+        public string title { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class SeoDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class SeoGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class SeoLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class SeoList
+    {
+        public int id { get; set; }
+        public string description { get; set; }
+        public string keywords { get; set; }
+        public string title { get; set; }
+    }
+}

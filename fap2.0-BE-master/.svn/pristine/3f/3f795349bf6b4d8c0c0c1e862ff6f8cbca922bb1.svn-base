@@ -1,0 +1,4 @@
+2020-02-14 10:46:09.3111|ERROR|ApiTng.Controllers.ProductController|Operand type clash: bigint is incompatible with uniqueidentifier
+2020-02-14 10:50:46.5377|ERROR|ApiTng.Controllers.ProductController|Operand type clash: bigint is incompatible with uniqueidentifier
+2020-02-14 10:59:27.5553|ERROR|ApiTng.Controllers.ProductController|Operand type clash: bigint is incompatible with uniqueidentifier
+2020-02-14 11:07:39.3386|ERROR|ApiTng.Controllers.ProductController|String[50]: the Size property has an invalid size of 0.

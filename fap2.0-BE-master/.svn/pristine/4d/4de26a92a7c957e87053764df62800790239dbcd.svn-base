@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.SystemHistory
+{
+    public class SystemHistoryDal : DbInteractionBase, ISystemHistoryDal
+    {
+        #region BACKEND
+
+        public int IsLock(SystemHistoryLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_SystemHistoryIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(SystemHistoryDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_SystemHistoryDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<SystemHistoryAdd, int> GetById(SystemHistoryGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<SystemHistoryAdd>("sp_SystemHistorySelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(SystemHistoryAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_SystemHistoryInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Id", ValueParam = objAdd.Id},
+                new QueryParam {NameParam = "Module", ValueParam = objAdd.Module},
+                new QueryParam {NameParam = "Action", ValueParam = objAdd.Action},
+                new QueryParam {NameParam = "VersionOld", ValueParam = objAdd.VersionOld},
+                new QueryParam {NameParam = "ObjectId", ValueParam = objAdd.ObjectId},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                ///
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+
+    }
+}

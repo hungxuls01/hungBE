@@ -1,0 +1,295 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using _1.DataAccessLayer.Products_Comment;
+using _2.DataTransferObject;
+using _4.Utils;
+using NLog;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class ProductCommentController : ApiController
+    {
+        private static IProducts_CommentDal _Products_CommentDal;
+        private static Logger _logger;
+        public ProductCommentController()
+        {
+            _Products_CommentDal = new Products_CommentDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+        #region BACKEND
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetPaging(Products_CommentSearchDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _Products_CommentDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                if (result.Item3 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                var data = new DataTableBase<Products_CommentList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [HttpPost]
+        public ResponeResult GetDataCommentPaging(ProductCommentPadingDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _Products_CommentDal.SelectDataPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<Products_GetCommentList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(Products_CommentGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.GetById(obj);
+                if (data.Item2 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data.Item1;
+                    return response;
+                }
+                if (data.Item2 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+  
+        [HttpPost]
+        public ResponeResult Insert(Products_CommentAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.Insert(objAdd);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(Products_CommentDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.Delete(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Lock(Products_CommentLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.IsLock(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        #endregion
+        #region FONTEND
+        [HttpGet]
+        public ResponeResult FeGetCommentList(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.FeGetCommentList(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetCommentListUser(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.FeGetCommentListUser(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [HttpPost]
+        public ResponeResult FeInsertComment(Products_FeCommentAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Products_CommentDal.FeInsert(objAdd);
+                if (data == true)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == false)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Thêm không thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        #endregion
+    }
+}
+

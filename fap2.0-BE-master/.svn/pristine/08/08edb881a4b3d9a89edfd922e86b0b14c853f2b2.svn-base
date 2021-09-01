@@ -1,0 +1,10 @@
+2019-07-05 10:27:56.3620|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 10:28:19.3944|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 10:29:00.7714|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 10:30:44.4428|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 10:36:00.4297|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 11:38:03.9914|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 14:20:02.7455|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 14:20:42.7053|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 14:20:55.4301|ERROR|ApiTng.Controllers.ProductController|Object reference not set to an instance of an object.
+2019-07-05 14:46:15.6412|ERROR|ApiTng.Controllers.ProductController|@CargoTypeId is not a parameter for procedure fe_ProductDataPaging.

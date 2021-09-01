@@ -1,0 +1,30 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product_Manufacturer
+{
+    public interface IProduct_ManufacturerDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Product_ManufacturerList>, int> SelectPaging(Product_ManufacturerSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Product_ManufacturerLock obj);
+
+        int Delete(Product_ManufacturerDeleted arrayId);
+
+        Tuple<Product_ManufacturerAdd, int> GetById(Product_ManufacturerGetbyId objGetbyId);
+
+        int Insert(Product_ManufacturerAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<Product_ManufacturerSelectAll> SelectAll(int id);
+        List<Product_ManufacturerGetName> GetAll(string id);
+        #endregion
+    }
+}

@@ -1,0 +1,39 @@
+﻿using System;
+using ApiTng.provider;
+using Autofac;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
+using Owin;
+
+namespace ApiTng
+{
+    public partial class Startup
+    {
+        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+        public static string PublicClientId { get; private set; }
+        static Startup()
+        {
+            PublicClientId = "self";
+            OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/token"),
+                Provider = new OAuthAppProvider(PublicClientId),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
+                AllowInsecureHttp = true
+            };
+        }
+
+        public void ConfigureAuth(IAppBuilder app)
+        {
+            app.Use((context, next) =>
+            {
+                context.Response.Headers.Remove("Server");
+                context.Response.Headers.Remove("Authorization");
+                return next.Invoke();
+            });
+            app.UseOAuthBearerTokens(OAuthOptions);
+            
+        }
+    }
+}

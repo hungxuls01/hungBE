@@ -1,0 +1,2 @@
+2020-07-03 10:26:42.8275|ERROR|ApiTng.Controllers.ProductController|Procedure or function 'sp_ProductsInsert' expects parameter '@userid', which was not supplied.
+2020-07-03 10:27:32.1054|ERROR|ApiTng.Controllers.ProductController|Procedure or function 'sp_ProductsInsert' expects parameter '@userid', which was not supplied.

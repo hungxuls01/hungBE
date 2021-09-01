@@ -1,0 +1,50 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Orders
+{
+    public interface ISale_OrdersDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Sale_OrdersList>> SelectPaging(Sale_OrdersSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Sale_OrdersLock obj);
+
+        int Delete(Sale_OrdersDeleted arrayId);
+
+        Sale_OrdersId GetById(Sale_OrdersGetbyId objGetbyId);
+
+        string Insert(Sale_OrdersAdd objAdd);
+        bool ChangeStatus(Sale_OrdersChangeStatus objAdd);
+
+        bool Changetransfers(Sale_OrdersChangetransfers objAdd);
+
+        Sale_OrdersAdd GetByCode(string code);
+
+        bool UpdateStatus_api(int id,string status);
+
+
+        #endregion
+        #region FONTEND
+        List<GetSaleOrdersList> FeGetOrdersList(int id);
+        List<GetSaleOrdersList> FeGetOrdersListProduct(int id);
+        List<GetSaleOrdersForUser> FeGetOrdersForUser(string id);
+        List<GetSaleOrdersDetail> FeGetOrdersDetail(int id);
+        SaleOrderGetDetailPrint GetDetailPrint(int id);
+
+        GetByIdLozi GetByIdLozi(int id);
+
+        List<GetByIdLoziLine> GetByIdLoziLine(int id);
+
+        int InsertFontend(Sale_OrdersAddFontend objAdd);
+
+        List<SaleOrderLineSelectByOrderidPrint> SelectByOrderidPrint(int id);
+        List<SaleOrderSelectByidPrint> SelectByidPrint(int id);
+        #endregion
+    }
+}

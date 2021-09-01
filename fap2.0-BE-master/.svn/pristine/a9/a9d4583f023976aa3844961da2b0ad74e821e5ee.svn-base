@@ -1,0 +1,255 @@
+﻿using _1.DataAccessLayer.Evaluation;
+using _1.DataAccessLayer.Product_Units;
+using _1.DataAccessLayer.ProductConsignment;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class EvaluationController : ApiController
+    {
+        private static IProductConsignmentDal _ProductConsignmentDal;
+        private static IProduct_UnitsDal _Product_UnitsDal;
+        private Api api;
+        private static IEvaluationDal _EvaluationDal;
+        private static Logger _logger;
+
+        public EvaluationController()
+        {
+            _Product_UnitsDal = new Product_UnitsDal();
+            _ProductConsignmentDal = new ProductConsignmentDal();
+            api = new Api();
+            _EvaluationDal = new EvaluationDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(EvaluationGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _EvaluationDal.GetById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Insert(EvaluationAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (objAdd == null)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Có lỗi sảy ra !";
+                    return response;
+                }
+                var data = _EvaluationDal.Insert(objAdd);
+                if (data != null && data != "")
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult UpdatePoint(EvaluationUpdatePoint objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _EvaluationDal.UpdatePoint(objAdd);
+                if (data != "" && data != null)
+                {
+                    //get id product
+                    var getidnew = new ProductConsignmentGetId();
+                    getidnew.id = objAdd.productid;
+                    var productnew = _ProductConsignmentDal.GetByproductid(getidnew);
+                    productnew.isConsignment = true;
+
+                    var productkho = new ProductsAddKho();
+                    productkho.id = (Guid)productnew.id;
+                    productkho.code = productnew.code;
+                    productkho.sdk = productnew.sdk;
+                    productkho.name = productnew.name;
+                    productkho.price = productnew.price;
+                    productkho.unit = productnew.unit;
+                    productkho.otherunits = productnew.otherunits;
+                    productkho.quycachsanpham = productnew.quycachsanpham;
+                    productkho.imanges = productnew.imanges;
+                    productkho.cannang = productnew.cannang;
+                    productkho.ktcao = productnew.ktcao;
+                    productkho.ktdai = productnew.ktdai;
+                    productkho.ktrong = productnew.ktrong;
+                    productkho.status = productnew.status;
+                    productkho.productcatalogid = productnew.productcatalogid;
+                    productkho.sickcatalogid = productnew.sickcatalogid;
+                    productkho.sick = productnew.sick;
+                    productkho.note = "";
+                    productkho.companyid = productnew.companyid;
+                    productkho.khohang = productnew.khohang;
+
+
+
+                    //them Product_Units
+                     var productunitgetid = new Product_UnitsGetbyId();
+                    productunitgetid.id = (Guid)productnew.unit;
+                    var dataproductunit = _Product_UnitsDal.GetById(productunitgetid);
+                    var productunit = api.InsertProduct_Unit(dataproductunit);
+
+                    //Thêm sản phẩm
+                    var getid = new ProductGetbyId();
+                    getidnew.id = objAdd.productid;
+                    var getidFE = api.GetidProduct(getid);
+                    if (getidFE.Result.Status == ConstUtil.Success)
+                    {
+                        productnew.isConsignment = true;
+                        var data2 = api.UpdateProductTD(productnew);
+                        if (data2.Result.Status == ConstUtil.Error)
+                        {
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Có lỗi sảy ra !";
+                            return response;
+                        }
+                    }
+                    else
+                    {
+                        productnew.isConsignment = true;
+                        var data1 = api.InsertProductTD(productnew);
+                        if (data1.Result.Status == ConstUtil.Success)
+                        {
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Có lỗi sảy ra !";
+                            return response;
+                        }
+
+                    }
+                    var datakho = api.InsertProductKho(productkho);
+                    if (datakho.Result.Status == ConstUtil.Error)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                      
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult GetByIdProduct(EvaluationGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _EvaluationDal.GetByIdProduct(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult GetEvaluationProduct(EvaluationGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _EvaluationDal.Evaluation_ProductSelectById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,8 @@
+2020-02-17 09:32:52.3838|ERROR|ApiTng.Controllers.Sale_OrdersController|SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2020-02-17 09:44:07.9248|ERROR|ApiTng.Controllers.Sale_OrdersController|SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2020-02-17 09:50:15.8194|ERROR|ApiTng.Controllers.Sale_OrdersController|Conversion failed when converting from a character string to uniqueidentifier.
+2020-02-17 09:50:48.5661|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'sl'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-02-17 09:52:19.3835|ERROR|ApiTng.Controllers.Sale_OrdersController|SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2020-02-17 17:13:47.1226|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@dateexpired', which was not supplied.

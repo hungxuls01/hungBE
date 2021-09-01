@@ -1,0 +1,204 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Web;
+
+namespace ApiTng.ApiPay
+{
+    public class MsbService
+    {
+        #region Variables and properties
+        public string AppId { get; set; }
+        public string MerchantCode { get; set; }
+        public string MasterMerCode { get; set; }
+        public string Url { get; set; }
+        #endregion
+        public MsbService()
+        {
+            //Get from data if need
+            AppId = "MaritimeBank";
+            MerchantCode = "0326607344";
+            MasterMerCode = "970426";
+            Url = @"http://10.0.65.50:8080/QRCreateAPIRestV2/rest/";
+        }
+        public MsbService(string appid, string merchantcode, string mastermercode, string url)
+        {
+            AppId = appid;
+            MerchantCode = merchantcode;
+            MasterMerCode = mastermercode;
+            Url = url;
+        }
+        #region Methods
+
+        /// <summary>
+        /// Method allow getting data using httprequest
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="path"></param>
+        /// <param name="method"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private string GetDataUsingHttpRequest(string url, string path, string method, string data)
+        {
+            try
+            {
+                //Check data is not null
+                if (!string.IsNullOrEmpty(data))
+                    url += path;
+                string postData = data;
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                // getting data using httprequest
+                var requester = (HttpWebRequest)WebRequest.Create(url);
+                requester.Method = method;
+                requester.ContentType = "application/json";
+                requester.Proxy = null;
+                ServicePointManager.Expect100Continue = false;
+                requester.ServicePoint.ConnectionLimit = 10;
+                requester.ServicePoint.MaxIdleTime = 2000;
+                Stream dataStream = requester.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+
+                var httpResponse = (HttpWebResponse)requester.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream() ?? throw new InvalidOperationException()))
+                {
+                    var responseText = streamReader.ReadToEnd();
+                    return responseText;
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"zxc {ex.Message}";
+            }
+        }
+
+        /// <summary>
+        /// Create QRCode
+        /// </summary>
+        /// <param name="createQrcode"></param>
+        /// <returns></returns>
+        public ResponseCreateQrcode CreateQrcodeData(CreateQrcode createQrcode)
+        {
+            // Create result 
+            var result = new ResponseCreateQrcode()
+            {
+                message = "Call api failed"
+            };
+
+            try
+            {
+                createQrcode.appId = AppId;
+                createQrcode.merchantCode = MerchantCode;
+                createQrcode.masterMerCode = MasterMerCode;
+                // Convert data to Json
+                var data = JsonConvert.SerializeObject(createQrcode);
+
+                // getting total Fee 
+                var responseResult = GetDataUsingHttpRequest(Url, "CreateQrcodeApi/createQrcode", "POST", data);
+                result = JsonConvert.DeserializeObject<ResponseCreateQrcode>(responseResult);
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Payment Checking
+        /// </summary>
+        /// <param name="Payment Checking"></param>
+        /// <returns></returns>
+        public ResponseChecking Checking(CheckingObj obj)
+        {
+            // Create result 
+            var result = new ResponseChecking()
+            {
+                message = "Call api failed"
+            };
+
+            try
+            {
+                obj.merchantId = MerchantCode;
+                obj.terminalId = "0001";
+                obj.payType = "03";
+                // Convert data to Json
+                var data = JsonConvert.SerializeObject(obj);
+
+                // getting total Fee 
+                var responseResult = GetDataUsingHttpRequest(Url, "Investigation/checkPayment", "POST", data);
+                result = JsonConvert.DeserializeObject<ResponseChecking>(responseResult);
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.Message;
+            }
+            return result;
+        }
+        #endregion
+
+        #region Classes
+        public class CreateQrcode
+        {
+            public string appId { get; set; }
+            public string merchantName { get; set; }
+            public string serviceCode { get; set; }
+            public string countryCode { get; set; }
+            public string masterMerCode { get; set; }
+            public string merchantType { get; set; }
+            public string merchantCode { get; set; }
+            public string terminalId { get; set; }
+            public string payType { get; set; }
+            public string productId { get; set; }
+            public string txnId { get; set; }
+            public string amount { get; set; }
+            public string tipAndFee { get; set; }
+            public string ccy { get; set; }
+            public string expDate { get; set; }
+            public string desc { get; set; }
+            public string checksum { get; set; }
+            public string merchantCity { get; set; }
+            public string merchantCC { get; set; }
+            public string fixedFee { get; set; }
+            public string percentageFee { get; set; }
+            public string pinCode { get; set; }
+            public string mobile { get; set; }
+            public string billNumber { get; set; }
+            public string creator { get; set; }
+            public string consumerID { get; set; }
+            public string purpose { get; set; }
+        }
+
+        public class ResponseCreateQrcode
+        {
+            public string code { get; set; }
+            public string message { get; set; }
+            public string data { get; set; }
+            public string url { get; set; }
+            public string checksum { get; set; }
+            public string isDelete { get; set; }
+            public string idQrcode { get; set; }
+        }
+        public class CheckingObj
+        {
+            public string merchantId { get; set; }
+            public string terminalId { get; set; }
+            public string payType { get; set; }
+            public string billNumber { get; set; }
+        }
+        public class ResponseChecking
+        {
+            public string merchantId { get; set; }
+            public string terminalId { get; set; }
+            public string payType { get; set; }
+            public string billNumber { get; set; }
+            public bool isSettle { get; set; }
+            public string message { get; set; }
+        }
+        #endregion
+    }
+}

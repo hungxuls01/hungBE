@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Evaluation
+{
+    public class EvaluationDal : DbInteractionBase, IEvaluationDal
+    {
+        public EvaluationGetId GetById(EvaluationGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<EvaluationGetId>("sp_EvaluationSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public EvaluationGetId GetByIdProduct(EvaluationGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<EvaluationGetId>("sp_EvaluationSelectByIdProduct", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public EvaluationProduct Evaluation_ProductSelectById(EvaluationGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<EvaluationProduct>("sp_Evaluation_ProductSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+
+        public string Insert(EvaluationAdd objAdd)
+        {
+            return ExecuteNonQueryOutputGuid("sp_EvaluationInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "nsxid", ValueParam = objAdd.nsxid},
+                new QueryParam {NameParam = "namensx", ValueParam = objAdd.namensx},
+                new QueryParam {NameParam = "addressnsx", ValueParam = objAdd.addressnsx},
+                new QueryParam {NameParam = "sdk", ValueParam = objAdd.sdk},
+                new QueryParam {NameParam = "giayphepdangki", ValueParam = objAdd.giayphepdangki},
+                new QueryParam {NameParam = "giaychungnhanGMP", ValueParam = objAdd.giaychungnhanGMP},
+                new QueryParam {NameParam = "giaychungnhandk", ValueParam = objAdd.giaychungnhandk},
+                new QueryParam {NameParam = "mucdoGMP", ValueParam = objAdd.mucdoGMP},
+                new QueryParam {NameParam = "giaychungnhandatGMP", ValueParam = objAdd.giaychungnhandatGMP},
+                new QueryParam {NameParam = "hethongkhepkin", ValueParam = objAdd.hethongkhepkin},
+                new QueryParam {NameParam = "hethongkhongkhi", ValueParam = objAdd.hethongkhongkhi},
+                new QueryParam {NameParam = "hinhanhnhamay", ValueParam = objAdd.hinhanhnhamay},
+                new QueryParam {NameParam = "baocaotongthe", ValueParam = objAdd.baocaotongthe},
+                new QueryParam {NameParam = "hethongchatluong", ValueParam = objAdd.hethongchatluong},
+                new QueryParam {NameParam = "danhmucGLP", ValueParam = objAdd.danhmucGLP},
+                new QueryParam {NameParam = "tongspsanxuat", ValueParam = objAdd.tongspsanxuat},
+                new QueryParam {NameParam = "danhmucthuoc", ValueParam = objAdd.danhmucthuoc},
+                new QueryParam {NameParam = "sospdatngoisao", ValueParam = objAdd.sospdatngoisao},
+                new QueryParam {NameParam = "giaychungnhan", ValueParam = objAdd.giaychungnhan},
+                new QueryParam {NameParam = "companyid", ValueParam = objAdd.companyid},
+                new QueryParam {NameParam = "namecompany", ValueParam = objAdd.namecompany},
+                new QueryParam {NameParam = "addresscompany", ValueParam = objAdd.addresscompany},
+                new QueryParam {NameParam = "giaycnkinhdoanhduoc", ValueParam = objAdd.giaycnkinhdoanhduoc},
+                new QueryParam {NameParam = "hethongpp", ValueParam = objAdd.hethongpp},
+                new QueryParam {NameParam = "danhsachpp", ValueParam = objAdd.danhsachpp},
+                new QueryParam {NameParam = "doanhthuthuoc", ValueParam = objAdd.doanhthuthuoc},
+                new QueryParam {NameParam = "baocaothue", ValueParam = objAdd.baocaothue},
+                new QueryParam {NameParam = "lichsupt", ValueParam = objAdd.lichsupt},
+                new QueryParam {NameParam = "danhgianguoidung", ValueParam = objAdd.danhgianguoidung},
+                new QueryParam {NameParam = "cungcapVNnam", ValueParam = objAdd.cungcapVNnam},
+                new QueryParam {NameParam = "giayCNthanhlapVN", ValueParam = objAdd.giayCNthanhlapVN},
+                new QueryParam {NameParam = "doanhsoVN", ValueParam = objAdd.doanhsoVN},
+                new QueryParam {NameParam = "uytincosoVN", ValueParam = objAdd.uytincosoVN},
+                new QueryParam {NameParam = "sp_sdk", ValueParam = objAdd.sp_sdk},
+                new QueryParam {NameParam = "sp_filedk", ValueParam = objAdd.sp_filedk},
+                new QueryParam {NameParam = "sp_nguongoc", ValueParam = objAdd.sp_nguongoc},
+                new QueryParam {NameParam = "sp_hinhanhbiasach", ValueParam = objAdd.sp_hinhanhbiasach},
+                new QueryParam {NameParam = "sp_namxb", ValueParam = objAdd.sp_namxb},
+                new QueryParam {NameParam = "sp_mucluc", ValueParam = objAdd.sp_mucluc},
+                new QueryParam {NameParam = "sp_tendean", ValueParam = objAdd.sp_tendean},
+                new QueryParam {NameParam = "sp_filedean", ValueParam = objAdd.sp_filedean},
+                new QueryParam {NameParam = "sp_thanhphan", ValueParam = objAdd.sp_thanhphan},
+                new QueryParam {NameParam = "sp_mucdohieuqua", ValueParam = objAdd.sp_mucdohieuqua},
+                new QueryParam {NameParam = "sp_huongdansudung", ValueParam = objAdd.sp_huongdansudung},
+                new QueryParam {NameParam = "sp_sospcanhtranh", ValueParam = objAdd.sp_sospcanhtranh},
+                new QueryParam {NameParam = "sp_doanhsoban", ValueParam = objAdd.sp_doanhsoban},
+                new QueryParam {NameParam = "sp_namthanhlap", ValueParam = objAdd.sp_namthanhlap},
+                new QueryParam {NameParam = "sp_baocaosudung", ValueParam = objAdd.sp_baocaosudung},
+                new QueryParam {NameParam = "sp_sobenhnhan", ValueParam = objAdd.sp_sobenhnhan},
+                new QueryParam {NameParam = "sp_tylekhoi", ValueParam = objAdd.sp_tylekhoi},
+                new QueryParam {NameParam = "sp_filebenhnhan", ValueParam = objAdd.sp_filebenhnhan},
+                new QueryParam {NameParam = "sp_trinhdo", ValueParam = objAdd.sp_trinhdo},
+                new QueryParam {NameParam = "sp_bangcap", ValueParam = objAdd.sp_bangcap},
+                new QueryParam {NameParam = "sp_nguoinuoitrong", ValueParam = objAdd.sp_nguoinuoitrong},
+                new QueryParam {NameParam = "sp_giaycndoanhnghiep", ValueParam = objAdd.sp_giaycndoanhnghiep},
+                new QueryParam {NameParam = "sp_quytrinhnuoitrong", ValueParam = objAdd.sp_quytrinhnuoitrong},
+                new QueryParam {NameParam = "sp_giaychungnhan", ValueParam = objAdd.sp_giaychungnhan},
+                new QueryParam {NameParam = "sp_dientichtrong", ValueParam = objAdd.sp_dientichtrong},
+                new QueryParam {NameParam = "sp_dientichquyhoach", ValueParam = objAdd.sp_dientichquyhoach},
+                new QueryParam {NameParam = "sp_duoclieutrongdung", ValueParam = objAdd.sp_duoclieutrongdung},
+                new QueryParam {NameParam = "sp_hamluonghoatchat", ValueParam = objAdd.sp_hamluonghoatchat},
+                new QueryParam {NameParam = "sp_giaykiemnghiem", ValueParam = objAdd.sp_giaykiemnghiem},
+                new QueryParam {NameParam = "sp_QR", ValueParam = objAdd.sp_QR},
+                new QueryParam {NameParam = "sp_cosonhapkhau", ValueParam = objAdd.sp_cosonhapkhau},
+                new QueryParam {NameParam = "productid", ValueParam = objAdd.productid},
+                new QueryParam {NameParam = "npp_giaychungnhandk", ValueParam = objAdd.npp_giaychungnhandk},
+                new QueryParam {NameParam = "lichsupt_detail", ValueParam = objAdd.lichsupt_detail},
+                new QueryParam {NameParam = "tencoso", ValueParam = objAdd.tencoso},
+                new QueryParam {NameParam = "diachicoso", ValueParam = objAdd.diachicoso},
+                new QueryParam {NameParam = "nguonduoclieu", ValueParam = objAdd.nguonduoclieu},
+                new QueryParam {NameParam = "thanhphantinhdau", ValueParam = objAdd.thanhphantinhdau},
+                new QueryParam {NameParam = "quytrinhchietxuat", ValueParam = objAdd.quytrinhchietxuat},
+                new QueryParam {NameParam = "tutrong", ValueParam = objAdd.tutrong},
+                new QueryParam {NameParam = "thumua", ValueParam = objAdd.thumua},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public string UpdatePoint(EvaluationUpdatePoint obj)
+        {
+            return ExecuteNonQueryOutputGuid("sp_EvaluationUpdatePoint", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id},
+                new QueryParam {NameParam = "notenpp", ValueParam = obj.notenpp},
+                new QueryParam {NameParam = "notensx", ValueParam = obj.notensx},
+                new QueryParam {NameParam = "sp_note", ValueParam = obj.sp_note},
+                new QueryParam {NameParam = "pointnpp", ValueParam = obj.pointnpp},
+                new QueryParam {NameParam = "pointnsx", ValueParam = obj.pointnsx},
+                new QueryParam {NameParam = "sp_point", ValueParam = obj.sp_point},
+                new QueryParam {NameParam = "status", ValueParam = obj.status},
+                new QueryParam {NameParam = "pointTotal", ValueParam = obj.pointTotal},
+                new QueryParam {NameParam = "isachieved", ValueParam = obj.isachieved},
+                new QueryParam {NameParam = "noteTotal", ValueParam = obj.noteTotal},
+                new QueryParam {NameParam = "statusProduct", ValueParam = obj.statusProduct},
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},
+                new QueryParam {NameParam = "codeproduct", ValueParam = obj.codeproduct},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+
+            });
+        }
+
+        public string EditPoint(EvaluationUpdatePoint obj)
+        {
+            return ExecuteNonQueryOutputGuid("sp_EvaluationEditPoint", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id},
+                new QueryParam {NameParam = "notenpp", ValueParam = obj.notenpp},
+                new QueryParam {NameParam = "notensx", ValueParam = obj.notensx},
+                new QueryParam {NameParam = "sp_note", ValueParam = obj.sp_note},
+                new QueryParam {NameParam = "pointnpp", ValueParam = obj.pointnpp},
+                new QueryParam {NameParam = "pointnsx", ValueParam = obj.pointnsx},
+                new QueryParam {NameParam = "sp_point", ValueParam = obj.sp_point},
+                new QueryParam {NameParam = "status", ValueParam = obj.status},
+                new QueryParam {NameParam = "pointTotal", ValueParam = obj.pointTotal},
+                new QueryParam {NameParam = "isachieved", ValueParam = obj.isachieved},
+                new QueryParam {NameParam = "noteTotal", ValueParam = obj.noteTotal},
+                new QueryParam {NameParam = "statusProduct", ValueParam = obj.statusProduct},
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},
+                new QueryParam {NameParam = "codeproduct", ValueParam = obj.codeproduct},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+
+            });
+        }
+    }
+}

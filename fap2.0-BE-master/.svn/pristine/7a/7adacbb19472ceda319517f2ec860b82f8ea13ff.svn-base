@@ -1,0 +1,13 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Order_Provisional
+{
+    public interface ISale_Order_ProvisionalDal
+    {
+        Sale_Order_ProvisionalDto GetById(Guid id);
+    }
+}

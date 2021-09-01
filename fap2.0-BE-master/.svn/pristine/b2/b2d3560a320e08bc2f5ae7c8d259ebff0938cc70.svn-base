@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css">
+        .trials-fixed {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+
+    @RenderBody()
+    <div class="trials-fixed"><h1>TLSOFT</h1></div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            
+            debugger;
+            var SECRET = 'MC0CAQACBQCyAxYpAgMBAAECBQCSQcgBAgMA3GECAwDOyQICacECAwCkuQIC';
+            var time = new Date().getTime().toString(); // => `1545880607433`
+
+            var method = 'POST';
+            var path = '/v2/quotations';
+            var body = JSON.stringify({
+                "scheduleAt": "2019-06-20T14:30:00Z",
+                "serviceType": "MOTORCYCLE",
+                "stops": [
+                    {
+                        "addresses": {
+                            "vi_VN": {
+                                "displayString": "De Tham, District 1, Ho Chi Minh City, Vietnam",
+                                "country": "VN_SGN"
+                            }
+                        }
+                    },
+                    {
+                        "addresses": {
+                            "vi_VN": {
+                                "displayString": "Trung tâm Ngoại ngữ, 137 Quốc lộ 13 cũ, Phường Linh Trung, Thủ Đức, Hồ Chí Minh, Vietnam",
+                                "country": "VN_SGN"
+                            }
+                        }
+                    }
+                ],
+                "deliveries": [
+                    {
+                        "toStop": 1,
+                        "toContact": {
+                            "name": "Nguyễn Anh Đức",
+                            "phone": "912345678"
+                        },
+                        "remarks": ""
+                    }
+                ],
+                "requesterContact": {
+                    "name": "Nguyễn Anh Đức",
+                    "phone": "912345678"
+                }
+            }); // => the whole body for '/v2/quotations'
+            time = '1560937322836';
+            const rawSignature = time + '\r\n' + method + '\r\n' + path + '\r\n\r\n' + body;
+
+
+            const SIGNATURE = CryptoJS.HmacSHA256(rawSignature, SECRET).toString();
+            const API_KEY = '51f42d62a8c741f182505fa5979706f1';
+            const TOKEN = API_KEY + ':' + time + ':' + SIGNATURE;
+            var url = 'https://sandbox-rest.lalamove.com' + path;
+            const invocation = new XMLHttpRequest();
+            if (invocation) {
+                invocation.open('POST', url, true);
+                invocation.setRequestHeader('Access-Control-Allow-Origin', '*');
+                invocation.setRequestHeader('Content-Type', 'application/json');
+                invocation.setRequestHeader('X-Request-ID', '211b9d85-a2cc-476f-8675-b61ec923cc27');
+                invocation.setRequestHeader('Authorization', 'hmac ' + TOKEN);
+                invocation.setRequestHeader('X-LLM-Country', 'VN');
+                invocation.onreadystatechange = function () {
+                    // do something to response
+                    console.log(this.responseText);
+                };
+                invocation.send(body);
+                invocation.onload = function () {
+                    // do something to response
+                    console.log(this.responseText);
+                };
+               
+            }
+            //var detail = axios(url, {
+            //    method: 'POST',
+            //    mode: 'no-cors',
+            //    headers: {
+            //        'X-Request-ID': '211b9d85-a2cc-476f-8675-b61ec923cc27',
+            //        'Authorization': 'hmac ' + TOKEN,
+            //        'X-LLM-Country': 'VN',
+            //    },
+            //    withCredentials: true,
+            //    credentials: 'same-origin',
+            //}).then(response => {
+            //})
+
+            //console.log(detail);
+            //fetch(url, {
+            //    method: 'POST',
+            //    headers: {
+            //        'X-Request-ID': '211b9d85-a2cc-476f-8675-b61ec923cc27',
+            //        'Content-type': 'application/json; charset=utf-8',
+            //        'Authorization': 'hmac ' + TOKEN,
+            //        'Accept': 'application/json',
+            //        'X-LLM-Country': 'VN',
+            //        'Access-Control-Allow-Origin': 'https://sandbox-rest.lalamove.com',
+            //        'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+            //    },
+            //    body: body,
+            //    mode: 'cors',
+            //    cache: "no-cache",
+            //    redirect: "follow"
+            //})
+            //    .then(response => {
+
+            //        if (!response.ok) {
+            //            throw response;
+            //        }
+            //        return response.json();
+            //    })
+            //    .then(data => {
+            //        console.log(data);
+            //    })
+            //    .catch(response => {
+
+            //    });
+
+        });
+    </script>
+    <script src="~/Public/ckfinder/ckfinder.js"></script>
+</body>
+</html>

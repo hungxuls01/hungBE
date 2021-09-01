@@ -1,0 +1,53 @@
+﻿<div class="container">
+    <p>Kính chào quý khách: <b>[FullName_Customer]</b>!</p>
+    <p>Nhà cung cấp có một đơn hàng mới mã số: <b>[OrderCode]</b></p>
+    <p>Thông tin đơn hàng</p>
+    <table class="table table-striped" style="border: 2px solid #109045 !important; border-collapse: initial !important;width: 100%">
+        <tbody>
+            <tr><td colspan="12" class="text-center bold" style="background: #109045; color: white; padding: 3px">DANH SÁCH SẢN PHẨM</td></tr>
+            <tr>
+                <td class="text-center"><b>Mã</b></td>
+                <td class="text-center"><b>Tên sản phẩm</b></td>
+                <td class="text-center"><b>Đơn vị tính</b></td>
+                <td class="text-center"><b>Trọng lượng</b></td>
+                <td class="text-center"><b>Số lượng</b></td>
+                <td class="text-center"><b>Đơn giá</b></td>
+                <td class="text-center"><b>Thành tiền</b></td>
+            </tr>
+            [Order_Line]
+           
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <br />
+    <p>Trân trọng cảm ơn.</p>
+</div>
+
+<style>
+
+    #checkOrder {
+        background: #109045;
+        color: white;
+        padding: 3px 5px;
+        text-decoration: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .my-col-sm-offset-1 {
+        margin-left: 20px;
+    }
+
+    .my-col-sm-4 {
+        width: 33.33333333%;
+    }
+
+    .my-col-sm-3 {
+        width: 25%;
+    }
+
+    .my-row {
+        display: -webkit-box;
+    }
+</style>

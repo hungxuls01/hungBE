@@ -1,0 +1,11 @@
+2020-02-07 13:51:11.6714|ERROR|ApiTng.Controllers.MemberStoreController|Procedure or function 'sp_Member_storeInsertOrUpdate' expects parameter '@id', which was not supplied.
+2020-02-07 13:52:09.6252|ERROR|ApiTng.Controllers.MemberStoreController|Procedure or function 'sp_Member_storeInsertOrUpdate' expects parameter '@id', which was not supplied.
+2020-02-07 13:52:21.0664|ERROR|ApiTng.Controllers.MemberStoreController|Procedure or function 'sp_Member_storeInsertOrUpdate' expects parameter '@id', which was not supplied.
+2020-02-07 13:52:58.0594|ERROR|ApiTng.Controllers.MemberStoreController|Procedure or function 'sp_Member_storeInsertOrUpdate' expects parameter '@id', which was not supplied.
+2020-02-07 14:58:59.6059|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@position', which was not supplied.
+2020-02-07 14:59:51.0864|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@positionid', which was not supplied.
+2020-02-07 15:01:56.8386|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@positionid', which was not supplied.
+2020-02-07 15:02:03.8035|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@startday', which was not supplied.
+2020-02-07 15:05:35.4908|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@id', which was not supplied.
+2020-02-07 15:06:30.2136|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@id', which was not supplied.
+2020-02-07 15:08:25.0892|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesInsertOrUpdate' expects parameter '@id', which was not supplied.

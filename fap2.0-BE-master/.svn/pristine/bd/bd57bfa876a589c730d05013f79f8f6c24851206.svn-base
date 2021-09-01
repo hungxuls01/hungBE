@@ -1,0 +1,147 @@
+﻿using _1.DataAccessLayer.Member;
+using _1.DataAccessLayer.Member_Token;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using static ApiTng.apiconnect.Api;
+
+namespace ApiTng.Controllers
+{
+    public class Member_TokenController : ApiController
+    {
+        private static IMember_TokenDal _Member_TokenDal;
+        private static Logger _logger;
+        private static IMemberDal _MemberDal;
+        private Api apiconnect;
+        public Member_TokenController()
+        {
+
+            _Member_TokenDal = new Member_TokenDal();
+            _MemberDal = new MemberDal();
+            apiconnect = new Api();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+
+        [HttpPost]
+        public ResponeResult Insert(Member_TokenAdd obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var EmployeeGetId = new MemberSelectBytokenActive();
+                EmployeeGetId.id = obj.email;
+                var checkmail = _MemberDal.GetByEmail(EmployeeGetId);
+                if (checkmail == null)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "SĐT không tồn tại !";
+                    return response;
+                }
+                //obj.token = ConvertUtil.RandomNumber(100000, 999999).ToString();
+                //test
+                obj.token = "123456";
+                apiconnect.SMSOTP(obj.email, obj.token);
+                var data = _Member_TokenDal.Insert(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult InsertMember(Member_TokenAdd obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                //Check token
+                System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
+                string tokencheck = string.Empty;
+                if (headers.Contains("token"))
+                {
+                    tokencheck = headers.GetValues("token").First();
+                }
+                var data1 = JsonConvert.SerializeObject(obj);
+                 string[] lines = tokencheck.Split(':');
+                var tokenserver = HmacshaUtil.CreateToken("POST", "api/Member_Token/InsertMember", data1, lines[1].ToString());
+               
+                if (tokencheck != tokenserver)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Sai token";
+                    return response;
+                }
+                //Check trùng sđt
+                var ckeckemail = _MemberDal.CheckEmailAndMobile(obj.email);
+                if (ckeckemail != null)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "SĐT đã tồn tại !";
+                    return response;
+                }
+                //check thời gian
+                //var count = _Member_TokenDal.GetEmailCount(obj.email);
+                //if (count.counts > 0)
+                //{
+                //    var token = new Member_TokenEmail();
+                //    token.email = obj.email;
+                //    var checktoken = _Member_TokenDal.GetEmail(token);
+
+                //    if (DateTime.Compare(checktoken.dateadded.AddMinutes(2), DateTime.Now) < 0)
+                //    {
+                //        response.Status = ConstUtil.Error;
+                //        response.Message = "Số điện thoại này đã vừa lấy mã xác thực. Vui lòng thử lại sau 2 phút!";
+                //        return response;
+                //    }
+                //}
+
+                //test
+                obj.token = "123456";
+                //obj.token = ConvertUtil.RandomNumber(100000, 999999).ToString();
+                apiconnect.SMSOTP(obj.email, obj.token);
+                var data = _Member_TokenDal.Insert(obj);
+                if (data)
+                {
+                    
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

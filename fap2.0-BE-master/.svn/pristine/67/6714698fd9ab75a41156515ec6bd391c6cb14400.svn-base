@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Search_keyword
+{
+    public class Search_keywordDal : DbInteractionBase, ISearch_keywordDal
+    {
+        #region BACKEND
+        public Tuple<int, List<Search_keywordList>, int> SelectPaging(Search_keywordSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<Search_keywordList>("sp_Search_keywordSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(Search_keywordLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Search_keywordIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(Search_keywordDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Search_keywordDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<Search_keywordAdd, int> GetById(Search_keywordGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<Search_keywordAdd>("sp_Search_keywordSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(Search_keywordAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_Search_keywordInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                new QueryParam {NameParam = "imgpath", ValueParam = objAdd.imgpath},
+                new QueryParam {NameParam = "catid", ValueParam = objAdd.catid},
+                new QueryParam {NameParam = "ishome", ValueParam = objAdd.ishome},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = objAdd.CargoTypeId},
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public List<Search_keywordListXH> FeGetXH(int id)
+        {
+            return ExecuteReader<Search_keywordListXH>("fe_Search_keyword_Get", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+
+        #endregion
+
+    }
+}

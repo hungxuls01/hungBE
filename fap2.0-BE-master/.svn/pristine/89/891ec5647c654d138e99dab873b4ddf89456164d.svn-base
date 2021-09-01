@@ -1,0 +1,36 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product
+{
+    public interface IProductDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<ProductList>> SelectPaging(ProductSearchDto companySearch, int pageIndex, int pageSize);
+        Tuple<int, List<ProductListAll>> SelectPagingAll(ProductAllSearchDto companySearch, int pageIndex, int pageSize);
+
+        Tuple<int, List<ProductListSale_Order>> SelectPagingSale_Order(ProductSale_OrderSearchDto companySearch, int pageIndex, int pageSize);
+        bool IsLock(ProductLock obj);
+
+        bool IsStatus(ProductStatus obj);
+
+        bool Delete(ProductDeleted obj);
+
+        ProductGetid GetById(ProductGetbyId objGetbyId);
+
+        ProductGetCompany GetCompany(ProductGetbyId objGetbyId);
+
+        List<ProductListAll> GetByList(ProductGetbyList obj);
+
+        string Insert(ProductAdd objAdd);
+
+
+        #endregion
+
+    }
+}

@@ -1,0 +1,177 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Product_Catalog
+{
+    public class Product_CatalogDal : DbInteractionBase, IProduct_CatalogDal
+    {
+        #region BACKEND
+        public Tuple<int, List<Product_CatalogList>> SelectPaging(Product_CatalogSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Product_CatalogList>("sp_Product_CatalogSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<Product_CatalogDataPaging>> SelectDataPaging(Product_CatalogSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Product_CatalogDataPaging>("sp_ProductCatalogDataPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public bool IsLock(Product_CatalogLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_Product_CatalogIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+
+        public bool Delete(Product_CatalogDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_Product_CatalogDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+
+        public Product_CatalogAdd GetById(Product_CatalogGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<Product_CatalogAdd>("sp_Product_CatalogSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public string Insert(Product_CatalogAdd objAdd)
+        {
+            return ExecuteNonQueryOutputGuid("sp_Product_CatalogInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "imgpath", ValueParam = objAdd.imgpath},
+                new QueryParam {NameParam = "orderstt", ValueParam = objAdd.orderstt},
+                new QueryParam {NameParam = "ParentId", ValueParam = objAdd.ParentId},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public bool UpdateIslock(Product_CatalogUpdateIslock obj)
+        {
+            return ExecuteNonQuery("sp_Product_CatalogUpdateIslock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id},
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock}
+            });
+        }
+
+        #endregion
+        #region FONTEND
+        public List<Product_CatalogList> SelectAll()
+        {
+            return ExecuteReader<Product_CatalogList>("sp_Product_CatalogSelectAll");
+        }
+
+        public List<Product_CatalogListFeGetAll> FeGetAll(int id)
+        {
+            return ExecuteReader<Product_CatalogListFeGetAll>("fe_Product_Catalog_GetAll", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+
+        public List<Product_CatalogFeGetbyRewite> FeGetbyRewite(string id)
+        {
+            return ExecuteReader<Product_CatalogFeGetbyRewite>("fe_Product_Catalog_GetbyRewite", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "rewite", ValueParam = id}
+            });
+        }
+
+        public List<Product_CatalogFeGetbyRewite> FeGetbyid(int id)
+        {
+            return ExecuteReader<Product_CatalogFeGetbyRewite>("fe_Product_Catalog_GetbyIdChil", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+
+        public List<Product_CatalogFeGetbyRewite> FeGetbyParentId(int id)
+        {
+            return ExecuteReader<Product_CatalogFeGetbyRewite>("fe_Product_Catalog_GetbyParentId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+        public List<Product_CatalogFeGetbyId> FeGetbyCatId(int id)
+        {
+            return ExecuteReader<Product_CatalogFeGetbyId>("fe_Product_Catalog_GetId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+
+
+        public List<Product_CatalogFeGetBanner> FeGetBannerMain(string id)
+        {
+            return ExecuteReader<Product_CatalogFeGetBanner>("fe_BannerProductCatalogMain", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "rewite", ValueParam = id}
+            });
+        }
+        public List<Product_CatalogFeGetBanner> FeGetBannerBelow(string id)
+        {
+            return ExecuteReader<Product_CatalogFeGetBanner>("fe_Product_Catalog_BannerBelow", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "rewite", ValueParam = id}
+            });
+        }
+        public List<Product_CatalogFeShopCat> FeGetShopCat(int id)
+        {
+            return ExecuteReader<Product_CatalogFeShopCat>("fe_Product_GetCat", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "companyid", ValueParam = id}
+            });
+        }
+        public List<Product_CatalogCombobox> SelectAllParent()
+        {
+            return ExecuteReader<Product_CatalogCombobox>("sp_Product_CatalogSelectAllParent");
+        }
+        #endregion
+    }
+}

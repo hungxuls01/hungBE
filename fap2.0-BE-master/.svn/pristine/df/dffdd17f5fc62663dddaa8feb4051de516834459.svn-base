@@ -1,0 +1,10 @@
+2020-01-04 11:54:29.5346|ERROR|ApiTng.Controllers.MemberController|Operand type clash: int is incompatible with uniqueidentifier
+The data for table-valued parameter "@ArrayId" doesn't conform to the table type of the parameter. SQL Server error is: 200, state: 7
+2020-01-04 11:54:46.3436|ERROR|ApiTng.Controllers.MemberController|Input string was not in a correct format.
+2020-01-04 11:55:24.7372|ERROR|ApiTng.Controllers.MemberController|Operand type clash: int is incompatible with uniqueidentifier
+The data for table-valued parameter "@ArrayId" doesn't conform to the table type of the parameter. SQL Server error is: 200, state: 7
+2020-01-04 11:55:54.7340|ERROR|ApiTng.Controllers.MemberController|Input string was not in a correct format.
+2020-01-04 12:18:16.9811|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-01-04 12:18:58.3162|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-01-04 12:19:23.1624|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-01-04 12:19:44.9195|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.

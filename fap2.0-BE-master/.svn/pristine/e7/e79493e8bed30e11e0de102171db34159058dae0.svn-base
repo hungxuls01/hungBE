@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _4.Utils
+{
+    public class ConstUtil
+    {
+        //Status
+        public const int Error = -1; // Lỗi
+        public const int Success = 1; //Thành công
+        public const int Incompetent = 2; // Không đủ vai trò
+
+        //Action on system
+        public const string AcChangeStatus = "ChangeStatus";
+
+        public const string AcEdit = "Edit";
+
+        public const string AcDelete = "Delete";
+
+        public const string AcLock = "Lock";
+
+        public const string AcAdd = "Add";
+
+        //Module
+        public const string MdSaleOrder = "SaleOrder";
+
+        public const string MdProduct = "Product";
+
+        public const string MdVoucher = "Voucher";
+
+        public const string MdMember = "Member";
+
+        public const string MdCompany = "Company";
+
+        public const string MdStore = "Store";
+
+        public const string MdUnits = "Units";
+
+        public const string MdProductCatalog = "Product_Catalog";
+
+        public const string MdNewsCatalog = "News_Catalog";
+
+        public const string MdNews = "News";
+
+        public const string MdProvince = "Province";
+
+        public const string MdDistrict = "District";
+
+        public const string MdReward = "Reward";
+
+        public const string MdProduct_Color = "Product_Color";
+
+        public const string MdSeo = "Seo";
+
+        public const string MdSearch_keyword = "Search_keyword";
+
+        public const string MdProduct_MadeIn = "Product_MadeIn";
+
+        public const string MdProduct_Manufacturer = "Product_Manufacturer";
+
+        public const string MdProduct_material = "Product_material";
+
+        public const string MdProduct_Warranty = "Product_Warranty";
+
+        public const string MdProduct_Size = "Product_Size";
+        public const string MdEmailRegister = "EmailRegister";
+        //Trạng thái đơn hàng
+
+        public static readonly string[] NotApproved = new string[] { "-100" };
+        public static readonly string[] Approved = new string[] { "100", "102", "103", "104", "-108" };
+        public static readonly string[] SentStore = new string[] { "-109", "-110" };
+        public static readonly string[] Canceled = new string[] { "107", "201" };
+        public static readonly string[] HasGoods = new string[] { "105" };
+        public static readonly string[] BeingTransported = new string[] { "200", "202", "300", "320", "400" };
+        public static readonly string[] OnDelivery = new string[] { "500", "506", "570", "508", "509", "550" };
+        public static readonly string[] DeliveryFailed = new string[] { "507" };
+        public static readonly string[] ApprovalReturn = new string[] { "505", "502", "515" };
+        public static readonly string[] SuccessfulDestroyed = new string[] { "503" };
+        public static readonly string[] SuccessfulReturn = new string[] { "504" };
+        public static readonly string[] WaitReturn = new string[] { "505" };
+        public static readonly string[] SuccessfulDelivery = new string[] { "501" };
+    }
+}

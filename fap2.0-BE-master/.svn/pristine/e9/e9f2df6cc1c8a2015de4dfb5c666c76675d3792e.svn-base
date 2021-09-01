@@ -1,0 +1,5 @@
+2019-10-15 14:33:46.7331|ERROR|ApiTng.Controllers.FlashSaleController|SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2019-10-15 15:15:46.7789|ERROR|ApiTng.Controllers.Search_keywordController|Procedure or function 'sp_Search_keywordInsertOrUpdate' expects parameter '@catid', which was not supplied.
+2019-10-15 15:48:57.4348|ERROR|ApiTng.Controllers.FlashSaleController|Procedure or function 'sp_FlashSaleInsertOrUpdate' expects parameter '@des', which was not supplied.
+2019-10-15 16:01:25.2404|ERROR|ApiTng.Controllers.FlashSaleController|: 20191015000000 => String was not recognized as a valid DateTime.
+2019-10-15 16:03:17.1899|ERROR|ApiTng.Controllers.FlashSaleController|: 20191015000000 => String was not recognized as a valid DateTime.

@@ -1,0 +1,2 @@
+2021-08-22 00:32:22.5818|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.
+2021-08-22 00:33:06.5125|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.

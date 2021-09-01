@@ -1,0 +1,10 @@
+2020-08-19 09:26:34.2530|ERROR|ApiTng.Controllers.ProductController|Violation of PRIMARY KEY constraint 'PK__Product___3213E83F53FF9A1D'. Cannot insert duplicate key in object 'dbo.Product_Units'. The duplicate key value is (b0bc7f52-3e6f-4127-a552-28d05eaa6132).
+The statement has been terminated.
+2020-08-19 19:26:47.8022|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:27:54.5446|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:28:54.3515|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:30:03.7036|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:31:07.3524|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:32:14.1770|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:36:33.4708|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.
+2020-08-19 19:39:22.7362|ERROR|ApiTng.Controllers.Sale_OrdersController|Error converting data type nvarchar to bit.

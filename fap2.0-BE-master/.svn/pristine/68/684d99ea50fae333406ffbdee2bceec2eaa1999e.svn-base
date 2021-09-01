@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _4.Utils;
+using System.Data;
+using _2.DataTransferObject;
+namespace _1.DataAccessLayer.Products_favorite
+{
+    public class Products_favoriteDal :DbInteractionBase,IProducts_favoriteDal
+    {
+        #region BACKEND
+        public int Insert(Products_favoriteAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_ProductsInsert", new List<QueryParam>
+            {
+        new QueryParam {NameParam = "id", ValueParam = objAdd.userid},
+        new QueryParam {NameParam = "code", ValueParam = objAdd.productid},
+        new QueryParam {NameParam = "title", ValueParam = objAdd.dateadded},
+        //
+                    new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                    new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                    new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                    new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        #endregion
+        #region FONTEND 
+        public List<Products_favoriteList> FeGetListProductFavorite(int id)
+        {
+            return ExecuteReader<Products_favoriteList>("fe_Product_favorite_list", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "userid", ValueParam = id}
+            });
+        }
+        public bool FeInsertProductFavorite(FeProducts_FavoriteAdd objAdd)
+        {
+            return ExecuteNonQuery("fe_Product_Favorite_Add", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid},
+                new QueryParam {NameParam = "productid", ValueParam = objAdd.productid},
+            });
+        }
+        public bool FeDeleteProductFavorite(FeProducts_FavoriteDelete objDelete)
+        {
+            return ExecuteNonQuery("fe_ProductFavoriteDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "userid", ValueParam = objDelete.userid},
+                new QueryParam {NameParam = "productid", ValueParam = objDelete.productid},
+            });
+        }
+        #endregion
+    }
+}

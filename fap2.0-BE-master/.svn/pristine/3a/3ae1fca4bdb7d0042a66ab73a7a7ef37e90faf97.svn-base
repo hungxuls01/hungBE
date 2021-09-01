@@ -1,0 +1,2 @@
+2020-07-09 16:50:33.0608|ERROR|ApiTng.Controllers.ProductConsignmentController|Operand type clash: int is incompatible with uniqueidentifier
+The data for table-valued parameter "@detail" doesn't conform to the table type of the parameter. SQL Server error is: 200, state: 7

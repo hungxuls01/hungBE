@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Position
+{
+    public class PositionDal : DbInteractionBase, IPositionDal
+    {
+        public List<PositionCombobox> GetBydepartmentid(Guid id)
+        {
+            return ExecuteReader<PositionCombobox>("sp_PositionSelectCombobox", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+    }
+}

@@ -1,0 +1,16 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Order_Logs
+{
+    public interface ISale_Order_LogsDal
+    {
+
+        bool Insert(Sale_Order_LogsAdd objAdd);
+
+    }
+}

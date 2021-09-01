@@ -1,0 +1,21 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Quotation
+{
+    public interface IQuotationDal
+    {
+        Tuple<int, List<QuotationList>> SelectPaging(QuotationSearchDto companySearch, int pageIndex, int pageSize);
+
+
+        bool Delete(QuotationGetbyId arrayId);
+
+        QuotationId GetById(QuotationGetbyId objGetbyId);
+
+        string Insert(QuotationAdd objAdd);
+        bool InsertHistory(QuotationHistoryInsert objAdd);
+    }
+}

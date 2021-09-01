@@ -1,0 +1,17 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Sale_OrderHistoryDto : Sale_OrderHistory
+    {
+    }
+    public class Sale_OrderHistoryAdd
+    {
+        public Nullable<System.Guid> sale_orderid { get; set; }
+        public int status { get; set; }
+    }
+}

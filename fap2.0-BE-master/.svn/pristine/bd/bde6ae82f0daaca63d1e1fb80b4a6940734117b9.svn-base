@@ -1,0 +1,115 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.District
+{
+    public class DistrictDal : DbInteractionBase, IDistrictDal
+    {
+        #region BACKEND
+        public Tuple<int, List<DistrictList>, int> SelectPaging(DistrictSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<DistrictList>("sp_DistrictSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(DistrictLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_DistrictIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(DistrictDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_DistrictDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<DistrictAdd, int> GetById(DistrictGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<DistrictAdd>("sp_DistrictSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(DistrictAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_DistrictInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                 new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "type", ValueParam = objAdd.type},
+                new QueryParam {NameParam = "provinceid", ValueParam = objAdd.provinceid},
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+
+        #region FONTEND
+        public List<DistrictCombobox> GetCombobox(int id)
+        {
+            return ExecuteReader<DistrictCombobox>("sp_DistrictSelectCombobox", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "provinceid", ValueParam = id}
+            });
+        }
+        public List<DistrictCombobox> GetAll()
+        {
+            return ExecuteReader<DistrictCombobox>("sp_DistrictSelectAll");
+        }
+        #endregion
+    }
+}

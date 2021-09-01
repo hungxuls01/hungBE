@@ -1,0 +1,28 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.District
+{
+    public interface IDistrictDal
+    {
+        #region BACKEND
+
+
+        int IsLock(DistrictLock obj);
+
+        int Delete(DistrictDeleted arrayId);
+
+
+
+        #endregion
+
+        #region FONTEND
+        List<DistrictCombobox> GetCombobox(int id);
+        List<DistrictCombobox> GetAll();
+        #endregion
+    }
+}

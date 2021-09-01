@@ -1,0 +1,29 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product_Units
+{
+    public interface IProduct_UnitsDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Product_UnitsList>, int> SelectPaging(Product_UnitsSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Product_UnitsLock obj);
+
+        int Delete(Product_UnitsDeleted arrayId);
+
+        Tuple<Product_UnitsAdd, int> GetById(Product_UnitsGetbyId objGetbyId);
+
+        int Insert(Product_UnitsAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<Product_UnitsSelectAll> SelectAll();
+        #endregion
+    }
+}

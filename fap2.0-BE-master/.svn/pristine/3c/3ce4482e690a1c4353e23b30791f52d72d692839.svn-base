@@ -1,0 +1,73 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class PermisionDto : Permision
+    {
+    }
+    public class PermisionSearchDto : SearchIncompetentBase
+    {
+    }
+    public class PermisionAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public int IsAdd { get; set; }
+        public int IsEdit { get; set; }
+        public int IsLock { get; set; }
+        public int IsDeleted { get; set; }
+        public int IsExport { get; set; }
+        public int IsView  { get; set; }
+    }
+
+    public class PermisionDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class PermisionGetbyId 
+    {
+        public int id { get; set; }
+        public int permisionId { get; set; }
+    }
+    public class PermisionLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class PermisionList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string TableName { get; set; }
+    }
+    public class PermisionMenu
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> ParentId { get; set; }
+        public string Link { get; set; }
+        public string Icon { get; set; }
+    }
+    public class PermisionCombo
+    {
+        public int id { get; set; }
+        public string text { get; set; }
+        public string parent { get; set; }
+    }
+    public class PermisionGetbyIdObj 
+    {
+        public int id { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public int IsAdd { get; set; }
+        public int IsEdit { get; set; }
+        public int IsLock { get; set; }
+        public int IsDeleted { get; set; }
+        public int IsExport { get; set; }
+        public int IsView { get; set; }
+        public Nullable<int> PermisionId { get; set; }
+    }
+
+}

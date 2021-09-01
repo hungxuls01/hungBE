@@ -1,0 +1,463 @@
+﻿using _2.DataTransferObject;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class fileuploadController : ApiController
+    {
+        private static Logger _logger;
+        public fileuploadController()
+        {
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+        [HttpPost]
+        public Task<HttpResponseMessage> Post(Guid id)
+        {
+            var savedFilePath = "";
+            // Check if the request contains multipart/form-data
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+            var url = "/Public/Images/" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
+            string rootPath = HttpContext.Current.Server.MapPath("~" + url);
+            if (!Directory.Exists(rootPath))
+                Directory.CreateDirectory(rootPath);
+            //Get the path of folder where we want to upload all files.
+            var provider = new MultipartFileStreamProvider(rootPath);
+            // Read the form data.
+            //If any error(Cancelled or any fault) occurred during file read , return internal server error
+            var task = Request.Content.ReadAsMultipartAsync(provider).
+                ContinueWith<HttpResponseMessage>(t =>
+                {
+                    if (t.IsCanceled || t.IsFaulted)
+                    {
+                        Request.CreateErrorResponse(HttpStatusCode.InternalServerError, t.Exception);
+                    }
+                    try
+                    {
+                        foreach (MultipartFileData dataitem in provider.FileData)
+                        {
+                            //Replace / from file name
+                            string name = dataitem.Headers.ContentDisposition.FileName.Replace("\"", "").ToLower();
+                            //Create New file name using GUID to prevent duplicate file name
+                            string newFileName = Guid.NewGuid() + Path.GetExtension(name);
+                            //Move file from current location to target folder.
+                            File.Move(dataitem.LocalFileName, Path.Combine(rootPath, newFileName));
+                            processFileImage(Path.Combine(rootPath, newFileName), "50x50");
+                            processFileImage(Path.Combine(rootPath, newFileName), "200x200");
+                            processFileImage(Path.Combine(rootPath, newFileName), "500x500");
+                            if (savedFilePath == "")
+                            {
+                                savedFilePath = url + "/" + newFileName;
+                            }
+                            else
+                            {
+                                savedFilePath = savedFilePath + ";" + url + "/" + newFileName;
+                            }
+                        }
+                        //var obj = new ImagesAdd();
+                        //obj.id = 0;
+                        //obj.title = savedFilePath;
+                        //obj.userid = id;
+                        //_ImagesDal.Insert(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message);
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.Created, savedFilePath);
+                });
+            return task;
+        }
+
+        [HttpPost]
+        public Task<HttpResponseMessage> PostNotUser()
+        {
+            var savedFilePath = "";
+            // Check if the request contains multipart/form-data
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+            var url = "/Public/Images/" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
+            string rootPath = HttpContext.Current.Server.MapPath("~" + url);
+            if (!Directory.Exists(rootPath))
+                Directory.CreateDirectory(rootPath);
+            //Get the path of folder where we want to upload all files.
+            var provider = new MultipartFileStreamProvider(rootPath);
+            // Read the form data.
+            //If any error(Cancelled or any fault) occurred during file read , return internal server error
+            var task = Request.Content.ReadAsMultipartAsync(provider).
+                ContinueWith<HttpResponseMessage>(t =>
+                {
+                    if (t.IsCanceled || t.IsFaulted)
+                    {
+                        Request.CreateErrorResponse(HttpStatusCode.InternalServerError, t.Exception);
+                    }
+                    try
+                    {
+                        foreach (MultipartFileData dataitem in provider.FileData)
+                        {
+                            //Replace / from file name
+                            string name = dataitem.Headers.ContentDisposition.FileName.Replace("\"", "").ToLower();
+                            //Create New file name using GUID to prevent duplicate file name
+                            string newFileName = Guid.NewGuid() + Path.GetExtension(name);
+                            //Move file from current location to target folder.
+                            File.Move(dataitem.LocalFileName, Path.Combine(rootPath, newFileName));
+                            processFileImage(Path.Combine(rootPath, newFileName), "50x50");
+                            processFileImage(Path.Combine(rootPath, newFileName), "200x200");
+                            processFileImage(Path.Combine(rootPath, newFileName), "500x500");
+                            if (savedFilePath == "")
+                            {
+                                savedFilePath = url + "/" + newFileName;
+                            }
+                            else
+                            {
+                                savedFilePath = savedFilePath + ";" + url + "/" + newFileName;
+                            }
+                        }
+                        //var obj = new ImagesAdd();
+                        //obj.id = 0;
+                        //obj.title = savedFilePath;
+                        //obj.userid = id;
+                        //_ImagesDal.Insert(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message);
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.Created, savedFilePath);
+                });
+            return task;
+        }
+
+        [HttpPost]
+        public Task<HttpResponseMessage> PostNotEditName(Guid id)
+        {
+            // Check if the request contains multipart/form-data
+            var savedFilePath = "";
+            // Check if the request contains multipart/form-data
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+            var url = "";
+            string rootPath = HttpContext.Current.Server.MapPath("~" + url);
+            if (!Directory.Exists(rootPath))
+                Directory.CreateDirectory(rootPath);
+            //Get the path of folder where we want to upload all files.
+            var provider = new MultipartFileStreamProvider(rootPath);
+            // Read the form data.
+            //If any error(Cancelled or any fault) occurred during file read , return internal server error
+            var task = Request.Content.ReadAsMultipartAsync(provider).
+                ContinueWith<HttpResponseMessage>(t =>
+                {
+                    if (t.IsCanceled || t.IsFaulted)
+                    {
+                        Request.CreateErrorResponse(HttpStatusCode.InternalServerError, t.Exception);
+                    }
+                    try
+                    {
+                        foreach (MultipartFileData dataitem in provider.FileData)
+                        {
+                            //Replace / from file name
+                            string name = dataitem.Headers.ContentDisposition.FileName.Replace("\"", "").ToLower();
+                            //Create New file name using GUID to prevent duplicate file name
+                            string[] arrListStr = name.Split('/');
+                            var urlnew = "\\Public\\Images\\" + arrListStr[2].ToString();
+                            string newFileName = arrListStr[3].ToString();
+                            string rootPathnew = rootPath + urlnew;
+                            if (!Directory.Exists(rootPathnew))
+                            {
+                                Directory.CreateDirectory(rootPathnew);
+                            }
+                            //Move file from current location to target folder.
+                            File.Move(dataitem.LocalFileName, Path.Combine(rootPathnew, newFileName));
+                            if (savedFilePath == "")
+                            {
+                                savedFilePath = url + "/" + newFileName;
+                            }
+                            else
+                            {
+                                savedFilePath = savedFilePath + ";" + url + "/" + newFileName;
+                            }
+                        }
+                        //var obj = new ImagesAdd();
+                        //obj.id = 0;
+                        //obj.title = savedFilePath;
+                        //obj.userid = id;
+                        //_ImagesDal.Insert(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.Created, "Thành công !");
+                });
+            return task;
+        }
+        /// <summary>
+        /// hàm này sẽ tạo ra 1 file ảnh nhỏ trùng tên với file gốc và 1 file ảnh lớn
+        /// ví dụ: a.png là 1000x1000: sẽ tạo ra 1 file ảnh là a.png có cỡ 100x100 và 1 file a.png.large là : 1000x1000
+        /// </summary>
+        /// <param name="sFile"></param>
+        private void processFileImage(string sFile, string sSize = "300x360")
+        {
+            if (string.IsNullOrEmpty(sSize)) sSize = "300x360";
+            ResizeImage1(sFile, int.Parse(sSize.Split('x')[0]), int.Parse(sSize.Split('x')[1]));
+        }
+        private void processFileImageCenter(string sFile, string sSize = "300x360")
+        {
+            if (string.IsNullOrEmpty(sSize)) sSize = "300x360";
+            FixedSize(sFile, int.Parse(sSize.Split('x')[0]), int.Parse(sSize.Split('x')[1]), false);
+        }
+        public void ResizeImage(string OriginalFile, int NewWidth, int NewHeight)
+        {
+            try
+            {
+                string NewFile = OriginalFile;//giữ lại tên cũ: tên file small
+                string fileName = OriginalFile + ".jpg";//tạo tên mới sẽ tên file large
+                File.Move(OriginalFile, fileName);//đổi tên
+
+
+                System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(fileName);
+                // Prevent using images internal thumbnail
+                FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+                FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+
+                //đầu tiên co theo chiều cao
+                int NewHeight1;
+                NewHeight1 = FullsizeImage.Height * NewWidth / FullsizeImage.Width;
+
+                //sau đó co theo chiều dọc
+                //int NewWidth1;
+                NewHeight1 = FullsizeImage.Height * NewWidth / FullsizeImage.Width;
+
+                System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(NewWidth, NewHeight, null, IntPtr.Zero);
+                // Clear handle to original file so that we can overwrite it if necessary
+                FullsizeImage.Dispose();
+                // Save resized picture
+                NewImage.Save(NewFile);
+            }
+            catch { }
+        }
+        static void ResizeImage1(string fileName, int Width, int Height)
+        {
+
+            try
+            {
+                System.Drawing.Image imgPhoto = System.Drawing.Image.FromFile(fileName);
+                string ext = System.IO.Path.GetExtension(fileName);
+                int sourceWidth = imgPhoto.Width;
+                int sourceHeight = imgPhoto.Height;
+                int sourceX = 0;
+                int sourceY = 0;
+                int destX = 0;
+                int destY = 0;
+
+                float nPercent = 0;
+                float nPercentW = 0;
+                float nPercentH = 0;
+
+                nPercentW = ((float)Width / (float)sourceWidth);
+                nPercentH = ((float)Height / (float)sourceHeight);
+                if (nPercentH < nPercentW)
+                {
+                    nPercent = nPercentH;
+                    destX = System.Convert.ToInt16((Width -
+                                  (sourceWidth * nPercent)) / 2);
+                }
+                else
+                {
+                    nPercent = nPercentW;
+                    destY = System.Convert.ToInt16((Height -
+                                  (sourceHeight * nPercent)) / 2);
+                }
+
+                int destWidth = (int)(sourceWidth * nPercent);
+                int destHeight = (int)(sourceHeight * nPercent);
+
+                Bitmap bmPhoto = new Bitmap(Width, Height,
+                                  PixelFormat.Format24bppRgb);
+                bmPhoto.SetResolution(imgPhoto.HorizontalResolution,
+                                 imgPhoto.VerticalResolution);
+
+                Graphics grPhoto = Graphics.FromImage(bmPhoto);
+                grPhoto.Clear(Color.White);
+                grPhoto.InterpolationMode =
+                   InterpolationMode.High;
+                grPhoto.DrawImage(imgPhoto,
+                    new Rectangle(destX, destY, destWidth, destHeight),
+                    new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+                    GraphicsUnit.Pixel);
+
+                grPhoto.Dispose();
+                bmPhoto.Save(fileName + "_" + Width.ToString() + "x" + Height.ToString() + "" + ext);
+            }
+            catch { }
+
+        }
+        public static System.Drawing.Image FixedSize(string fileName, int Width, int Height, bool needToFill)
+        {
+            System.Drawing.Image imgPhoto = System.Drawing.Image.FromFile(fileName);
+            string ext = System.IO.Path.GetExtension(fileName);
+            int sourceWidth = imgPhoto.Width;
+            int sourceHeight = imgPhoto.Height;
+            int sourceX = 0;
+            int sourceY = 0;
+            int destX = 0;
+            int destY = 0;
+
+            float nPercent = 0;
+            float nPercentW = 0;
+            float nPercentH = 0;
+
+            nPercentW = ((float)Width / (float)sourceWidth);
+            nPercentH = ((float)Height / (float)sourceHeight);
+            if (!needToFill)
+            {
+                if (nPercentH < nPercentW)
+                {
+                    nPercent = nPercentH;
+                }
+                else
+                {
+                    nPercent = nPercentW;
+                }
+            }
+            else
+            {
+                if (nPercentH > nPercentW)
+                {
+                    nPercent = nPercentH;
+                    destX = (int)Math.Round((Width -
+                    (sourceWidth * nPercent)) / 2);
+                }
+                else
+                {
+                    nPercent = nPercentW;
+                    destY = (int)Math.Round((Height -
+                    (sourceHeight * nPercent)) / 2);
+                }
+            }
+
+            //if (nPercent > 1)
+            //    nPercent = 1;
+
+            int destWidth = (int)Math.Round(sourceWidth * nPercent);
+            int destHeight = (int)Math.Round(sourceHeight * nPercent);
+
+            Bitmap bmPhoto = new Bitmap(
+            destWidth <= Width ? destWidth : Width,
+            destHeight < Height ? destHeight : Height,
+            PixelFormat.Format32bppRgb);
+
+            Graphics grPhoto = System.Drawing.Graphics.FromImage(bmPhoto);
+            grPhoto.Clear(System.Drawing.Color.White);
+            grPhoto.InterpolationMode = InterpolationMode.Default;
+            grPhoto.CompositingQuality = CompositingQuality.HighQuality;
+            grPhoto.SmoothingMode = SmoothingMode.HighQuality;
+
+            grPhoto.DrawImage(imgPhoto,
+            new System.Drawing.Rectangle(destX, destY, destWidth, destHeight),
+            new System.Drawing.Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+            System.Drawing.GraphicsUnit.Pixel);
+
+            ResizeImageCenter(bmPhoto, 640, 285, fileName + "_" + Width.ToString() + "x" + Height.ToString() + "" + ext);
+
+            grPhoto.Dispose();
+            return bmPhoto;
+        }
+        static bool ResizeImageCenter(System.Drawing.Image image, int targetWidth, int targetHeight, string filePath)
+        {
+            //first sale if not enough
+            ImageCodecInfo jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/jpeg").First();
+            System.Drawing.Image finalImage = image;
+            System.Drawing.Bitmap bitmap = null;
+            try
+            {
+                int left = 0;
+                int top = 0;
+                int srcWidth = targetWidth;
+                int srcHeight = targetHeight;
+                bitmap = new System.Drawing.Bitmap(targetWidth, targetHeight);
+                double croppedHeightToWidth = (double)targetHeight / targetWidth;
+                double croppedWidthToHeight = (double)targetWidth / targetHeight;
+
+                if (image.Width > image.Height)
+                {
+                    srcWidth = (int)(Math.Round(image.Height * croppedWidthToHeight));
+                    if (srcWidth < image.Width)
+                    {
+                        srcHeight = image.Height;
+                        left = (image.Width - srcWidth) / 2;
+                    }
+                    else
+                    {
+                        srcHeight = (int)Math.Round(image.Height * ((double)image.Width / srcWidth));
+                        srcWidth = image.Width;
+                        top = (image.Height - srcHeight) / 2;
+                    }
+                }
+                else
+                {
+                    srcHeight = (int)(Math.Round(image.Width * croppedHeightToWidth));
+                    if (srcHeight < image.Height)
+                    {
+                        srcWidth = image.Width;
+                        top = (image.Height - srcHeight) / 2;
+                    }
+                    else
+                    {
+                        srcWidth = (int)Math.Round(image.Width * ((double)image.Height / srcHeight));
+                        srcHeight = image.Height;
+                        left = (image.Width - srcWidth) / 2;
+                    }
+                }
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(image, new Rectangle(0, 0, bitmap.Width, bitmap.Height), new Rectangle(left, top, srcWidth, srcHeight), GraphicsUnit.Pixel);
+                }
+                finalImage = bitmap;
+            }
+            catch { }
+            try
+            {
+                using (EncoderParameters encParams = new EncoderParameters(1))
+                {
+                    encParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)100);
+                    //quality should be in the range [0..100] .. 100 for max, 0 for min (0 best compression)
+                    finalImage.Save(filePath, jpgInfo, encParams);
+                    return true;
+                }
+            }
+            catch { }
+            if (bitmap != null)
+            {
+                bitmap.Dispose();
+            }
+            return false;
+        }
+    }
+}

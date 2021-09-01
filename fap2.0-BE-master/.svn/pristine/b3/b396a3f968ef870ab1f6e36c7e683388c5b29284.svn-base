@@ -1,0 +1,30 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.News
+{
+    public interface INewsDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<NewsList>, int> SelectPaging(NewsSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(NewsLock obj);
+
+        int Delete(NewsDeleted arrayId);
+
+        Tuple<NewsAdd, int> GetById(NewsGetbyId objGetbyId);
+
+        int Insert(NewsAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<GetNewsListAll> FeGetNewsListAll(int id);
+        List<GetNewsDetail> FeGetNewsDetail(string id);
+        #endregion
+    }
+}

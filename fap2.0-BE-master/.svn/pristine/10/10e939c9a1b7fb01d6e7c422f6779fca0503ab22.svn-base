@@ -1,0 +1,86 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.DiscountCode
+{
+    public class DiscountCodeDal : DbInteractionBase, IDiscountCodeDal
+    {
+        public DiscountCodeBdyGetMemberid GetbyCode(DiscountCodeCheck obj)
+        {
+            return ExecuteReaderObject<DiscountCodeBdyGetMemberid>("sp_DiscountCodeGetCode", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "code", ValueParam = obj.code}
+            });
+        }
+
+        public DiscountCodeBdyGetMemberid GetMemberid(Guid id)
+        {
+            return ExecuteReaderObject<DiscountCodeBdyGetMemberid>("sp_DiscountCodeGetMemberid", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "memberid", ValueParam = id}
+            });
+        }
+
+        public bool Insert(DiscountCodeInsert objAdd)
+        {
+            return ExecuteNonQuery("sp_DiscountCodeInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "datestart", ValueParam = objAdd.datestart},
+                new QueryParam {NameParam = "dateend", ValueParam = objAdd.dateend},
+                new QueryParam {NameParam = "count", ValueParam = objAdd.count}
+              
+            });
+        }
+
+        public bool InsertOne(DiscountCodeInsertOne objAdd)
+        {
+            return ExecuteNonQuery("sp_DiscountCodeInsertOne", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid}
+            });
+        }
+
+        public bool IsLock(DiscountCodeLock obj)
+        {
+            return ExecuteNonQuery("sp_DiscountCodeIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="id",ValueParam = obj.id}
+            });
+        }
+
+        public Tuple<int, List<DiscountCodeList>> SelectPaging(DiscountCodeSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<DiscountCodeList>("sp_DiscountCodeSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "isuse", ValueParam = obj.isuse},
+                new QueryParam {NameParam = "codemember", ValueParam = obj.codemember},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<DiscountCodeCGList>> SelectPagingCG(DiscountCodeSearchCGDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<DiscountCodeCGList>("sp_DiscountCodeSelectPagingSearch", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+    }
+}

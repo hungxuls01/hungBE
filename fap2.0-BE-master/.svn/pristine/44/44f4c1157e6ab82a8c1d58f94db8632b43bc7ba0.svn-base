@@ -1,0 +1,15 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Banner
+{
+    public interface IBankDal
+    {
+             
+        List<BankCombobox> Getall();        
+    }
+}

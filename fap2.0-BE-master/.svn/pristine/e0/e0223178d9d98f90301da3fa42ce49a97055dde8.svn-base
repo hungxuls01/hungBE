@@ -1,0 +1,657 @@
+﻿using _1.DataAccessLayer.Member;
+using _1.DataAccessLayer.Sale_Orders;
+using _1.DataAccessLayer.Store_Province;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.ApiExpress;
+using Newtonsoft.Json;
+using NLog;
+using Nuclex.Cloning;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Web.Script.Serialization;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class Sale_OrdersController : ApiController
+    {
+        private static IMemberDal _MemberDal;
+        private static ISale_OrdersDal _saleOrdersDal;
+        private static IStore_ProvinceDal _store_ProvinceDal;
+        private static Logger _logger;
+        private readonly LalamoveService _lalamoveService;
+        public Sale_OrdersController()
+        {
+            _MemberDal = new MemberDal();
+            _saleOrdersDal = new Sale_OrdersDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            _lalamoveService = new LalamoveService();
+            _store_ProvinceDal = new Store_ProvinceDal();
+        }
+
+        #region BACKEND
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(Sale_OrdersSearchDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _saleOrdersDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<Sale_OrdersList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(Sale_OrdersGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.GetById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Insert(Sale_OrdersAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (objAdd.memberid == null)
+                {
+                    var ckeckmobile = _MemberDal.CheckEmailAndMobile(objAdd.member_tel);
+                    if (ckeckmobile != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Số điện thoại đã tồn tại !";
+                        return response;
+                    }
+                    var ckeckemail = _MemberDal.CheckEmailAndMobile(objAdd.member_email);
+                    if (ckeckemail != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Email đã tồn tại !";
+                        return response;
+                    }
+                }
+                var products = objAdd.saleorderline;
+                var Use = objAdd.saleorderUse;
+                var companys = products.GroupBy(x => new { x.companyid }, (k, g) => new { id = k.companyid }).ToList();
+                var groupid = Guid.NewGuid();
+                    
+                foreach (var item in companys)
+                {
+                    var UseInSale = new List<Saleorderuse>();
+                    var productInStores = companys.Count > 1 ? products.Where(x => x.companyid == item.id).ToList() : products;
+                    var Total = Convert.ToInt32(productInStores.Sum(x => x.total));
+
+                    foreach (var itemUse in Use)
+                    {
+                        var productidUse = itemUse.productid;
+                        var list = productidUse.Split(',');
+                        foreach (var itemList in list)
+                        {
+                            if (itemList != null && itemList != "")
+                            {
+                                var idproductUse = new Guid(itemList);
+                                var count = productInStores.Where(x => x.productid == idproductUse).Count();
+                                if(count > 1)
+                                {
+                                    UseInSale.Add(itemUse);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    
+                    var sale = new Sale_OrdersAdd();
+                    sale = ReflectionCloner.DeepFieldClone<Sale_OrdersAdd>(objAdd);
+                    sale.CompanyId = item.id;
+                    sale.cpvc = 0;
+                    sale.money_total = Total;
+                    sale.id = null;
+                    sale.saleorderline = productInStores;
+                    sale.saleorderUse = UseInSale;
+                    var data = _saleOrdersDal.Insert(sale);
+                    if (data == null && data == "")
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    objAdd.memberid = new Guid(data);
+
+
+                }
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                return response;
+                //if (objAdd.memberid == null)
+                //{
+                //    var pass = ConvertUtil.RandomString(10, false);
+                //    var passmd5 = ConvertUtil.MD5Hash(pass);
+                //    objAdd.password = passmd5;
+                //}
+                //var data = _saleOrdersDal.Insert(objAdd);
+                //if (data)
+                //{
+                //    response.Status = ConstUtil.Success;
+                //    response.Message = "Thành công !";
+                //    return response;
+                //}
+                //response.Status = ConstUtil.Error;
+                //response.Message = "Có lỗi sảy ra !";
+                //return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult ChangeStatus(Sale_OrdersChangeStatus objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.ChangeStatus(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Changetransfers(Sale_OrdersChangetransfers objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.Changetransfers(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(Sale_OrdersDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.Delete(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Lock(Sale_OrdersLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.IsLock(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        #endregion
+        #region FONTEND
+        [HttpGet]
+        public ResponeResult FeGetOdersList(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.FeGetOrdersList(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetOdersListProduct(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.FeGetOrdersListProduct(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetOdersForUser(string id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.FeGetOrdersForUser(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetOdersDetail(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.FeGetOrdersDetail(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        #endregion
+        #region FONTEND
+        [HttpGet]
+        public ResponeResult FeGetXH()
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                //CallOrder order = new CallOrder
+                //{
+                //    scheduleAt = "2019-09-18T14:30:00.00Z",
+                //    serviceType = "MOTORCYCLE",
+                //    //specialRequests = new string[0],
+                //    requesterContact = new Contact
+                //    {
+                //        name = "Nguyễn Anh Đức",
+                //        phone = "912345678"
+                //    },
+                //    stops = new List<Waypoint>
+                //    {
+                //        new Waypoint{
+                //                        addresses = new addresses {
+                //                            vi_VN = new vi_VN {
+                //                                        displayString = "De Tham, District 1, Ho Chi Minh City, Vietnam",
+                //                                        country = "VN_SGN"
+                //                            }
+                //                            }
+                //                    },
+                //        new Waypoint{
+                //                        addresses =  new addresses {
+                //                            vi_VN = new vi_VN {
+                //                                        displayString = "Trung tâm Ngoại ngữ, 137 Quốc lộ 13 cũ, Phường Linh Trung, Thủ Đức, Hồ Chí Minh, Vietnam",
+                //                                        country = "VN_SGN"
+                //                            }
+                //                        }
+                //                    }
+                //    },
+                //    deliveries = new List<DeliveryInfo>
+                //    {
+                //        new DeliveryInfo{
+                //                            toStop = 1,
+                //                            toContact = new Contact { name = "Nguyễn Anh Đức", phone = "912345678" },
+                //                            remarks = ""
+                //                        }
+                //    }
+                //};
+                //var jsonSerializer = new JavaScriptSerializer();
+                //var data = jsonSerializer.Serialize(order);
+                //string key = "51f42d62a8c741f182505fa5979706f1";
+                //string secret = "MC0CAQACBQCyAxYpAgMBAAECBQCSQcgBAgMA3GECAwDOyQICacECAwCkuQIC";
+
+                //long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+                //string httpVerb = "POST";
+                //string path = "/v2/quotations";
+                ////string body = "{\"scheduleAt\":\"2019-09-18T14:30:00.00Z\",\"serviceType\":\"MOTORCYCLE\",\"requesterContact\":{\"name\":\"Sender Test\",\"phone\":\"81234567\"},\"stops\":[{\"location\":{\"lat\":\"1.3133147\",\"lng\":\"103.8581483\"},\"addresses\":{\"en_SG\":{\"displayString\":\"380 Jln Besar Level 6 209000\",\"country\":\"SG\"}}},{\"location\":{\"lat\":\"1.2958614\",\"lng\":\"103.8533592\"},\"addresses\":{\"en_SG\":{\"displayString\":\"15 Beach Rd Singapore 189677\",\"country\":\"SG\"}}}],\"deliveries\":[{\"toStop\":1,\"toContact\":{\"name\":\"Receiver Test\",\"phone\":\"81234567\"}}]}";
+                //string body = data;
+                //string rawSignature = string.Format("{0}\r\n{1}\r\n{2}\r\n\r\n{3}", timestamp, httpVerb, path, body);
+
+                //HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
+                //hmac.Initialize();
+
+                //byte[] buffer = Encoding.UTF8.GetBytes(rawSignature);
+                //string signature = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "").ToLower();
+
+                //string authorization = string.Format("hmac {0}:{1}:{2}", key, timestamp, signature);
+
+                //WebRequest request = WebRequest.Create("https://sandbox-rest.lalamove.com/v2/quotations");
+                //request.Method = httpVerb;
+
+                //string postData = body;
+                //byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+                //request.ContentType = "application/json";
+                //request.ContentLength = byteArray.Length;
+                //request.Headers["Authorization"] = authorization;
+                //request.Headers["X-LLM-Country"] = "VN_SGN";
+                //request.Headers["X-Request-ID"] = "abc";
+
+                //Stream dataStream = request.GetRequestStream();
+                //dataStream.Write(byteArray, 0, byteArray.Length);
+                //dataStream.Close();
+
+                //WebResponse response = request.GetResponse();
+                //HttpWebResponse httpResponse = (HttpWebResponse)response;
+
+                //dataStream = response.GetResponseStream();
+                //StreamReader reader = new StreamReader(dataStream);
+                //string responseFromServer = reader.ReadToEnd();
+                //Console.WriteLine("RESPONSE: {0}\n", responseFromServer);
+
+                //reader.Close();
+                //dataStream.Close();
+                //response.Close();
+                //return null;
+                CallOrder order = new CallOrder
+                {
+                    scheduleAt = "2019-09-18T14:30:00.00Z",
+                    serviceType = "MOTORCYCLE",
+                    requesterContact = new Contact
+                    {
+                        name = "Nguyễn Anh Đức",
+                        phone = "912345678"
+                    },
+                    stops = new List<Waypoint>
+                    {
+                        new Waypoint{
+                                        addresses = new addresses {
+                                            vi_VN = new vi_VN {
+                                                        displayString = "De Tham, District 1, Ho Chi Minh City, Vietnam",
+                                                        country = "VN_SGN"
+                                            }
+                                            }
+                                    },
+                        new Waypoint{
+                                        addresses =  new addresses {
+                                            vi_VN = new vi_VN {
+                                                        displayString = "Trung tâm Ngoại ngữ, 137 Quốc lộ 13 cũ, Phường Linh Trung, Thủ Đức, Hồ Chí Minh, Vietnam",
+                                                        country = "VN_SGN"
+                                            }
+                                        }
+                                    }
+                    },
+                    deliveries = new List<DeliveryInfo>
+                    {
+                        new DeliveryInfo{
+                                            toStop = 1,
+                                            toContact = new Contact { name = "Nguyễn Anh Đức", phone = "912345678" },
+                                            remarks = ""
+                                        }
+                    }
+                };
+
+                var data = _lalamoveService.CallOrder(order);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = data.message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return null;
+            }
+        }
+
+
+        [HttpPost]
+        public ResponeResult InsertFontend(Sale_OrdersAddFontend obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var products = obj.oderDetail;
+                var companys = products.GroupBy(x => new { x.companyid }, (k, g) => new { id = k.companyid }).ToList();
+
+                foreach (var item in companys)
+                {
+
+                    var productInStores = companys.Count > 1 ? products.Where(x => x.companyid == item.id).ToList() : products;
+                    var Total = Convert.ToInt32(productInStores.Sum(x => x.Total));
+
+                    var sale = new Sale_OrdersAddFontend();
+                    sale = ReflectionCloner.DeepFieldClone<Sale_OrdersAddFontend>(obj);
+                    sale.IsVoucher = obj.IsVoucher;
+                    if (sale.IsVoucher == true)
+                    {
+                        if (obj.VoucherAmount < Total)
+                        {
+                            sale.VoucherAmount = obj.VoucherAmount;
+                        }
+                        else
+                        {
+                            sale.VoucherAmount = Total;
+                            obj.VoucherAmount = obj.VoucherAmount - Total;
+                        }
+                    }
+                    else
+                    {
+                        sale.VoucherAmount = 0;
+                        sale.VoucherCode = "";
+                    }
+                    sale.CompanyId = Convert.ToInt32(item.id);
+                    sale.cod = Total - sale.VoucherAmount;
+                    sale.money_cod = Convert.ToInt32(productInStores.Sum(x => x.Total)) - sale.VoucherAmount;
+                    sale.money_total = Total;
+                    sale.id = 0;
+                    sale.oderDetail = productInStores;
+                    var store = _store_ProvinceDal.FeGetStore(Convert.ToInt32(item.id), Convert.ToInt32(obj.receiver_provinceid));
+                    if (store == null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    sale.storeId = store.storeid;
+                    var data = _saleOrdersDal.InsertFontend(sale);
+                    if (data == 0)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    if (obj.PaymentType != 1)
+                    {
+                        SendMail.sendMailByType(obj.member_email, new string[] { obj.member_fullname, data.ToString() }, "3", "");
+                        SendMail.sendMailByType(store.mail, new string[] { data.ToString(), store.title }, "10", "");
+                    }
+                }
+
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        #endregion
+    }
+}

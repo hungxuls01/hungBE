@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Notification
+{
+    public class NotificationDal : DbInteractionBase, INotificationDal
+    {
+        /// <summary>
+        /// Lấy danh sách phân trang
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public List<NotificationDto> Select()
+        {
+            return ExecuteReader<NotificationDto>("sp_NotificationSelect");
+        }
+       
+        public bool Insert(NotificationAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_NotificationInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "ObjId", ValueParam = objAdd.ObjId},
+                new QueryParam {NameParam = "Messages", ValueParam = objAdd.Messages},
+                new QueryParam {NameParam = "CompanyId", ValueParam = objAdd.CompanyId}
+            });
+        }
+        public List<GetNotificationList> FeGetListNotification(int id)
+        {
+            return ExecuteReader<GetNotificationList>("fe_Notification_List", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "companyid", ValueParam = id}
+            });
+        }
+    }
+}

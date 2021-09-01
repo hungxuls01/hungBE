@@ -1,0 +1,7 @@
+2021-07-20 18:13:01.0680|ERROR|Service.Controllers.StudentsController|Invalid column name 'False'.
+2021-07-20 18:17:32.4776|ERROR|Service.Controllers.StudentsController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Students_Specializeds1". The conflict occurred in database "QLSinhVienNew", table "dbo.Specializeds", column 'id'.
+The statement has been terminated.
+2021-07-20 18:18:45.2635|ERROR|Service.Controllers.StudentsController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Students_Specializeds1". The conflict occurred in database "QLSinhVienNew", table "dbo.Specializeds", column 'id'.
+The statement has been terminated.
+2021-07-20 20:31:29.5000|ERROR|Service.Controllers.NotificationController|Incorrect syntax near ',1'.
+2021-07-20 20:31:46.2555|ERROR|Service.Controllers.NotificationController|Incorrect syntax near ',1'.

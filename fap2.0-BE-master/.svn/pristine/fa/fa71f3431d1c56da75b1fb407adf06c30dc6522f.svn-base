@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Nations
+{
+    public class NationsDal : DbInteractionBase, INationsDal
+    {
+        public NationsAdd GetById(NationsGetbyId id)
+        {
+            return ExecuteReaderObject<NationsAdd>("sp_NationsSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id.id}
+            });
+        }
+
+        public Tuple<int, List<NationsCombobox>> SelectPaging(NationsSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<NationsCombobox>("sp_NationsSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+    }
+}

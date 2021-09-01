@@ -1,0 +1,191 @@
+﻿using _1.DataAccessLayer.Permision_Catalog;
+using _2.DataTransferObject;
+using _4.Utils;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class Permision_CatalogController : ApiController
+    {
+        private static IPermision_CatalogDal _Permision_CatalogDal;
+        private static Logger _logger;
+
+        public Permision_CatalogController()
+        {
+            _Permision_CatalogDal = new Permision_CatalogDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        #region BACKEND
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetPaging(Permision_CatalogSearchDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _Permision_CatalogDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                if (result.Item3 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                var data = new DataTableBase<Permision_CatalogList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(Permision_CatalogGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Permision_CatalogDal.GetById(obj);
+                if (data.Item2 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data.Item1;
+                    return response;
+                }
+                if (data.Item2 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(Permision_CatalogAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Permision_CatalogDal.Insert(objAdd);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(Permision_CatalogDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Permision_CatalogDal.Delete(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Lock(Permision_CatalogLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Permision_CatalogDal.IsLock(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        #endregion
+    }
+}

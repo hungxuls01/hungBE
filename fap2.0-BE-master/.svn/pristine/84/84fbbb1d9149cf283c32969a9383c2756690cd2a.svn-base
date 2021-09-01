@@ -1,0 +1,634 @@
+﻿using _1.DataAccessLayer.Sale_Orders;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.EmailSender;
+using ApiTng.Models;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading;
+using System.Web;
+
+
+namespace ApiTng
+{
+    public class SendMail
+    {
+        private static ISale_OrdersDal _Sale_OrdersDal = new Sale_OrdersDal();
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        public static void SendMailNet(string SenderName, string RecieverEmail, string MailTitle, string MailContent)
+        {
+            (new Thread(new ThreadStart(
+                       delegate
+                       {
+                           string guid = System.Guid.NewGuid().ToString();
+                           try
+                           {
+                               string SenderEmail = ConfigurationManager.AppSettings["email_sender"];
+                               string senderEmailPass = ConfigurationManager.AppSettings["email_pass"];
+                               string hostmail = ConfigurationManager.AppSettings["email_host"];
+                               string portmail = ConfigurationManager.AppSettings["email_port"];
+
+                               var fromAddress = new System.Net.Mail.MailAddress(SenderEmail, "Sàn thương mại điện tử SAnDongY.vn");
+                               var toAddress = new System.Net.Mail.MailAddress(RecieverEmail, RecieverEmail);
+
+                               string fromPassword = senderEmailPass;
+                               string subject = MailTitle;
+                               string body = MailContent;
+
+                               var smtp = new System.Net.Mail.SmtpClient
+                               {
+                                   Host = hostmail,
+                                   Port = int.Parse(portmail),
+                                   EnableSsl = true,
+                                   UseDefaultCredentials = false,
+                                   DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                                   Credentials = new System.Net.NetworkCredential(fromAddress.Address, fromPassword)
+                               };
+                               var message = new System.Net.Mail.MailMessage(fromAddress, toAddress)
+                               {
+                                   IsBodyHtml = true,
+                                   Subject = subject,
+                                   Body = body
+                               };
+                               smtp.Send(message);
+                           }
+                           catch (Exception ex)
+                           {
+                               _logger.Error(ex);
+                           }
+
+                       })
+                 )).Start();
+
+
+        }
+        public static string GetDataTemplate(string pathTemplate)
+        {
+            StreamReader sr = System.IO.File.OpenText(pathTemplate);
+            string Content = sr.ReadToEnd();
+            sr.Close();
+            sr.Dispose();
+            return Content;
+        }
+        public static string[] getInforByGuidID(Guid id)
+        {
+            //get orderline
+            //Tên SP, SL, thành tiền
+            var dtOrderLine = _Sale_OrdersDal.SelectByOrderidPrint(id);
+            string sHtml = "";
+            foreach (var item in dtOrderLine)
+            {
+                //Replace data
+                var htmlRow =
+                    GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/TableOrderLine.html"));
+                htmlRow = htmlRow.Replace("[Product_Code]", item.code);
+                htmlRow = htmlRow.Replace("[Product_Name]", item.producttitle);
+                htmlRow = htmlRow.Replace("[Unit_Title]", item.unittitle);
+                htmlRow = htmlRow.Replace("[Product_Weight]", item.Weight_Order.ToString());
+                htmlRow = htmlRow.Replace("[Product_Quantity]", item.qty.ToString());
+                htmlRow = htmlRow.Replace("[Product_Price]", item.price.ToString("N0").Replace(".", ","));
+                htmlRow = htmlRow.Replace("[Product_Money]", item.Total_Order.ToString("N0").Replace(".", ","));
+                sHtml += htmlRow;
+            }
+            return new string[] { sHtml };
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="arrInfo"></param>
+        /// <param name="type"></param>
+        /// <param name="timeship"></param>
+        public static void sendMailByType(string email, string[] arrInfo, string type, string timeship = "")
+        {
+            
+            string Frontend = ConfigurationManager.AppSettings["Frontend"];
+            string Admin = ConfigurationManager.AppSettings["Admin"];
+            string Backend = ConfigurationManager.AppSettings["Backend"];
+            string titleSender = "SDY - Sàn thương mại điện tử SDY";
+            string title = "Đăng ký thành công";
+            string content = "";
+            //register
+            if (type == "1")
+            {
+                title = "Đăng ký thành công";
+                content = "<html><body>  Kính chào quý khách: " + arrInfo[0] + ",<br><br>" +
+                    "Quý khách vừa đăng ký tài khoản tại SDY. Vui lòng click vào đường link sau để xác nhận và hoàn tất quá trình đăng ký tài khoản: " +
+                    "<a href='" + Frontend + "/Active-tai-khoan?mail=" + arrInfo[1] + "&token=" + arrInfo[2] + "'><b style='color: blue;text-decoration: underline;'>Tại đây</b></a><br />" +
+                    "Cám ơn Quý khách <br><br>" +
+                    "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                    "* Lưu ý: <br>" +
+                    "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                    "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 1900 23 24 24<br><br>" +
+                    "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                    "Ban quản trị SDY!</body> </html>";
+            }
+            //register
+            if (type == "20")
+            {
+                title = "SDY - Đăng ký tài khoản bán hàng";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Chúc mừng bạn đã đăng ký thành công tài khoản tại SDY!<br />" +
+                    "Để hoàn thành đăng ký tài khoản bán hàng, bạn cần thay đổi mật khẩu theo link dưới :<br /><br />" +
+                    "<a href='"+ Admin + "/changepass-ncc/" + arrInfo[1] + "'>Đổi mật khẩu ở đây</a><br><br>" +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "33")
+            {
+                title = "SDY - Đăng ký tài khoản bán hàng";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Chúc mừng bạn đã đăng ký thành công tài khoản tại SDY!<br />" +
+                    "Để hoàn thành đăng ký tài khoản bán hàng, bạn cần cập nhập thông tin gian hàng theo link dưới :<br><br>" +
+                    "<br><br>" +
+                     Admin +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+
+            if (type == "21")
+            {
+                title = "SDY - Bổ xung hồ sơ sản phẩm - "+ arrInfo[3] + " - "+ arrInfo[4];
+                content = "<html><body>  Thân chào  công ty/ hộ kinh doanh,<br><br>" +
+                    "SDY đã kiểm tra yêu cầu đăng ký bán sản phẩm của quý nhà bán, hiện tại hồ sơ của bạn vẫn chưa hoàn tất với lý do<br />" +
+                    "(Bạn có thể xem trong <a href='https://admin.sandongy.com.vn' style='color: blue;text-decoration: underline;'>hệ thống</a>) .<br>" +
+                    "Chi tiết lý do từ chối<br><br>" +
+                    "<table> <tbody>" +
+                     "<tr>" +
+                    "<td class='text-center'><b>Lý do từ chối</b></td>" +
+                    "<td class='text-center'><b>Thời gian</b></td>" +
+                    "<td class='text-center'><b>Người thực hiện</b></td>" +
+                    "</tr>" +
+                     "<tr>" +
+                    "<td>" + arrInfo[0] + "</td>" +
+                    "<td>" + arrInfo[1] + "</td>" +
+                    "<td>" + arrInfo[2] + "</td>" +
+                    "</tr>" +
+                    "</tbody></table> " +
+                    "Để hoàn tất hồ sơ Nhà Bán Hàng và bắt đầu kinh doanh, quý Đối tác vui lòng đăng nhập và bổ sung thông tin hồ sơ sản phẩm tại Trung Tâm Bán Hàng<br><br>" +
+                    "<span style='font-size:8px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:8px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:8px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "23")
+            {
+                title = "SDY - Đăng ký tài khoản nhân viên";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Chúc mừng bạn đã đăng ký thành công tài khoản tại SDY. Mật khẩu của bạn là: <b>" + arrInfo[1] + "</b><br />" +
+                    "Nếu bạn cần thay đổi mật khẩu theo link dưới :<br><br>" +
+                    "<br><br>" +
+                    Admin + "/change-pass/" + arrInfo[2] +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+
+            //register
+            if (type == "24")
+            {
+                title = "SDY - Đăng ký tài khoản mua hàng";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Chúc mừng bạn đã đăng ký thành công tài khoản tại SDY!<br />" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "25")
+            {
+                title = "SDY - Đăng ký tài khoản mua hàng";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Chúc mừng bạn đã đăng ký thành công tài khoản tại SDY!<br />" +
+                    "Để hoàn thành đăng ký tài khoản mua hàng, bạn cần thay đổi mật khẩu theo link dưới: " + arrInfo[1] +
+                     "<br><br>" +
+                    Frontend + "/change-pass/" + arrInfo[1] +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "26")
+            {
+                title = "SDY - Đăng ký tài khoản mã OTP";
+                content = "<html><body>  Thân chào bạn,<br><br>" +
+                    "Mã OTP của bạn là: <b>" + arrInfo[0] + "</b><br />" +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            //register
+            if (type == "2")
+            {
+                title = "Quên mật khẩu";
+                content = "Kính chào quý khách,<br><br>" +
+                    "Quý khách vừa yêu cầu thay đổi mật khẩu tài khoản tại SDY. Vui lòng click vào đường link sau để thay đổi mật khẩu tài khoản: " +
+                    "<a href='" + Admin + "/change-password-in-mail/" + arrInfo[0] + "'><b style='color: blue;text-decoration: underline;'>Tại đây</b></a><br />" +
+                    "Cám ơn Quý khách <br><br>" +
+                    "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                    "* Lưu ý: <br>" +
+                    "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                    "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 0388.155.886<br><br>" +
+                    "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                    "Ban quản trị SDY!";
+            }
+            //order createnew
+            if (type == "3")
+            {
+                string[] arrInforOrder = getInforByGuidID(new Guid(arrInfo[0]));
+                //Get order
+                var byid = new Sale_OrdersGetbyId();
+                byid.id = new Guid(arrInfo[0]);
+
+
+                var dtOrder = _Sale_OrdersDal.GetById(byid);
+                if (dtOrder == null)
+                    return;
+                var orderCode = dtOrder.code;
+                //Thông tin người nhận
+                var receiverName = dtOrder.member_fullname;
+                var receiverEmail = dtOrder.member_email;
+                var receiverMobile = dtOrder.member_tel;
+                var receiverAddress = dtOrder.titleadress;
+                var statusPayment = dtOrder.IsPayment == 1 ? "Đã thanh toán" : "Chưa thanh toán";
+                var noteOrder = dtOrder.note;
+                var cpvc = ConvertUtil.ToDecimal(dtOrder.cpvc).ToString("N0");
+                var paymentType = dtOrder.PaymentType;
+                var serviceType = dtOrder.cod;
+                var cod = ConvertUtil.ToDecimal(dtOrder.cod).ToString("N0");
+                var totalMoney = "";
+                totalMoney = ConvertUtil.ToDecimal(dtOrder.money_total + dtOrder.cpvc).ToString("N0");
+                var befforeDiscount = ConvertUtil.ToDecimal(dtOrder.money_total).ToString("N0");
+
+
+
+                title = "Thông báo đặt hàng tại sàn SDY - Mã đơn hàng: " + orderCode;
+                content = GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/OrderSuccess.html"));
+                content = content.Replace("[FullName_Customer]", arrInfo[1].ToString());
+                content = content.Replace("[OrderCode]", orderCode);
+                //Danh sách sản phẩm
+                content = content.Replace("[Order_Line]", arrInforOrder[0]);
+
+                //Thông tin người nhận
+                content = content.Replace("[ReceiverName]", receiverName);
+                content = content.Replace("[ReceiverEmail]", receiverEmail);
+                content = content.Replace("[ReceiverMobile]", receiverMobile);
+                content = content.Replace("[ReceiverAddress]", receiverAddress);
+                content = content.Replace("[StatusPayment]", statusPayment);
+                content = content.Replace("[NoteOrder]", noteOrder);
+                //Số liệu
+                content = content.Replace("[CPVC]", cpvc.Replace(".", ","));
+                content = content.Replace("[PaymentType]", paymentType == 0 ? "Thanh toán khi nhận hàng" :"Thanh toán chuyển khoản");
+                content = content.Replace("[ServiceType]", serviceType == 0 ? "Giao hàng tiêu chuẩn" : "Giao hàng nhanh");
+                content = content.Replace("[COD]", cod.Replace(".", ","));
+                content = content.Replace("[TotalMoney]", totalMoney.Replace(".", ","));
+                content = content.Replace("[BefforeDiscount]", befforeDiscount.Replace(".", ","));
+            }
+            //order createnew
+            if (type == "10")
+            {
+                var id = arrInfo[0];
+                var customerName = arrInfo[1];
+
+                //string[] arrInforOrder = getInforByGuidID(ConvertUtil.ToInt32(id));
+                //var dtOrder = _Sale_OrdersDal.SelectByidPrint(ConvertUtil.ToInt32(id)).FirstOrDefault();
+                //if (dtOrder == null)
+                //    return;
+                //title = "Thông báo đơn hàng mới tại sàn SDY - Mã đơn hàng: " + dtOrder.code;
+                //content = GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/OrderVender.html"));
+                //content = content.Replace("[FullName_Customer]", customerName);
+                //content = content.Replace("[OrderCode]", dtOrder.code);
+                ////Danh sách sản phẩm
+                //content = content.Replace("[Order_Line]", arrInforOrder[0]);
+                //Danh sách sản phẩm
+
+            }
+            ////chang status of order
+            if (type == "4")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                title = "Thông báo giao hàng thành công tại sàn SDY - Mã đơn hàng: " + orderCode;
+                content = GetDataTemplate(HttpContext.Current.Server.MapPath("/Configuration/OrderCompleted.html"));
+                content = content.Replace("[FullName_Customer]", customerName);
+                content = content.Replace("[OrderCode]", orderCode);
+            }
+            //chang status of order
+            if (type == "5")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                var date = arrInfo[2];
+                title = "Hủy đơn hàng";
+                content = "Thân chào : " + customerName + ",<br><br>" +
+                    "Cảm ơn " + customerName + " đã tin tưởng và đặt hàng trên sàn thương mại điện tử SDY. Hiện mã đơn hàng " + orderCode + " quý khách đặt tại sàn ngày " + date + " đã hết hàng.Vậy chúng tôi xin phép được hủy đơn hàng này.<br><br>" +
+                    "Quý khách có thể tham khảo và mua các mặt hàng tương tự tại địa chỉ http://SDY/ (là nghành hàng tương tự trên sàn SDY).<br><br>" +
+                    "Chúng tôi xin lỗi về vấn đề này, đồng thời sẽ đề nghị nhà cung cấp tiếp tục bổ sung mặt hàng trên sàn.<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, " + customerName + " có thể liên hệ tổng đài Chăm sóc khách hàng 1900 23 24 24 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ Dumiho";
+            }
+            if (type == "6")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                var date = arrInfo[2];
+                title = "Hoàn thành thủ tục đơn trả góp";
+                content = "Thân chào : " + customerName + ",<br><br>" +
+                    "Cảm ơn " + customerName + " đã tin tưởng và đặt hàng trên sàn thương mại điện tử SDY. Hiện mã đơn hàng " + orderCode + " quý khách đặt tại sàn ngày " + date + " đã hết hàng.Vậy chúng tôi xin phép được hủy đơn hàng này.<br><br>" +
+                    "Quý khách có thể tham khảo và mua các mặt hàng tương tự tại địa chỉ http://SDY/ (là nghành hàng tương tự trên sàn SDY).<br><br>" +
+                    "Chúng tôi xin lỗi về vấn đề này, đồng thời sẽ đề nghị nhà cung cấp tiếp tục bổ sung mặt hàng trên sàn.<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, " + customerName + " có thể liên hệ tổng đài Chăm sóc khách hàng 1900 23 24 24 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ Dumiho";
+            }
+            if (type == "7")
+            {
+                title = "Chương trình khuyến mại sàn thương mại điện Tử Dumiho nhân ngày lễ Halloween";
+                content = "Thân chào quý khách,<br><br>" +
+                    "Nhân ngày Halloween (31-10) Sàn thương mại điện tử Dumiho triển khai chương trình khuyến mại đặc biệt cho khách hàng là giảm giá 10% tất cả các sản phẩm của các mặt hàng của ngành hàng :<br><br>" +
+                    "* Thời Trang Nữ + Nam<br><br>" +
+                    "* Quà Tặng<br><br>" +
+                    "* Sức Khỏe và Làm Đẹp<br><br>" +
+                    "Chương trình khuyến mại được áp dụng từ ngày <b>25/10/2018</b> đến hết ngày <b>03/11/2018</b> và cùng nhiều phần quà hấp dẫn từ sàn thương mại điện tử Dumiho.<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, quý khách có thể liên hệ tổng đài Chăm sóc khách hàng 1900 23 24 24 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ Dumiho" +
+                    "<a href='http://SDY/khuyen-mai-20-thang-10'>" +
+                    "<img src = 'http://admin.SDY//files/20181023/20181023114752_BANNER%20HALLOWEEN%20(1).png' style = 'width:100%;height: 210px'></a>"
+                    ;
+            }
+            if (type == "8")
+            {
+                var code = arrInfo[0];
+                var name = arrInfo[1];
+                var sdt = arrInfo[2];
+                title = "Đăng kí verdor mới";
+                content = "Thông tin vendor,<br><br>" +
+                    "* Mã: " + code + "<br><br>" +
+                    "* Tên: " + name + "<br><br>" +
+                    "* Sđt: " + sdt + "<br><br>"
+
+                    ;
+            }
+            if (type == "9")
+            {
+                var code = arrInfo[0];
+                var name = arrInfo[1];
+                var pass = arrInfo[2];
+                title = "Đăng ký thành công gian hàng";
+                content = "Kính chào quý khách: " + name + ",<br><br>" +
+                     "Chúc mừng Quý khách đã đăng ký gian hàng trên website http://SDY<br><br>" +
+                     "Tên đăng nhập:" + code + "<br><br>" +
+                     "Mật khẩu: " + pass + " <br><br>" +
+                     "Cám ơn Quý khách <br><br>" +
+                     "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                     "* Lưu ý: <br>" +
+                     "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                     "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 1900 23 24 24<br><br>" +
+                     "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                     "Ban quản trị SDY!";
+            }
+
+            if (type == "27")
+            {
+                title = "Tài khoản nhà cung cấp đã được phê duyệt thành công";
+                content = "Kính chào quý khách,<br><br>" +
+                     "Chúc mừng Quý khách đã đăng ký thành công gian hàng trên website http://sandongy.com.vn<br><br>" +
+                     "Kính chúc Quý khách sức khỏe và thành công<br><br>" +
+                     "* Lưu ý: <br>" +
+                     "- Quý khách cần bảo mật thông tin tài khoản<br><br>" +
+                     "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 1900 23 24 24<br><br>" +
+                     "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                     "Ban quản trị SDY!";
+            }
+            if (type == "28")
+            {
+                title = "SDY - Bổ xung hồ sơ sản phẩm";
+                content = "Kính chào quý khách,<br><br>" +
+                     "Thân chào  công ty/ hộ kinh doanh<br><br>" +
+                     "SDY đã kiểm tra yêu cầu đăng ký bán sản phẩm của quý nhà bán, hiện tại hồ sơ của bạn vẫn chưa hoàn tất với lý do" +
+                     "* Lưu ý: <br>" +
+                     "-  Cần hỗ trợ thêm, Quý khách liên hệ tổng đài CSKH: 1900 23 24 24<br><br>" +
+                     "Nếu Email này làm phiền đến Quý khách. Xin hãy bỏ qua.<br><br>" +
+                     "Ban quản trị SDY!";
+            }
+            if (type == "29")
+            {
+                title = "SDY - Sản phẩm  hồ sơ sản phẩm - "+ arrInfo[1].Trim() + " - "+ arrInfo[2].Trim();
+                content = "Thân chào công ty/ hộ kinh doanh.<br><br>" +
+                     "SDY đã kiểm tra yêu cầu đăng ký bán sản phẩm của quý nhà bán, hiện tại hồ sơ của bạn đã được phê duyệt.<br><br>" +
+                     "<a href='https://admin.sandongy.com.vn'>ĐĂNG NHẬP VÀO SELLER CENTER NGAY</a><br><br>" +
+                     "Mọi thắc mắc vui lòng liên hệ tổng đài PSC 1900 23 24 24 hoặc email hỗ trợ sdy.hotro@tlsoft.com.vn. <br>" +
+                     "Trân trọng, Đội ngũ SDY.<br><br>" +
+                     "Đây là email tự động, vui lòng không hồi âm.<br><br>";
+            }
+            if (type == "30")
+            {
+                var orderCode = arrInfo[0];
+                var customerName = arrInfo[1];
+                var date = arrInfo[2];
+                title = "Thông báo đặt hàng thành công";
+                content = "Thân chào : " + customerName + ",<br><br>" +
+                    "Cảm ơn " + customerName + " đã tin tưởng và đặt hàng trên sàn thương mại điện tử SDY. Đơn hàng của quý khách có mã là " + orderCode + " quý khách đặt tại sàn ngày " + date + " <br><br>" +
+                    "Quý khách có thể tham khảo và mua các mặt hàng tương tự tại địa chỉ http://sandongy.com.vn/ (là nghành hàng tương tự trên sàn SDY).<br><br>" +
+                    " Khi cần hỗ trợ khẩn cấp, " + customerName + " có thể liên hệ tổng đài Chăm sóc khách hàng 1900 23 24 24 để được tư vấn chi tiết.<br><br>" +
+                    "Rất mong sự hợp tác của quý khách thời gian tới.<br><br>" +
+                    "Trân trọng,<br>" +
+                    "Đội ngũ SanDongY";
+            }
+            if (type == "31")
+            {
+                title = "SDY - Đổi mật khẩu tài khoản nhân viên";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Mật khẩu của bạn là: <b>" + arrInfo[1] + "</b><br />" +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            //register
+            if (type == "32")
+            {
+                title = "SDY - Đổi mật khẩu tài khoản bán hàng";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "SDY.vn đã nhận được yêu cầu thay đổi mật khẩu của quý khách. Xin hãy click vào đường dẫn sau để đổi mật khẩu:<br><br>" +
+                    "<br><br>" +
+                     Admin + "/changepass-ncc/" + arrInfo[1] +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "34")
+            {
+                title = "SDY - Yêu cầu nhập kho - "+ arrInfo[0];
+                content = "<html><body>  Thân chào  công ty/ hộ kinh doanh,<br><br>" +
+                    "Dựa vào tình hình sản phẩm và lượng lưu kho của sản phẩm ở kho hàng của SDY, chúng tôi muốn nhập thêm với thông tin như sau<br />" +
+                    "<table style='width:100%;' cellpadding='0' cellspacing='0' border='0'> <tbody>" +
+                    "<tr>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>STT</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Mã sản phẩm</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Tên sản phẩm</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Đơn vị</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Giá bán NCC (VND)</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Triết khẩu</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng thực</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng trả về</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng đạt nhập kho</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Ghi chú của kho</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng cập nhật</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Ghi chú của sale</b></td>" +
+                    "</tr>" +
+                         arrInfo[1] +
+                    "</tbody></table> " +
+                    arrInfo[2]
+                    +
+                    "<span style='font-size:8px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:8px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:8px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "35")
+            {
+                title = "SDY - Đã phê duyệt hồ sơ nhà bán hàng";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "SDY đã phê duyệt hồ sơ nhà bán hàng của bạn. Đăng nhập để có thể thực hiện bán hàng trên sàn.<br /><br />" +
+                    "<a href='" + Admin + "/changepass-ncc/" + arrInfo[1] + "'>ĐĂNG NHẬP VÀO SELLER CENTER NGAY</a><br><br>" +
+                    "<br><br>" +
+                    "<span style='font-size:10px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:10px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:10px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+            if (type == "36")
+            {
+                title = "SDY - Hủy yêu cầu nhập kho - " + arrInfo[0];
+                content = "<html><body>  Thân chào  công ty/ hộ kinh doanh,<br><br>" +
+                    "SDY xin phép hủy yêu cầu nhập kho "+ arrInfo[0] + "<br />" +
+                    "Lý do: " + arrInfo[3] + "<br />" +
+                    "<table style='width:100%;' cellpadding='0' cellspacing='0' border='0'> <tbody>" +
+                     "<tr>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>STT</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Mã sản phẩm</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Tên sản phẩm</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Đơn vị</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Giá bán NCC (VND)</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Triết khẩu</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng thực</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng trả về</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng đạt nhập kho</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Ghi chú của kho</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng cập nhật</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Ghi chú của sale</b></td>" +
+                    "</tr>" +
+                         arrInfo[1] +
+                    "</tbody></table> " +
+                    arrInfo[2]
+                    +
+                    "<span style='font-size:8px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:8px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:8px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+
+            if (type == "37")
+            {
+                title = "SDY - Báo giá sản phẩm";
+                content = "<html><body>  Kính gửi "+ arrInfo[0] + ",<br><br>" +
+                    arrInfo[1] + "<br />" +
+                    "Em gửi anh/chị bản báo giá các sản phẩm có thể anh/chị cần đang có trên sàn:<br />" +
+                    "<table style='width: 100 %;' cellpadding='0' cellspacing='0' border='0'> <tbody>" +
+                     "<tr>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>STT</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Mã sản phẩm</b></td>" +
+                     "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Tên sản phẩm</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Số lượng có sẵn</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Đơn vị</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Giá</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Hồ sơ thẩm định</b></td>" +
+                    "</tr>" +
+                         arrInfo[2] +
+                    "</tbody></table> " +
+                   "Ghi chú <br />- Giá trên bảng chưa bao gồm VAT <br/>- chưa tính phí vận chuyển <br/>Để biết thêm thông tin chi tiết các gói dịch vụ, Quý công ty vui lòng liên hệ:<br/>"
+                   +
+                   arrInfo[3]
+                    +
+                    "Nếu email này làm phiền đến Anh/ Chị, thì mong Anh/Chị thông cảm và báo trực tiếp cho em ạ.<br/>"+
+                    "Trân trọng!<br/>" +
+                    "<span style='font-size:8px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:8px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:8px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+
+            if (type == "38")
+            {
+                title = "SDY - Thay đổi mật khẩu";
+                content = "<html><body>  Thân chào " + arrInfo[0] + ",<br><br>" +
+                    "Sandongy.com.vn đã nhận được yêu cầu thay đổi mật khẩu của quý khách.<br />" +
+                    "Mat khau tai khoan la: " + arrInfo[1] + "<br/>" +
+                    "<span style='font-size:8px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:8px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:8px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+
+            if (type == "39")
+            {
+                title = "SDY - Bổ xung hồ sơ nhà bán hàng";
+                content = "<html><body>  Thân chào  " + arrInfo[0] + ",<br><br>" +
+                    "SDY đã kiểm tra yêu cầu đăng ký của quý nhà bán, hiện tại hồ sơ của bạn vẫn chưa hoàn tất với lý do<br />(Bạn có thể xem trong hệ thống <a href='"+ Admin + "'>link</a> admin) ." +
+                    "<br />Chi tiết lý do từ chối<br />" +
+                    "<table style='width: 100 %;'  cellpadding='0' cellspacing='0' border='0'> <tbody>" +
+                     "<tr>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Lý do từ chối</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Thời gian</b></td>" +
+                    "<td style=' text-align: center; background:#dfdfdf; border-right:solid 1px #c7c7c7; color:#000; padding:10px 5px; font:13px tahoma;'><b>Người thực hiện</b></td>" +
+                    "</tr>" +
+                     "<tr>" +
+                    "<td style='text-align: left; border-right:solid 1px #dfdfdf; border-bottom:solid 1px #dfdfdf; padding:10px 5px; font:13px tahoma; color:#404040;'>" + arrInfo[1] + "</td>" +
+                    "<td style='text-align: left; border-right:solid 1px #dfdfdf; border-bottom:solid 1px #dfdfdf; padding:10px 5px; font:13px tahoma; color:#404040;'>" + DateTime.Now.ToString("dd/MM/yyyy") + "</td>" +
+                    "<td style='text-align: left; border-right:solid 1px #dfdfdf; border-bottom:solid 1px #dfdfdf; padding:10px 5px; font:13px tahoma; color:#404040;'>Admin</td>" +
+                    "</tr>" +
+                    "</tbody></table> " +
+                    "<p>Để hoàn tất hồ sơ Nhà Bán Hàng và bắt đầu kinh doanh, quý Đối tác vui lòng đăng nhập và bổ sung thông tin hồ sơ tại Trung Tâm Bán Hàng.</p>"+
+                    "<p><a href='https://admin.sandongy.com.vn'>ĐĂNG NHẬP VÀO SELLER CENTER NGAY</a></p>" +
+                    "<p>Quá thời hạn trên, SDY sẽ hủy bỏ tiếp nhận đối với hồ sơ Quý Đối tác trong lần đăng ký này.</p>"
+                    +
+                    "<span style='font-size:8px;'>Mọi thắc mắc vui lòng liên hệ tổng đài PSC <span style='color: blue'>1900 23 24 24</span> hoặc email hỗ trợ <span style='color: blue'>SDY.HoTro@tlsoft.com.vn</span>.</span><br>" +
+                    "<span style='font-size:8px;'>Trân trọng, Đội ngũ SDY.</span><br>" +
+                    "<span style='font-style: italic;font-size:8px;'>Đây là email tự động, vui lòng không hồi âm.</span><br>" +
+                    "</body> </html>";
+            }
+
+
+            SendMailNet(titleSender, email, title, content);
+        }
+    }
+}

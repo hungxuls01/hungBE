@@ -1,0 +1,27 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Employee
+{
+    public interface IEmployeeDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<EmployeeList>> SelectPaging(EmployeeSearchDto companySearch, int pageIndex, int pageSize);
+
+        bool IsLock(EmployeeLock obj);
+
+        EmployeeAdd GetById(EmployeeGetbyId objGetbyId);
+
+        bool Insert(EmployeeAdd objAdd);
+
+        EmployeeCheckEmailAndMobile CheckEmailAndMobile(string Keyword);
+
+        #endregion
+
+    }
+}

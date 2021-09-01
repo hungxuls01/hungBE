@@ -1,0 +1,28 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.News_Catalog
+{
+    public interface INews_CatalogDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<News_CatalogList>, int> SelectPaging(News_CatalogSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(News_CatalogLock obj);
+
+        int Delete(News_CatalogDeleted arrayId);
+
+        Tuple<News_CatalogAdd, int> GetById(News_CatalogGetbyId objGetbyId);
+
+        int Insert(News_CatalogAdd objAdd);
+
+        #endregion
+
+
+    }
+}

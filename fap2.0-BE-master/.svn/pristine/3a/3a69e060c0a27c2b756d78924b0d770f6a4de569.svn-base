@@ -1,0 +1,1280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="APIModelStoreContainer" CdmEntityContainer="APIEntities">
+    <EntitySetMapping Name="Autoids">
+      <EntityTypeMapping TypeName="APIModel.Autoid">
+        <MappingFragment StoreEntitySet="Autoid">
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="prefix" ColumnName="prefix" />
+          <ScalarProperty Name="autoid1" ColumnName="autoid" />
+          <ScalarProperty Name="tables" ColumnName="tables" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Banks">
+      <EntityTypeMapping TypeName="APIModel.Bank">
+        <MappingFragment StoreEntitySet="Bank">
+          <ScalarProperty Name="tradingname" ColumnName="tradingname" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Banners">
+      <EntityTypeMapping TypeName="APIModel.Banner">
+        <MappingFragment StoreEntitySet="Banner">
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="detail" ColumnName="detail" />
+          <ScalarProperty Name="LinkTwitter" ColumnName="LinkTwitter" />
+          <ScalarProperty Name="LinkGoogle" ColumnName="LinkGoogle" />
+          <ScalarProperty Name="LinkFacebook" ColumnName="LinkFacebook" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="order" ColumnName="order" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="linkurl" ColumnName="linkurl" />
+          <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Carts">
+      <EntityTypeMapping TypeName="APIModel.Cart">
+        <MappingFragment StoreEntitySet="Cart">
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+          <ScalarProperty Name="idmember" ColumnName="idmember" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="idproduct" ColumnName="idproduct" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="APIModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="orderstt" ColumnName="orderstt" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="rewite" ColumnName="rewite" />
+          <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Companies">
+      <EntityTypeMapping TypeName="APIModel.Company">
+        <MappingFragment StoreEntitySet="Company">
+          <ScalarProperty Name="tokenActive" ColumnName="tokenActive" />
+          <ScalarProperty Name="statusDesign" ColumnName="statusDesign" />
+          <ScalarProperty Name="tokenNoti" ColumnName="tokenNoti" />
+          <ScalarProperty Name="RegEmail" ColumnName="RegEmail" />
+          <ScalarProperty Name="KeyLock" ColumnName="KeyLock" />
+          <ScalarProperty Name="images" ColumnName="images" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="mobilephutrach" ColumnName="mobilephutrach" />
+          <ScalarProperty Name="userphutrach" ColumnName="userphutrach" />
+          <ScalarProperty Name="wh_address" ColumnName="wh_address" />
+          <ScalarProperty Name="wh_rewardid" ColumnName="wh_rewardid" />
+          <ScalarProperty Name="wh_districtid" ColumnName="wh_districtid" />
+          <ScalarProperty Name="wh_provinceid" ColumnName="wh_provinceid" />
+          <ScalarProperty Name="isapproval" ColumnName="isapproval" />
+          <ScalarProperty Name="dateapproval" ColumnName="dateapproval" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="birthdayUser" ColumnName="birthdayUser" />
+          <ScalarProperty Name="sexUser" ColumnName="sexUser" />
+          <ScalarProperty Name="addressUser" ColumnName="addressUser" />
+          <ScalarProperty Name="skypeUser" ColumnName="skypeUser" />
+          <ScalarProperty Name="facebookUser" ColumnName="facebookUser" />
+          <ScalarProperty Name="zaloUser" ColumnName="zaloUser" />
+          <ScalarProperty Name="emailUser" ColumnName="emailUser" />
+          <ScalarProperty Name="mobileUser" ColumnName="mobileUser" />
+          <ScalarProperty Name="codeUser" ColumnName="codeUser" />
+          <ScalarProperty Name="nameUser" ColumnName="nameUser" />
+          <ScalarProperty Name="isPartner" ColumnName="isPartner" />
+          <ScalarProperty Name="isCommercial" ColumnName="isCommercial" />
+          <ScalarProperty Name="isEvaluation" ColumnName="isEvaluation" />
+          <ScalarProperty Name="productCatalogChildren" ColumnName="productCatalogChildren" />
+          <ScalarProperty Name="productCatalog" ColumnName="productCatalog" />
+          <ScalarProperty Name="business" ColumnName="business" />
+          <ScalarProperty Name="nameAdmin" ColumnName="nameAdmin" />
+          <ScalarProperty Name="website" ColumnName="website" />
+          <ScalarProperty Name="imagecs" ColumnName="imagecs" />
+          <ScalarProperty Name="filegpkd" ColumnName="filegpkd" />
+          <ScalarProperty Name="sdkkd" ColumnName="sdkkd" />
+          <ScalarProperty Name="mst" ColumnName="mst" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="rewite" ColumnName="rewite" />
+          <ScalarProperty Name="nameStall" ColumnName="nameStall" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Company_Bank">
+      <EntityTypeMapping TypeName="APIModel.Company_Bank">
+        <MappingFragment StoreEntitySet="Company_Bank">
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="branch" ColumnName="branch" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="bankid" ColumnName="bankid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="APIModel.Department">
+        <MappingFragment StoreEntitySet="Departments">
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="descs" ColumnName="descs" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmailRegisters">
+      <EntityTypeMapping TypeName="APIModel.EmailRegister">
+        <MappingFragment StoreEntitySet="EmailRegister">
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="APIModel.Employee">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="tokenActive" ColumnName="tokenActive" />
+          <ScalarProperty Name="tokenNoti" ColumnName="tokenNoti" />
+          <ScalarProperty Name="RegEmail" ColumnName="RegEmail" />
+          <ScalarProperty Name="KeyLock" ColumnName="KeyLock" />
+          <ScalarProperty Name="images" ColumnName="images" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="positionid" ColumnName="positionid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="startday" ColumnName="startday" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="dateexpired" ColumnName="dateexpired" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="departmentid" ColumnName="departmentid" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Evaluate_Order">
+      <EntityTypeMapping TypeName="APIModel.Evaluate_Order">
+        <MappingFragment StoreEntitySet="Evaluate_Order">
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="customer_email" ColumnName="customer_email" />
+          <ScalarProperty Name="customer_tel" ColumnName="customer_tel" />
+          <ScalarProperty Name="Point" ColumnName="Point" />
+          <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Evaluations">
+      <EntityTypeMapping TypeName="APIModel.Evaluation">
+        <MappingFragment StoreEntitySet="Evaluation">
+          <ScalarProperty Name="idProductConsignment" ColumnName="idProductConsignment" />
+          <ScalarProperty Name="sp_namxb" ColumnName="sp_namxb" />
+          <ScalarProperty Name="thumua" ColumnName="thumua" />
+          <ScalarProperty Name="tutrong" ColumnName="tutrong" />
+          <ScalarProperty Name="quytrinhchietxuat" ColumnName="quytrinhchietxuat" />
+          <ScalarProperty Name="thanhphantinhdau" ColumnName="thanhphantinhdau" />
+          <ScalarProperty Name="nguonduoclieu" ColumnName="nguonduoclieu" />
+          <ScalarProperty Name="noteTotal" ColumnName="noteTotal" />
+          <ScalarProperty Name="isachieved" ColumnName="isachieved" />
+          <ScalarProperty Name="pointTotal" ColumnName="pointTotal" />
+          <ScalarProperty Name="diachicoso" ColumnName="diachicoso" />
+          <ScalarProperty Name="tencoso" ColumnName="tencoso" />
+          <ScalarProperty Name="lichsupt_detail" ColumnName="lichsupt_detail" />
+          <ScalarProperty Name="npp_giaychungnhandk" ColumnName="npp_giaychungnhandk" />
+          <ScalarProperty Name="sp_note" ColumnName="sp_note" />
+          <ScalarProperty Name="sp_point" ColumnName="sp_point" />
+          <ScalarProperty Name="notenpp" ColumnName="notenpp" />
+          <ScalarProperty Name="pointnpp" ColumnName="pointnpp" />
+          <ScalarProperty Name="notensx" ColumnName="notensx" />
+          <ScalarProperty Name="pointnsx" ColumnName="pointnsx" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="sp_cosonhapkhau" ColumnName="sp_cosonhapkhau" />
+          <ScalarProperty Name="sp_QR" ColumnName="sp_QR" />
+          <ScalarProperty Name="sp_giaykiemnghiem" ColumnName="sp_giaykiemnghiem" />
+          <ScalarProperty Name="sp_hamluonghoatchat" ColumnName="sp_hamluonghoatchat" />
+          <ScalarProperty Name="sp_duoclieutrongdung" ColumnName="sp_duoclieutrongdung" />
+          <ScalarProperty Name="sp_dientichquyhoach" ColumnName="sp_dientichquyhoach" />
+          <ScalarProperty Name="sp_dientichtrong" ColumnName="sp_dientichtrong" />
+          <ScalarProperty Name="sp_giaychungnhan" ColumnName="sp_giaychungnhan" />
+          <ScalarProperty Name="sp_quytrinhnuoitrong" ColumnName="sp_quytrinhnuoitrong" />
+          <ScalarProperty Name="sp_giaycndoanhnghiep" ColumnName="sp_giaycndoanhnghiep" />
+          <ScalarProperty Name="sp_nguoinuoitrong" ColumnName="sp_nguoinuoitrong" />
+          <ScalarProperty Name="sp_bangcap" ColumnName="sp_bangcap" />
+          <ScalarProperty Name="sp_trinhdo" ColumnName="sp_trinhdo" />
+          <ScalarProperty Name="sp_filebenhnhan" ColumnName="sp_filebenhnhan" />
+          <ScalarProperty Name="sp_tylekhoi" ColumnName="sp_tylekhoi" />
+          <ScalarProperty Name="sp_sobenhnhan" ColumnName="sp_sobenhnhan" />
+          <ScalarProperty Name="sp_baocaosudung" ColumnName="sp_baocaosudung" />
+          <ScalarProperty Name="sp_namthanhlap" ColumnName="sp_namthanhlap" />
+          <ScalarProperty Name="sp_doanhsoban" ColumnName="sp_doanhsoban" />
+          <ScalarProperty Name="sp_sospcanhtranh" ColumnName="sp_sospcanhtranh" />
+          <ScalarProperty Name="sp_huongdansudung" ColumnName="sp_huongdansudung" />
+          <ScalarProperty Name="sp_mucdohieuqua" ColumnName="sp_mucdohieuqua" />
+          <ScalarProperty Name="sp_thanhphan" ColumnName="sp_thanhphan" />
+          <ScalarProperty Name="sp_filedean" ColumnName="sp_filedean" />
+          <ScalarProperty Name="sp_tendean" ColumnName="sp_tendean" />
+          <ScalarProperty Name="sp_mucluc" ColumnName="sp_mucluc" />
+          <ScalarProperty Name="sp_hinhanhbiasach" ColumnName="sp_hinhanhbiasach" />
+          <ScalarProperty Name="sp_nguongoc" ColumnName="sp_nguongoc" />
+          <ScalarProperty Name="sp_filedk" ColumnName="sp_filedk" />
+          <ScalarProperty Name="sp_sdk" ColumnName="sp_sdk" />
+          <ScalarProperty Name="uytincosoVN" ColumnName="uytincosoVN" />
+          <ScalarProperty Name="doanhsoVN" ColumnName="doanhsoVN" />
+          <ScalarProperty Name="giayCNthanhlapVN" ColumnName="giayCNthanhlapVN" />
+          <ScalarProperty Name="cungcapVNnam" ColumnName="cungcapVNnam" />
+          <ScalarProperty Name="danhgianguoidung" ColumnName="danhgianguoidung" />
+          <ScalarProperty Name="lichsupt" ColumnName="lichsupt" />
+          <ScalarProperty Name="baocaothue" ColumnName="baocaothue" />
+          <ScalarProperty Name="doanhthuthuoc" ColumnName="doanhthuthuoc" />
+          <ScalarProperty Name="danhsachpp" ColumnName="danhsachpp" />
+          <ScalarProperty Name="hethongpp" ColumnName="hethongpp" />
+          <ScalarProperty Name="giaycnkinhdoanhduoc" ColumnName="giaycnkinhdoanhduoc" />
+          <ScalarProperty Name="addresscompany" ColumnName="addresscompany" />
+          <ScalarProperty Name="namecompany" ColumnName="namecompany" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="giaychungnhan" ColumnName="giaychungnhan" />
+          <ScalarProperty Name="sospdatngoisao" ColumnName="sospdatngoisao" />
+          <ScalarProperty Name="danhmucthuoc" ColumnName="danhmucthuoc" />
+          <ScalarProperty Name="tongspsanxuat" ColumnName="tongspsanxuat" />
+          <ScalarProperty Name="danhmucGLP" ColumnName="danhmucGLP" />
+          <ScalarProperty Name="hethongchatluong" ColumnName="hethongchatluong" />
+          <ScalarProperty Name="baocaotongthe" ColumnName="baocaotongthe" />
+          <ScalarProperty Name="hethongkhongkhi" ColumnName="hethongkhongkhi" />
+          <ScalarProperty Name="hinhanhnhamay" ColumnName="hinhanhnhamay" />
+          <ScalarProperty Name="hethongkhepkin" ColumnName="hethongkhepkin" />
+          <ScalarProperty Name="giaychungnhandatGMP" ColumnName="giaychungnhandatGMP" />
+          <ScalarProperty Name="mucdoGMP" ColumnName="mucdoGMP" />
+          <ScalarProperty Name="giaychungnhandk" ColumnName="giaychungnhandk" />
+          <ScalarProperty Name="giaychungnhanGMP" ColumnName="giaychungnhanGMP" />
+          <ScalarProperty Name="giayphepdangki" ColumnName="giayphepdangki" />
+          <ScalarProperty Name="sdk" ColumnName="sdk" />
+          <ScalarProperty Name="addressnsx" ColumnName="addressnsx" />
+          <ScalarProperty Name="namensx" ColumnName="namensx" />
+          <ScalarProperty Name="nsxid" ColumnName="nsxid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Experts">
+      <EntityTypeMapping TypeName="APIModel.Expert">
+        <MappingFragment StoreEntitySet="Experts">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="position" ColumnName="position" />
+          <ScalarProperty Name="img" ColumnName="img" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feedbacks">
+      <EntityTypeMapping TypeName="APIModel.Feedback">
+        <MappingFragment StoreEntitySet="Feedback">
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="des" ColumnName="des" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="isread" ColumnName="isread" />
+          <ScalarProperty Name="answer" ColumnName="answer" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Helps">
+      <EntityTypeMapping TypeName="APIModel.Help">
+        <MappingFragment StoreEntitySet="Helps">
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="longdesc" ColumnName="longdesc" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="APIModel.Image">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images_Catalog">
+      <EntityTypeMapping TypeName="APIModel.Images_Catalog">
+        <MappingFragment StoreEntitySet="Images_Catalog">
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImportGoods">
+      <EntityTypeMapping TypeName="APIModel.ImportGood">
+        <MappingFragment StoreEntitySet="ImportGoods">
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="storemobilecontact" ColumnName="storemobilecontact" />
+          <ScalarProperty Name="storecontact" ColumnName="storecontact" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="deliverydate" ColumnName="deliverydate" />
+          <ScalarProperty Name="storeid" ColumnName="storeid" />
+          <ScalarProperty Name="mobilecontact" ColumnName="mobilecontact" />
+          <ScalarProperty Name="contact" ColumnName="contact" />
+          <ScalarProperty Name="mobilecompany" ColumnName="mobilecompany" />
+          <ScalarProperty Name="addresscompany" ColumnName="addresscompany" />
+          <ScalarProperty Name="namecompany" ColumnName="namecompany" />
+          <ScalarProperty Name="codecompany" ColumnName="codecompany" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImportGoods_Lines">
+      <EntityTypeMapping TypeName="APIModel.ImportGoods_Lines">
+        <MappingFragment StoreEntitySet="ImportGoods_Lines">
+          <ScalarProperty Name="notesale" ColumnName="notesale" />
+          <ScalarProperty Name="slUpdate" ColumnName="slUpdate" />
+          <ScalarProperty Name="notestore" ColumnName="notestore" />
+          <ScalarProperty Name="sldat" ColumnName="sldat" />
+          <ScalarProperty Name="sltrave" ColumnName="sltrave" />
+          <ScalarProperty Name="slthuc" ColumnName="slthuc" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+          <ScalarProperty Name="discount" ColumnName="discount" />
+          <ScalarProperty Name="pricecomnpany" ColumnName="pricecomnpany" />
+          <ScalarProperty Name="unitid" ColumnName="unitid" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="importGoodsid" ColumnName="importGoodsid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="APIModel.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="tokenActive" ColumnName="tokenActive" />
+          <ScalarProperty Name="tokenNoti" ColumnName="tokenNoti" />
+          <ScalarProperty Name="RegEmail" ColumnName="RegEmail" />
+          <ScalarProperty Name="KeyLock" ColumnName="KeyLock" />
+          <ScalarProperty Name="images" ColumnName="images" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="mstPCT" ColumnName="mstPCT" />
+          <ScalarProperty Name="mstdistributor" ColumnName="mstdistributor" />
+          <ScalarProperty Name="mstproducer" ColumnName="mstproducer" />
+          <ScalarProperty Name="productcatelogyPCT" ColumnName="productcatelogyPCT" />
+          <ScalarProperty Name="isnews" ColumnName="isnews" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="issellPCT" ColumnName="issellPCT" />
+          <ScalarProperty Name="isshowPCT" ColumnName="isshowPCT" />
+          <ScalarProperty Name="addressPCT" ColumnName="addressPCT" />
+          <ScalarProperty Name="productbuyPCT" ColumnName="productbuyPCT" />
+          <ScalarProperty Name="productPCT" ColumnName="productPCT" />
+          <ScalarProperty Name="emailPCT" ColumnName="emailPCT" />
+          <ScalarProperty Name="mobilePCT" ColumnName="mobilePCT" />
+          <ScalarProperty Name="namePCT" ColumnName="namePCT" />
+          <ScalarProperty Name="isselldistributor" ColumnName="isselldistributor" />
+          <ScalarProperty Name="isshowdistributor" ColumnName="isshowdistributor" />
+          <ScalarProperty Name="addressdistributor" ColumnName="addressdistributor" />
+          <ScalarProperty Name="productbuydistributor" ColumnName="productbuydistributor" />
+          <ScalarProperty Name="productdistributor" ColumnName="productdistributor" />
+          <ScalarProperty Name="emaildistributor" ColumnName="emaildistributor" />
+          <ScalarProperty Name="mobiledistributor" ColumnName="mobiledistributor" />
+          <ScalarProperty Name="namedistributor" ColumnName="namedistributor" />
+          <ScalarProperty Name="issellproducer" ColumnName="issellproducer" />
+          <ScalarProperty Name="isshowproducer" ColumnName="isshowproducer" />
+          <ScalarProperty Name="addressproducer" ColumnName="addressproducer" />
+          <ScalarProperty Name="productbuyproducer" ColumnName="productbuyproducer" />
+          <ScalarProperty Name="productproducer" ColumnName="productproducer" />
+          <ScalarProperty Name="emailproducer" ColumnName="emailproducer" />
+          <ScalarProperty Name="mobileproducer" ColumnName="mobileproducer" />
+          <ScalarProperty Name="nameproducer" ColumnName="nameproducer" />
+          <ScalarProperty Name="field" ColumnName="field" />
+          <ScalarProperty Name="purpose" ColumnName="purpose" />
+          <ScalarProperty Name="ispersonal" ColumnName="ispersonal" />
+          <ScalarProperty Name="facebook" ColumnName="facebook" />
+          <ScalarProperty Name="zalo" ColumnName="zalo" />
+          <ScalarProperty Name="provinceid" ColumnName="provinceid" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Member_History">
+      <EntityTypeMapping TypeName="APIModel.Member_History">
+        <MappingFragment StoreEntitySet="Member_History">
+          <ScalarProperty Name="dateadd" ColumnName="dateadd" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="catid" ColumnName="catid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Member_store">
+      <EntityTypeMapping TypeName="APIModel.Member_store">
+        <MappingFragment StoreEntitySet="Member_store">
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="isdefault" ColumnName="isdefault" />
+          <ScalarProperty Name="isaddress" ColumnName="isaddress" />
+          <ScalarProperty Name="addresss" ColumnName="addresss" />
+          <ScalarProperty Name="rewardid" ColumnName="rewardid" />
+          <ScalarProperty Name="districtid" ColumnName="districtid" />
+          <ScalarProperty Name="provinceid" ColumnName="provinceid" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="recipientName" ColumnName="recipientName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Member_Token">
+      <EntityTypeMapping TypeName="APIModel.Member_Token">
+        <MappingFragment StoreEntitySet="Member_Token">
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="token" ColumnName="token" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Member_Use">
+      <EntityTypeMapping TypeName="APIModel.Member_Use">
+        <MappingFragment StoreEntitySet="Member_Use">
+          <ScalarProperty Name="filesick" ColumnName="filesick" />
+          <ScalarProperty Name="productcatalogid" ColumnName="productcatalogid" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="relationship" ColumnName="relationship" />
+          <ScalarProperty Name="drugnow" ColumnName="drugnow" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="isuse" ColumnName="isuse" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Nations">
+      <EntityTypeMapping TypeName="APIModel.Nation">
+        <MappingFragment StoreEntitySet="Nations">
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="News">
+      <EntityTypeMapping TypeName="APIModel.News">
+        <MappingFragment StoreEntitySet="News">
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="longdesc" ColumnName="longdesc" />
+          <ScalarProperty Name="shortdesc" ColumnName="shortdesc" />
+          <ScalarProperty Name="MetaDescriptions" ColumnName="MetaDescriptions" />
+          <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+          <ScalarProperty Name="SeoTitle" ColumnName="SeoTitle" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="TotalView" ColumnName="TotalView" />
+          <ScalarProperty Name="rewite" ColumnName="rewite" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="isnew" ColumnName="isnew" />
+          <ScalarProperty Name="ishot" ColumnName="ishot" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="News_Catalog">
+      <EntityTypeMapping TypeName="APIModel.News_Catalog">
+        <MappingFragment StoreEntitySet="News_Catalog">
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Rewrite" ColumnName="Rewrite" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="APIModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="IsReminder" ColumnName="IsReminder" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="DetailsURL" ColumnName="DetailsURL" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Permisions">
+      <EntityTypeMapping TypeName="APIModel.Permision">
+        <MappingFragment StoreEntitySet="Permision">
+          <ScalarProperty Name="IsVender" ColumnName="IsVender" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Positions">
+      <EntityTypeMapping TypeName="APIModel.Position">
+        <MappingFragment StoreEntitySet="Position">
+          <ScalarProperty Name="departmentid" ColumnName="departmentid" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="isLock" ColumnName="isLock" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Catalog">
+      <EntityTypeMapping TypeName="APIModel.Product_Catalog">
+        <MappingFragment StoreEntitySet="Product_Catalog">
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="orderstt" ColumnName="orderstt" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="rewite" ColumnName="rewite" />
+          <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_favorite">
+      <EntityTypeMapping TypeName="APIModel.Product_favorite">
+        <MappingFragment StoreEntitySet="Product_favorite">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Units">
+      <EntityTypeMapping TypeName="APIModel.Product_Units">
+        <MappingFragment StoreEntitySet="Product_Units">
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductConsignments">
+      <EntityTypeMapping TypeName="APIModel.ProductConsignment">
+        <MappingFragment StoreEntitySet="ProductConsignment">
+          <ScalarProperty Name="lathuocgiatruyen" ColumnName="lathuocgiatruyen" />
+          <ScalarProperty Name="khohang" ColumnName="khohang" />
+          <ScalarProperty Name="chietxuat" ColumnName="chietxuat" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="evaluationdate" ColumnName="evaluationdate" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="evaluationid" ColumnName="evaluationid" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="sick" ColumnName="sick" />
+          <ScalarProperty Name="sickcatalogid" ColumnName="sickcatalogid" />
+          <ScalarProperty Name="isview" ColumnName="isview" />
+          <ScalarProperty Name="productcatalogid" ColumnName="productcatalogid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="kiguisanpham" ColumnName="kiguisanpham" />
+          <ScalarProperty Name="ktrong" ColumnName="ktrong" />
+          <ScalarProperty Name="ktdai" ColumnName="ktdai" />
+          <ScalarProperty Name="ktcao" ColumnName="ktcao" />
+          <ScalarProperty Name="cannang" ColumnName="cannang" />
+          <ScalarProperty Name="fileCOCQ" ColumnName="fileCOCQ" />
+          <ScalarProperty Name="soCOCQ" ColumnName="soCOCQ" />
+          <ScalarProperty Name="luuysudung" ColumnName="luuysudung" />
+          <ScalarProperty Name="doituongsudung" ColumnName="doituongsudung" />
+          <ScalarProperty Name="thanhphanhoahoc" ColumnName="thanhphanhoahoc" />
+          <ScalarProperty Name="nguongoc" ColumnName="nguongoc" />
+          <ScalarProperty Name="xuatxu" ColumnName="xuatxu" />
+          <ScalarProperty Name="thuonghieu" ColumnName="thuonghieu" />
+          <ScalarProperty Name="danhmuchotro" ColumnName="danhmuchotro" />
+          <ScalarProperty Name="giaycnthocgiatruyen" ColumnName="giaycnthocgiatruyen" />
+          <ScalarProperty Name="baiviet" ColumnName="baiviet" />
+          <ScalarProperty Name="filegcnGMP" ColumnName="filegcnGMP" />
+          <ScalarProperty Name="filegknsp" ColumnName="filegknsp" />
+          <ScalarProperty Name="filegdk" ColumnName="filegdk" />
+          <ScalarProperty Name="imanges" ColumnName="imanges" />
+          <ScalarProperty Name="diachisanxuat" ColumnName="diachisanxuat" />
+          <ScalarProperty Name="cososanxuat" ColumnName="cososanxuat" />
+          <ScalarProperty Name="tieuchuan" ColumnName="tieuchuan" />
+          <ScalarProperty Name="handung" ColumnName="handung" />
+          <ScalarProperty Name="baoquan" ColumnName="baoquan" />
+          <ScalarProperty Name="qualieu_cachxuly" ColumnName="qualieu_cachxuly" />
+          <ScalarProperty Name="tacdungkhongmuon" ColumnName="tacdungkhongmuon" />
+          <ScalarProperty Name="tuongtacthuoc" ColumnName="tuongtacthuoc" />
+          <ScalarProperty Name="khananglaixe" ColumnName="khananglaixe" />
+          <ScalarProperty Name="choconbu" ColumnName="choconbu" />
+          <ScalarProperty Name="thantrong" ColumnName="thantrong" />
+          <ScalarProperty Name="lieudung_cachdung" ColumnName="lieudung_cachdung" />
+          <ScalarProperty Name="chongchidinh" ColumnName="chongchidinh" />
+          <ScalarProperty Name="chidinh" ColumnName="chidinh" />
+          <ScalarProperty Name="congdung" ColumnName="congdung" />
+          <ScalarProperty Name="thanhphan" ColumnName="thanhphan" />
+          <ScalarProperty Name="quycachsanpham" ColumnName="quycachsanpham" />
+          <ScalarProperty Name="otherunits" ColumnName="otherunits" />
+          <ScalarProperty Name="unit" ColumnName="unit" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sdk" ColumnName="sdk" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="APIModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="datereturn" ColumnName="datereturn" />
+          <ScalarProperty Name="lathuocgiatruyen" ColumnName="lathuocgiatruyen" />
+          <ScalarProperty Name="khohang" ColumnName="khohang" />
+          <ScalarProperty Name="chietxuat" ColumnName="chietxuat" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="sick" ColumnName="sick" />
+          <ScalarProperty Name="sickcatalogid" ColumnName="sickcatalogid" />
+          <ScalarProperty Name="isview" ColumnName="isview" />
+          <ScalarProperty Name="productcatalogid" ColumnName="productcatalogid" />
+          <ScalarProperty Name="dateapproval" ColumnName="dateapproval" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="kiguisanpham" ColumnName="kiguisanpham" />
+          <ScalarProperty Name="ktrong" ColumnName="ktrong" />
+          <ScalarProperty Name="ktdai" ColumnName="ktdai" />
+          <ScalarProperty Name="ktcao" ColumnName="ktcao" />
+          <ScalarProperty Name="cannang" ColumnName="cannang" />
+          <ScalarProperty Name="fileCOCQ" ColumnName="fileCOCQ" />
+          <ScalarProperty Name="soCOCQ" ColumnName="soCOCQ" />
+          <ScalarProperty Name="luuysudung" ColumnName="luuysudung" />
+          <ScalarProperty Name="doituongsudung" ColumnName="doituongsudung" />
+          <ScalarProperty Name="thanhphanhoahoc" ColumnName="thanhphanhoahoc" />
+          <ScalarProperty Name="nguongoc" ColumnName="nguongoc" />
+          <ScalarProperty Name="xuatxu" ColumnName="xuatxu" />
+          <ScalarProperty Name="thuonghieu" ColumnName="thuonghieu" />
+          <ScalarProperty Name="danhmuchotro" ColumnName="danhmuchotro" />
+          <ScalarProperty Name="giaycnthocgiatruyen" ColumnName="giaycnthocgiatruyen" />
+          <ScalarProperty Name="baiviet" ColumnName="baiviet" />
+          <ScalarProperty Name="filegcnGMP" ColumnName="filegcnGMP" />
+          <ScalarProperty Name="filegknsp" ColumnName="filegknsp" />
+          <ScalarProperty Name="filegdk" ColumnName="filegdk" />
+          <ScalarProperty Name="imanges" ColumnName="imanges" />
+          <ScalarProperty Name="diachisanxuat" ColumnName="diachisanxuat" />
+          <ScalarProperty Name="cososanxuat" ColumnName="cososanxuat" />
+          <ScalarProperty Name="tieuchuan" ColumnName="tieuchuan" />
+          <ScalarProperty Name="handung" ColumnName="handung" />
+          <ScalarProperty Name="baoquan" ColumnName="baoquan" />
+          <ScalarProperty Name="qualieu_cachxuly" ColumnName="qualieu_cachxuly" />
+          <ScalarProperty Name="tacdungkhongmuon" ColumnName="tacdungkhongmuon" />
+          <ScalarProperty Name="tuongtacthuoc" ColumnName="tuongtacthuoc" />
+          <ScalarProperty Name="khananglaixe" ColumnName="khananglaixe" />
+          <ScalarProperty Name="choconbu" ColumnName="choconbu" />
+          <ScalarProperty Name="thantrong" ColumnName="thantrong" />
+          <ScalarProperty Name="lieudung_cachdung" ColumnName="lieudung_cachdung" />
+          <ScalarProperty Name="chongchidinh" ColumnName="chongchidinh" />
+          <ScalarProperty Name="chidinh" ColumnName="chidinh" />
+          <ScalarProperty Name="congdung" ColumnName="congdung" />
+          <ScalarProperty Name="thanhphan" ColumnName="thanhphan" />
+          <ScalarProperty Name="quycachsanpham" ColumnName="quycachsanpham" />
+          <ScalarProperty Name="otherunits" ColumnName="otherunits" />
+          <ScalarProperty Name="unit" ColumnName="unit" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sdk" ColumnName="sdk" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quotations">
+      <EntityTypeMapping TypeName="APIModel.Quotation">
+        <MappingFragment StoreEntitySet="Quotation">
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuotationDetails">
+      <EntityTypeMapping TypeName="APIModel.QuotationDetail">
+        <MappingFragment StoreEntitySet="QuotationDetail">
+          <ScalarProperty Name="quotationid" ColumnName="quotationid" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="unitid" ColumnName="unitid" />
+          <ScalarProperty Name="isgiaychungnhan" ColumnName="isgiaychungnhan" />
+          <ScalarProperty Name="ishoso" ColumnName="ishoso" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuotationHistories">
+      <EntityTypeMapping TypeName="APIModel.QuotationHistory">
+        <MappingFragment StoreEntitySet="QuotationHistory">
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="quotationid" ColumnName="quotationid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="APIModel.Role">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order">
+        <MappingFragment StoreEntitySet="Sale_Order">
+          <ScalarProperty Name="transferscode" ColumnName="transferscode" />
+          <ScalarProperty Name="typeTransport" ColumnName="typeTransport" />
+          <ScalarProperty Name="typeuserCan" ColumnName="typeuserCan" />
+          <ScalarProperty Name="useridCan" ColumnName="useridCan" />
+          <ScalarProperty Name="transfersnote" ColumnName="transfersnote" />
+          <ScalarProperty Name="transfersmoney" ColumnName="transfersmoney" />
+          <ScalarProperty Name="transfersid" ColumnName="transfersid" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="deliverydate" ColumnName="deliverydate" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="NoteCancel" ColumnName="NoteCancel" />
+          <ScalarProperty Name="receiver_provinceid" ColumnName="receiver_provinceid" />
+          <ScalarProperty Name="receiver_districtid" ColumnName="receiver_districtid" />
+          <ScalarProperty Name="receiver_rewardid" ColumnName="receiver_rewardid" />
+          <ScalarProperty Name="receiver_sex" ColumnName="receiver_sex" />
+          <ScalarProperty Name="receiver_birthday" ColumnName="receiver_birthday" />
+          <ScalarProperty Name="receiver_email" ColumnName="receiver_email" />
+          <ScalarProperty Name="receiver_address" ColumnName="receiver_address" />
+          <ScalarProperty Name="receiver_tel" ColumnName="receiver_tel" />
+          <ScalarProperty Name="receiver_fullname" ColumnName="receiver_fullname" />
+          <ScalarProperty Name="member_provinceid" ColumnName="member_provinceid" />
+          <ScalarProperty Name="member_districtid" ColumnName="member_districtid" />
+          <ScalarProperty Name="member_rewardid" ColumnName="member_rewardid" />
+          <ScalarProperty Name="member_sex" ColumnName="member_sex" />
+          <ScalarProperty Name="member_birthday" ColumnName="member_birthday" />
+          <ScalarProperty Name="member_email" ColumnName="member_email" />
+          <ScalarProperty Name="member_address" ColumnName="member_address" />
+          <ScalarProperty Name="member_tel" ColumnName="member_tel" />
+          <ScalarProperty Name="member_fullname" ColumnName="member_fullname" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="IsPayment" ColumnName="IsPayment" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="cpvc" ColumnName="cpvc" />
+          <ScalarProperty Name="cod" ColumnName="cod" />
+          <ScalarProperty Name="discount" ColumnName="discount" />
+          <ScalarProperty Name="money_total" ColumnName="money_total" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_Express">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_Express">
+        <MappingFragment StoreEntitySet="Sale_Order_Express">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="STT" ColumnName="STT" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_ExpressStatus">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_ExpressStatus">
+        <MappingFragment StoreEntitySet="Sale_Order_ExpressStatus">
+          <ScalarProperty Name="ExpressId" ColumnName="ExpressId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_Lines">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_Lines">
+        <MappingFragment StoreEntitySet="Sale_Order_Lines">
+          <ScalarProperty Name="isevaluate" ColumnName="isevaluate" />
+          <ScalarProperty Name="catalogid" ColumnName="catalogid" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="discount" ColumnName="discount" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="price_discount" ColumnName="price_discount" />
+          <ScalarProperty Name="price_sale" ColumnName="price_sale" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="unitid" ColumnName="unitid" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="sale_orderid" ColumnName="sale_orderid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_Logs">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_Logs">
+        <MappingFragment StoreEntitySet="Sale_Order_Logs">
+          <ScalarProperty Name="Request" ColumnName="Request" />
+          <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_StatusDetail">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_StatusDetail">
+        <MappingFragment StoreEntitySet="Sale_Order_StatusDetail">
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="statusId" ColumnName="statusId" />
+          <ScalarProperty Name="statusExpressId" ColumnName="statusExpressId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_Use">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_Use">
+        <MappingFragment StoreEntitySet="Sale_Order_Use">
+          <ScalarProperty Name="filesick" ColumnName="filesick" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="sale_Orderid" ColumnName="sale_Orderid" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="member_Useid" ColumnName="member_Useid" />
+          <ScalarProperty Name="productcatalogid" ColumnName="productcatalogid" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="relationship" ColumnName="relationship" />
+          <ScalarProperty Name="drugnow" ColumnName="drugnow" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="isuse" ColumnName="isuse" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_Wholesale">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_Wholesale">
+        <MappingFragment StoreEntitySet="Sale_Order_Wholesale">
+          <ScalarProperty Name="groupcode" ColumnName="groupcode" />
+          <ScalarProperty Name="groupid" ColumnName="groupid" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="branch" ColumnName="branch" />
+          <ScalarProperty Name="nametk" ColumnName="nametk" />
+          <ScalarProperty Name="stk" ColumnName="stk" />
+          <ScalarProperty Name="bankid" ColumnName="bankid" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="IsPayment" ColumnName="IsPayment" />
+          <ScalarProperty Name="receiver_address" ColumnName="receiver_address" />
+          <ScalarProperty Name="receiver_tel" ColumnName="receiver_tel" />
+          <ScalarProperty Name="receiver_fullname" ColumnName="receiver_fullname" />
+          <ScalarProperty Name="cpvc" ColumnName="cpvc" />
+          <ScalarProperty Name="deliverydate" ColumnName="deliverydate" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="vat" ColumnName="vat" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_WholesaleGroup">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_WholesaleGroup">
+        <MappingFragment StoreEntitySet="Sale_Order_WholesaleGroup">
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="branch" ColumnName="branch" />
+          <ScalarProperty Name="nametk" ColumnName="nametk" />
+          <ScalarProperty Name="stk" ColumnName="stk" />
+          <ScalarProperty Name="bankid" ColumnName="bankid" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="IsPayment" ColumnName="IsPayment" />
+          <ScalarProperty Name="receiver_address" ColumnName="receiver_address" />
+          <ScalarProperty Name="receiver_tel" ColumnName="receiver_tel" />
+          <ScalarProperty Name="receiver_fullname" ColumnName="receiver_fullname" />
+          <ScalarProperty Name="cpvc" ColumnName="cpvc" />
+          <ScalarProperty Name="deliverydate" ColumnName="deliverydate" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="vat" ColumnName="vat" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_WholesaleLines">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_WholesaleLines">
+        <MappingFragment StoreEntitySet="Sale_Order_WholesaleLines">
+          <ScalarProperty Name="catalogid" ColumnName="catalogid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="entryprice" ColumnName="entryprice" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="discount" ColumnName="discount" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="price_discount" ColumnName="price_discount" />
+          <ScalarProperty Name="price_sale" ColumnName="price_sale" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="unitid" ColumnName="unitid" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="sale_orderWholesaleid" ColumnName="sale_orderWholesaleid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_OrderHistory">
+      <EntityTypeMapping TypeName="APIModel.Sale_OrderHistory">
+        <MappingFragment StoreEntitySet="Sale_OrderHistory">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="sale_orderid" ColumnName="sale_orderid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Orders_MSB">
+      <EntityTypeMapping TypeName="APIModel.Sale_Orders_MSB">
+        <MappingFragment StoreEntitySet="Sale_Orders_MSB">
+          <ScalarProperty Name="orderid" ColumnName="orderid" />
+          <ScalarProperty Name="msbResponse" ColumnName="msbResponse" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Search_keyword">
+      <EntityTypeMapping TypeName="APIModel.Search_keyword">
+        <MappingFragment StoreEntitySet="Search_keyword">
+          <ScalarProperty Name="numberSearch" ColumnName="numberSearch" />
+          <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+          <ScalarProperty Name="ishome" ColumnName="ishome" />
+          <ScalarProperty Name="catid" ColumnName="catid" />
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Seos">
+      <EntityTypeMapping TypeName="APIModel.Seo">
+        <MappingFragment StoreEntitySet="Seo">
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="keywords" ColumnName="keywords" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="CargoTypeId" ColumnName="CargoTypeId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sicks">
+      <EntityTypeMapping TypeName="APIModel.Sick">
+        <MappingFragment StoreEntitySet="Sick">
+          <ScalarProperty Name="product_catalogid" ColumnName="product_catalogid" />
+          <ScalarProperty Name="benhlienquan" ColumnName="benhlienquan" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="islock" ColumnName="islock" />
+          <ScalarProperty Name="phanloai" ColumnName="phanloai" />
+          <ScalarProperty Name="chuandoan" ColumnName="chuandoan" />
+          <ScalarProperty Name="dieutri" ColumnName="dieutri" />
+          <ScalarProperty Name="loikhuyen" ColumnName="loikhuyen" />
+          <ScalarProperty Name="nguyennhan" ColumnName="nguyennhan" />
+          <ScalarProperty Name="doituongdemac" ColumnName="doituongdemac" />
+          <ScalarProperty Name="kiengki" ColumnName="kiengki" />
+          <ScalarProperty Name="benhchung" ColumnName="benhchung" />
+          <ScalarProperty Name="trieuchung" ColumnName="trieuchung" />
+          <ScalarProperty Name="dinhnghia" ColumnName="dinhnghia" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stores">
+      <EntityTypeMapping TypeName="APIModel.Store">
+        <MappingFragment StoreEntitySet="Stores">
+          <ScalarProperty Name="employeemobile" ColumnName="employeemobile" />
+          <ScalarProperty Name="employeename" ColumnName="employeename" />
+          <ScalarProperty Name="employeecode" ColumnName="employeecode" />
+          <ScalarProperty Name="wardid" ColumnName="wardid" />
+          <ScalarProperty Name="districtid" ColumnName="districtid" />
+          <ScalarProperty Name="provinceid" ColumnName="provinceid" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="employeeid" ColumnName="employeeid" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="acreage" ColumnName="acreage" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SystemHistories">
+      <EntityTypeMapping TypeName="APIModel.SystemHistory">
+        <MappingFragment StoreEntitySet="SystemHistory">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+          <ScalarProperty Name="VersionOld" ColumnName="VersionOld" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Module" ColumnName="Module" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="APIModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="dateexpired" ColumnName="dateexpired" />
+          <ScalarProperty Name="Islock" ColumnName="Islock" />
+          <ScalarProperty Name="tokenNoti" ColumnName="tokenNoti" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="isadmin" ColumnName="isadmin" />
+          <ScalarProperty Name="skype" ColumnName="skype" />
+          <ScalarProperty Name="companyid" ColumnName="companyid" />
+          <ScalarProperty Name="authoritiesid" ColumnName="authoritiesid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="memberid" ColumnName="memberid" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="facebook" ColumnName="facebook" />
+          <ScalarProperty Name="zalo" ColumnName="zalo" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="RegEmail" ColumnName="RegEmail" />
+          <ScalarProperty Name="KeyLock" ColumnName="KeyLock" />
+          <ScalarProperty Name="employeeid" ColumnName="employeeid" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="departmentid" ColumnName="departmentid" />
+          <ScalarProperty Name="tokenActive" ColumnName="tokenActive" />
+          <ScalarProperty Name="images" ColumnName="images" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vouchers">
+      <EntityTypeMapping TypeName="APIModel.Voucher">
+        <MappingFragment StoreEntitySet="Voucher">
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="ProductCatelogId" ColumnName="ProductCatelogId" />
+          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+          <ScalarProperty Name="AmoutPending" ColumnName="AmoutPending" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+          <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+          <ScalarProperty Name="Money" ColumnName="Money" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Districts">
+      <EntityTypeMapping TypeName="APIModel.District">
+        <MappingFragment StoreEntitySet="District">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="provinceid" ColumnName="provinceid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provinces">
+      <EntityTypeMapping TypeName="APIModel.Province">
+        <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="Code_Local" ColumnName="Code_Local" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rewards">
+      <EntityTypeMapping TypeName="APIModel.Reward">
+        <MappingFragment StoreEntitySet="Reward">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="titlesearch" ColumnName="titlesearch" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="districtid" ColumnName="districtid" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sale_Order_ExpressTransfering">
+      <EntityTypeMapping TypeName="APIModel.Sale_Order_ExpressTransfering">
+        <MappingFragment StoreEntitySet="Sale_Order_ExpressTransfering">
+          <ScalarProperty Name="ExpressId" ColumnName="ExpressId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

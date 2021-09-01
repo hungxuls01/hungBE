@@ -1,0 +1,62 @@
+﻿using _1.DataAccessLayer.Sale_Order_Logs;
+using _2.DataTransferObject;
+using _4.Utils;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class Sale_Order_LogsController : ApiController
+    {
+        private static ISale_Order_LogsDal _Sale_Order_LogsDal;
+        private static Logger _logger;
+
+        public Sale_Order_LogsController()
+        {
+            _Sale_Order_LogsDal = new Sale_Order_LogsDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+
+        // POST api/values
+        [HttpPost]
+        public ResponeResult Insert(Sale_Order_LogsAdd objAdd)
+        {
+            var respone = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Sale_Order_LogsDal.Insert(objAdd);
+                if (data)
+                {
+                    respone.Status = ConstUtil.Success;
+                    respone.Message = "Thành công !";
+                    return respone;
+                }
+                else
+                {
+                    respone.Status = ConstUtil.Error;
+                    respone.Message = "Có lỗi sảy ra !";
+                    return respone;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                respone.Status = ConstUtil.Error;
+                respone.Message = ex.ToString();
+                return respone;
+            }
+        }
+
+     
+    }
+}

@@ -1,0 +1,30 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Search_keyword
+{
+    public interface ISearch_keywordDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Search_keywordList>, int> SelectPaging(Search_keywordSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Search_keywordLock obj);
+
+        int Delete(Search_keywordDeleted arrayId);
+
+        Tuple<Search_keywordAdd, int> GetById(Search_keywordGetbyId objGetbyId);
+
+        int Insert(Search_keywordAdd objAdd);
+
+        #endregion
+
+        #region FONTEND
+        List<Search_keywordListXH> FeGetXH(int id);
+        #endregion
+    }
+}

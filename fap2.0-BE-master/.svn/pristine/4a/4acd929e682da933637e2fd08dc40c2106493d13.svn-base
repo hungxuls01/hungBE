@@ -1,0 +1,31 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Member_UseDto : Member_Use
+    {
+    }
+
+    public class ListMember_UseMemberid
+    {
+        public System.Guid id { get; set; }
+        public string name { get; set; }
+        public string filesick { get; set; }
+        public string description { get; set; }
+        public string drugnow { get; set; }
+        public string relationship { get; set; }
+        public string mobile { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public string productcatalogid { get; set; }
+        public string titlerelationship { get; set; }
+    }
+    public class Member_UseGetByMemberid
+    {
+        public System.Guid id { get; set; }
+    }
+}

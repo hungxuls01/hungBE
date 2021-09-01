@@ -1,0 +1,162 @@
+﻿using _1.DataAccessLayer.Employee;
+using _2.DataTransferObject;
+using _4.Utils;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class EmployeesController : ApiController
+    {
+        private static IEmployeeDal _EmployeeDal;
+        private static Logger _logger;
+
+        public EmployeesController()
+        {
+            _EmployeeDal = new EmployeeDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetPaging(EmployeeSearchDto obj)
+        {
+            if (obj.Keyword == null)
+            {
+                obj.Keyword = "";
+            }
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _EmployeeDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<EmployeeList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(EmployeeGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _EmployeeDal.GetById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(EmployeeAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (objAdd.id == null)
+                {
+                    var ckeckmobile = _EmployeeDal.CheckEmailAndMobile(objAdd.mobile);
+                    if (ckeckmobile != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Số điện thoại đã tồn tại !";
+                        return response;
+                    }
+                    var ckeckemail = _EmployeeDal.CheckEmailAndMobile(objAdd.email);
+                    if (ckeckemail != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Email đã tồn tại !";
+                        return response;
+                    }
+                }
+                var pass = ConvertUtil.RandomString(10, false);
+                var passmd5 = ConvertUtil.MD5Hash(pass);
+                objAdd.password = passmd5;
+                var data = _EmployeeDal.Insert(objAdd);
+                if (data)
+                {
+                    SendMail.sendMailByType(objAdd.email, new string[] { objAdd.name, objAdd.email, pass }, "1", "");
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Lock(EmployeeLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _EmployeeDal.IsLock(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+    }
+}

@@ -1,0 +1,48 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Product_WarrantyDto
+    {
+    }
+    public class Product_WarrantySearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+    public class Product_WarrantyAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class Product_WarrantyDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Product_WarrantyGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class Product_WarrantyLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Product_WarrantyList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int CargoTypeId { get; set; }
+        public int islock { get; set; }
+    }
+    public class Product_WarrantySelectAll
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+    }
+}

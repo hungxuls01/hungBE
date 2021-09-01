@@ -1,0 +1,174 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class UsersDto : User
+    {
+    }
+    public class UsersSearchDto : SearchIncompetentBase
+    {
+        public int CompanyId { get; set; }
+    }
+    public class UsersAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Mobile { get; set; }
+        public int companyid { get; set; }
+        public string imgpath { get; set; }
+        public string Birthday { get; set; }
+        public string IdCard { get; set; }
+        public int IsFullRole { get; set; }
+        public string CompanyPermision { get; set; }
+        public string CargoTypePermision { get; set; }
+        public string StorePermision { get; set; }
+        public int IsFullStore { get; set; }
+        public string Email { get; set; }
+
+    }
+    public class UsersUpdate 
+    {
+        public int id { get; set; }           
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Mobile { get; set; }       
+        public string Image { get; set; }
+        public string Birthday { get; set; }                                       
+        public string Email { get; set; }
+        public int sex { get; set; }
+
+    }
+    public class UsersUpdatePass
+    {
+        public string Token { get; set; }
+        public string PassWord { get; set; }        
+
+    }
+    public class UsersChangePass
+    {
+        public int id { get; set; }        
+        public string NewPassWord { get; set; }
+        public string OldPassWord { get; set; }
+
+    }
+    public class UsersRegister
+    {
+        public int id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string tokenActive { get; set; }
+        public string tokenForgot { get; set; }
+        
+
+
+    }
+    public class UsersDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class UsersGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class UsersLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class UsersList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Mobile { get; set; }
+        public string Birthday { get; set; }
+        public int Islock { get; set; }
+    }
+    public class UsersLogin
+    {
+        public System.Guid id { get; set; }
+        public string name { get; set; }
+        public string departmentname { get; set; }
+        public Guid? companyid { get; set; }
+        public int isadmin { get; set; }
+        public Guid? memberid { get; set; }
+        public int islock { get; set; }
+        public string authoritiesid { get; set; }
+        public string dateexpired { get; set; }
+        public string companyname { get; set; }
+    }
+    public class GetUsers
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string Birthday { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+    }
+    public class GetUsersDetail
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string Birthday { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public string Image { get; set; }
+        public int sex { get; set; }
+    }
+    public class GetUserMemberStore
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string Birthday { get; set; }
+        public string phone { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string Province { get; set; }
+        public string District { get; set; }
+        public string Reward { get; set; }
+        public int provinceid { get; set; }
+        public int districtid { get; set; }
+        public int rewardid { get; set; }
+        public int isdefault { get; set; }
+        public float lat { get; set; }
+        public float lng { get; set; }
+
+
+    }
+    public class UsersCheckUserName
+    {
+        public string Username { get; set; }     
+        
+    }
+    public class UsersCheckEmail
+    {
+        public string Email { get; set; }
+
+    }
+    public class UsersCheckEmailForgot
+    {
+        public string Email { get; set; }
+
+    }
+    public class UsersCheckTokenForgot
+    {
+        public string tokenForgot { get; set; }
+
+    }
+    public class UsersCheckActive
+    {
+        public string email { get; set; }
+        public string tokenActive { get; set; }
+
+    }
+
+}

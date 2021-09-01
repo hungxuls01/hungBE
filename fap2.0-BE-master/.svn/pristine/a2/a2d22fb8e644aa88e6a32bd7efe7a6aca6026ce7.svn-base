@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Banner
+{
+    public class BannerDal : DbInteractionBase, IBannerDal
+    {
+        #region BACKEND
+        public Tuple<int, List<BannerList>, int> SelectPaging(BannerSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<BannerList>("sp_BannerSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(BannerLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_BannerIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(BannerDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_BannerDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<BannerAdd, int> GetById(BannerGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<BannerAdd>("sp_BannerSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(BannerAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_BannerInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                new QueryParam {NameParam = "imgpath", ValueParam = objAdd.imgpath},
+                new QueryParam {NameParam = "linkurl", ValueParam = objAdd.linkurl},
+                 new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                 new QueryParam {NameParam = "order", ValueParam = objAdd.order},
+                new QueryParam {NameParam = "LinkFacebook", ValueParam = objAdd.LinkFacebook},
+                new QueryParam {NameParam = "LinkGoogle", ValueParam = objAdd.LinkGoogle},
+                new QueryParam {NameParam = "LinkTwitter", ValueParam = objAdd.LinkTwitter},
+                new QueryParam {NameParam = "detail", ValueParam = objAdd.detail},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = objAdd.CargoTypeId},
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true},
+                new QueryParam {NameParam = "FromDate", ValueParam = objAdd.FromDate},
+                new QueryParam {NameParam = "ToDate", ValueParam = objAdd.ToDate},
+                new QueryParam {NameParam = "ParentId", ValueParam = objAdd.ParentId}
+            });
+        }
+
+
+        #endregion
+        #region FONTEND
+        public List<BannerListFontend> GetSlide(int id)
+        {
+            return ExecuteReader<BannerListFontend>("fe_BannerSelectBySlide", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+
+        public List<BannerListFontend> GetSlideBottom(int id)
+        {
+            return ExecuteReader<BannerListFontend>("fe_BannerSelectBySlideBottom", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+
+        public List<BannerListFontend> GetSlideRight(int id)
+        {
+            return ExecuteReader<BannerListFontend>("fe_BannerSelectBySlideRight", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+        public List<BannerListFontend> GetSlideRightBottom(int id)
+        {
+            return ExecuteReader<BannerListFontend>("fe_BannerSelectBySlideRightBottom", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+
+        public List<BannerListFontend> GetCatalog(int id)
+        {
+            return ExecuteReader<BannerListFontend>("fe_BannerSelectByCatalog", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+        public List<BannerListFontendCatalog> GetSlideCatalog(int id)
+        {
+            return ExecuteReader<BannerListFontendCatalog>("fe_BannerSelectBySlideCatalog", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+        #endregion
+    }
+}

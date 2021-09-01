@@ -1,0 +1,2 @@
+2020-11-20 16:02:54.3040|ERROR|ApiTng.Controllers.fileuploadController|Object reference not set to an instance of an object.
+2020-11-20 17:11:49.7083|ERROR|ApiTng.Controllers.fileuploadController|The process cannot access the file 'D:\ApiSan\ApiTng\Public\Images\20_11_2020\82979054_1541884889297785_219950678297018368_n.jpg' because it is being used by another process.

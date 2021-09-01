@@ -1,0 +1,10 @@
+2021-08-21 00:52:40.8424|ERROR|Service.Controllers.DecisionController|Object of type 'System.Double' cannot be converted to type 'System.Single'.
+2021-08-21 00:52:45.0628|ERROR|Service.Controllers.DecisionController|Object of type 'System.Double' cannot be converted to type 'System.Single'.
+2021-08-21 00:54:34.4722|ERROR|Service.Controllers.DecisionController|Object of type 'System.Double' cannot be converted to type 'System.Single'.
+2021-08-21 01:17:40.3427|ERROR|Service.Controllers.DecisionController|Object of type 'System.DateTime' cannot be converted to type 'System.String'.
+2021-08-21 09:15:56.1555|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.
+2021-08-21 09:24:18.3606|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.
+2021-08-21 09:25:07.7584|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.
+2021-08-21 09:25:33.9631|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.
+2021-08-21 09:25:36.2276|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.
+2021-08-21 09:26:06.7780|ERROR|Service.Controllers.DecisionController|Object of type 'System.DBNull' cannot be converted to type 'System.String'.

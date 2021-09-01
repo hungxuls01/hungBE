@@ -1,0 +1,231 @@
+﻿using ApiTng.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Security;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace ApiTng.ApiExpress
+{
+    public class VIETTELService
+    {
+        private static string token = "";
+        public async Task<List<bodyAllPrince>> getallpvc(PriceAllApiViettelPostModel obj)
+        {
+            var _userName = ConfigurationManager.AppSettings["UserAPI"];
+            var _passWord = ConfigurationManager.AppSettings["PasAPI"];
+            UserViettelpost userviettel = new UserViettelpost();
+            userviettel.USERNAME = _userName;
+            userviettel.PASSWORD = _passWord;
+            userviettel.SOURCE = 0;
+            var tokenKey = await LadingApiToken(userviettel).ConfigureAwait(false);
+            token = tokenKey.token;
+            var rsShip = await LadingApiAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+
+        public async Task<bodyCreate> createorder(ViettelpostCreate obj)
+        {
+            var _userName = ConfigurationManager.AppSettings["UserAPI"];
+            var _passWord = ConfigurationManager.AppSettings["PasAPI"];
+            UserViettelpost userviettel = new UserViettelpost();
+            userviettel.USERNAME = _userName;
+            userviettel.PASSWORD = _passWord;
+            userviettel.SOURCE = 0;
+            var tokenKey = await LadingApiToken(userviettel).ConfigureAwait(false);
+            token = tokenKey.token;
+            var rsShip = await CreateApiAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+
+        public async Task<body> updateorder(UpdateOrderViettelPost obj)
+        {
+            var _userName = ConfigurationManager.AppSettings["UserAPI"];
+            var _passWord = ConfigurationManager.AppSettings["PasAPI"];
+            UserViettelpost userviettel = new UserViettelpost();
+            userviettel.USERNAME = _userName;
+            userviettel.PASSWORD = _passWord;
+            userviettel.SOURCE = 0;
+            var tokenKey = await LadingApiToken(userviettel).ConfigureAwait(false);
+            token = tokenKey.token;
+            var rsShip = await UpdateApiAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+        private async Task<List<bodyAllPrince>> LadingApiAsync(PriceAllApiViettelPostModel priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            List<bodyAllPrince> data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://partner.viettelpost.vn/");
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            HttpResponseMessage response = await client.PostAsJsonAsync("v2/order/getPriceAll", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                data = await response.Content.ReadAsAsync<List<bodyAllPrince>>().ConfigureAwait(false);
+            }
+            return data;
+        }
+
+
+        private async Task<bodyCreate> CreateApiAsync(ViettelpostCreate priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            bodyCreate data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://partner.viettelpost.vn/");
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            HttpResponseMessage response = await client.PostAsJsonAsync("v2/order/createOrder", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                data = await response.Content.ReadAsAsync<bodyCreate>().ConfigureAwait(false);
+            }
+            return data;
+        }
+
+
+        private async Task<body> UpdateApiAsync(UpdateOrderViettelPost priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            body data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://partner.viettelpost.vn/");
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            HttpResponseMessage response = await client.PostAsJsonAsync("v2/order/UpdateOrder", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                data = await response.Content.ReadAsAsync<body>().ConfigureAwait(false);
+            }
+            return data;
+        }
+
+
+        private static async Task<LoginViettelPostModel> LadingApiToken(UserViettelpost userviettel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+        (
+            delegate { return true; }
+        );
+            bodyToken data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://partner.viettelpost.vn/");
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+            HttpResponseMessage response = await client.PostAsJsonAsync("v2/user/Login", userviettel).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                data = await response.Content.ReadAsAsync<bodyToken>();
+            }
+            return data.data;
+        }
+
+        public async Task<body> GetAsync()
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            body data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://partner.viettelpost.vn/");
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.GetAsync("v2/categories/listWards?districtId=-1").ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                data = await response.Content.ReadAsAsync<body>().ConfigureAwait(false);
+            }
+            return data;
+        }
+
+        public class body
+        {
+            public int status { get; set; }
+            public bool error { get; set; }
+            public string message { get; set; }
+            public List<Object> data { get; set; }
+        }
+        public class bodyToken
+        {
+            public int status { get; set; }
+            public bool error { get; set; }
+            public string message { get; set; }
+            public LoginViettelPostModel data { get; set; }
+        }
+
+        public class bodyAllPrince
+        {
+            public string MA_DV_CHINH { get; set; }
+            public string TEN_DICHVU { get; set; }
+            public int GIA_CUOC { get; set; }
+            public string THOI_GIAN { get; set; }
+            public int EXCHANGE_WEIGHT { get; set; }
+            public List<EXTRA_SERVICE> EXTRA_SERVICE { get; set; }
+        }
+
+        public class bodyCreate
+        {
+            public int status { get; set; }
+            public bool error { get; set; }
+            public string message { get; set; }
+            public CreateOrder data { get; set; }
+        }
+
+        public class CreateOrder
+        {
+            public string ORDER_NUMBER { get; set; }
+            public int MONEY_COLLECTION { get; set; }
+            public int EXCHANGE_WEIGHT { get; set; }
+            public int MONEY_TOTAL { get; set; }
+            public int MONEY_TOTAL_FEE { get; set; }
+            public int MONEY_FEE { get; set; }
+            public int MONEY_COLLECTION_FEE { get; set; }
+            public int MONEY_OTHER_FEE { get; set; }
+            public int MONEY_VAS { get; set; }
+            public int MONEY_VAT { get; set; }
+            public decimal KPI_HT { get; set; }
+        }
+        public class EXTRA_SERVICE
+        {
+            public string SERVICE_CODE { get; set; }
+            public string SERVICE_NAME { get; set; }
+            public string DESCRIPTION { get; set; }
+        }
+    }
+
+}

@@ -1,0 +1,3 @@
+2021-08-02 13:07:30.6195|ERROR|Service.Controllers.StudentsController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-08-02 13:09:04.6785|ERROR|Service.Controllers.StudentsController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-08-02 13:10:01.8251|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.

@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+
+namespace _1.DataAccessLayer.Products_favorite
+{
+    public interface IProducts_favoriteDal
+    {
+        #region BACKEND
+        int Insert(Products_favoriteAdd objAdd);
+        #endregion
+        #region FONTEND
+        List<Products_favoriteList> FeGetListProductFavorite(int id);
+        bool FeInsertProductFavorite(FeProducts_FavoriteAdd objAdd);
+        bool FeDeleteProductFavorite(FeProducts_FavoriteDelete objDelete);
+        #endregion
+    }
+}

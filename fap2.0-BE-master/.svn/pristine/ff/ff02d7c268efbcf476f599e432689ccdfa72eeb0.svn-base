@@ -1,0 +1,22 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Company_BankDto : Company_Bank
+    {
+    }
+
+    public class Company_BankCountBynumber
+    {
+        public int counts { get; set; }
+    }
+
+    public class CountBynumber
+    {
+        public string number { get; set; }
+    }
+}

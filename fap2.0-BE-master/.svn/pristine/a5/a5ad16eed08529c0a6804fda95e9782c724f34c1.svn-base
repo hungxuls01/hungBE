@@ -1,0 +1,31 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Evaluate_Order
+{
+    public interface IEvaluate_OrderDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Evaluate_OrderList>, int> SelectPaging(Evaluate_OrderSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Evaluate_OrderLock obj);
+
+        int Delete(Evaluate_OrderDeleted arrayId);
+
+        Tuple<Evaluate_OrderAdd, int> GetById(Evaluate_OrderGetbyId objGetbyId);
+
+        int Insert(Evaluate_OrderAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<Valuate_OrderGetList> FeGetValuateOrderList(int id);
+        List<Valuate_OrderUserList> FeGetValuateUserList(int id);
+        Tuple<int, List<Valuate_OrderGetList>> SelectDataPaging(ValuatePadingDto dataSearch, int pageIndex, int pageSize);
+        #endregion
+    }
+}

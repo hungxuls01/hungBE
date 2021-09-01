@@ -1,0 +1,7 @@
+2020-08-10 11:13:56.1135|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_MemberCheckEmailAndMobile' expects parameter '@Keyword', which was not supplied.
+2020-08-10 12:03:19.0449|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderInsertOrUpdate' expects parameter '@storeid', which was not supplied.
+2020-08-10 12:28:24.2001|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderInsertOrUpdate' expects parameter '@storeid', which was not supplied.
+2020-08-10 12:29:48.3854|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderInsertOrUpdate' expects parameter '@storeid', which was not supplied.
+2020-08-10 12:31:09.3073|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderInsertOrUpdate' expects parameter '@storeid', which was not supplied.
+2020-08-10 14:03:48.6656|ERROR|ApiTng.Controllers.Sale_OrdersController|One or more errors occurred.
+2020-08-10 14:07:09.1040|ERROR|ApiTng.Controllers.Sale_OrdersController|One or more errors occurred.

@@ -1,0 +1,3 @@
+2020-08-21 16:22:24.0257|ERROR|ApiTng.Controllers.ImportGoodsController|Cannot set Column 'discount' to be null. Please use DBNull instead.
+2020-08-21 16:22:34.8584|ERROR|ApiTng.Controllers.ImportGoodsController|Cannot set Column 'discount' to be null. Please use DBNull instead.
+2020-08-21 16:23:05.2885|ERROR|ApiTng.Controllers.ImportGoodsController|Cannot set Column 'discount' to be null. Please use DBNull instead.

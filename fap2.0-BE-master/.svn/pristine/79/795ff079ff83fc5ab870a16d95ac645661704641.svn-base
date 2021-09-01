@@ -1,0 +1,89 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Sick
+{
+    public class SickDal : DbInteractionBase, ISickDal
+    {
+        public bool Delete(SickDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(string));
+
+            foreach (var item in ConvertUtil.GetValuesArrayString(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_SickDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+            });
+        }
+
+        public SickAdd GetById(SickGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<SickAdd>("sp_SickSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public string Insert(SickAdd objAdd)
+        {
+            return ExecuteNonQueryOutputGuid("sp_SickInsertOrUpdate", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "product_catalogid", ValueParam = objAdd.product_catalogid},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "dinhnghia", ValueParam = objAdd.dinhnghia},
+                new QueryParam {NameParam = "trieuchung", ValueParam = objAdd.trieuchung},
+                new QueryParam {NameParam = "benhchung", ValueParam = objAdd.benhchung},
+                new QueryParam {NameParam = "kiengki", ValueParam = objAdd.kiengki},
+                new QueryParam {NameParam = "doituongdemac", ValueParam = objAdd.doituongdemac},
+                new QueryParam {NameParam = "nguyennhan", ValueParam = objAdd.nguyennhan},
+                new QueryParam {NameParam = "loikhuyen", ValueParam = objAdd.loikhuyen},
+                new QueryParam {NameParam = "dieutri", ValueParam = objAdd.dieutri},
+                new QueryParam {NameParam = "chuandoan", ValueParam = objAdd.chuandoan},
+                new QueryParam {NameParam = "phanloai", ValueParam = objAdd.phanloai},
+                new QueryParam {NameParam = "benhlienquan", ValueParam = objAdd.benhlienquan},
+                new QueryParam {NameParam = "metakeyword", ValueParam = objAdd.metakeyword},
+                new QueryParam {NameParam = "metadesc", ValueParam = objAdd.metadesc},
+                new QueryParam {NameParam = "metatitle", ValueParam = objAdd.metatitle},
+                new QueryParam {NameParam = "metaog", ValueParam = objAdd.metaog},
+                 new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public SickAdd CheckName(string Keyword)
+        {
+            return ExecuteReaderObject<SickAdd>("sp_SickCheckName", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Keyword",ValueParam = Keyword}
+            });
+        }
+
+        public Tuple<int, List<SickList>> SelectPaging(SickSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<SickList>("sp_SickSelectPaging", new List<QueryParam>
+            {
+
+                //
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+            });
+        }
+
+       
+    }
+}

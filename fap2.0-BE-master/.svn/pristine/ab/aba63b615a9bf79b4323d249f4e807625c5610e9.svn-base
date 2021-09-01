@@ -1,0 +1,2 @@
+2020-08-01 10:21:29.6227|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderInsertOrUpdate' expects parameter '@member_birthday', which was not supplied.
+2020-08-01 10:21:57.3675|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_SaleOrderInsertOrUpdate' expects parameter '@member_birthday', which was not supplied.

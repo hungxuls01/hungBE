@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _3.Data;
+namespace _2.DataTransferObject
+{
+    public class ImagesDto : Image
+    {
+    }
+
+    public class ImagesSearchDto : SearchIncompetentBase
+    {
+        public int userid { get; set; }
+    }
+
+    public class ImagesAdd 
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<Guid> userid { get; set; }
+    }
+
+    public class ImagesDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+
+    public class ImagesGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+
+    public class ImagesLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+
+    public class ImagesList
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+    }
+}

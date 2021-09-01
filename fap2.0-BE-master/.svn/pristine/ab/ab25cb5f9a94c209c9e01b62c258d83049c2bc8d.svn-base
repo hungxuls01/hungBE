@@ -1,0 +1,2 @@
+2019-10-06 20:57:11.0787|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot set Column 'storeid' to be null. Please use DBNull instead.
+2019-10-06 21:27:30.8284|ERROR|ApiTng.Controllers.NewsController|Procedure or function 'sp_NewsInsertOrUpdate' expects parameter '@companyid', which was not supplied.

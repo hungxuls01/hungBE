@@ -1,0 +1,14 @@
+2019-10-09 09:10:45.6155|ERROR|ApiTng.Controllers.MemberController|The user name or password is incorrect.
+
+2019-10-09 09:17:55.8668|ERROR|ApiTng.Controllers.MemberController|The user name or password is incorrect.
+
+2019-10-09 09:19:07.0875|ERROR|ApiTng.Controllers.MemberController|The user name or password is incorrect.
+
+2019-10-09 15:17:39.3252|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2019-10-09 15:19:54.0299|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2019-10-09 15:20:05.4201|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2019-10-09 15:21:22.7843|ERROR|ApiTng.Controllers.MemberController|Column 'mobile' does not belong to table Users.
+2019-10-09 15:23:37.8767|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2019-10-09 15:24:12.4037|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2019-10-09 16:17:59.9824|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2019-10-09 17:17:40.1811|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.

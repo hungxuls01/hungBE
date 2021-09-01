@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Member_Use
+{
+    public class Member_UseDal : DbInteractionBase, IMember_UseDal
+    {
+        public List<ListMember_UseMemberid> GetByMemberid(Member_UseGetByMemberid obj)
+        {
+            return ExecuteReader<ListMember_UseMemberid>("sp_Member_UseSelectByMemberId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id}
+            });
+        }
+
+        public ListMember_UseMemberid GetByMemberByid(Member_UseGetByMemberid obj)
+        {
+            return ExecuteReaderObject<ListMember_UseMemberid>("sp_Member_UseSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id}
+            });
+        }
+    }
+}

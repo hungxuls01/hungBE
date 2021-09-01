@@ -1,0 +1,147 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Voucher
+{
+    public class VoucherDal : DbInteractionBase, IVoucherDal
+    {
+        #region BACKEND
+        public Tuple<int, List<VoucherList>, int> SelectPaging(VoucherSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<VoucherList>("sp_VoucherSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "IsUsed", ValueParam = obj.IsUsed},
+                new QueryParam {NameParam = "UserType", ValueParam = obj.UserType},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(VoucherLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_VoucherIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(VoucherDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_VoucherDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<VoucherAdd, int> GetById(VoucherGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<VoucherAdd>("sp_VoucherSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(VoucherAdd objAdd)
+        {
+            var codes = RamdomCode(objAdd.quanlity, 10);
+            return ExecuteNonQueryOutput("sp_VoucherInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Title", ValueParam = objAdd.Title},
+                new QueryParam {NameParam = "FromDate", ValueParam = objAdd.FromDate},
+                new QueryParam {NameParam = "ToDate", ValueParam = objAdd.ToDate},
+                new QueryParam {NameParam = "Money", ValueParam = objAdd.Money},
+                new QueryParam {NameParam = "IsUsed", ValueParam = objAdd.IsUsed},
+                new QueryParam {NameParam = "UserType", ValueParam = objAdd.UserType},
+                new QueryParam {NameParam = "typVoucher", ValueParam = codes},
+                ///
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        private static Random random = new Random();
+
+        public static DataTable RamdomCode(int quantity, int length)
+        {
+            const string chars = "abcdefgh01234567890";
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Code", typeof(string));
+            for (int i = 0; i < quantity; i++)
+            {
+                var str = new string(Enumerable.Repeat(chars, length).Select(x => x[random.Next(x.Length)]).ToArray());
+                dataTable.Rows.Add(str);
+            }
+            return dataTable;
+        }
+        #endregion
+        #region FONTEND
+        public List<VoucherList> GetListVoucher(int id)
+        {
+            return ExecuteReader<VoucherList>("fe_Voucher_ForUser", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "memberid", ValueParam = id}
+            });
+        }
+        public VoucherCheckCode CheckVoucher(string code)
+        {
+            return ExecuteReaderObject<VoucherCheckCode>("fe_Voucher_Check", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "code", ValueParam = code}
+            });
+        }
+        public int UpdateVoucherUse(VoucherUse objUpdate)
+        {
+
+            return ExecuteNonQueryOutput("fe_Voucher_Use", new List<QueryParam>
+            {
+
+                new QueryParam {NameParam = "code", ValueParam = objUpdate.code},                
+                new QueryParam {NameParam = "isError", IsOutParam = true}
+
+            });
+        }
+        #endregion
+    }
+}

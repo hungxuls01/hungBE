@@ -1,0 +1,309 @@
+﻿using ApiTng.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Security;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace ApiTng.ApiExpress
+{
+    public class GHNService
+    {
+        private static string token = ConfigurationManager.AppSettings["TokenAPI"];
+        private static string shopId = ConfigurationManager.AppSettings["ShopId"];
+       
+
+        public async Task<List<ServiceModel>> getlistservice(ServiceModelParam serviceModelparam)
+        {
+
+            List<ServiceModel> data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://dev-online-gateway.ghn.vn/");
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            HttpResponseMessage response = await client.PostAsJsonAsync("shiip/public-api/pack-service/all", serviceModelparam).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject json = JObject.Parse(responseBody);
+                data = JsonConvert.DeserializeObject<List<ServiceModel>>(json["data"].ToString());
+                //data = await response.Content.ReadAsAsync<List<ServiceModel>>();
+            }
+            return data;
+        }
+
+
+
+        public async Task<OrderFeeModel> OrderFee(OrderFeeParam orderFeeParam)
+        {
+
+            OrderFeeModel data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://dev-online-gateway.ghn.vn/");
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            HttpResponseMessage response = await client.PostAsJsonAsync("shiip/public-api/v2/shipping-order/fee", orderFeeParam).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject json = JObject.Parse(responseBody);
+                data = JsonConvert.DeserializeObject<OrderFeeModel>(json["data"].ToString());
+                //data = await response.Content.ReadAsAsync<List<ServiceModel>>();
+            }
+            return data;
+        }
+
+
+
+        public async Task<InfoOrder> OrderCreate(CreateOrderParam orderParam)
+        {
+
+            InfoOrder data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://dev-online-gateway.ghn.vn/");
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            client.DefaultRequestHeaders.Add("ShopId", shopId);
+            HttpResponseMessage response = await client.PostAsJsonAsync("shiip/public-api/v2/shipping-order/create", orderParam).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject json = JObject.Parse(responseBody);
+                data = JsonConvert.DeserializeObject<InfoOrder>(json["data"].ToString());
+                //data = await response.Content.ReadAsAsync<List<ServiceModel>>();
+            }
+            return data;
+        }
+
+
+
+        public async Task<bodyUpdate> OrderUpdate(UpdateOrderParam orderParam)
+        {
+
+            bodyUpdate data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://dev-online-gateway.ghn.vn/");
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            client.DefaultRequestHeaders.Add("ShopId", shopId);
+            HttpResponseMessage response = await client.PostAsJsonAsync("shiip/public-api/v2/shipping-order/update", orderParam).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject json = JObject.Parse(responseBody);
+                data = JsonConvert.DeserializeObject<bodyUpdate>(json.ToString());
+            }
+            return data;
+        }
+
+        public async Task<bodyUpdate> OrderUpdateCOD(UpdateCOD updateCOD)
+        {
+
+            bodyUpdate data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://dev-online-gateway.ghn.vn/");
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            HttpResponseMessage response = await client.PostAsJsonAsync("shiip/public-api/v2/shipping-order/updateCOD", updateCOD).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject json = JObject.Parse(responseBody);
+                data = JsonConvert.DeserializeObject<bodyUpdate>(json.ToString());
+            }
+            return data;
+        }
+
+
+        public async Task<List<InfoCancel>> OrderCancel(Cancel cancel)
+        {
+
+            List<InfoCancel> data = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://dev-online-gateway.ghn.vn/");
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Token", token);
+            client.DefaultRequestHeaders.Add("ShopId", shopId);
+            HttpResponseMessage response = await client.PostAsJsonAsync("shiip/public-api/v2/switch-status/cancel", cancel).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject json = JObject.Parse(responseBody);
+                data = JsonConvert.DeserializeObject<List<InfoCancel>>(json["data"].ToString());
+            }
+            return data;
+        }
+
+
+        
+        public class ServiceModelParam
+        {
+            public int from_district { get; set; }
+            public int to_district { get; set; }
+        }
+
+        public class ServiceModel
+        {
+            public int service_id { get; set; }
+            public string short_name { get; set; }
+            public string service_type_id { get; set; } //1: Nhanh, 2: Chuẩn, 3: Tiết kiệm
+        }
+        public class OrderFeeParam
+        {
+            public int shop_id { get; set; }
+            public int service_id { get; set; }
+            public int to_district_id { get; set; }
+            public string to_ward_code { get; set; }
+            public int height { get; set; }
+            public int length { get; set; }
+            public int weight { get; set; }
+            public int width { get; set; }
+        }
+
+        public class OrderFeeModel
+        {
+            public int total { get; set; }
+            public int service_fee { get; set; }
+            public int insurance_fee { get; set; }
+            public string pick_station_fee { get; set; }
+            public int coupon_value { get; set; }
+            public int r2s_fee { get; set; }
+        }
+
+
+        public class CreateOrderParam
+        {
+            public int shop_id { get; set; }
+            public int payment_type_id { get; set; } //- Người gửi trả tiền: 1  - Người nhận trả tiền: 2
+            public string to_name { get; set; }
+            public string to_phone { get; set; }
+            public string to_address { get; set; }
+            public string to_ward_code { get; set; }
+            public int to_district_id { get; set; }
+            public string return_phone { get; set; }
+            public string return_address { get; set; }
+            public string return_district_id { get; set; }
+            public string return_ward_code { get; set; }
+            public string client_order_code { get; set; }
+            public int cod_amount { get; set; }
+            public string content { get; set; }
+            public int weight { get; set; }
+            public int length { get; set; }
+            public int width { get; set; }
+            public int height { get; set; }
+            public int pick_station_id { get; set; }
+            public int insurance_value { get; set; }
+            public string coupon { get; set; }
+            public string service_type_id { get; set; } //1: Nhanh, 2: Chuẩn, 3: Tiết kiệm
+            public int service_id { get; set; }
+            public string note { get; set; }
+            public string required_note { get; set; } //- Is required - Một trong các giá trị: KHONGCHOXEMHANG, CHOXEMHANGKHONGTHU, CHOTHUHANG
+            public string order_value { get; set; }
+            public int deliver_station_id { get; set; }
+            
+        }
+
+       
+        public class InfoOrder
+        {
+            public string order_code { get; set; }
+            public string sort_code { get; set; }
+            public string trans_type { get; set; }
+            public string ward_encode { get; set; }
+            public string district_encode { get; set; }
+            public Fee fee { get; set; }
+            public string total_fee { get; set; }
+            public string expected_delivery_time { get; set; }
+        }
+
+        public class Fee
+        {
+            public int main_service { get; set; }
+            public int insurance { get; set; }
+            public int station_do { get; set; }
+            public int station_pu { get; set; }
+            public int returns { get; set; }
+            public int r2s { get; set; }
+            public int coupon { get; set; }
+    }
+
+        public class UpdateOrderParam
+        {
+            
+            public string order_code { get; set; }
+            public string from_name { get; set; }
+            public string from_phone { get; set; }
+            public string from_address { get; set; }
+            public string from_ward_code { get; set; }
+            public string to_name { get; set; }
+            public string to_phone { get; set; }
+            public string to_address { get; set; }
+            public string to_ward_code { get; set; }
+            public int to_district_id { get; set; }
+            public string return_phone { get; set; }
+            public string return_address { get; set; }
+            public string return_district_id { get; set; }
+            public string return_ward_code { get; set; }
+            public int cod_amount { get; set; }
+            public string content { get; set; }
+            public int weight { get; set; }
+            public int length { get; set; }
+            public int width { get; set; }
+            public int height { get; set; }
+            public int pick_station_id { get; set; }
+            public int insurance_value { get; set; }
+            public string coupon { get; set; }
+            public int service_type_id { get; set; } //1: Nhanh, 2: Chuẩn, 3: Tiết kiệm
+            public int service_id { get; set; }
+            public int payment_type_id { get; set; } //- Người gửi trả tiền: 1  - Người nhận trả tiền: 2
+            public string note { get; set; }
+        }
+
+
+        public class bodyUpdate
+        {
+            public int code { get; set; }
+            public string message { get; set; }
+            public string data { get; set; }
+        }
+        public class UpdateCOD
+        {
+            public string order_code { get; set; }
+            public int cod_amount { get; set; }
+        }
+        public class Cancel
+        {
+            public string[] order_codes { get; set; }
+        }
+
+        public class InfoCancel
+        {
+            public string order_code { get; set; }
+            public bool result { get; set; }
+            public string message { get; set; }
+        }
+
+
+    }
+
+}

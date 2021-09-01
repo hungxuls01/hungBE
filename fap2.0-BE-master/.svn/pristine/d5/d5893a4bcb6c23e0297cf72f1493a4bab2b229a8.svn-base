@@ -1,0 +1,25 @@
+2020-09-29 09:00:17.9338|ERROR|ApiTng.Controllers.Sale_OrdersController|Value cannot be null.
+Parameter name: source
+2020-09-29 09:01:45.0217|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_MemberInsert' expects parameter '@code', which was not supplied.
+2020-09-29 09:10:43.6855|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_MemberInsert' expects parameter '@code', which was not supplied.
+2020-09-29 09:13:30.1710|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:13:55.5875|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-09-29 09:14:34.3909|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-09-29 09:28:52.3912|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:31:06.8310|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:33:45.5700|ERROR|ApiTng.Controllers.Sale_OrdersController|Trying to pass a table-valued parameter with 15 column(s) where the corresponding user-defined table type requires 14 column(s).
+2020-09-29 09:35:23.4110|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:40:11.5857|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:40:18.2504|ERROR|ApiTng.Controllers.Sale_OrdersController|Trying to pass a table-valued parameter with 16 column(s) where the corresponding user-defined table type requires 14 column(s).
+2020-09-29 09:40:44.6066|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:43:22.8211|ERROR|ApiTng.Controllers.Sale_OrdersController|Trying to pass a table-valued parameter with 16 column(s) where the corresponding user-defined table type requires 14 column(s).
+2020-09-29 09:43:37.4940|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:43:40.4742|ERROR|ApiTng.Controllers.Sale_OrdersController|Trying to pass a table-valued parameter with 16 column(s) where the corresponding user-defined table type requires 14 column(s).
+2020-09-29 09:44:19.4309|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:45:16.3810|ERROR|ApiTng.Controllers.Sale_OrdersController|Trying to pass a table-valued parameter with 16 column(s) where the corresponding user-defined table type requires 14 column(s).
+2020-09-29 09:45:23.9670|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:46:57.6023|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 09:47:00.0126|ERROR|ApiTng.apiconnect.Api|Invalid Username/Password
+2020-09-29 13:41:59.5986|ERROR|ApiTng.Controllers.Sale_OrdersController|Object reference not set to an instance of an object.
+2020-09-29 16:15:15.9493|ERROR|ApiTng.Controllers.ImportGoodsController|Could not find stored procedure 'dbo.sp_Company_Byid'.
+2020-09-29 16:15:19.6544|ERROR|ApiTng.Controllers.ImportGoodsController|Could not find stored procedure 'dbo.sp_Company_Byid'.

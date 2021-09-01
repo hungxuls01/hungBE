@@ -1,0 +1,42 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class DistrictDto : District
+    {
+    }
+
+    public class DistrictDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+
+    public class DistrictGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+
+    public class DistrictLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+
+    public class DistrictList
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string type { get; set; }
+        public int IsLock { get; set; }
+    }
+    public class DistrictCombobox
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+
+    }
+}

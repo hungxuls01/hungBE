@@ -1,0 +1,6 @@
+2020-02-25 15:26:51.0957|ERROR|ApiTng.Controllers.EmployeesController|Procedure or function 'sp_EmployeesCheckEmailAndMobile' expects parameter '@Keyword', which was not supplied.
+2020-02-25 15:28:19.7506|ERROR|ApiTng.Controllers.ImportGoodsController|Object reference not set to an instance of an object.
+2020-02-25 15:28:27.6724|ERROR|ApiTng.Controllers.ImportGoodsController|Cannot insert the value NULL into column 'id', table '@Goods_Lines'; column does not allow nulls. INSERT fails.
+The data for table-valued parameter "@Goods_Lines" doesn't conform to the table type of the parameter. SQL Server error is: 515, state: 2
+The statement has been terminated.
+2020-02-25 15:30:09.0105|ERROR|ApiTng.Controllers.ImportGoodsController|Procedure or function 'sp_ImportGoodsInsertOrUpdate' expects parameter '@storecontact', which was not supplied.

@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Report
+{
+    public class ReportDal : DbInteractionBase, IReportDal
+    {
+        #region BACKEND
+
+
+        public Tuple<int, List<ReportSalesList>> ReportSales(ReportSales obj)
+        {
+            return ExecuteReaderOutput<ReportSalesList>("sp_ReportSaleOrderChart", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Type",ValueParam = obj.Type},
+                new QueryParam {NameParam ="FromDate",ValueParam = obj.FromDate},
+                new QueryParam {NameParam ="ToDate",ValueParam = obj.ToDate},
+                new QueryParam {NameParam ="CargoTypeId",ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam ="CompanyId",ValueParam = obj.CompanyId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<ReportProductsList>> ReportProducts(ReportProducts obj)
+        {
+            return ExecuteReaderOutput<ReportProductsList>("sp_ReportProductChart", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Type",ValueParam = obj.Type},
+                new QueryParam {NameParam ="FromDate",ValueParam = obj.FromDate},
+                new QueryParam {NameParam ="ToDate",ValueParam = obj.ToDate},
+                new QueryParam {NameParam ="CargoTypeId",ValueParam = obj.CargoTypeId},
+                 new QueryParam {NameParam ="CompanyId",ValueParam = obj.CompanyId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        public Tuple<int, List<ReportOrderStatusList>> ReportOrderStatus(ReportOrderStatus obj)
+        {
+            return ExecuteReaderOutput<ReportOrderStatusList>("sp_ReportOrderStatus", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Type",ValueParam = obj.Type},
+                new QueryParam {NameParam ="FromDate",ValueParam = obj.FromDate},
+                new QueryParam {NameParam ="ToDate",ValueParam = obj.ToDate},
+                new QueryParam {NameParam ="CargoTypeId",ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        public Tuple<int, List<ReportTopProvinceList>> ReportTopProvince(ReportTopProvince obj)
+        {
+            return ExecuteReaderOutput<ReportTopProvinceList>("sp_ReportTopBuyWithProvince", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Type",ValueParam = obj.Type},
+                new QueryParam {NameParam ="FromDate",ValueParam = obj.FromDate},
+                new QueryParam {NameParam ="ToDate",ValueParam = obj.ToDate},
+                new QueryParam {NameParam ="CargoTypeId",ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        public Tuple<int, List<ReportPaymentTypeList>> ReportPaymentType(ReportPaymentType obj)
+        {
+            return ExecuteReaderOutput<ReportPaymentTypeList>("sp_ReportPaymentTypeChart", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Type",ValueParam = obj.Type},
+                new QueryParam {NameParam ="FromDate",ValueParam = obj.FromDate},
+                new QueryParam {NameParam ="ToDate",ValueParam = obj.ToDate},
+                new QueryParam {NameParam ="CargoTypeId",ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        public Tuple<int, List<ReportServiceTransportList>> ReportServiceTransport(ReportServiceTransport obj)
+        {
+            return ExecuteReaderOutput<ReportServiceTransportList>("sp_ReportUserServiceTransportChart", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Type",ValueParam = obj.Type},
+                new QueryParam {NameParam ="FromDate",ValueParam = obj.FromDate},
+                new QueryParam {NameParam ="ToDate",ValueParam = obj.ToDate},
+                new QueryParam {NameParam ="CargoTypeId",ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<ReportOrderList>, int> ReportOrder(ReportOrder obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<ReportOrderList>("sp_ReportOrder", new List<QueryParam>
+            {
+                 new QueryParam {NameParam = "provinceid", ValueParam = obj.provinceid},
+                new QueryParam {NameParam = "ispayment", ValueParam = obj.ispayment},
+                new QueryParam {NameParam = "paymenttype", ValueParam = obj.paymenttype},
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "CompanyId", ValueParam = obj.CompanyId},
+                new QueryParam {NameParam = "IsReport", ValueParam = obj.IsReport},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = obj.CargoTypeId},
+                ///
+               new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<ReportOrderDetailList>, int> ReportOrderDetail(ReportOrderDetail obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<ReportOrderDetailList>("sp_ReportOrderDetailSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "provinceid", ValueParam = obj.provinceid},
+                new QueryParam {NameParam = "ispayment", ValueParam = obj.ispayment},
+                new QueryParam {NameParam = "paymenttype", ValueParam = obj.paymenttype},
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "CompanyId", ValueParam = obj.CompanyId},
+                new QueryParam {NameParam = "IsReport", ValueParam = obj.IsReport},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = obj.CargoTypeId},
+                ///
+               new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+        #endregion
+    }
+}

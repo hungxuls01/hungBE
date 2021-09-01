@@ -1,0 +1,254 @@
+﻿using _1.DataAccessLayer.ImportGoods;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class ImportGoodsController : ApiController
+    {
+        private static IImportGoodsDal _ImportGoodsDal;
+        private static Logger _logger;
+        private Api api;
+
+        public ImportGoodsController()
+        {
+            _ImportGoodsDal = new ImportGoodsDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(ImportGoodsSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ImportGoodsDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<ImportGoodsList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(ImportGoodsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.GetById(id);
+                if (data != null)
+                {
+                    var detail = _ImportGoodsDal.GetListDetai(id);
+                    data.Goods_Lines = detail;
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetByImportGoodsId(ImportGoodsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ImportGoodsDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Insert(ImportGoodsAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = "";
+                if (objAdd.id == null)
+                {
+                    data = _ImportGoodsDal.Insert(objAdd);
+                }
+                else
+                {
+                    data = _ImportGoodsDal.Update(objAdd);
+
+                }
+                if (data != null && data != "")
+                {
+                    //SendMail.sendMailByType(objAdd.emailcompany, new string[] { }, "28");
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult UpdateKHO(ImportGoodsUpdateKHO objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.UpdateKHO(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult UpdateStatus(ImportGoodsStatus objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var id = new ImportGoodsGetbyId
+                {
+                    id = (Guid)objAdd.id
+                };
+                var datagetid = _ImportGoodsDal.GetById(id);
+                if (datagetid != null)
+                {
+                    var detail = _ImportGoodsDal.GetListDetai(id);
+                    if (detail == null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    datagetid.Goods_Lines = detail;
+                }
+                else
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Không tìm thấy phiếu nhập kho !";
+                    return response;
+                }
+                objAdd.deliverydate = datagetid.deliverydate;
+                var Goods_Lines = new List<ListImportGoods_Lines>();
+                foreach (var item in datagetid.Goods_Lines)
+                {
+                    var detail = new ListImportGoods_Lines
+                    {
+                        id = item.id,
+                        importGoodsid = item.importGoodsid,
+                        productid = item.productid,
+                        unitid = item.unitid,
+                        pricecomnpany = item.pricecomnpany,
+                        discount = item.discount,
+                        qty = item.qty,
+                        total = item.total,
+                        slthuc = item.slthuc,
+                        sltrave = item.sltrave,
+                        sldat = item.sldat,
+                        notestore = item.notestore,
+                        slUpdate = item.slUpdate,
+                        notesale = item.notesale
+                    };
+                    Goods_Lines.Add(detail);
+                }
+                objAdd.Goods_Lines = Goods_Lines;
+
+                var data = _ImportGoodsDal.UpdateStatus(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

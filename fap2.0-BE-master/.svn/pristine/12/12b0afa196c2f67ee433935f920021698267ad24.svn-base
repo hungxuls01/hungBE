@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.ImportGoods
+{
+    public class ImportGoodsDal : DbInteractionBase, IImportGoodsDal
+    {
+        public ImportGoodsGetByid GetById(ImportGoodsGetbyId obj)
+        {
+            return ExecuteReaderObject<ImportGoodsGetByid>("sp_ImportGoodsSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id}
+            });
+        }
+
+        public List<ListImportGoods_LinesGetid> GetListDetai(ImportGoodsGetbyId id)
+        {
+            return ExecuteReader<ListImportGoods_LinesGetid>("sp_ImportGoods_LinesByImportGoodsId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id.id}
+            });
+        }
+
+        public string Insert(ImportGoodsAdd objAdd)
+        {
+            DataTable OderDetail = new DataTable();
+            OderDetail.Columns.Add("id", typeof(string));
+            OderDetail.Columns.Add("importGoodsid", typeof(string));
+            OderDetail.Columns.Add("productid", typeof(string));
+            OderDetail.Columns.Add("unitid", typeof(string));
+            OderDetail.Columns.Add("pricecomnpany", typeof(string));
+            OderDetail.Columns.Add("discount", typeof(decimal));
+            OderDetail.Columns.Add("qty", typeof(int));
+            OderDetail.Columns.Add("total", typeof(decimal));
+            OderDetail.Columns.Add("slthuc", typeof(decimal));
+            OderDetail.Columns.Add("sltrave", typeof(decimal));
+            OderDetail.Columns.Add("sldat", typeof(decimal));
+            OderDetail.Columns.Add("notestore", typeof(string));
+            OderDetail.Columns.Add("slUpdate", typeof(decimal));
+            OderDetail.Columns.Add("notesale", typeof(string));
+
+            foreach (var item in objAdd.Goods_Lines)
+            {
+                DataRow toInsert = OderDetail.NewRow();
+                toInsert[0] = item.id;
+                toInsert[1] = item.importGoodsid;
+                toInsert[2] = item.productid;
+                toInsert[3] = item.unitid;
+                toInsert[4] = item.pricecomnpany;
+                toInsert[5] = item.discount;
+                toInsert[6] = item.qty;
+                toInsert[7] = item.total;
+                toInsert[8] = item.slthuc;
+                toInsert[9] = item.sltrave;
+                toInsert[10] = item.sldat;
+                toInsert[11] = item.notestore;
+                toInsert[12] = item.slUpdate;
+                toInsert[13] = item.notesale;
+
+                OderDetail.Rows.Add(toInsert);
+            }
+
+            return ExecuteNonQueryOutputGuid("sp_ImportGoodsInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "companyid", ValueParam = objAdd.companyid},
+                new QueryParam {NameParam = "codecompany", ValueParam = objAdd.codecompany},
+                new QueryParam {NameParam = "namecompany", ValueParam = objAdd.namecompany},
+                new QueryParam {NameParam = "addresscompany", ValueParam = objAdd.addresscompany},
+                new QueryParam {NameParam = "mobilecompany", ValueParam = objAdd.mobilecompany},
+                new QueryParam {NameParam = "contact", ValueParam = objAdd.contact},
+                new QueryParam {NameParam = "mobilecontact", ValueParam = objAdd.mobilecontact},
+                new QueryParam {NameParam = "storeid", ValueParam = objAdd.storeid},
+                new QueryParam {NameParam = "deliverydate", ValueParam = objAdd.deliverydate},
+                new QueryParam {NameParam = "storecontact", ValueParam = objAdd.storecontact},
+                new QueryParam {NameParam = "storemobilecontact", ValueParam = objAdd.storemobilecontact},
+                new QueryParam {NameParam = "Goods_Lines", ValueParam = OderDetail},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<ImportGoodsList>> SelectPaging(ImportGoodsSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<ImportGoodsList>("sp_ImportGoodsSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "statusall", ValueParam = obj.statusall},
+                new QueryParam {NameParam = "dateadded", ValueParam = obj.dateadded},
+                new QueryParam {NameParam = "deliverydate", ValueParam = obj.deliverydate},
+                new QueryParam {NameParam = "companyid", ValueParam = obj.companyid},
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},
+                new QueryParam {NameParam = "Sort", ValueParam = obj.Sort},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public bool UpdateKHO(ImportGoodsUpdateKHO objAdd)
+        {
+            DataTable OderDetail = new DataTable();
+            OderDetail.Columns.Add("id", typeof(string));
+            OderDetail.Columns.Add("importGoodsid", typeof(string));
+            OderDetail.Columns.Add("productid", typeof(string));
+            OderDetail.Columns.Add("unitid", typeof(string));
+            OderDetail.Columns.Add("pricecomnpany", typeof(string));
+            OderDetail.Columns.Add("discount", typeof(decimal));
+            OderDetail.Columns.Add("qty", typeof(int));
+            OderDetail.Columns.Add("total", typeof(decimal));
+            OderDetail.Columns.Add("slthuc", typeof(decimal));
+            OderDetail.Columns.Add("sltrave", typeof(decimal));
+            OderDetail.Columns.Add("sldat", typeof(decimal));
+            OderDetail.Columns.Add("notestore", typeof(string));
+            OderDetail.Columns.Add("slUpdate", typeof(decimal));
+            OderDetail.Columns.Add("notesale", typeof(string));
+
+            foreach (var item in objAdd.Goods_Lines)
+            {
+                DataRow toInsert = OderDetail.NewRow();
+                toInsert[0] = item.id;
+                toInsert[1] = item.importGoodsid;
+                toInsert[2] = item.productid;
+                toInsert[3] = item.unitid;
+                toInsert[4] = item.pricecomnpany;
+                toInsert[5] = item.discount;
+                toInsert[6] = item.qty;
+                toInsert[7] = item.total;
+                toInsert[8] = item.slthuc;
+                toInsert[9] = item.sltrave;
+                toInsert[10] = item.sldat;
+                toInsert[11] = item.notestore;
+                toInsert[12] = item.slUpdate;
+                toInsert[13] = item.notesale;
+
+                OderDetail.Rows.Add(toInsert);
+            }
+
+            return ExecuteNonQuery("sp_ImportGoodsUpdateKHO", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "Goods_Lines", ValueParam = OderDetail}
+            });
+        }
+
+        public bool UpdateStatus(ImportGoodsStatus obj)
+        {
+            return ExecuteNonQuery("sp_ImportGoodsUpdateStatus", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="status",ValueParam = obj.status},
+                new QueryParam {NameParam ="id",ValueParam = obj.id},
+                new QueryParam {NameParam ="note",ValueParam = obj.note}
+            });
+        }
+    }
+}

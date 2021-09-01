@@ -1,0 +1,26 @@
+2021-07-16 22:48:04.4281|ERROR|Service.Controllers.NotificationController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-07-16 22:50:02.4410|ERROR|Service.Controllers.NotificationController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-07-16 22:50:38.7669|ERROR|Service.Controllers.NotificationController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-07-16 22:50:51.2724|ERROR|Service.Controllers.NotificationController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-07-16 22:53:10.1391|ERROR|Service.Controllers.NotificationController|Object of type 'System.Int32' cannot be converted to type 'System.Boolean'.
+2021-07-16 22:53:10.1021|ERROR|Service.Controllers.NotificationController|Object of type 'System.Int32' cannot be converted to type 'System.Boolean'.
+2021-07-16 23:18:18.9536|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+Invalid column name 'FirstName'.
+Invalid column name 'MiddleName'.
+Invalid column name 'LastName'.
+2021-07-16 23:18:28.9662|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+Invalid column name 'FirstName'.
+Invalid column name 'MiddleName'.
+Invalid column name 'LastName'.
+2021-07-16 23:18:36.9572|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+Invalid column name 'FirstName'.
+Invalid column name 'MiddleName'.
+Invalid column name 'LastName'.
+2021-07-16 23:19:19.6983|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+Invalid column name 'FirstName'.
+Invalid column name 'MiddleName'.
+Invalid column name 'LastName'.
+2021-07-16 23:21:05.2534|ERROR|Service.Controllers.NotificationController|Ambiguous column name 'id'.
+2021-07-16 23:22:47.7416|ERROR|Service.Controllers.NotificationController|Cannot find table 1.
+2021-07-16 23:22:59.9423|ERROR|Service.Controllers.NotificationController|Cannot find table 1.
+2021-07-16 23:23:33.9169|ERROR|Service.Controllers.NotificationController|Cannot find table 1.

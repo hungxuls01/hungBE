@@ -1,0 +1,21 @@
+2020-02-29 10:12:01.7988|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Object reference not set to an instance of an object.
+2020-02-29 10:12:39.2938|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Object reference not set to an instance of an object.
+2020-02-29 10:13:43.9080|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Object reference not set to an instance of an object.
+2020-02-29 10:14:45.1724|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Object reference not set to an instance of an object.
+2020-02-29 10:16:52.8268|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 10:18:10.1491|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 10:18:50.0306|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 10:19:32.0398|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 10:29:45.5184|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Conversion failed when converting the nvarchar value '2245c11a-6db6-4964-8064-48cb36abde5b' to data type int.
+The data for table-valued parameter "@sale_Order_WholesaleLines" doesn't conform to the table type of the parameter. SQL Server error is: 245, state: 1
+The statement has been terminated.
+2020-02-29 10:33:07.0619|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 11:06:31.1392|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 11:24:48.2827|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 11:25:29.7272|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function sp_Sale_Order_WholesaleInsertOrUpdate has too many arguments specified.
+2020-02-29 11:28:01.6184|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function 'sp_Sale_Order_WholesaleInsertOrUpdate' expects parameter '@bankid', which was not supplied.
+2020-02-29 11:29:41.5704|ERROR|ApiTng.Controllers.Sale_Order_WholesaleController|Procedure or function 'sp_Sale_Order_WholesaleInsertOrUpdate' expects parameter '@bankid', which was not supplied.
+2020-02-29 13:45:52.9965|ERROR|ApiTng.Controllers.ProductConsignmentController|Object reference not set to an instance of an object.
+2020-02-29 13:50:55.1496|ERROR|ApiTng.Controllers.ProductConsignmentController|Procedure or function 'sp_ProductConsignmentUpdate' expects parameter '@otherunits', which was not supplied.
+2020-02-29 13:51:10.6013|ERROR|ApiTng.Controllers.ProductConsignmentController|Procedure or function 'sp_ProductConsignmentUpdate' expects parameter '@quycachsanpham', which was not supplied.
+2020-02-29 13:52:12.9516|ERROR|ApiTng.Controllers.ProductConsignmentController|Procedure or function 'sp_ProductConsignmentUpdate' expects parameter '@evaluationid', which was not supplied.

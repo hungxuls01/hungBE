@@ -1,0 +1,21 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Orders_MSB
+{
+    public interface ISale_Orders_MSBDal
+    {
+        #region BACKEND
+
+
+        bool Insert(Sale_Orders_MSBAdd objAdd);
+
+        #endregion
+
+
+    }
+}

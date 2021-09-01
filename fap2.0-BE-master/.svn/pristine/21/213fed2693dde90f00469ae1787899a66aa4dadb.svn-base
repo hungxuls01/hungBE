@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\pubApi</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Areas/HelpPage/HelpPage.css">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/Api.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ApiGroup.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/CollectionModelDescription.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ComplexTypeModelDescription.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/DictionaryModelDescription.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/EnumTypeModelDescription.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/HelpPageApiModel.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ImageSample.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/InvalidSample.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/KeyValuePairModelDescription.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ModelDescriptionLink.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Parameters.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Samples.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/SimpleTypeModelDescription.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/TextSample.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/Index.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/ResourceModel.cshtml">
+      <publishTime>03/12/2019 14:19:30</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Shared/_Layout.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Web.config">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/_ViewStart.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="bin/1.DataAccessLayer.dll">
+      <publishTime>08/11/2020 09:14:52</publishTime>
+    </File>
+    <File Include="bin/1.DataAccessLayer.dll.config">
+      <publishTime>06/21/2019 05:27:50</publishTime>
+    </File>
+    <File Include="bin/1.DataAccessLayer.pdb">
+      <publishTime>08/11/2020 09:14:52</publishTime>
+    </File>
+    <File Include="bin/2.DataTransferObject.dll">
+      <publishTime>08/11/2020 09:14:52</publishTime>
+    </File>
+    <File Include="bin/2.DataTransferObject.dll.config">
+      <publishTime>06/21/2019 05:27:52</publishTime>
+    </File>
+    <File Include="bin/2.DataTransferObject.pdb">
+      <publishTime>08/11/2020 09:14:52</publishTime>
+    </File>
+    <File Include="bin/3.Data.dll">
+      <publishTime>08/11/2020 09:14:51</publishTime>
+    </File>
+    <File Include="bin/3.Data.dll.config">
+      <publishTime>08/01/2020 17:13:22</publishTime>
+    </File>
+    <File Include="bin/3.Data.pdb">
+      <publishTime>08/11/2020 09:14:51</publishTime>
+    </File>
+    <File Include="bin/4.Utils.dll">
+      <publishTime>08/11/2020 09:14:51</publishTime>
+    </File>
+    <File Include="bin/4.Utils.dll.config">
+      <publishTime>06/21/2019 05:27:58</publishTime>
+    </File>
+    <File Include="bin/4.Utils.pdb">
+      <publishTime>08/11/2020 09:14:51</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/ApiTng.dll">
+      <publishTime>08/11/2020 09:14:52</publishTime>
+    </File>
+    <File Include="bin/ApiTng.pdb">
+      <publishTime>08/11/2020 09:14:52</publishTime>
+    </File>
+    <File Include="bin/Autofac.dll">
+      <publishTime>10/17/2013 15:19:46</publishTime>
+    </File>
+    <File Include="bin/Autofac.Integration.SignalR.dll">
+      <publishTime>10/23/2013 06:05:32</publishTime>
+    </File>
+    <File Include="bin/EASendMail.dll">
+      <publishTime>09/21/2019 00:53:52</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/Google.Apis.Core.dll">
+      <publishTime>09/12/2019 01:12:18</publishTime>
+    </File>
+    <File Include="bin/ImageResizer.dll">
+      <publishTime>09/23/2019 23:32:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>09/23/2019 23:32:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.SignalR.Core.dll">
+      <publishTime>04/03/2019 15:30:56</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.SignalR.Core.pdb">
+      <publishTime>04/03/2019 22:19:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.SignalR.SystemWeb.dll">
+      <publishTime>04/03/2019 15:30:56</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.SignalR.SystemWeb.pdb">
+      <publishTime>04/03/2019 22:20:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.TelemetryCorrelation.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Cors.dll">
+      <publishTime>01/13/2014 16:11:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>09/23/2019 23:32:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>09/23/2019 23:32:52</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.pdb">
+      <publishTime>09/23/2019 23:32:52</publishTime>
+    </File>
+    <File Include="bin/NLog.config">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="bin/NLog.dll">
+      <publishTime>09/23/2019 23:32:50</publishTime>
+    </File>
+    <File Include="bin/NLog.Extensions.dll">
+      <publishTime>09/23/2019 23:32:50</publishTime>
+    </File>
+    <File Include="bin/Nuclex.Cloning.dll">
+      <publishTime>12/05/2013 01:44:32</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe.config">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Managed.Core.targets">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Console.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.FileVersionInfo.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Compression.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Pipes.AccessControl.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Pipes.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.AccessControl.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Claims.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Algorithms.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Encoding.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Primitives.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.X509Certificates.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Principal.Windows.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Text.Encoding.CodePages.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.ValueTuple.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.ReaderWriter.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XmlDocument.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XPath.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XPath.XDocument.dll">
+      <publishTime>09/23/2019 23:32:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/System.Diagnostics.DiagnosticSource.dll">
+      <publishTime>09/23/2019 23:32:42</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>09/23/2019 23:32:50</publishTime>
+    </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Cors.dll">
+      <publishTime>09/23/2019 23:32:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>09/23/2019 23:32:42</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Owin.dll">
+      <publishTime>11/28/2018 13:01:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>09/23/2019 23:32:50</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>09/23/2019 23:32:52</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>09/23/2019 23:32:48</publishTime>
+    </File>
+    <File Include="Configuration/ListImage.html">
+      <publishTime>10/11/2019 23:40:16</publishTime>
+    </File>
+    <File Include="Configuration/OrderCompleted.html">
+      <publishTime>01/06/2020 11:02:52</publishTime>
+    </File>
+    <File Include="Configuration/OrderSuccess.html">
+      <publishTime>07/23/2020 18:18:14</publishTime>
+    </File>
+    <File Include="Configuration/OrderVender.html">
+      <publishTime>10/23/2019 06:52:02</publishTime>
+    </File>
+    <File Include="Configuration/TableOrderLine.html">
+      <publishTime>10/11/2019 23:40:16</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css.map">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css.map">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css.map">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css.map">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>07/03/2019 05:47:58</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>06/21/2019 05:28:06</publishTime>
+    </File>
+    <File Include="NLog.config">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/11df23cb-0799-4468-9c69-f8b3a23f50ec.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/3db766ca-c80e-4b5e-9fe5-884016de6c64.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/3efa4858-b26c-41e8-813a-786cf81f7a70.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/58e6b5c4-c245-4549-ba71-09110fad6394.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/7535bf62-6503-490f-af60-c34961b46b90.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/807d4ec8-f4b5-48e3-b61d-edd1051f7c37.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/8e1e4c30-98a3-45e7-bc1a-eb286ba63ee2.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/9eb71c6c-a3a8-4e4a-aad2-24abf2101586.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/adc34f3e-ca56-4167-93c2-29c90d2ea9ea.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/daf0744c-9bc6-48bf-95e3-fb6203b04b5d.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/12_4_2019/f44bdc0d-8983-4b4f-aec2-b15b62dd2ab3.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/14_5_2019/18982c8d-b648-41b1-8c9e-ae5e7044d9fb.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/14_5_2019/29e59838-8967-47db-9dde-af08a446c589.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/14_5_2019/b4dd32a8-61df-416f-8641-d216b62c7131.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/14_5_2019/ba288454-3164-4f8e-8b13-9686b2a6e24c.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/16_5_2019/d42be871-bc8d-4e45-ac25-f49643600f3c.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/16_5_2019/d42be871-bc8d-4e45-ac25-f49643600f3c.jpg_200x200.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/16_5_2019/d42be871-bc8d-4e45-ac25-f49643600f3c.jpg_500x500.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/16_5_2019/d42be871-bc8d-4e45-ac25-f49643600f3c.jpg_50x50.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/16_5_2019b0656036-721e-4207-acc6-a3bfdc4d5bd6_50x50.jpg">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/127eb341-7559-4697-a77d-29899261f881.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/2d8f4a05-8070-48db-9b22-b23de2d144dc.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/35d544ed-ba5b-4275-b947-45897b2a1c9b.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/7196dc45-6cdc-4b4e-8d31-2059f1a665ab.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/7b826dd5-c652-41ba-94ea-864e5aaa0a2d.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/c4be754f-da74-4f32-b0b0-b82f95ca104d.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/ce9d7b38-9031-4b1e-ba85-83a1edde5b60.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/f08142dd-6e14-4a49-9741-a5b8c4b45b3c.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/1_4_2019/f4ee5522-ed71-4be4-a08d-0026f59e7b7e.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/2a02a86a-a61f-4f57-97dd-e45ac99fe501.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/40ca0d0e-7539-46a1-b0ee-d2c1c55493cf.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/47fb7e36-c950-46b3-91b4-70e5e6099943.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/4c127035-649e-45b4-9224-d8e30404b880.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/4c1a5cae-0a62-48ae-abb0-0273418d75e5.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/8ca38ad8-6a64-4daf-a5f0-18c2e38adee8.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/BodyPart_53fff7a8-6cfd-4b10-a8b5-2b789d96bfbb">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/25_4_2019/BodyPart_b703019a-3123-4ca1-a292-3052a0dd9c7c">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/2_4_2019/3faad771-3f9d-476d-8e4f-12d44765fbcd.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/2_4_2019/824b3213-07b0-40eb-8901-51141731fdee.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/2_4_2019/ddfd8beb-c6c5-4d0e-b788-07df08395eeb.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Public/Images/9_5_2019/ce5ce6c9-8b35-4a8b-b7ec-5bfe46860a72.png">
+      <publishTime>07/03/2019 05:48:02</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>07/03/2019 05:47:54</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>07/03/2019 05:47:54</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.js">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.min.js">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.min.map">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.slim.js">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.slim.min.js">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.slim.min.map">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery.signalR-2.4.1.js">
+      <publishTime>11/22/2019 05:14:52</publishTime>
+    </File>
+    <File Include="Scripts/jquery.signalR-2.4.1.min.js">
+      <publishTime>11/22/2019 05:14:52</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.8.3.js">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>12/04/2019 16:29:12</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>07/03/2019 05:47:56</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>08/08/2020 10:05:34</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

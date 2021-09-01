@@ -1,0 +1,541 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Sale_Orders
+{
+    public class Sale_OrdersDal : DbInteractionBase, ISale_OrdersDal
+    {
+        public Tuple<int, List<Sale_OrdersList>> SelectPaging(Sale_OrdersSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Sale_OrdersList>("sp_SaleOrderSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "CompanyId", ValueParam = obj.CompanyId},
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},
+                new QueryParam {NameParam = "deliverydate", ValueParam = obj.deliverydate},
+                new QueryParam {NameParam = "receiver_provinceid", ValueParam = obj.receiver_provinceid},
+                new QueryParam {NameParam = "PaymentType", ValueParam = obj.PaymentType},
+                new QueryParam {NameParam = "Sort", ValueParam = obj.Sort},
+                new QueryParam {NameParam = "useridCancel", ValueParam = obj.useridCancel},
+                new QueryParam {NameParam = "codecompany", ValueParam = obj.codecompany},
+                //
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<Sale_OrdersList>> SelectPagingByMemberId(Sale_OrdersSearchByMemberIdDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Sale_OrdersList>("sp_SaleOrderSelectPagingByMemberId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "CompanyId", ValueParam = obj.CompanyId},
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},
+                new QueryParam {NameParam = "deliverydate", ValueParam = obj.deliverydate},
+                new QueryParam {NameParam = "receiver_provinceid", ValueParam = obj.receiver_provinceid},
+                new QueryParam {NameParam = "PaymentType", ValueParam = obj.PaymentType},
+                new QueryParam {NameParam = "Sort", ValueParam = obj.Sort},
+                new QueryParam {NameParam = "useridCancel", ValueParam = obj.useridCancel},
+                new QueryParam {NameParam = "codecompany", ValueParam = obj.codecompany},
+                new QueryParam {NameParam = "memberid", ValueParam = obj.memberid},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(Sale_OrdersLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Sale_OrdersIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+
+        public int Delete(Sale_OrdersDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_Sale_OrdersDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+
+        public Sale_OrdersId GetById(Sale_OrdersGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<Sale_OrdersId>("sp_SaleOrderSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public string Insert(Sale_OrdersAdd objAdd)
+        {
+            DataTable saleorderline = new DataTable();
+            saleorderline.Columns.Add("sale_orderid", typeof(string));
+            saleorderline.Columns.Add("productid", typeof(string));
+            saleorderline.Columns.Add("qty", typeof(int));
+            saleorderline.Columns.Add("unitid", typeof(string));
+            saleorderline.Columns.Add("title", typeof(string));
+            saleorderline.Columns.Add("price_sale", typeof(int));
+            saleorderline.Columns.Add("price_discount", typeof(int));
+            saleorderline.Columns.Add("discount", typeof(int));
+            saleorderline.Columns.Add("catalogid", typeof(string));
+            saleorderline.Columns.Add("Weight", typeof(int));
+            saleorderline.Columns.Add("total", typeof(int));
+            saleorderline.Columns.Add("companyid", typeof(string));
+            saleorderline.Columns.Add("isConsignment", typeof(int));
+
+            foreach (var item in objAdd.saleorderline)
+            {
+                DataRow toInsert = saleorderline.NewRow();
+                toInsert[0] = item.sale_orderid;
+                toInsert[1] = item.productid;
+                toInsert[2] = item.qty;
+                toInsert[3] = item.unitid;
+                toInsert[4] = item.title;
+                toInsert[5] = item.price_sale;
+                toInsert[6] = item.price_discount;
+                toInsert[7] = item.discount;
+                toInsert[8] = item.catalogid;
+                toInsert[9] = item.Weight;
+                toInsert[10] = item.total;
+                toInsert[11] = item.companyid;
+                toInsert[12] = item.isConsignment;
+
+                saleorderline.Rows.Add(toInsert);
+            }
+            DataTable saleorderUse = new DataTable();
+            saleorderUse.Columns.Add("isuse", typeof(bool));
+            saleorderUse.Columns.Add("filesick", typeof(string));
+            saleorderUse.Columns.Add("description", typeof(string));
+            saleorderUse.Columns.Add("drugnow", typeof(string));
+            saleorderUse.Columns.Add("relationship", typeof(string));
+            saleorderUse.Columns.Add("name", typeof(string));
+            saleorderUse.Columns.Add("mobile", typeof(string));
+            saleorderUse.Columns.Add("email", typeof(string));
+            saleorderUse.Columns.Add("address", typeof(string));
+            saleorderUse.Columns.Add("memberid", typeof(string));
+            saleorderUse.Columns.Add("productcatalogid", typeof(string));
+            saleorderUse.Columns.Add("member_Useid", typeof(string));
+            saleorderUse.Columns.Add("productid", typeof(string));
+            saleorderUse.Columns.Add("sale_Orderid", typeof(string));
+            saleorderUse.Columns.Add("birthday", typeof(string));
+
+            
+            foreach (var item in objAdd.saleorderUse)
+            {
+                DataRow toInsert = saleorderUse.NewRow();
+                toInsert[0] = item.isuse;
+                toInsert[1] = item.filesick;
+                toInsert[2] = item.description;
+                toInsert[3] = item.drugnow;
+                toInsert[4] = item.relationship;
+                toInsert[5] = item.name;
+                toInsert[6] = item.mobile;
+                toInsert[7] = item.email;
+                toInsert[8] = item.address;
+                toInsert[9] = item.memberid;
+                toInsert[10] = item.productcatalogid;
+                toInsert[11] = item.member_Useid;
+                toInsert[12] = item.productid;
+                toInsert[13] = item.sale_Orderid;
+                toInsert[14] = item.birthday;
+
+                saleorderUse.Rows.Add(toInsert);
+            }
+            return ExecuteNonQueryOutputGuid("sp_SaleOrderInsert", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "money_total", ValueParam = objAdd.money_total},
+                new QueryParam {NameParam = "discount", ValueParam = objAdd.discount},
+                new QueryParam {NameParam = "cod", ValueParam = objAdd.cod},
+                new QueryParam {NameParam = "cpvc", ValueParam = objAdd.cpvc},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "IsPayment", ValueParam = objAdd.IsPayment},
+                new QueryParam {NameParam = "PaymentType", ValueParam = objAdd.PaymentType},
+                new QueryParam {NameParam = "receiver_fullname", ValueParam = objAdd.receiver_fullname},
+                new QueryParam {NameParam = "receiver_tel", ValueParam = objAdd.receiver_tel},
+                new QueryParam {NameParam = "receiver_address", ValueParam = objAdd.receiver_address},
+                new QueryParam {NameParam = "receiver_email", ValueParam = objAdd.receiver_email},
+                new QueryParam {NameParam = "receiver_birthday", ValueParam = objAdd.member_birthday},
+                new QueryParam {NameParam = "receiver_sex", ValueParam = objAdd.member_sex},
+                new QueryParam {NameParam = "receiver_rewardid", ValueParam = objAdd.receiver_rewardid},
+                new QueryParam {NameParam = "receiver_districtid", ValueParam = objAdd.receiver_districtid},
+                new QueryParam {NameParam = "receiver_provinceid", ValueParam = objAdd.receiver_provinceid},
+                new QueryParam {NameParam = "member_fullname", ValueParam = objAdd.member_fullname},
+                new QueryParam {NameParam = "member_tel", ValueParam = objAdd.member_tel},
+                new QueryParam {NameParam = "member_address", ValueParam = objAdd.member_address},
+                new QueryParam {NameParam = "member_email", ValueParam = objAdd.member_email},
+                new QueryParam {NameParam = "member_birthday", ValueParam = objAdd.member_birthday},
+                new QueryParam {NameParam = "member_sex", ValueParam = objAdd.member_sex},
+                new QueryParam {NameParam = "member_rewardid", ValueParam = objAdd.member_rewardid},
+                new QueryParam {NameParam = "member_districtid", ValueParam = objAdd.member_districtid},
+                new QueryParam {NameParam = "member_provinceid", ValueParam = objAdd.member_provinceid},
+                new QueryParam {NameParam = "NoteCancel", ValueParam = objAdd.NoteCancel},
+                new QueryParam {NameParam = "CompanyId", ValueParam = objAdd.CompanyId},
+                new QueryParam {NameParam = "typeTransport", ValueParam = objAdd.typeTransport},
+                new QueryParam {NameParam = "transferscode", ValueParam = objAdd.transferscode},
+                new QueryParam {NameParam = "deliverydate", ValueParam = objAdd.deliverydate},
+                new QueryParam {NameParam = "storeid", ValueParam = objAdd.storeid},
+                new QueryParam {NameParam = "discountCode", ValueParam = objAdd.discountCode},
+                new QueryParam {NameParam = "money_discountCode", ValueParam = objAdd.money_discountCode},
+                new QueryParam {NameParam = "typeDiscountCode", ValueParam = objAdd.typeDiscountCode},
+                new QueryParam {NameParam = "saleorderline", ValueParam = saleorderline},
+                new QueryParam {NameParam = "saleorderUse", ValueParam = saleorderUse},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public string InsertFE(Sale_OrdersAdd objAdd)
+        {
+            DataTable saleorderline = new DataTable();
+            saleorderline.Columns.Add("sale_orderid", typeof(string));
+            saleorderline.Columns.Add("productid", typeof(string));
+            saleorderline.Columns.Add("qty", typeof(int));
+            saleorderline.Columns.Add("unitid", typeof(string));
+            saleorderline.Columns.Add("title", typeof(string));
+            saleorderline.Columns.Add("price_sale", typeof(int));
+            saleorderline.Columns.Add("price_discount", typeof(int));
+            saleorderline.Columns.Add("discount", typeof(int));
+            saleorderline.Columns.Add("catalogid", typeof(string));
+            saleorderline.Columns.Add("Weight", typeof(int));
+            saleorderline.Columns.Add("total", typeof(int));
+            saleorderline.Columns.Add("companyid", typeof(string));
+            saleorderline.Columns.Add("isConsignment", typeof(int));
+
+            foreach (var item in objAdd.saleorderline)
+            {
+                DataRow toInsert = saleorderline.NewRow();
+                toInsert[0] = item.sale_orderid;
+                toInsert[1] = item.productid;
+                toInsert[2] = item.qty;
+                toInsert[3] = item.unitid;
+                toInsert[4] = item.title;
+                toInsert[5] = item.price_sale;
+                toInsert[6] = item.price_discount;
+                toInsert[7] = item.discount;
+                toInsert[8] = item.catalogid;
+                toInsert[9] = item.Weight;
+                toInsert[10] = item.total;
+                toInsert[11] = item.companyid;
+                toInsert[12] = item.isConsignment;
+
+                saleorderline.Rows.Add(toInsert);
+            }
+            DataTable saleorderUse = new DataTable();
+            saleorderUse.Columns.Add("isuse", typeof(bool));
+            saleorderUse.Columns.Add("filesick", typeof(string));
+            saleorderUse.Columns.Add("description", typeof(string));
+            saleorderUse.Columns.Add("drugnow", typeof(string));
+            saleorderUse.Columns.Add("relationship", typeof(string));
+            saleorderUse.Columns.Add("name", typeof(string));
+            saleorderUse.Columns.Add("mobile", typeof(string));
+            saleorderUse.Columns.Add("email", typeof(string));
+            saleorderUse.Columns.Add("address", typeof(string));
+            saleorderUse.Columns.Add("memberid", typeof(string));
+            saleorderUse.Columns.Add("productcatalogid", typeof(string));
+            saleorderUse.Columns.Add("member_Useid", typeof(string));
+            saleorderUse.Columns.Add("productid", typeof(string));
+            saleorderUse.Columns.Add("sale_Orderid", typeof(string));
+            saleorderUse.Columns.Add("birthday", typeof(string));
+
+            foreach (var item in objAdd.saleorderUse)
+            {
+                DataRow toInsert = saleorderUse.NewRow();
+                toInsert[0] = item.isuse;
+                toInsert[1] = item.filesick;
+                toInsert[2] = item.description;
+                toInsert[3] = item.drugnow;
+                toInsert[4] = item.relationship;
+                toInsert[5] = item.name;
+                toInsert[6] = item.mobile;
+                toInsert[7] = item.email;
+                toInsert[8] = item.address;
+                toInsert[9] = item.memberid;
+                toInsert[10] = item.productcatalogid;
+                toInsert[11] = item.member_Useid;
+                toInsert[12] = item.productid;
+                toInsert[13] = item.sale_Orderid;
+                toInsert[14] = item.birthday;
+
+                saleorderUse.Rows.Add(toInsert);
+            }
+            return ExecuteNonQueryOutputGuid("sp_SaleOrderInsertFE", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "money_total", ValueParam = objAdd.money_total},
+                new QueryParam {NameParam = "discount", ValueParam = objAdd.discount},
+                new QueryParam {NameParam = "cod", ValueParam = objAdd.cod},
+                new QueryParam {NameParam = "cpvc", ValueParam = objAdd.cpvc},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "IsPayment", ValueParam = objAdd.IsPayment},
+                new QueryParam {NameParam = "PaymentType", ValueParam = objAdd.PaymentType},
+                new QueryParam {NameParam = "receiver_fullname", ValueParam = objAdd.receiver_fullname},
+                new QueryParam {NameParam = "receiver_tel", ValueParam = objAdd.receiver_tel},
+                new QueryParam {NameParam = "receiver_address", ValueParam = objAdd.receiver_address},
+                new QueryParam {NameParam = "receiver_email", ValueParam = objAdd.receiver_email},
+                new QueryParam {NameParam = "receiver_birthday", ValueParam = objAdd.member_birthday},
+                new QueryParam {NameParam = "receiver_sex", ValueParam = objAdd.member_birthday},
+                new QueryParam {NameParam = "receiver_rewardid", ValueParam = objAdd.receiver_rewardid},
+                new QueryParam {NameParam = "receiver_districtid", ValueParam = objAdd.receiver_districtid},
+                new QueryParam {NameParam = "receiver_provinceid", ValueParam = objAdd.receiver_provinceid},
+                new QueryParam {NameParam = "member_fullname", ValueParam = objAdd.member_fullname},
+                new QueryParam {NameParam = "member_tel", ValueParam = objAdd.member_tel},
+                new QueryParam {NameParam = "member_address", ValueParam = objAdd.member_address},
+                new QueryParam {NameParam = "member_email", ValueParam = objAdd.member_email},
+                new QueryParam {NameParam = "member_birthday", ValueParam = objAdd.member_birthday},
+                new QueryParam {NameParam = "member_sex", ValueParam = objAdd.member_sex},
+                new QueryParam {NameParam = "member_rewardid", ValueParam = objAdd.member_rewardid},
+                new QueryParam {NameParam = "member_districtid", ValueParam = objAdd.member_districtid},
+                new QueryParam {NameParam = "member_provinceid", ValueParam = objAdd.member_provinceid},
+                new QueryParam {NameParam = "NoteCancel", ValueParam = objAdd.NoteCancel},
+                new QueryParam {NameParam = "CompanyId", ValueParam = objAdd.CompanyId},
+                new QueryParam {NameParam = "typeTransport", ValueParam = objAdd.typeTransport},
+                new QueryParam {NameParam = "transferscode", ValueParam = objAdd.transferscode},
+                new QueryParam {NameParam = "deliverydate", ValueParam = objAdd.deliverydate},
+                new QueryParam {NameParam = "storeid", ValueParam = objAdd.storeid},
+                new QueryParam {NameParam = "discountCode", ValueParam = objAdd.discountCode},
+                new QueryParam {NameParam = "money_discountCode", ValueParam = objAdd.money_discountCode},
+                new QueryParam {NameParam = "typeDiscountCode", ValueParam = objAdd.typeDiscountCode},
+                new QueryParam {NameParam = "saleorderline", ValueParam = saleorderline},
+                new QueryParam {NameParam = "saleorderUse", ValueParam = saleorderUse},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+        public bool ChangeStatus(Sale_OrdersChangeStatus objAdd)
+        {
+            return ExecuteNonQuery("sp_SaleOrderUpdateStatus", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "Id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid},
+                new QueryParam {NameParam = "NoteCancel", ValueParam = objAdd.NoteCancel}
+            });
+        }
+
+
+        public Sale_OrdersAdd GetByCode(string code)
+        {
+            return ExecuteReaderObject<Sale_OrdersAdd>("sp_SaleOrderSelectByCode", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = code}
+            });
+        }
+
+        public bool UpdateStatus_api(int id, string status)
+        {
+            return ExecuteNonQuery("sp_SaleOrderUpdateStatus_api", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id},
+                new QueryParam {NameParam ="status",ValueParam = status}
+            });
+        }
+        public bool Changetransfers(Sale_OrdersChangetransfers objAdd)
+        {
+            return ExecuteNonQuery("sp_SaleOrderUpdatetransfers", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "transfersid", ValueParam = objAdd.transfersid},
+                new QueryParam {NameParam = "transfersmoney", ValueParam = objAdd.transfersmoney},
+                new QueryParam {NameParam = "transfersnote", ValueParam = objAdd.transfersnote}
+            });
+        }
+
+        public bool Sale_Order_UseInsert(Sale_Order_UseDetail obj)
+        {
+            DataTable saleorderline = new DataTable();
+            saleorderline.Columns.Add("id", typeof(string));
+            saleorderline.Columns.Add("isuse", typeof(bool));
+            saleorderline.Columns.Add("filesick", typeof(string));
+            saleorderline.Columns.Add("description", typeof(string));
+            saleorderline.Columns.Add("drugnow", typeof(string));
+            saleorderline.Columns.Add("relationship", typeof(string));
+            saleorderline.Columns.Add("name", typeof(string));
+            saleorderline.Columns.Add("mobile", typeof(string));
+            saleorderline.Columns.Add("email", typeof(string));
+            saleorderline.Columns.Add("address", typeof(string));
+            saleorderline.Columns.Add("memberid", typeof(string));
+            saleorderline.Columns.Add("productcatalogid", typeof(string));
+            saleorderline.Columns.Add("member_Useid", typeof(string));
+            saleorderline.Columns.Add("productid", typeof(string));
+            saleorderline.Columns.Add("sale_Orderid", typeof(string));
+
+            foreach (var item in obj.detail)
+            {
+                DataRow toInsert = saleorderline.NewRow();
+                toInsert[0] = item.id;
+                toInsert[1] = item.isuse;
+                toInsert[2] = item.filesick;
+                toInsert[3] = item.description;
+                toInsert[4] = item.drugnow;
+                toInsert[5] = item.relationship;
+                toInsert[6] = item.name;
+                toInsert[7] = item.mobile;
+                toInsert[8] = item.email;
+                toInsert[9] = item.address;
+                toInsert[10] = item.memberid;
+                toInsert[11] = item.productcatalogid;
+                toInsert[12] = item.member_Useid;
+                toInsert[13] = item.productid;
+                toInsert[14] = item.sale_Orderid;
+
+                saleorderline.Rows.Add(toInsert);
+            }
+            return ExecuteNonQuery("sp_Sale_Order_UseInsert", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "id", ValueParam = obj.id},
+                new QueryParam {NameParam = "detail", ValueParam = saleorderline}
+            });
+        }
+
+        public bool UpdateExpress(Sale_OrderUpdateExpress obj)
+        {
+            return ExecuteNonQuery("sp_SaleOrderUpdateExpress", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "id", ValueParam = obj.id},
+                new QueryParam {NameParam = "transfersid", ValueParam = obj.transfersid},
+                new QueryParam {NameParam = "transferscode", ValueParam = obj.transferscode},
+                new QueryParam {NameParam = "transfersmoney", ValueParam = obj.transfersmoney}
+            });
+        }
+
+        public List<Sale_OrdersSelectByListId> SelectByListId(Sale_OrderSelectByListIdHeader obj)
+        {
+            return ExecuteReader<Sale_OrdersSelectByListId>("sp_SaleOrderSelectByListId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id}
+            });
+        }
+
+        public Sale_OrdersAdd GetByIdFE(Sale_OrdersGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<Sale_OrdersAdd>("sp_SaleOrderSelectByIdFE", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public List<Saleorderline> Sale_Order_LinesSelectByIdFE(Sale_OrdersGetbyId objGetbyId)
+        {
+            return ExecuteReader<Saleorderline>("sp_Sale_Order_LinesSelectByIdFE", new List<QueryParam>
+            {
+               new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public List<Saleorderuse> Sale_Order_UseSelectByIdFE(Sale_OrdersGetbyId objGetbyId)
+        {
+            return ExecuteReader<Saleorderuse>("sp_Sale_Order_UseSelectByIdFE", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public Sale_OrderGetStatus GetStatus(Guid objGetbyId)
+        {
+            return ExecuteReaderObject<Sale_OrderGetStatus>("sp_SaleOrderGetStatus", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId}
+            });
+        }
+
+        public string ChangeStatusVTP(Sale_OrdersChangeStatusVTP objAdd)
+        {
+            return ExecuteNonQueryOutputGuid("sp_SaleOrderUpdateStatusVTP", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "ORDER_NUMBER", ValueParam = objAdd.DATA.ORDER_NUMBER},
+                new QueryParam {NameParam = "ORDER_STATUS", ValueParam = objAdd.DATA.ORDER_STATUS},
+                new QueryParam {NameParam = "NOTE", ValueParam = objAdd.DATA.NOTE},
+                 new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public List<Sale_Order_LinesSelectByOrderidPrint> SelectByOrderidPrint(Guid obj)
+        {
+            return ExecuteReader<Sale_Order_LinesSelectByOrderidPrint>("Sale_Order_LinesSelectByOrderidPrint", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj}
+            });
+        }
+
+        public Sale_OrderSelectByIdOutCode SelectByIdOutCode(Guid id)
+        {
+            return ExecuteReaderObject<Sale_OrderSelectByIdOutCode>("sp_SaleOrderSelectByIdOutCode", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id}
+            });
+        }
+
+        public Sale_OrdersGetCodebyId GetCodeById(Sale_OrdersGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<Sale_OrdersGetCodebyId>("sp_Sale_OrderGetCodeById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public bool ChangeStatusCancel(Sale_OrdersChangeStatusCancel objAdd)
+        {
+            return ExecuteNonQuery("sp_SaleOrderUpdateStatusCancel", new List<QueryParam>
+            {
+                //
+                new QueryParam {NameParam = "Id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid},
+                new QueryParam {NameParam = "NoteCancel", ValueParam = objAdd.NoteCancel},
+                new QueryParam {NameParam = "isCreateKho", ValueParam = objAdd.isCreateKho}
+            });
+        }
+
+        public Sale_OrderTransfersid GetByTransfersid(string id)
+        {
+            return ExecuteReaderObject<Sale_OrderTransfersid>("sp_SaleOrderSelectBytransfersid", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id}
+            });
+        }
+    }
+}

@@ -1,0 +1,43 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class News_CatalogDto : News_Catalog
+    {
+    }
+    public class News_CatalogSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+    public class News_CatalogAdd : IncompetentBase
+    {
+         public int id { get; set; }
+        public string title { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class News_CatalogDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class News_CatalogGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class News_CatalogLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class News_CatalogList
+    {
+         public int id { get; set; }
+        public string title { get; set; }
+        public int IsLock { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+}

@@ -1,0 +1,31 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.District
+{
+    public interface IDistrictDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<DistrictList>, int> SelectPaging(DistrictSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(DistrictLock obj);
+
+        int Delete(DistrictDeleted arrayId);
+
+        Tuple<DistrictAdd, int> GetById(DistrictGetbyId objGetbyId);
+
+        int Insert(DistrictAdd objAdd);
+
+        #endregion
+
+        #region FONTEND
+        List<DistrictCombobox> GetCombobox(int id);
+        List<DistrictCombobox> GetAll();
+        #endregion
+    }
+}

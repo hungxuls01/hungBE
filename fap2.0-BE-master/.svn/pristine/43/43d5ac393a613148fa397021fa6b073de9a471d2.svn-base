@@ -1,0 +1,14 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Member_Token
+{
+    public interface IMember_TokenDal
+    {
+        bool Insert(Member_TokenAdd objAdd);
+        Member_TokenGetEmail GetEmail(Member_TokenEmail objAdd);
+    }
+}

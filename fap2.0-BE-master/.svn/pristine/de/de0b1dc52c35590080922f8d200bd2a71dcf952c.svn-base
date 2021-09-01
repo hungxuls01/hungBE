@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading;
+using System.Web;
+
+namespace _4.Utils
+{
+    public class SendMail
+    {
+        public static void SendMailNet(string SenderName, string RecieverEmail, string MailTitle, string MailContent)
+        {
+            (new Thread(new ThreadStart(
+                       delegate
+                       {
+                           string guid = System.Guid.NewGuid().ToString();
+                           try
+                           {
+                               string SenderEmail = ConfigurationManager.AppSettings["email_sender"];
+                               string senderEmailPass = ConfigurationManager.AppSettings["email_pass"];
+                               string hostmail = ConfigurationManager.AppSettings["email_host"];
+                               string portmail = ConfigurationManager.AppSettings["email_port"];
+
+                               var fromAddress = new System.Net.Mail.MailAddress(SenderEmail, "Sàn thương mại điện tử DUMIHO");
+                               var toAddress = new System.Net.Mail.MailAddress(RecieverEmail, RecieverEmail);
+
+                               string fromPassword = senderEmailPass;
+                               string subject = MailTitle;
+                               string body = MailContent;
+
+                               var smtp = new System.Net.Mail.SmtpClient
+                               {
+                                   Host = hostmail,
+                                   Port = int.Parse(portmail),
+                                   EnableSsl = true,
+                                   DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                                   UseDefaultCredentials = false,
+                                   Credentials = new System.Net.NetworkCredential(fromAddress.Address, fromPassword)
+                               };
+                               var message = new System.Net.Mail.MailMessage(fromAddress, toAddress);
+                               message.IsBodyHtml = true;
+                               message.Subject = subject;
+                               message.Body = body;
+                               smtp.Send(message);
+                           }
+                           catch (Exception ex)
+                           {
+                               //_logger.Error(ex);
+                           }
+
+                       })
+                 )).Start();
+
+
+        }
+    }
+}

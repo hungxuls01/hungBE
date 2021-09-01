@@ -1,0 +1,43 @@
+2019-09-23 15:37:29.8116|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:37:35.5834|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:37:40.5434|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:37:44.5640|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:37:50.8301|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:37:55.6722|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:39:42.0425|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot set Column 'Discount' to be null. Please use DBNull instead.
+2019-09-23 15:43:59.3163|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:44:03.8601|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:44:07.3928|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:44:10.9031|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:44:16.1370|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:44:20.2707|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:46:26.9246|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot set Column 'Discount' to be null. Please use DBNull instead.
+2019-09-23 15:47:22.0727|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:47:26.6143|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:47:31.6438|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:47:45.2229|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot set Column 'Discount' to be null. Please use DBNull instead.
+2019-09-23 15:51:04.5310|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:51:09.2253|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:51:14.7622|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:52:26.9071|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:52:31.3878|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:52:35.8121|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:52:53.3159|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot set Column 'Discount' to be null. Please use DBNull instead.
+2019-09-23 15:53:40.5181|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 15:53:45.0106|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:11:14.8509|ERROR|ApiTng.Controllers.ProductController|A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+2019-09-23 16:11:15.1589|ERROR|ApiTng.Controllers.BannerController|A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+2019-09-23 16:12:06.4845|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:12:12.3673|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:12:17.9888|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:21:02.2929|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:21:06.9062|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:21:14.9430|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:23:12.7811|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:28:40.7046|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:28:45.6074|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:33:54.5458|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:33:59.0858|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:34:58.1227|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:35:01.8306|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.
+2019-09-23 16:35:14.5384|ERROR|ApiTng.Controllers.ProductCommentController|Object reference not set to an instance of an object.

@@ -1,0 +1,558 @@
+﻿using _2.DataTransferObject;
+using _3.Data;
+using _4.Utils;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Security;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace ApiTng.apiconnect
+{
+    public class Api
+    {
+        private static string token = "";
+
+        #region danh muc benh
+
+        public async Task<ResponeResult> GetbyIdProductCatalog(Product_CatalogGetById priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/CategorySick/GetById", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> InsertProductCatalogAsync(Product_CatalogAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/CategorySick/CategorySickInsert", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> UpdateProductCatalogAsync(Product_CatalogAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/CategorySick/CategorySickUpdate", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+
+        public async Task<ResponeResult> ProductCatalogUpdateIslockAsync(Product_CatalogUpdateIslock priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/CategorySick/CategorySickUpdateIslock", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        #endregion
+
+
+
+        #region sản phẩm thẩm định
+        public async Task<ResponeResult> InsertProductTD(ProductConsignmentGetByIdFE obj)
+        {
+            var rsShip = await InsertProductTDAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+        public async Task<ResponeResult> UpdateProductTD(ProductConsignmentGetByIdFE obj)
+        {
+            var rsShip = await UpdateProductTDAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+        public async Task<ResponeResult> UpdateProductTDAsync(ProductConsignmentGetByIdFE priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Products/Update", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        public async Task<ResponeResult> InsertProductTDAsync(ProductConsignmentGetByIdFE priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Products/Insert", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+        #region Product_Units
+        public async Task<ResponeResult> InsertProduct_Unit(Product_UnitsAdd obj)
+        {
+            var rsShip = await InsertProduct_UnitsAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+        public async Task<ResponeResult> InsertProduct_UnitsAsync(Product_UnitsAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Product_Units/SearchAndInsert", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+        public async Task<ResponeResult> GetbyIdCompany(CompanyGetbyId priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Company/GetById", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> InsertCompanyAsync(CompanyAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Company/Insert", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        public async Task<ResponeResult> UpdateCompanyAsync(CompanyAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Company/Update", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        public async Task<ResponeResult> UpdateIsViewAsync(ProductsUpdateisView obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Products/UpdateIsView", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        #region bệnh
+        public async Task<ResponeResult> InsertSick(SickAdd obj)
+        {
+            var rsShip = await InsertSickAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+        public async Task<ResponeResult> UpdateSick(SickAdd obj)
+        {
+            var rsShip = await UpdateSickAsync(obj).ConfigureAwait(false);
+            return rsShip;
+        }
+        public async Task<ResponeResult> UpdateSickAsync(SickAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Sick/Update", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        public async Task<ResponeResult> InsertSickAsync(SickAdd priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Sick/Insert", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+
+
+        #region GET KHO
+        public async Task<List<Product_StoreGetKHODetail>> GetKHO(ListProduct_StoreGetKHO priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new List<Product_StoreGetKHODetail>();
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8035/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8035/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Product_Store/GetKHO", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<List<Product_StoreGetKHODetail>>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+        #region Đơn hàng
+        public async Task<ResponeResult> InsertSale_Orders(Sale_OrdersAdd obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Sale_Orders/InsertBE", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> UpdateSale_OrdersStatus(Sale_OrderFEUpdateStatus obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Sale_Orders/UpdateStatus", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> Sale_OrdersUpdateExpress(Sale_OrderUpdateExpress obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Sale_OrderUpdate/UpdateExpressFE", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+
+
+        #region Nhà cung cấp
+        public async Task<ResponeResult> UpdateKHOtoFE(CompanyUpdateKHO obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Company/UpdateKHO", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> UpdateIsApprovalCompany(CompanyApproval obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8033/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8033/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Company/UpdateApproval", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+        #region Đơn hàng kho
+        public async Task<ResponeResult> InsertSale_OrdersKHO(WS_Sale_OrderAddKHO obj)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8035/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8035/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/WS_Sale_Order/Insert", obj).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+        #region Sản phẩm kho
+        public async Task<ResponeResult> InsertProductKho(ProductsAddKho priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8035/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8035/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Products/Insert", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+
+        public async Task<ResponeResult> UpdateProductKho(ProductsAddKho priceApiModel)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+         (
+             delegate { return true; }
+         );
+            var responseoutput = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.0.107:8035/");
+            //client.BaseAddress = new Uri("http://103.124.94.51:8035/");
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Products/Update", priceApiModel).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                responseoutput = await response.Content.ReadAsAsync<ResponeResult>().ConfigureAwait(false);
+            }
+            return responseoutput;
+        }
+        #endregion
+
+    }
+
+}

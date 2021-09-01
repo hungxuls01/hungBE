@@ -1,0 +1,47 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class SystemHistoryDto : SystemHistory
+    {
+    }
+    public class SystemHistorySearchDto : SearchIncompetentBase
+    {
+    }
+    public class SystemHistoryAdd : IncompetentBase
+    {
+        public int Id { get; set; }
+        public string Module { get; set; }
+        public string Action { get; set; }
+        public string VersionOld { get; set; }
+        public Nullable<int> ObjectId { get; set; }
+        public Nullable<int> UserId { get; set; }
+    }
+
+    public class SystemHistoryDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class SystemHistoryGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class SystemHistoryLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class SystemHistoryList
+    {
+        public int Id { get; set; }
+        public string Module { get; set; }
+        public string Action { get; set; }
+        public Nullable<int> ObjectId { get; set; }
+        public string dateadded { get; set; }
+        public Nullable<int> UserId { get; set; }
+    }
+}

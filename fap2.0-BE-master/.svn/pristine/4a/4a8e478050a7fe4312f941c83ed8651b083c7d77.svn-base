@@ -1,0 +1,109 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Quotation
+{
+    public class QuotationDal : DbInteractionBase, IQuotationDal
+    {
+        public bool Delete(QuotationGetbyId arrayId)
+        {
+            return ExecuteNonQuery("sp_QuotationDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = arrayId.id}
+            });
+        }
+
+        public QuotationId GetById(QuotationGetbyId obj)
+        {
+            return ExecuteReaderObject<QuotationId>("sp_QuotationSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id}
+            });
+        }
+
+
+        public string Insert(QuotationAdd objAdd)
+        {
+            DataTable QuotationDetail = new DataTable();
+            QuotationDetail.Columns.Add("id", typeof(string));
+            QuotationDetail.Columns.Add("productid", typeof(string));
+            QuotationDetail.Columns.Add("companyid", typeof(string));
+            QuotationDetail.Columns.Add("qty", typeof(int));
+            QuotationDetail.Columns.Add("price", typeof(decimal));
+            QuotationDetail.Columns.Add("ishoso", typeof(bool));
+            QuotationDetail.Columns.Add("isgiaychungnhan", typeof(bool));
+            QuotationDetail.Columns.Add("unitid", typeof(string));
+            QuotationDetail.Columns.Add("quotationid", typeof(string));
+
+            foreach (var item in objAdd.QuotationDetail)
+            {
+                DataRow toInsert = QuotationDetail.NewRow();
+                toInsert[0] = item.id;
+                toInsert[1] = item.productid;
+                toInsert[2] = item.companyid;
+                toInsert[3] = item.qty;
+                toInsert[4] = item.price;
+                toInsert[5] = item.ishoso;
+                toInsert[6] = item.isgiaychungnhan;
+                toInsert[7] = item.unitid;
+                toInsert[8] = item.quotationid;
+
+                QuotationDetail.Rows.Add(toInsert);
+            }
+
+            return ExecuteNonQueryOutputGuid("sp_QuotationInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid},
+                new QueryParam {NameParam = "QuotationDetail", ValueParam = QuotationDetail},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public bool InsertHistory(QuotationHistoryInsert objAdd)
+        {
+            DataTable QuotationDetail = new DataTable();
+            QuotationDetail.Columns.Add("quotationid", typeof(string));
+            QuotationDetail.Columns.Add("memberid", typeof(string));
+
+            foreach (var item in objAdd.quotationHistory)
+            {
+                DataRow toInsert = QuotationDetail.NewRow();
+                toInsert[0] = item.quotationid;
+                toInsert[1] = item.memberid;
+
+                QuotationDetail.Rows.Add(toInsert);
+            }
+
+            return ExecuteNonQuery("sp_QuotationHistoryInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "quotationHistory", ValueParam = QuotationDetail},
+            });
+        }
+
+        public Tuple<int, List<QuotationList>> SelectPaging(QuotationSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<QuotationList>("sp_QuotationSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "dateadded", ValueParam = obj.dateadded},
+                new QueryParam {NameParam = "memberid", ValueParam = obj.memberid},
+                new QueryParam {NameParam = "productid", ValueParam = obj.productid},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+    }
+}

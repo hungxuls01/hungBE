@@ -1,0 +1,2 @@
+2020-08-27 16:41:12.2996|ERROR|ApiTng.Controllers.EvaluationController|Violation of PRIMARY KEY constraint 'PK_Products'. Cannot insert duplicate key in object 'dbo.Products'. The duplicate key value is (c3237eb1-1632-4e30-a021-2e1418025257).
+The statement has been terminated.

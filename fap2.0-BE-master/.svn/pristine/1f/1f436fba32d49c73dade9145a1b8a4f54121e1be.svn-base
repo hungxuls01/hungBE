@@ -1,0 +1,31 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.EmailRegister
+{
+    public interface IEmailRegisterDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<EmailRegisterList>, int> SelectPaging(EmailRegisterSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(EmailRegisterLock obj);
+
+        int Delete(EmailRegisterDeleted arrayId);
+
+        Tuple<EmailRegisterAdd, int> GetById(EmailRegisterGetbyId objGetbyId);
+
+        int Insert(EmailRegisterAdd objAdd);
+
+        #endregion
+
+        #region FONTEND
+        bool FeInsert(AddEmailRegister objAdd);
+        #endregion
+    }
+
+}

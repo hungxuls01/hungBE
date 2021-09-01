@@ -1,0 +1,11 @@
+﻿using _2.DataTransferObject;
+using System.Collections.Generic;
+
+
+namespace _1.DataAccessLayer.Common
+{
+    public interface ICommonDal<T> where T : class
+    {
+        DataTableData<T> DataTableInit(List<T> data, int totalRecord, int draw);
+    }
+}

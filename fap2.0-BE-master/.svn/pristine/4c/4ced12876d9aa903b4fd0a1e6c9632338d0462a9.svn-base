@@ -1,0 +1,21 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_OrderHistory
+{
+    public class Sale_OrderHistoryDal : DbInteractionBase, ISale_OrderHistoryDal
+    {
+        public bool Insert(Sale_OrderHistoryAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_Sale_OrderHistoryInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "sale_orderid", ValueParam = objAdd.sale_orderid},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status}
+                
+            });
+        }
+    }
+}

@@ -1,0 +1,1833 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="APIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Autoid">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="tables" Type="nvarchar" MaxLength="50" />
+    <Property Name="autoid" Type="int" Nullable="false" />
+    <Property Name="prefix" Type="nvarchar" MaxLength="50" />
+    <Property Name="number" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="15" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="tradingname" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Banner">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="imgpath" Type="nvarchar" MaxLength="500" />
+    <Property Name="linkurl" Type="nvarchar" MaxLength="500" />
+    <Property Name="code" Type="varchar" MaxLength="150" />
+    <Property Name="order" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="LinkFacebook" Type="nvarchar" MaxLength="500" />
+    <Property Name="LinkGoogle" Type="nvarchar" MaxLength="500" />
+    <Property Name="LinkTwitter" Type="nvarchar" MaxLength="500" />
+    <Property Name="detail" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="FromDate" Type="nvarchar" MaxLength="20" />
+    <Property Name="ToDate" Type="nvarchar" MaxLength="20" />
+    <Property Name="CargoTypeId" Type="int" Nullable="false" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="500" />
+    <Property Name="ParentId" Type="int" />
+  </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idproduct" Type="int" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="idmember" Type="int" />
+    <Property Name="isdelete" Type="bit" Nullable="false" />
+    <Property Name="quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="20" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="imgpath" Type="nvarchar" MaxLength="500" />
+    <Property Name="rewite" Type="nvarchar" MaxLength="500" />
+    <Property Name="ParentId" Type="uniqueidentifier" />
+    <Property Name="orderstt" Type="int" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="nameStall" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="rewite" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="address" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="mst" Type="nvarchar" MaxLength="50" />
+    <Property Name="sdkkd" Type="nvarchar" MaxLength="500" />
+    <Property Name="filegpkd" Type="nvarchar" MaxLength="500" />
+    <Property Name="imagecs" Type="nvarchar" MaxLength="500" />
+    <Property Name="website" Type="nvarchar" MaxLength="500" />
+    <Property Name="nameAdmin" Type="nvarchar" MaxLength="500" />
+    <Property Name="business" Type="nvarchar" MaxLength="20" />
+    <Property Name="productCatalog" Type="nvarchar" MaxLength="500" />
+    <Property Name="productCatalogChildren" Type="nvarchar" MaxLength="500" />
+    <Property Name="isEvaluation" Type="bit" Nullable="false" />
+    <Property Name="isCommercial" Type="bit" Nullable="false" />
+    <Property Name="isPartner" Type="bit" Nullable="false" />
+    <Property Name="nameUser" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="codeUser" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="mobileUser" Type="nvarchar" MaxLength="15" />
+    <Property Name="emailUser" Type="nvarchar" MaxLength="255" />
+    <Property Name="zaloUser" Type="nvarchar" MaxLength="255" />
+    <Property Name="facebookUser" Type="nvarchar" MaxLength="255" />
+    <Property Name="skypeUser" Type="nvarchar" MaxLength="255" />
+    <Property Name="addressUser" Type="nvarchar" MaxLength="255" />
+    <Property Name="sexUser" Type="bit" Nullable="false" />
+    <Property Name="birthdayUser" Type="nvarchar" MaxLength="255" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="dateapproval" Type="nvarchar" MaxLength="20" />
+    <Property Name="isapproval" Type="int" Nullable="false" />
+    <Property Name="wh_provinceid" Type="int" />
+    <Property Name="wh_districtid" Type="int" />
+    <Property Name="wh_rewardid" Type="int" />
+    <Property Name="wh_address" Type="nvarchar" MaxLength="500" />
+    <Property Name="userphutrach" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobilephutrach" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="255" />
+    <Property Name="images" Type="nvarchar" MaxLength="255" />
+    <Property Name="KeyLock" Type="nvarchar" MaxLength="20" />
+    <Property Name="RegEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="tokenNoti" Type="nvarchar" MaxLength="500" />
+    <Property Name="statusDesign" Type="int" Nullable="false" />
+    <Property Name="tokenActive" Type="nvarchar" MaxLength="500" />
+    <Property Name="note" Type="nvarchar" MaxLength="4000" />
+    <Property Name="ShopIdGHN" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Company_Bank">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="bankid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="number" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="branch" Type="nvarchar" MaxLength="255" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="descs" Type="nvarchar" MaxLength="500" />
+    <Property Name="code" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiscountCode">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="datestart" Type="nvarchar" MaxLength="20" />
+    <Property Name="dateend" Type="nvarchar" MaxLength="20" />
+    <Property Name="moneyinwallet" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="isuse" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="title" Type="nvarchar" MaxLength="100" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="type" Type="nvarchar" MaxLength="50" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="provinceid" Type="int" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="100" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="codeghn" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DistrictGHN">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DistrictID" Type="int" />
+    <Property Name="ProvinceID" Type="int" />
+    <Property Name="DistrictName" Type="nvarchar" MaxLength="500" />
+    <Property Name="Code" Type="nvarchar" MaxLength="500" />
+    <Property Name="Type" Type="int" />
+    <Property Name="SupportType" Type="int" />
+  </EntityType>
+  <EntityType Name="EmailRegister">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="CargoTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="15" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="departmentid" Type="uniqueidentifier" />
+    <Property Name="birthday" Type="nvarchar" MaxLength="20" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="address" Type="nvarchar" MaxLength="255" />
+    <Property Name="dateexpired" Type="nvarchar" MaxLength="20" />
+    <Property Name="isdeleted" Type="bit" />
+    <Property Name="islock" Type="bit" />
+    <Property Name="startday" Type="nvarchar" MaxLength="20" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="positionid" Type="uniqueidentifier" />
+    <Property Name="password" Type="nvarchar" MaxLength="255" />
+    <Property Name="images" Type="nvarchar" MaxLength="255" />
+    <Property Name="KeyLock" Type="nvarchar" MaxLength="20" />
+    <Property Name="RegEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="tokenNoti" Type="nvarchar" MaxLength="500" />
+    <Property Name="tokenActive" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Evaluate_Order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar" MaxLength="500" />
+    <Property Name="idOrder" Type="int" />
+    <Property Name="Point" Type="int" Nullable="false" />
+    <Property Name="customer_tel" Type="nvarchar" MaxLength="50" />
+    <Property Name="customer_email" Type="nvarchar" MaxLength="50" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="CargoTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Evaluation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="nsxid" Type="uniqueidentifier" />
+    <Property Name="namensx" Type="nvarchar" MaxLength="500" />
+    <Property Name="addressnsx" Type="nvarchar" MaxLength="500" />
+    <Property Name="sdk" Type="nvarchar" MaxLength="50" />
+    <Property Name="giayphepdangki" Type="nvarchar" MaxLength="500" />
+    <Property Name="giaychungnhanGMP" Type="nvarchar" MaxLength="500" />
+    <Property Name="giaychungnhandk" Type="nvarchar" MaxLength="500" />
+    <Property Name="mucdoGMP" Type="int" />
+    <Property Name="giaychungnhandatGMP" Type="nvarchar" MaxLength="500" />
+    <Property Name="hethongkhepkin" Type="int" />
+    <Property Name="hinhanhnhamay" Type="nvarchar" MaxLength="500" />
+    <Property Name="hethongkhongkhi" Type="int" />
+    <Property Name="baocaotongthe" Type="nvarchar" MaxLength="500" />
+    <Property Name="hethongchatluong" Type="int" />
+    <Property Name="danhmucGLP" Type="nvarchar" MaxLength="500" />
+    <Property Name="tongspsanxuat" Type="int" />
+    <Property Name="danhmucthuoc" Type="nvarchar" MaxLength="500" />
+    <Property Name="sospdatngoisao" Type="int" />
+    <Property Name="giaychungnhan" Type="nvarchar" MaxLength="500" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="namecompany" Type="nvarchar" MaxLength="500" />
+    <Property Name="addresscompany" Type="nvarchar" MaxLength="500" />
+    <Property Name="giaycnkinhdoanhduoc" Type="nvarchar" MaxLength="500" />
+    <Property Name="hethongpp" Type="int" />
+    <Property Name="danhsachpp" Type="nvarchar" MaxLength="500" />
+    <Property Name="doanhthuthuoc" Type="nvarchar" MaxLength="500" />
+    <Property Name="baocaothue" Type="nvarchar" MaxLength="500" />
+    <Property Name="lichsupt" Type="int" />
+    <Property Name="danhgianguoidung" Type="int" />
+    <Property Name="cungcapVNnam" Type="int" />
+    <Property Name="giayCNthanhlapVN" Type="nvarchar" MaxLength="500" />
+    <Property Name="doanhsoVN" Type="int" />
+    <Property Name="uytincosoVN" Type="int" />
+    <Property Name="sp_sdk" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_filedk" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_nguongoc" Type="int" />
+    <Property Name="sp_hinhanhbiasach" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_mucluc" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_tendean" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_filedean" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_thanhphan" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_mucdohieuqua" Type="int" />
+    <Property Name="sp_huongdansudung" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_sospcanhtranh" Type="int" />
+    <Property Name="sp_doanhsoban" Type="int" />
+    <Property Name="sp_namthanhlap" Type="int" />
+    <Property Name="sp_baocaosudung" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_sobenhnhan" Type="int" />
+    <Property Name="sp_tylekhoi" Type="int" />
+    <Property Name="sp_filebenhnhan" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_trinhdo" Type="int" />
+    <Property Name="sp_bangcap" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_nguoinuoitrong" Type="int" />
+    <Property Name="sp_giaycndoanhnghiep" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_quytrinhnuoitrong" Type="int" />
+    <Property Name="sp_giaychungnhan" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_dientichtrong" Type="int" />
+    <Property Name="sp_dientichquyhoach" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_duoclieutrongdung" Type="int" />
+    <Property Name="sp_hamluonghoatchat" Type="int" />
+    <Property Name="sp_giaykiemnghiem" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_QR" Type="int" />
+    <Property Name="sp_cosonhapkhau" Type="int" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="pointnsx" Type="int" Nullable="false" />
+    <Property Name="notensx" Type="nvarchar" MaxLength="500" />
+    <Property Name="pointnpp" Type="int" Nullable="false" />
+    <Property Name="notenpp" Type="nvarchar" MaxLength="500" />
+    <Property Name="sp_point" Type="int" Nullable="false" />
+    <Property Name="sp_note" Type="nvarchar" MaxLength="500" />
+    <Property Name="npp_giaychungnhandk" Type="nvarchar" MaxLength="500" />
+    <Property Name="lichsupt_detail" Type="nvarchar" MaxLength="500" />
+    <Property Name="tencoso" Type="nvarchar" MaxLength="500" />
+    <Property Name="diachicoso" Type="nvarchar" MaxLength="500" />
+    <Property Name="pointTotal" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="isachieved" Type="bit" Nullable="false" />
+    <Property Name="noteTotal" Type="ntext" />
+    <Property Name="nguonduoclieu" Type="int" Nullable="false" />
+    <Property Name="thanhphantinhdau" Type="int" Nullable="false" />
+    <Property Name="quytrinhchietxuat" Type="int" Nullable="false" />
+    <Property Name="tutrong" Type="int" Nullable="false" />
+    <Property Name="thumua" Type="int" Nullable="false" />
+    <Property Name="sp_namxb" Type="nvarchar" MaxLength="500" />
+    <Property Name="idProductConsignment" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="Experts">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="500" />
+    <Property Name="note" Type="ntext" />
+    <Property Name="img" Type="nvarchar" MaxLength="500" />
+    <Property Name="position" Type="nvarchar" MaxLength="500" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Feedback">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="memberid" Type="int" />
+    <Property Name="answer" Type="nvarchar(max)" />
+    <Property Name="isread" Type="tinyint" />
+    <Property Name="status" Type="int" />
+    <Property Name="des" Type="ntext" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="companyid" Type="int" />
+    <Property Name="CargoTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="Helps">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="longdesc" Type="ntext" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="catalogid" Type="int" />
+  </EntityType>
+  <EntityType Name="Images_Catalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="ImportGoods">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="codecompany" Type="nvarchar" MaxLength="15" />
+    <Property Name="namecompany" Type="nvarchar" MaxLength="255" />
+    <Property Name="addresscompany" Type="nvarchar" MaxLength="255" />
+    <Property Name="mobilecompany" Type="nvarchar" MaxLength="255" />
+    <Property Name="contact" Type="nvarchar" MaxLength="255" />
+    <Property Name="mobilecontact" Type="nvarchar" MaxLength="255" />
+    <Property Name="storeid" Type="uniqueidentifier" />
+    <Property Name="deliverydate" Type="nvarchar" MaxLength="20" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="20" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="storecontact" Type="nvarchar" MaxLength="255" />
+    <Property Name="storemobilecontact" Type="nvarchar" MaxLength="255" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ImportGoods_Lines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="importGoodsid" Type="uniqueidentifier" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="unitid" Type="uniqueidentifier" />
+    <Property Name="pricecomnpany" Type="decimal" Precision="14" Scale="0" />
+    <Property Name="discount" Type="decimal" Precision="14" Scale="2" />
+    <Property Name="qty" Type="decimal" Precision="14" Scale="0" />
+    <Property Name="total" Type="decimal" Precision="14" Scale="2" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="slthuc" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="sltrave" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="sldat" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="notestore" Type="nvarchar" MaxLength="500" />
+    <Property Name="slUpdate" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="notesale" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="sex" Type="bit" Nullable="false" />
+    <Property Name="birthday" Type="nvarchar" MaxLength="20" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="15" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+    <Property Name="provinceid" Type="int" />
+    <Property Name="zalo" Type="nvarchar" MaxLength="15" />
+    <Property Name="facebook" Type="nvarchar" MaxLength="500" />
+    <Property Name="ispersonal" Type="bit" Nullable="false" />
+    <Property Name="purpose" Type="nvarchar" MaxLength="50" />
+    <Property Name="field" Type="nvarchar" MaxLength="50" />
+    <Property Name="nameproducer" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobileproducer" Type="nvarchar" MaxLength="15" />
+    <Property Name="emailproducer" Type="nvarchar" MaxLength="255" />
+    <Property Name="productproducer" Type="ntext" />
+    <Property Name="productbuyproducer" Type="ntext" />
+    <Property Name="addressproducer" Type="ntext" />
+    <Property Name="isshowproducer" Type="bit" Nullable="false" />
+    <Property Name="issellproducer" Type="bit" Nullable="false" />
+    <Property Name="namedistributor" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobiledistributor" Type="nvarchar" MaxLength="15" />
+    <Property Name="emaildistributor" Type="nvarchar" MaxLength="255" />
+    <Property Name="productdistributor" Type="ntext" />
+    <Property Name="productbuydistributor" Type="ntext" />
+    <Property Name="addressdistributor" Type="ntext" />
+    <Property Name="isshowdistributor" Type="bit" Nullable="false" />
+    <Property Name="isselldistributor" Type="bit" Nullable="false" />
+    <Property Name="namePCT" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobilePCT" Type="nvarchar" MaxLength="15" />
+    <Property Name="emailPCT" Type="nvarchar" MaxLength="255" />
+    <Property Name="productPCT" Type="ntext" />
+    <Property Name="productbuyPCT" Type="ntext" />
+    <Property Name="addressPCT" Type="ntext" />
+    <Property Name="isshowPCT" Type="bit" Nullable="false" />
+    <Property Name="issellPCT" Type="bit" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="isnews" Type="bit" Nullable="false" />
+    <Property Name="productcatelogyPCT" Type="nvarchar" MaxLength="500" />
+    <Property Name="mstproducer" Type="nvarchar" MaxLength="500" />
+    <Property Name="mstdistributor" Type="nvarchar" MaxLength="500" />
+    <Property Name="mstPCT" Type="nvarchar" MaxLength="500" />
+    <Property Name="password" Type="nvarchar" MaxLength="255" />
+    <Property Name="images" Type="nvarchar" MaxLength="255" />
+    <Property Name="KeyLock" Type="nvarchar" MaxLength="20" />
+    <Property Name="RegEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="tokenNoti" Type="nvarchar" MaxLength="500" />
+    <Property Name="tokenActive" Type="nvarchar" MaxLength="500" />
+    <Property Name="typeDiscountCode" Type="int" Nullable="false" />
+    <Property Name="discountCode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Member_History">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="catid" Type="int" />
+    <Property Name="memberid" Type="int" />
+    <Property Name="dateadd" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Member_store">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="recipientName" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="provinceid" Type="int" />
+    <Property Name="districtid" Type="int" />
+    <Property Name="rewardid" Type="int" />
+    <Property Name="addresss" Type="nvarchar" MaxLength="500" />
+    <Property Name="isaddress" Type="int" />
+    <Property Name="isdefault" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Member_Token">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="500" />
+    <Property Name="token" Type="nvarchar" MaxLength="50" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Member_Use">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="isuse" Type="bit" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="500" />
+    <Property Name="drugnow" Type="nvarchar" MaxLength="500" />
+    <Property Name="relationship" Type="nvarchar" MaxLength="10" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="productcatalogid" Type="nvarchar" MaxLength="500" />
+    <Property Name="filesick" Type="nvarchar" MaxLength="500" />
+    <Property Name="birthday" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Nations">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="200" />
+    <Property Name="imgpath" Type="nvarchar" MaxLength="200" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="ishot" Type="bit" />
+    <Property Name="isnew" Type="bit" />
+    <Property Name="companyid" Type="int" />
+    <Property Name="rewite" Type="nvarchar" MaxLength="200" />
+    <Property Name="TotalView" Type="int" />
+    <Property Name="IsDeleted" Type="int" Nullable="false" />
+    <Property Name="SeoTitle" Type="nvarchar" MaxLength="500" />
+    <Property Name="MetaKeywords" Type="nvarchar" MaxLength="500" />
+    <Property Name="MetaDescriptions" Type="nvarchar" MaxLength="500" />
+    <Property Name="shortdesc" Type="ntext" />
+    <Property Name="longdesc" Type="ntext" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="CargoTypeId" Type="int" Nullable="false" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="News_Catalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Rewrite" Type="varchar" MaxLength="250" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="CargoTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" />
+    <Property Name="Details" Type="nvarchar" MaxLength="500" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="DetailsURL" Type="nvarchar" MaxLength="500" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="IsRead" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="IsReminder" Type="bit" Nullable="false" />
+    <Property Name="companyid" Type="int" />
+  </EntityType>
+  <EntityType Name="Permision">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="255" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="TableName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Link" Type="nvarchar" MaxLength="50" />
+    <Property Name="SortOrder" Type="int" Nullable="false" />
+    <Property Name="Icon" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsVender" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="isLock" Type="bit" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="departmentid" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="Product_Catalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="imgpath" Type="nvarchar" MaxLength="500" />
+    <Property Name="rewite" Type="nvarchar" MaxLength="500" />
+    <Property Name="ParentId" Type="uniqueidentifier" />
+    <Property Name="orderstt" Type="int" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Product_favorite">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="int" />
+    <Property Name="productid" Type="int" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product_Units">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="userid" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="code" Type="nvarchar" MaxLength="20" />
+    <Property Name="sdk" Type="nvarchar" MaxLength="100" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="price" Type="decimal" Precision="14" Scale="0" />
+    <Property Name="unit" Type="uniqueidentifier" />
+    <Property Name="otherunits" Type="nvarchar" MaxLength="100" />
+    <Property Name="quycachsanpham" Type="nvarchar" MaxLength="500" />
+    <Property Name="chidinh" Type="nvarchar" MaxLength="500" />
+    <Property Name="chongchidinh" Type="nvarchar" MaxLength="500" />
+    <Property Name="thantrong" Type="nvarchar" MaxLength="500" />
+    <Property Name="choconbu" Type="bit" Nullable="false" />
+    <Property Name="khananglaixe" Type="bit" Nullable="false" />
+    <Property Name="tuongtacthuoc" Type="nvarchar" MaxLength="500" />
+    <Property Name="tacdungkhongmuon" Type="nvarchar" MaxLength="500" />
+    <Property Name="qualieu_cachxuly" Type="nvarchar" MaxLength="500" />
+    <Property Name="baoquan" Type="nvarchar" MaxLength="500" />
+    <Property Name="handung" Type="nvarchar" MaxLength="500" />
+    <Property Name="tieuchuan" Type="nvarchar" MaxLength="500" />
+    <Property Name="cososanxuat" Type="nvarchar" MaxLength="500" />
+    <Property Name="diachisanxuat" Type="nvarchar" MaxLength="500" />
+    <Property Name="imanges" Type="nvarchar" MaxLength="500" />
+    <Property Name="filegdk" Type="nvarchar" MaxLength="500" />
+    <Property Name="filegknsp" Type="nvarchar" MaxLength="500" />
+    <Property Name="filegcnGMP" Type="nvarchar" MaxLength="500" />
+    <Property Name="baiviet" Type="ntext" />
+    <Property Name="giaycnthocgiatruyen" Type="nvarchar" MaxLength="500" />
+    <Property Name="danhmuchotro" Type="nvarchar" MaxLength="500" />
+    <Property Name="thuonghieu" Type="nvarchar" MaxLength="500" />
+    <Property Name="xuatxu" Type="nvarchar" MaxLength="500" />
+    <Property Name="nguongoc" Type="nvarchar" MaxLength="500" />
+    <Property Name="doituongsudung" Type="nvarchar" MaxLength="500" />
+    <Property Name="soCOCQ" Type="nvarchar" MaxLength="500" />
+    <Property Name="fileCOCQ" Type="nvarchar" MaxLength="500" />
+    <Property Name="cannang" Type="int" Nullable="false" />
+    <Property Name="ktcao" Type="int" Nullable="false" />
+    <Property Name="ktdai" Type="int" Nullable="false" />
+    <Property Name="ktrong" Type="int" Nullable="false" />
+    <Property Name="kiguisanpham" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="dateapproval" Type="nvarchar" MaxLength="20" />
+    <Property Name="productcatalogid" Type="int" />
+    <Property Name="isview" Type="bit" Nullable="false" />
+    <Property Name="sickcatalogid" Type="nvarchar" MaxLength="500" />
+    <Property Name="sick" Type="nvarchar" MaxLength="500" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="chietxuat" Type="nvarchar" MaxLength="500" />
+    <Property Name="khohang" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="lathuocgiatruyen" Type="bit" />
+    <Property Name="datereturn" Type="nvarchar" MaxLength="20" />
+    <Property Name="evaluationid" Type="uniqueidentifier" />
+    <Property Name="evaluationdate" Type="nvarchar" MaxLength="20" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="isConsignment" Type="bit" Nullable="false" />
+    <Property Name="metatitle" Type="nvarchar" MaxLength="500" />
+    <Property Name="metadesc" Type="nvarchar" MaxLength="500" />
+    <Property Name="metakeyword" Type="nvarchar" MaxLength="500" />
+    <Property Name="metaog" Type="nvarchar" MaxLength="500" />
+    <Property Name="thanhphanhoahoc" Type="nvarchar(max)" />
+    <Property Name="thanhphan" Type="ntext" />
+    <Property Name="congdung" Type="ntext" />
+    <Property Name="lieudung_cachdung" Type="ntext" />
+    <Property Name="luuysudung" Type="nvarchar(max)" />
+    <Property Name="metaappid" Type="nvarchar" MaxLength="500" />
+    <Property Name="metatype" Type="nvarchar" MaxLength="500" />
+    <Property Name="ogtitle" Type="nvarchar" MaxLength="500" />
+    <Property Name="metadogdescription" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="title" Type="nvarchar" MaxLength="100" />
+    <Property Name="code" Type="nvarchar" MaxLength="100" />
+    <Property Name="type" Type="nvarchar" MaxLength="20" />
+    <Property Name="Code_Local" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="100" />
+    <Property Name="id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProvinceGHN">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProvinceID" Type="int" />
+    <Property Name="ProvinceName" Type="nvarchar" MaxLength="500" />
+    <Property Name="Code" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Quotation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="note" Type="ntext" />
+    <Property Name="code" Type="nvarchar" MaxLength="20" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="userid" Type="uniqueidentifier" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="islock" Type="int" Nullable="false" />
+    <Property Name="isdeleted" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuotationDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="qty" Type="int" Nullable="false" />
+    <Property Name="price" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="ishoso" Type="bit" Nullable="false" />
+    <Property Name="isgiaychungnhan" Type="bit" Nullable="false" />
+    <Property Name="unitid" Type="uniqueidentifier" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="quotationid" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="QuotationHistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="quotationid" Type="uniqueidentifier" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="Reward">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="title" Type="nvarchar" MaxLength="50" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="districtid" Type="int" />
+    <Property Name="type" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="50" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="codeghn" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="money_total" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="discount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="cod" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="cpvc" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsPayment" Type="bit" Nullable="false" />
+    <Property Name="PaymentType" Type="int" Nullable="false" />
+    <Property Name="member_fullname" Type="nvarchar" MaxLength="500" />
+    <Property Name="member_tel" Type="nvarchar" MaxLength="20" />
+    <Property Name="member_address" Type="nvarchar" MaxLength="500" />
+    <Property Name="member_email" Type="nvarchar" MaxLength="50" />
+    <Property Name="member_birthday" Type="nvarchar" MaxLength="20" />
+    <Property Name="member_sex" Type="bit" Nullable="false" />
+    <Property Name="member_rewardid" Type="int" />
+    <Property Name="member_districtid" Type="int" />
+    <Property Name="member_provinceid" Type="int" />
+    <Property Name="receiver_fullname" Type="nvarchar" MaxLength="500" />
+    <Property Name="receiver_tel" Type="nvarchar" MaxLength="20" />
+    <Property Name="receiver_address" Type="nvarchar" MaxLength="500" />
+    <Property Name="receiver_email" Type="nvarchar" MaxLength="50" />
+    <Property Name="receiver_birthday" Type="nvarchar" MaxLength="20" />
+    <Property Name="receiver_sex" Type="bit" Nullable="false" />
+    <Property Name="receiver_rewardid" Type="int" />
+    <Property Name="receiver_districtid" Type="int" />
+    <Property Name="receiver_provinceid" Type="int" />
+    <Property Name="NoteCancel" Type="nvarchar" MaxLength="255" />
+    <Property Name="CompanyId" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="50" />
+    <Property Name="deliverydate" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="transfersmoney" Type="int" />
+    <Property Name="transfersnote" Type="ntext" />
+    <Property Name="useridCan" Type="uniqueidentifier" />
+    <Property Name="typeuserCan" Type="int" Nullable="false" />
+    <Property Name="typeTransport" Type="int" Nullable="false" />
+    <Property Name="transferscode" Type="nvarchar" MaxLength="50" />
+    <Property Name="transfersid" Type="nvarchar" MaxLength="250" />
+    <Property Name="storeid" Type="uniqueidentifier" />
+    <Property Name="isConsignment" Type="bit" Nullable="false" />
+    <Property Name="discountCode" Type="nvarchar" MaxLength="250" />
+    <Property Name="money_discountCode" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="typeDiscountCode" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Express">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" />
+    <Property Name="STT" Type="int" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_ExpressStatus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="ExpressId" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'UAT_ADMIN.dbo.Sale_Order_ExpressTransfering' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Sale_Order_ExpressTransfering">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="ExpressId" Type="int" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Lines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="sale_orderid" Type="uniqueidentifier" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="qty" Type="int" />
+    <Property Name="unitid" Type="uniqueidentifier" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="price_sale" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="price_discount" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="discount" Type="int" Nullable="false" />
+    <Property Name="Weight" Type="int" Nullable="false" />
+    <Property Name="total" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="catalogid" Type="int" />
+    <Property Name="isevaluate" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Logs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedUser" Type="varchar" MaxLength="250" />
+    <Property Name="Request" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Provisional">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="500" />
+    <Property Name="note" Type="nvarchar(max)" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="issuccess" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_ProvisionalLines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="sale_orderid" Type="uniqueidentifier" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="qty" Type="int" />
+    <Property Name="unitid" Type="uniqueidentifier" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="price_sale" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="price_discount" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="discount" Type="int" Nullable="false" />
+    <Property Name="Weight" Type="int" Nullable="false" />
+    <Property Name="total" Type="decimal" Precision="14" Scale="0" Nullable="false" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="catalogid" Type="int" />
+    <Property Name="isevaluate" Type="bit" Nullable="false" />
+    <Property Name="isConsignment" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sale_Order_StatusDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="statusExpressId" Type="int" />
+    <Property Name="statusId" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Use">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="isuse" Type="bit" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="500" />
+    <Property Name="drugnow" Type="nvarchar" MaxLength="500" />
+    <Property Name="relationship" Type="nvarchar" MaxLength="10" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="productcatalogid" Type="nvarchar" MaxLength="500" />
+    <Property Name="member_Useid" Type="uniqueidentifier" />
+    <Property Name="productid" Type="nvarchar" MaxLength="500" />
+    <Property Name="sale_Orderid" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="filesick" Type="nvarchar" MaxLength="500" />
+    <Property Name="birthday" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Sale_Order_VnPay">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SaleOrderid" Type="nvarchar(max)" />
+    <Property Name="orderId" Type="bigint" />
+    <Property Name="vnpayTranId" Type="bigint" />
+    <Property Name="vnp_ResponseCode" Type="nvarchar(max)" />
+    <Property Name="vnp_SecureHash" Type="nvarchar(max)" />
+    <Property Name="vnp_Amount" Type="bigint" />
+    <Property Name="vnp_BankCode" Type="nvarchar(max)" />
+    <Property Name="vnp_BankTranNo" Type="nvarchar(max)" />
+    <Property Name="vnp_CardType" Type="nvarchar(max)" />
+    <Property Name="vnp_OrderInfo" Type="nvarchar(max)" />
+    <Property Name="vnp_PayDate" Type="nvarchar" MaxLength="255" />
+    <Property Name="vnp_TransactionNo" Type="nvarchar" MaxLength="255" />
+    <Property Name="vnp_TxnRef" Type="nvarchar" MaxLength="255" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Sale_Order_Wholesale">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="vat" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="total" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="note" Type="ntext" />
+    <Property Name="deliverydate" Type="nvarchar" MaxLength="20" />
+    <Property Name="cpvc" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="receiver_fullname" Type="nvarchar" MaxLength="500" />
+    <Property Name="receiver_tel" Type="nvarchar" MaxLength="500" />
+    <Property Name="receiver_address" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsPayment" Type="bit" Nullable="false" />
+    <Property Name="PaymentType" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="bankid" Type="uniqueidentifier" />
+    <Property Name="stk" Type="nvarchar" MaxLength="50" />
+    <Property Name="nametk" Type="nvarchar" MaxLength="500" />
+    <Property Name="branch" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="groupid" Type="uniqueidentifier" />
+    <Property Name="groupcode" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Sale_Order_WholesaleGroup">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="vat" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="total" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="note" Type="ntext" />
+    <Property Name="deliverydate" Type="nvarchar" MaxLength="20" />
+    <Property Name="cpvc" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="receiver_fullname" Type="nvarchar" MaxLength="500" />
+    <Property Name="receiver_tel" Type="nvarchar" MaxLength="500" />
+    <Property Name="receiver_address" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsPayment" Type="bit" Nullable="false" />
+    <Property Name="PaymentType" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="bankid" Type="uniqueidentifier" />
+    <Property Name="stk" Type="nvarchar" MaxLength="50" />
+    <Property Name="nametk" Type="nvarchar" MaxLength="500" />
+    <Property Name="branch" Type="nvarchar" MaxLength="500" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="Sale_Order_WholesaleLines">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="sale_orderWholesaleid" Type="uniqueidentifier" />
+    <Property Name="productid" Type="uniqueidentifier" />
+    <Property Name="qty" Type="int" />
+    <Property Name="unitid" Type="uniqueidentifier" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="price_sale" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="price_discount" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="discount" Type="int" Nullable="false" />
+    <Property Name="Weight" Type="int" Nullable="false" />
+    <Property Name="total" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="note" Type="ntext" />
+    <Property Name="entryprice" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="catalogid" Type="int" />
+  </EntityType>
+  <EntityType Name="Sale_OrderHistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="sale_orderid" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Search_keyword">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="CargoTypeId" Type="int" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="500" />
+    <Property Name="catid" Type="int" />
+    <Property Name="ishome" Type="bit" Nullable="false" />
+    <Property Name="imgpath" Type="nvarchar" MaxLength="500" />
+    <Property Name="numberSearch" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Seo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CargoTypeId" Type="int" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="500" />
+    <Property Name="keywords" Type="nvarchar" MaxLength="500" />
+    <Property Name="title" Type="nvarchar" MaxLength="500" />
+    <Property Name="titlesearch" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Sick">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="dinhnghia" Type="ntext" />
+    <Property Name="trieuchung" Type="ntext" />
+    <Property Name="benhchung" Type="ntext" />
+    <Property Name="kiengki" Type="ntext" />
+    <Property Name="doituongdemac" Type="ntext" />
+    <Property Name="nguyennhan" Type="ntext" />
+    <Property Name="loikhuyen" Type="ntext" />
+    <Property Name="dieutri" Type="ntext" />
+    <Property Name="chuandoan" Type="ntext" />
+    <Property Name="phanloai" Type="ntext" />
+    <Property Name="islock" Type="bit" Nullable="false" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="benhlienquan" Type="ntext" />
+    <Property Name="product_catalogid" Type="nvarchar(max)" />
+    <Property Name="metatitle" Type="nvarchar" MaxLength="500" />
+    <Property Name="metakeyword" Type="nvarchar" MaxLength="500" />
+    <Property Name="metadesc" Type="nvarchar" MaxLength="500" />
+    <Property Name="metaog" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Stores">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+    <Property Name="acreage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="note" Type="ntext" />
+    <Property Name="employeeid" Type="uniqueidentifier" />
+    <Property Name="isdeleted" Type="bit" Nullable="false" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="code" Type="nvarchar" MaxLength="500" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="provinceid" Type="int" />
+    <Property Name="districtid" Type="int" />
+    <Property Name="wardid" Type="int" />
+    <Property Name="employeecode" Type="nvarchar" MaxLength="50" />
+    <Property Name="employeename" Type="nvarchar" MaxLength="500" />
+    <Property Name="employeemobile" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="SystemHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Module" Type="varchar" MaxLength="250" />
+    <Property Name="Action" Type="varchar" MaxLength="250" />
+    <Property Name="VersionOld" Type="nvarchar(max)" />
+    <Property Name="ObjectId" Type="int" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="20" />
+    <Property Name="UserId" Type="uniqueidentifier" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'UAT_ADMIN.dbo.UserRole' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="UserRole">
+          <Property Name="userid" Type="uniqueidentifier" />
+          <Property Name="roleid" Type="uniqueidentifier" />
+        </EntityType>-->
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="255" />
+    <Property Name="code" Type="nvarchar" MaxLength="15" />
+    <Property Name="images" Type="nvarchar" MaxLength="255" />
+    <Property Name="tokenActive" Type="nvarchar" MaxLength="20" />
+    <Property Name="departmentid" Type="uniqueidentifier" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="employeeid" Type="uniqueidentifier" />
+    <Property Name="KeyLock" Type="nvarchar" MaxLength="20" />
+    <Property Name="RegEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="zalo" Type="nvarchar" MaxLength="255" />
+    <Property Name="facebook" Type="nvarchar" MaxLength="255" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+    <Property Name="sex" Type="bit" />
+    <Property Name="memberid" Type="uniqueidentifier" />
+    <Property Name="dateadded" Type="nvarchar" MaxLength="50" />
+    <Property Name="authoritiesid" Type="nvarchar" MaxLength="255" />
+    <Property Name="companyid" Type="uniqueidentifier" />
+    <Property Name="skype" Type="nvarchar" MaxLength="255" />
+    <Property Name="isadmin" Type="bit" />
+    <Property Name="birthday" Type="nvarchar" MaxLength="20" />
+    <Property Name="isdeleted" Type="bit" />
+    <Property Name="tokenNoti" Type="nvarchar" MaxLength="500" />
+    <Property Name="Islock" Type="bit" Nullable="false" />
+    <Property Name="dateexpired" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Voucher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" />
+    <Property Name="Money" Type="float" />
+    <Property Name="IsUsed" Type="bit" />
+    <Property Name="UserType" Type="tinyint" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="AmoutPending" Type="float" />
+    <Property Name="AmountPaid" Type="float" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="ProductCatelogId" Type="int" />
+    <Property Name="IsLock" Type="bit" Nullable="false" />
+    <Property Name="FromDate" Type="nvarchar" MaxLength="20" />
+    <Property Name="ToDate" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="WardGHN">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WardCode" Type="nvarchar" MaxLength="500" />
+    <Property Name="DistrictID" Type="int" />
+    <Property Name="WardName" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <Association Name="FK_Company_Bank_Bank">
+    <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+    <End Role="Company_Bank" Type="Self.Company_Bank" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Company_Bank">
+        <PropertyRef Name="bankid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Company_Bank_Company">
+    <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+    <End Role="Company_Bank" Type="Self.Company_Bank" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Company_Bank">
+        <PropertyRef Name="companyid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Departments">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="departmentid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Lines_ImportGoods">
+    <End Role="ImportGoods" Type="Self.ImportGoods" Multiplicity="0..1" />
+    <End Role="ImportGoods_Lines" Type="Self.ImportGoods_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImportGoods">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGoods_Lines">
+        <PropertyRef Name="importGoodsid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Lines_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="ImportGoods_Lines" Type="Self.ImportGoods_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGoods_Lines">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportGoods_Stores">
+    <End Role="Stores" Type="Self.Stores" Multiplicity="0..1" />
+    <End Role="ImportGoods" Type="Self.ImportGoods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stores">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ImportGoods">
+        <PropertyRef Name="storeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_Province">
+    <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+    <End Role="Member" Type="Self.Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_District">
+    <End Role="District" Type="Self.District" Multiplicity="0..1" />
+    <End Role="Member_store" Type="Self.Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="districtid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Member_store" Type="Self.Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_Province">
+    <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+    <End Role="Member_store" Type="Self.Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_store_Reward">
+    <End Role="Reward" Type="Self.Reward" Multiplicity="0..1" />
+    <End Role="Member_store" Type="Self.Member_store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reward">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_store">
+        <PropertyRef Name="rewardid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_Use_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Member_Use" Type="Self.Member_Use" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Member_Use">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationDetail_Product_Units">
+    <End Role="Product_Units" Type="Self.Product_Units" Multiplicity="0..1" />
+    <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product_Units">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationDetail">
+        <PropertyRef Name="unitid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationDetail_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationDetail">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationDetail_Quotation">
+    <End Role="Quotation" Type="Self.Quotation" Multiplicity="0..1" />
+    <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quotation">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationDetail">
+        <PropertyRef Name="quotationid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationHistory_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="QuotationHistory" Type="Self.QuotationHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationHistory">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotationHistory_Quotation">
+    <End Role="Quotation" Type="Self.Quotation" Multiplicity="0..1" />
+    <End Role="QuotationHistory" Type="Self.QuotationHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quotation">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="QuotationHistory">
+        <PropertyRef Name="quotationid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_District">
+    <End Role="District" Type="Self.District" Multiplicity="0..1" />
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="member_districtid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_District1">
+    <End Role="District" Type="Self.District" Multiplicity="0..1" />
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="receiver_districtid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Lines_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="Sale_Order_Lines" Type="Self.Sale_Order_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Lines">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Lines_Sale_Order">
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="0..1" />
+    <End Role="Sale_Order_Lines" Type="Self.Sale_Order_Lines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Lines">
+        <PropertyRef Name="sale_orderid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Province">
+    <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="member_provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Province1">
+    <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="receiver_provinceid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Reward">
+    <End Role="Reward" Type="Self.Reward" Multiplicity="0..1" />
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reward">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="member_rewardid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Reward1">
+    <End Role="Reward" Type="Self.Reward" Multiplicity="0..1" />
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reward">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order">
+        <PropertyRef Name="receiver_rewardid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Use_Sale_Order">
+    <End Role="Sale_Order" Type="Self.Sale_Order" Multiplicity="0..1" />
+    <End Role="Sale_Order_Use" Type="Self.Sale_Order_Use" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Use">
+        <PropertyRef Name="sale_Orderid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup">
+    <End Role="Sale_Order_WholesaleGroup" Type="Self.Sale_Order_WholesaleGroup" Multiplicity="0..1" />
+    <End Role="Sale_Order_Wholesale" Type="Self.Sale_Order_Wholesale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order_WholesaleGroup">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_Wholesale">
+        <PropertyRef Name="groupid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_WholesaleLines_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="Sale_Order_WholesaleLines" Type="Self.Sale_Order_WholesaleLines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_WholesaleLines">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale">
+    <End Role="Sale_Order_Wholesale" Type="Self.Sale_Order_Wholesale" Multiplicity="0..1" />
+    <End Role="Sale_Order_WholesaleLines" Type="Self.Sale_Order_WholesaleLines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale_Order_Wholesale">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sale_Order_WholesaleLines">
+        <PropertyRef Name="sale_orderWholesaleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="APIModelStoreContainer">
+    <EntitySet Name="Autoid" EntityType="Self.Autoid" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Banner" EntityType="Self.Banner" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company_Bank" EntityType="Self.Company_Bank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiscountCode" EntityType="Self.DiscountCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DistrictGHN" EntityType="Self.DistrictGHN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmailRegister" EntityType="Self.EmailRegister" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluate_Order" EntityType="Self.Evaluate_Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluation" EntityType="Self.Evaluation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Experts" EntityType="Self.Experts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Helps" EntityType="Self.Helps" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images_Catalog" EntityType="Self.Images_Catalog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ImportGoods" EntityType="Self.ImportGoods" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ImportGoods_Lines" EntityType="Self.ImportGoods_Lines" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member_History" EntityType="Self.Member_History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member_store" EntityType="Self.Member_store" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member_Token" EntityType="Self.Member_Token" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member_Use" EntityType="Self.Member_Use" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Nations" EntityType="Self.Nations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="News_Catalog" EntityType="Self.News_Catalog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Permision" EntityType="Self.Permision" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product_Catalog" EntityType="Self.Product_Catalog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product_favorite" EntityType="Self.Product_favorite" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product_Units" EntityType="Self.Product_Units" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProvinceGHN" EntityType="Self.ProvinceGHN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quotation" EntityType="Self.Quotation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuotationHistory" EntityType="Self.QuotationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reward" EntityType="Self.Reward" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order" EntityType="Self.Sale_Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_Express" EntityType="Self.Sale_Order_Express" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_ExpressStatus" EntityType="Self.Sale_Order_ExpressStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_Lines" EntityType="Self.Sale_Order_Lines" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_Logs" EntityType="Self.Sale_Order_Logs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_Provisional" EntityType="Self.Sale_Order_Provisional" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_ProvisionalLines" EntityType="Self.Sale_Order_ProvisionalLines" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_StatusDetail" EntityType="Self.Sale_Order_StatusDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_Use" EntityType="Self.Sale_Order_Use" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_VnPay" EntityType="Self.Sale_Order_VnPay" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_Wholesale" EntityType="Self.Sale_Order_Wholesale" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_WholesaleGroup" EntityType="Self.Sale_Order_WholesaleGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_WholesaleLines" EntityType="Self.Sale_Order_WholesaleLines" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_OrderHistory" EntityType="Self.Sale_OrderHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Search_keyword" EntityType="Self.Search_keyword" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seo" EntityType="Self.Seo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sick" EntityType="Self.Sick" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Stores" EntityType="Self.Stores" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SystemHistory" EntityType="Self.SystemHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Voucher" EntityType="Self.Voucher" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WardGHN" EntityType="Self.WardGHN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sale_Order_ExpressTransfering" EntityType="Self.Sale_Order_ExpressTransfering" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Sale_Order_ExpressTransfering].[id] AS [id], 
+    [Sale_Order_ExpressTransfering].[ServiceCode] AS [ServiceCode], 
+    [Sale_Order_ExpressTransfering].[ServiceName] AS [ServiceName], 
+    [Sale_Order_ExpressTransfering].[Note] AS [Note], 
+    [Sale_Order_ExpressTransfering].[IsActive] AS [IsActive], 
+    [Sale_Order_ExpressTransfering].[ExpressId] AS [ExpressId]
+    FROM [dbo].[Sale_Order_ExpressTransfering] AS [Sale_Order_ExpressTransfering]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Company_Bank_Bank" Association="Self.FK_Company_Bank_Bank">
+      <End Role="Bank" EntitySet="Bank" />
+      <End Role="Company_Bank" EntitySet="Company_Bank" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Company_Bank_Company" Association="Self.FK_Company_Bank_Company">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Company_Bank" EntitySet="Company_Bank" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Departments" Association="Self.FK_Employees_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Lines_ImportGoods" Association="Self.FK_ImportGoods_Lines_ImportGoods">
+      <End Role="ImportGoods" EntitySet="ImportGoods" />
+      <End Role="ImportGoods_Lines" EntitySet="ImportGoods_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Lines_Products" Association="Self.FK_ImportGoods_Lines_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ImportGoods_Lines" EntitySet="ImportGoods_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportGoods_Stores" Association="Self.FK_ImportGoods_Stores">
+      <End Role="Stores" EntitySet="Stores" />
+      <End Role="ImportGoods" EntitySet="ImportGoods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_Province" Association="Self.FK_Member_Province">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="Member" EntitySet="Member" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_District" Association="Self.FK_Member_store_District">
+      <End Role="District" EntitySet="District" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_Member" Association="Self.FK_Member_store_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_Province" Association="Self.FK_Member_store_Province">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_store_Reward" Association="Self.FK_Member_store_Reward">
+      <End Role="Reward" EntitySet="Reward" />
+      <End Role="Member_store" EntitySet="Member_store" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_Use_Member" Association="Self.FK_Member_Use_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Member_Use" EntitySet="Member_Use" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationDetail_Product_Units" Association="Self.FK_QuotationDetail_Product_Units">
+      <End Role="Product_Units" EntitySet="Product_Units" />
+      <End Role="QuotationDetail" EntitySet="QuotationDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationDetail_Products" Association="Self.FK_QuotationDetail_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="QuotationDetail" EntitySet="QuotationDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationDetail_Quotation" Association="Self.FK_QuotationDetail_Quotation">
+      <End Role="Quotation" EntitySet="Quotation" />
+      <End Role="QuotationDetail" EntitySet="QuotationDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationHistory_Member" Association="Self.FK_QuotationHistory_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="QuotationHistory" EntitySet="QuotationHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotationHistory_Quotation" Association="Self.FK_QuotationHistory_Quotation">
+      <End Role="Quotation" EntitySet="Quotation" />
+      <End Role="QuotationHistory" EntitySet="QuotationHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_District" Association="Self.FK_Sale_Order_District">
+      <End Role="District" EntitySet="District" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_District1" Association="Self.FK_Sale_Order_District1">
+      <End Role="District" EntitySet="District" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Lines_Products" Association="Self.FK_Sale_Order_Lines_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Sale_Order_Lines" EntitySet="Sale_Order_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Lines_Sale_Order" Association="Self.FK_Sale_Order_Lines_Sale_Order">
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+      <End Role="Sale_Order_Lines" EntitySet="Sale_Order_Lines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Province" Association="Self.FK_Sale_Order_Province">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Province1" Association="Self.FK_Sale_Order_Province1">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Reward" Association="Self.FK_Sale_Order_Reward">
+      <End Role="Reward" EntitySet="Reward" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Reward1" Association="Self.FK_Sale_Order_Reward1">
+      <End Role="Reward" EntitySet="Reward" />
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Use_Sale_Order" Association="Self.FK_Sale_Order_Use_Sale_Order">
+      <End Role="Sale_Order" EntitySet="Sale_Order" />
+      <End Role="Sale_Order_Use" EntitySet="Sale_Order_Use" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup" Association="Self.FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup">
+      <End Role="Sale_Order_WholesaleGroup" EntitySet="Sale_Order_WholesaleGroup" />
+      <End Role="Sale_Order_Wholesale" EntitySet="Sale_Order_Wholesale" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_WholesaleLines_Products" Association="Self.FK_Sale_Order_WholesaleLines_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Sale_Order_WholesaleLines" EntitySet="Sale_Order_WholesaleLines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale" Association="Self.FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale">
+      <End Role="Sale_Order_Wholesale" EntitySet="Sale_Order_Wholesale" />
+      <End Role="Sale_Order_WholesaleLines" EntitySet="Sale_Order_WholesaleLines" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

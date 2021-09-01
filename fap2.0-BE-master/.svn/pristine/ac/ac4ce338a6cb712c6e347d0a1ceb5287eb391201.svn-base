@@ -1,0 +1,460 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Member
+{
+    public class MemberDal : DbInteractionBase, IMemberDal
+    {
+        /// <summary>
+        /// Lấy danh sách phân trang
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public Tuple<int, List<MemberList>> SelectPaging(MemberSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<MemberList>("sp_MemberSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "name", ValueParam = obj.name},
+                new QueryParam {NameParam = "mobile", ValueParam = obj.mobile},
+                new QueryParam {NameParam = "email", ValueParam = obj.email},
+                new QueryParam {NameParam = "purpose", ValueParam = obj.purpose},
+                new QueryParam {NameParam = "field", ValueParam = obj.field},
+                new QueryParam {NameParam = "ispersonal", ValueParam = obj.ispersonal},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+        public bool Delete(MemberDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(string));
+
+            foreach (var item in ConvertUtil.GetValuesArrayString(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_MemberDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+
+        public MemberAdd GetById(MemberGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<MemberAdd>("sp_MemberSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+      
+        public List<MemberList> GetListMenberByListId(string id)
+        {
+            return ExecuteReader<MemberList>("sp_MemberBylistId", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id}
+            });
+        }
+        
+
+        public string Insert(MemberAdd objAdd)
+        {
+            DataTable OderDetail = new DataTable();
+            OderDetail.Columns.Add("isuse", typeof(bool));
+            OderDetail.Columns.Add("productcatalogid", typeof(string));
+            OderDetail.Columns.Add("filesick", typeof(string));
+            OderDetail.Columns.Add("description", typeof(string));
+            OderDetail.Columns.Add("drugnow", typeof(string));
+            OderDetail.Columns.Add("relationship", typeof(string));
+            OderDetail.Columns.Add("name", typeof(string));
+            OderDetail.Columns.Add("mobile", typeof(string));
+            OderDetail.Columns.Add("email", typeof(string));
+            OderDetail.Columns.Add("address", typeof(string));
+            OderDetail.Columns.Add("memberid", typeof(string));
+
+
+            if (objAdd.memberUselist != null) {
+                foreach (var item in objAdd.memberUselist)
+                {
+                    DataRow toInsert = OderDetail.NewRow();
+                    toInsert[0] = item.isuse;
+                    toInsert[1] = item.productcatalogid;
+                    toInsert[2] = item.filesick;
+                    toInsert[3] = item.description;
+                    toInsert[4] = item.drugnow;
+                    toInsert[5] = item.relationship;
+                    toInsert[6] = item.name;
+                    toInsert[7] = item.mobile;
+                    toInsert[8] = item.email;
+                    toInsert[9] = item.address;
+                    toInsert[10] = item.memberid;
+
+                    OderDetail.Rows.Add(toInsert);
+                }
+            }
+            
+            return ExecuteNonQueryOutputGuid("sp_MemberInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "sex", ValueParam = objAdd.sex},
+                new QueryParam {NameParam = "birthday", ValueParam = objAdd.birthday},
+                new QueryParam {NameParam = "mobile", ValueParam = objAdd.mobile},
+                new QueryParam {NameParam = "email", ValueParam = objAdd.email},
+                new QueryParam {NameParam = "address", ValueParam = objAdd.address},
+                new QueryParam {NameParam = "provinceid", ValueParam = objAdd.provinceid},
+                new QueryParam {NameParam = "zalo", ValueParam = objAdd.zalo},
+                new QueryParam {NameParam = "facebook", ValueParam = objAdd.facebook},
+                new QueryParam {NameParam = "ispersonal", ValueParam = objAdd.ispersonal},
+                new QueryParam {NameParam = "purpose", ValueParam = objAdd.purpose},
+                new QueryParam {NameParam = "field", ValueParam = objAdd.field},
+                new QueryParam {NameParam = "nameproducer", ValueParam = objAdd.nameproducer},
+                new QueryParam {NameParam = "mobileproducer", ValueParam = objAdd.mobileproducer},
+                new QueryParam {NameParam = "emailproducer", ValueParam = objAdd.emailproducer},
+                new QueryParam {NameParam = "productproducer", ValueParam = objAdd.productproducer},
+                new QueryParam {NameParam = "productbuyproducer", ValueParam = objAdd.productbuyproducer},
+                new QueryParam {NameParam = "addressproducer", ValueParam = objAdd.addressproducer},
+                new QueryParam {NameParam = "isshowproducer", ValueParam = objAdd.isshowproducer},
+                new QueryParam {NameParam = "issellproducer", ValueParam = objAdd.issellproducer},
+                new QueryParam {NameParam = "namedistributor", ValueParam = objAdd.namedistributor},
+                new QueryParam {NameParam = "mobiledistributor", ValueParam = objAdd.mobiledistributor},
+                new QueryParam {NameParam = "emaildistributor", ValueParam = objAdd.emaildistributor},
+                new QueryParam {NameParam = "productdistributor", ValueParam = objAdd.productdistributor},
+                new QueryParam {NameParam = "productbuydistributor", ValueParam = objAdd.productbuydistributor},
+                new QueryParam {NameParam = "addressdistributor", ValueParam = objAdd.addressdistributor},
+                new QueryParam {NameParam = "isshowdistributor", ValueParam = objAdd.isshowdistributor},
+                new QueryParam {NameParam = "isselldistributor", ValueParam = objAdd.isselldistributor},
+                new QueryParam {NameParam = "namePCT", ValueParam = objAdd.namePCT},
+                new QueryParam {NameParam = "mobilePCT", ValueParam = objAdd.mobilePCT},
+                new QueryParam {NameParam = "emailPCT", ValueParam = objAdd.emailPCT},
+                new QueryParam {NameParam = "productPCT", ValueParam = objAdd.productPCT},
+                new QueryParam {NameParam = "productbuyPCT", ValueParam = objAdd.productbuyPCT},
+                new QueryParam {NameParam = "addressPCT", ValueParam = objAdd.addressPCT},
+                new QueryParam {NameParam = "isshowPCT", ValueParam = objAdd.isshowPCT},
+                new QueryParam {NameParam = "issellPCT", ValueParam = objAdd.issellPCT},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "productcatelogyPCT", ValueParam = objAdd.productcatelogyPCT},
+                new QueryParam {NameParam = "mstproducer", ValueParam = objAdd.mstproducer},
+                new QueryParam {NameParam = "mstdistributor", ValueParam = objAdd.mstdistributor},
+                new QueryParam {NameParam = "mstPCT", ValueParam = objAdd.mstPCT},
+                new QueryParam {NameParam = "password", ValueParam = objAdd.password},
+                new QueryParam {NameParam = "KeyLock", ValueParam = objAdd.KeyLock},
+                new QueryParam {NameParam = "RegEmail", ValueParam = objAdd.RegEmail},
+                new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+                new QueryParam {NameParam = "memberUselist", ValueParam = OderDetail},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+
+        public string Update(MemberAdd objAdd)
+        {
+            DataTable OderDetail = new DataTable();
+            OderDetail.Columns.Add("isuse", typeof(bool));
+            OderDetail.Columns.Add("productcatalogid", typeof(string));
+            OderDetail.Columns.Add("filesick", typeof(string));
+            OderDetail.Columns.Add("description", typeof(string));
+            OderDetail.Columns.Add("drugnow", typeof(string));
+            OderDetail.Columns.Add("relationship", typeof(string));
+            OderDetail.Columns.Add("name", typeof(string));
+            OderDetail.Columns.Add("mobile", typeof(string));
+            OderDetail.Columns.Add("email", typeof(string));
+            OderDetail.Columns.Add("address", typeof(string));
+            OderDetail.Columns.Add("memberid", typeof(string));
+            OderDetail.Columns.Add("birthday", typeof(string));
+
+            if (objAdd.memberUselist != null)
+            {
+                foreach (var item in objAdd.memberUselist)
+                {
+                    DataRow toInsert = OderDetail.NewRow();
+                    toInsert[0] = item.isuse;
+                    toInsert[1] = item.productcatalogid;
+                    toInsert[2] = item.filesick;
+                    toInsert[3] = item.description;
+                    toInsert[4] = item.drugnow;
+                    toInsert[5] = item.relationship;
+                    toInsert[6] = item.name;
+                    toInsert[7] = item.mobile;
+                    toInsert[8] = item.email;
+                    toInsert[9] = item.address;
+                    toInsert[10] = item.memberid;
+                    toInsert[11] = item.birthday;
+
+                    OderDetail.Rows.Add(toInsert);
+                }
+            }
+
+            return ExecuteNonQueryOutputGuid("sp_MemberUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "sex", ValueParam = objAdd.sex},
+                new QueryParam {NameParam = "birthday", ValueParam = objAdd.birthday},
+                new QueryParam {NameParam = "mobile", ValueParam = objAdd.mobile},
+                new QueryParam {NameParam = "email", ValueParam = objAdd.email},
+                new QueryParam {NameParam = "address", ValueParam = objAdd.address},
+                new QueryParam {NameParam = "provinceid", ValueParam = objAdd.provinceid},
+                new QueryParam {NameParam = "zalo", ValueParam = objAdd.zalo},
+                new QueryParam {NameParam = "facebook", ValueParam = objAdd.facebook},
+                new QueryParam {NameParam = "ispersonal", ValueParam = objAdd.ispersonal},
+                new QueryParam {NameParam = "purpose", ValueParam = objAdd.purpose},
+                new QueryParam {NameParam = "field", ValueParam = objAdd.field},
+                new QueryParam {NameParam = "nameproducer", ValueParam = objAdd.nameproducer},
+                new QueryParam {NameParam = "mobileproducer", ValueParam = objAdd.mobileproducer},
+                new QueryParam {NameParam = "emailproducer", ValueParam = objAdd.emailproducer},
+                new QueryParam {NameParam = "productproducer", ValueParam = objAdd.productproducer},
+                new QueryParam {NameParam = "productbuyproducer", ValueParam = objAdd.productbuyproducer},
+                new QueryParam {NameParam = "addressproducer", ValueParam = objAdd.addressproducer},
+                new QueryParam {NameParam = "isshowproducer", ValueParam = objAdd.isshowproducer},
+                new QueryParam {NameParam = "issellproducer", ValueParam = objAdd.issellproducer},
+                new QueryParam {NameParam = "namedistributor", ValueParam = objAdd.namedistributor},
+                new QueryParam {NameParam = "mobiledistributor", ValueParam = objAdd.mobiledistributor},
+                new QueryParam {NameParam = "emaildistributor", ValueParam = objAdd.emaildistributor},
+                new QueryParam {NameParam = "productdistributor", ValueParam = objAdd.productdistributor},
+                new QueryParam {NameParam = "productbuydistributor", ValueParam = objAdd.productbuydistributor},
+                new QueryParam {NameParam = "addressdistributor", ValueParam = objAdd.addressdistributor},
+                new QueryParam {NameParam = "isshowdistributor", ValueParam = objAdd.isshowdistributor},
+                new QueryParam {NameParam = "isselldistributor", ValueParam = objAdd.isselldistributor},
+                new QueryParam {NameParam = "namePCT", ValueParam = objAdd.namePCT},
+                new QueryParam {NameParam = "mobilePCT", ValueParam = objAdd.mobilePCT},
+                new QueryParam {NameParam = "emailPCT", ValueParam = objAdd.emailPCT},
+                new QueryParam {NameParam = "productPCT", ValueParam = objAdd.productPCT},
+                new QueryParam {NameParam = "productbuyPCT", ValueParam = objAdd.productbuyPCT},
+                new QueryParam {NameParam = "addressPCT", ValueParam = objAdd.addressPCT},
+                new QueryParam {NameParam = "isshowPCT", ValueParam = objAdd.isshowPCT},
+                new QueryParam {NameParam = "issellPCT", ValueParam = objAdd.issellPCT},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "productcatelogyPCT", ValueParam = objAdd.productcatelogyPCT},
+                new QueryParam {NameParam = "mstproducer", ValueParam = objAdd.mstproducer},
+                new QueryParam {NameParam = "mstdistributor", ValueParam = objAdd.mstdistributor},
+                new QueryParam {NameParam = "mstPCT", ValueParam = objAdd.mstPCT},
+                new QueryParam {NameParam = "password", ValueParam = objAdd.password},
+                new QueryParam {NameParam = "KeyLock", ValueParam = objAdd.KeyLock},
+                new QueryParam {NameParam = "RegEmail", ValueParam = objAdd.RegEmail},
+                new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+                new QueryParam {NameParam = "memberUselist", ValueParam = OderDetail},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+        public bool IsLock(MemberLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(string));
+
+            foreach (var item in ConvertUtil.GetValuesArrayString(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_MemberIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+        #region FONTEND
+        public List<GetUsersAddress> FeGetUsersAddress(int id)
+        {
+            return ExecuteReader<GetUsersAddress>("fe_Users_GetAdress", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+        public List<FeMemberGetbyId> FeMemberGetbyId(int id)
+        {
+            return ExecuteReader<FeMemberGetbyId>("fe_MemberSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+
+        public bool MemberHistory(FeMemberHistory obj)
+        {
+            return ExecuteNonQuery("fe_Member_History", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "catid", ValueParam = obj.catid},
+                new QueryParam {NameParam = "memberid", ValueParam = obj.memberid},
+            });
+        }
+
+        public List<Member_UseList> FeGetMember_Use(Guid id)
+        {
+            return ExecuteReader<Member_UseList>("sp_Member_UseSelectByMemberId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+
+        public bool IsNews(MemberisNews obj)
+        {
+            return ExecuteNonQuery("sp_MemberIsNews", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="isnews",ValueParam = obj.isnews},
+                new QueryParam {NameParam ="id",ValueParam = obj.id}
+            });
+        }
+
+        public MemberCheckEmailAndMobile CheckEmailAndMobile(string Keyword)
+        {
+            return ExecuteReaderObject<MemberCheckEmailAndMobile>("sp_MemberCheckEmailAndMobile", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Keyword",ValueParam = Keyword}
+            });
+        }
+
+        public List<MemberSelectParent> SelectParent(MemberGetbyId obj)
+        {
+            return ExecuteReader<MemberSelectParent>("sp_MemberSelectParent", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id}
+            });
+        }
+
+        public string InsertFE(MemberAdd objAdd)
+        {
+            DataTable OderDetail = new DataTable();
+            OderDetail.Columns.Add("isuse", typeof(bool));
+            OderDetail.Columns.Add("productcatalogid", typeof(string));
+            OderDetail.Columns.Add("filesick", typeof(string));
+            OderDetail.Columns.Add("description", typeof(string));
+            OderDetail.Columns.Add("drugnow", typeof(string));
+            OderDetail.Columns.Add("relationship", typeof(string));
+            OderDetail.Columns.Add("name", typeof(string));
+            OderDetail.Columns.Add("mobile", typeof(string));
+            OderDetail.Columns.Add("email", typeof(string));
+            OderDetail.Columns.Add("address", typeof(string));
+            OderDetail.Columns.Add("memberid", typeof(string));
+
+            foreach (var item in objAdd.memberUselist)
+            {
+                DataRow toInsert = OderDetail.NewRow();
+                toInsert[0] = item.isuse;
+                toInsert[1] = item.productcatalogid;
+                toInsert[2] = item.filesick;
+                toInsert[3] = item.description;
+                toInsert[4] = item.drugnow;
+                toInsert[5] = item.relationship;
+                toInsert[6] = item.name;
+                toInsert[7] = item.mobile;
+                toInsert[8] = item.email;
+                toInsert[9] = item.address;
+                toInsert[10] = item.memberid;
+
+                OderDetail.Rows.Add(toInsert);
+            }
+            return ExecuteNonQueryOutputGuid("sp_MemberInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "sex", ValueParam = objAdd.sex},
+                new QueryParam {NameParam = "birthday", ValueParam = objAdd.birthday},
+                new QueryParam {NameParam = "mobile", ValueParam = objAdd.mobile},
+                new QueryParam {NameParam = "email", ValueParam = objAdd.email},
+                new QueryParam {NameParam = "address", ValueParam = objAdd.address},
+                new QueryParam {NameParam = "provinceid", ValueParam = objAdd.provinceid},
+                new QueryParam {NameParam = "zalo", ValueParam = objAdd.zalo},
+                new QueryParam {NameParam = "facebook", ValueParam = objAdd.facebook},
+                new QueryParam {NameParam = "ispersonal", ValueParam = objAdd.ispersonal},
+                new QueryParam {NameParam = "purpose", ValueParam = objAdd.purpose},
+                new QueryParam {NameParam = "field", ValueParam = objAdd.field},
+                new QueryParam {NameParam = "nameproducer", ValueParam = objAdd.nameproducer},
+                new QueryParam {NameParam = "mobileproducer", ValueParam = objAdd.mobileproducer},
+                new QueryParam {NameParam = "emailproducer", ValueParam = objAdd.emailproducer},
+                new QueryParam {NameParam = "productproducer", ValueParam = objAdd.productproducer},
+                new QueryParam {NameParam = "productbuyproducer", ValueParam = objAdd.productbuyproducer},
+                new QueryParam {NameParam = "addressproducer", ValueParam = objAdd.addressproducer},
+                new QueryParam {NameParam = "isshowproducer", ValueParam = objAdd.isshowproducer},
+                new QueryParam {NameParam = "issellproducer", ValueParam = objAdd.issellproducer},
+                new QueryParam {NameParam = "namedistributor", ValueParam = objAdd.namedistributor},
+                new QueryParam {NameParam = "mobiledistributor", ValueParam = objAdd.mobiledistributor},
+                new QueryParam {NameParam = "emaildistributor", ValueParam = objAdd.emaildistributor},
+                new QueryParam {NameParam = "productdistributor", ValueParam = objAdd.productdistributor},
+                new QueryParam {NameParam = "productbuydistributor", ValueParam = objAdd.productbuydistributor},
+                new QueryParam {NameParam = "addressdistributor", ValueParam = objAdd.addressdistributor},
+                new QueryParam {NameParam = "isshowdistributor", ValueParam = objAdd.isshowdistributor},
+                new QueryParam {NameParam = "isselldistributor", ValueParam = objAdd.isselldistributor},
+                new QueryParam {NameParam = "namePCT", ValueParam = objAdd.namePCT},
+                new QueryParam {NameParam = "mobilePCT", ValueParam = objAdd.mobilePCT},
+                new QueryParam {NameParam = "emailPCT", ValueParam = objAdd.emailPCT},
+                new QueryParam {NameParam = "productPCT", ValueParam = objAdd.productPCT},
+                new QueryParam {NameParam = "productbuyPCT", ValueParam = objAdd.productbuyPCT},
+                new QueryParam {NameParam = "addressPCT", ValueParam = objAdd.addressPCT},
+                new QueryParam {NameParam = "isshowPCT", ValueParam = objAdd.isshowPCT},
+                new QueryParam {NameParam = "issellPCT", ValueParam = objAdd.issellPCT},
+                new QueryParam {NameParam = "note", ValueParam = objAdd.note},
+                new QueryParam {NameParam = "productcatelogyPCT", ValueParam = objAdd.productcatelogyPCT},
+                new QueryParam {NameParam = "mstproducer", ValueParam = objAdd.mstproducer},
+                new QueryParam {NameParam = "mstdistributor", ValueParam = objAdd.mstdistributor},
+                new QueryParam {NameParam = "mstPCT", ValueParam = objAdd.mstPCT},
+                new QueryParam {NameParam = "password", ValueParam = objAdd.password},
+                new QueryParam {NameParam = "KeyLock", ValueParam = objAdd.KeyLock},
+                new QueryParam {NameParam = "RegEmail", ValueParam = objAdd.RegEmail},
+                new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+                new QueryParam {NameParam = "memberUselist", ValueParam = OderDetail},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+
+        public bool UpdatetokenNoti(MemberUpdatetokenNoti objUpdate)
+        {
+            return ExecuteNonQuery("sp_MemberUpdatetokenNoti", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objUpdate.id},
+                new QueryParam {NameParam = "tokenNoti", ValueParam = objUpdate.tokenNoti}
+
+            });
+        }
+
+        public bool UpdatePasswordBytokenActive(MemberUpdatePasswordBytokenActive obj)
+        {
+            return ExecuteNonQuery("sp_MemberUpdatePasswordBytokenActive", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="tokenActive",ValueParam = obj.tokenActive},
+                new QueryParam {NameParam ="password",ValueParam = obj.password}
+            });
+        }
+
+        public MemberAdd SelectBytokenActive(MemberSelectBytokenActive objGetbyId)
+        {
+            return ExecuteReaderObject<MemberAdd>("sp_MemberSelectBytokenActive", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public MemberAdd GetByEmail(MemberSelectBytokenActive objGetbyId)
+        {
+            return ExecuteReaderObject<MemberAdd>("sp_MemberSelectByEmail", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public bool Resetpassword(Guid id, string pass)
+        {
+            return ExecuteNonQuery("sp_MemberResetpassword", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id},
+                new QueryParam {NameParam ="password",ValueParam = pass}
+            });
+        }
+        #endregion
+    }
+}

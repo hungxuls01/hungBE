@@ -1,0 +1,7 @@
+2019-05-10 14:46:47.5178|ERROR|ApiTng.Controllers.ProductController|Could not find stored procedure 'dbo.sp_ProductIsLock'.
+2019-05-10 14:54:31.7830|ERROR|ApiTng.Controllers.ProductController|Could not find stored procedure 'dbo.sp_ProductIsLock'.
+2019-05-10 14:54:46.7465|ERROR|ApiTng.Controllers.ProductController|Could not find stored procedure 'dbo.sp_ProductIsLock'.
+2019-05-10 14:55:59.6001|ERROR|ApiTng.Controllers.ProductController|Could not find stored procedure 'dbo.sp_ProductIsLock'.
+2019-05-10 14:56:10.7476|ERROR|ApiTng.Controllers.ProductController|Could not find stored procedure 'dbo.sp_ProductIsLock'.
+2019-05-10 15:17:03.1611|ERROR|ApiTng.Controllers.Evaluate_OrderController|Could not find stored procedure 'dbo.sp_Evaluate_OrderSelectById'.
+2019-05-10 15:17:30.5093|ERROR|ApiTng.Controllers.Evaluate_OrderController|Could not find stored procedure 'dbo.sp_Evaluate_OrderSelectById'.

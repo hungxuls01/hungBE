@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+namespace _1.DataAccessLayer.MemberStore
+{
+    public class MemberStoreDal : DbInteractionBase, IMemberStoreDal
+    {
+        public MemberStoreAdd GetByid(Guid id)
+        {
+            return ExecuteReaderObject<MemberStoreAdd>("sp_Member_storeGetByid", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id}
+            });
+        }
+
+        public List<MemberStoreAdd> GetBymemberid(Guid id)
+        {
+            return ExecuteReader<MemberStoreAdd>("sp_Member_storeGetBymemberid", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+
+        public bool Insert(MemberStoreAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_Member_storeInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "recipientName", ValueParam = objAdd.recipientName},
+                new QueryParam {NameParam = "mobile", ValueParam = objAdd.mobile},
+                new QueryParam {NameParam = "provinceid", ValueParam = objAdd.provinceid},
+                new QueryParam {NameParam = "districtid", ValueParam = objAdd.districtid},
+                new QueryParam {NameParam = "rewardid", ValueParam = objAdd.rewardid},
+                new QueryParam {NameParam = "addresss", ValueParam = objAdd.addresss},
+                new QueryParam {NameParam = "isaddress", ValueParam = objAdd.isaddress},
+                new QueryParam {NameParam = "memberid", ValueParam = objAdd.memberid},
+                new QueryParam {NameParam = "isdefault", ValueParam = objAdd.isdefault},
+
+            });
+        }
+    }
+}

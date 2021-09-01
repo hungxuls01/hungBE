@@ -1,0 +1,27 @@
+2020-08-22 09:47:45.6690|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 09:49:18.4480|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 09:50:44.3391|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 09:54:58.8259|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 09:56:28.4089|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 09:56:56.6648|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 14:30:56.7483|ERROR|ApiTng.Controllers.ProductConsignmentController|Procedure or function 'sp_ProductConsignmentUpdate' expects parameter '@thanhphanhoahoc', which was not supplied.
+2020-08-22 15:58:34.3021|ERROR|ApiTng.Controllers.Sale_OrdersController|String or binary data would be truncated.
+The data for table-valued parameter "@saleorderUse" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-08-22 16:18:55.1400|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot roll back Tran1. No transaction or savepoint of that name was found.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+2020-08-22 16:19:31.1341|ERROR|ApiTng.Controllers.Sale_OrdersController|Cannot roll back Tran1. No transaction or savepoint of that name was found.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+2020-08-22 17:34:08.2899|ERROR|ApiTng.Controllers.Sale_OrdersController|One or more errors occurred.

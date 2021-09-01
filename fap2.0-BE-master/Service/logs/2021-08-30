@@ -1,0 +1,62 @@
+2021-08-30 00:39:48.9496|ERROR|Service.Controllers.StudentsController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-08-30 00:40:26.7017|ERROR|Service.Controllers.StudentsController|Object of type 'System.Boolean' cannot be converted to type 'System.Int32'.
+2021-08-30 00:49:32.9170|ERROR|Service.Controllers.NotificationController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Notifications_Students". The conflict occurred in database "QLSinhVienNew", table "dbo.Students", column 'id'.
+The statement has been terminated.
+2021-08-30 00:50:03.1543|ERROR|Service.Controllers.NotificationController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Notifications_Students". The conflict occurred in database "QLSinhVienNew", table "dbo.Students", column 'id'.
+The statement has been terminated.
+2021-08-30 00:51:12.2206|ERROR|Service.Controllers.NotificationController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Notifications_Students". The conflict occurred in database "QLSinhVienNew", table "dbo.Students", column 'id'.
+The statement has been terminated.
+2021-08-30 00:52:20.9344|ERROR|Service.Controllers.NotificationController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Notifications_Students". The conflict occurred in database "QLSinhVienNew", table "dbo.Students", column 'id'.
+The statement has been terminated.
+2021-08-30 13:57:57.9850|ERROR|Service.Controllers.NotificationController|Object reference not set to an instance of an object.
+2021-08-30 14:31:22.8278|ERROR|Service.Controllers.DecisionController|Incorrect syntax near the keyword 'User'.
+2021-08-30 14:31:24.2691|ERROR|Service.Controllers.DecisionController|Incorrect syntax near the keyword 'User'.
+2021-08-30 14:32:59.0617|ERROR|Service.Controllers.DecisionController|Incorrect syntax near the keyword 'User'.
+2021-08-30 14:33:10.1522|ERROR|Service.Controllers.DecisionController|Incorrect syntax near the keyword 'User'.
+2021-08-30 14:33:44.6633|ERROR|Service.Controllers.DecisionController|Incorrect syntax near the keyword 'User'.
+2021-08-30 22:23:54.1981|ERROR|Service.Controllers.StudentsController|Invalid column name 'False'.
+2021-08-30 22:26:56.6773|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+Invalid column name 'studentid'.
+2021-08-30 22:35:35.5570|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:36:04.5755|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:52:17.8828|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:05.0698|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:26.2686|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:27.7395|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+Invalid column name 'studentid'.
+2021-08-30 22:58:27.8265|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:38.9788|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:46.0300|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:48.7229|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 22:58:51.5835|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:00:02.1546|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:00:37.1595|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:00:43.4408|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:00:50.1887|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:00:58.7839|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:01:12.1340|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:01:52.7430|ERROR|Service.Controllers.NotificationController|Object reference not set to an instance of an object.
+2021-08-30 23:02:04.5807|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:02:49.8273|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:03:12.8421|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:03:42.6347|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:03:44.4906|ERROR|Service.Controllers.NotificationController|The multi-part identifier "st.Departmentid" could not be bound.
+Invalid column name 'studentid'.
+2021-08-30 23:03:46.3022|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:03:51.6464|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+Invalid column name 'studentid'.
+2021-08-30 23:03:58.5902|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:05:11.2726|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:09:25.9435|ERROR|Service.Controllers.NotificationController|Invalid column name 'studentid'.
+2021-08-30 23:12:04.3822|ERROR|Service.Controllers.CategoryStudentController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_CategoryStudent_Students". The conflict occurred in database "QLSinhVienNew", table "dbo.Students", column 'id'.
+The statement has been terminated.
+2021-08-30 23:12:38.2515|ERROR|Service.Controllers.CategoryStudentController|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_CategoryStudent_Students". The conflict occurred in database "QLSinhVienNew", table "dbo.Students", column 'id'.
+The statement has been terminated.
+2021-08-30 23:15:36.7484|ERROR|Service.Controllers.CategoryStudentController|Invalid column name 'studentid'.
+2021-08-30 23:15:48.5619|ERROR|Service.Controllers.CategoryStudentController|Invalid column name 'studentid'.
+2021-08-30 23:17:32.0144|ERROR|Service.Controllers.NotificationController|The multi-part identifier "st.Departmentid" could not be bound.
+Invalid column name 'studentid'.
+2021-08-30 23:19:06.0405|ERROR|Service.Controllers.NotificationController|The multi-part identifier "st.Departmentid" could not be bound.
+Invalid column name 'studentid'.
+2021-08-30 23:26:15.4002|ERROR|Service.Controllers.NotificationController|The multi-part identifier "st.Departmentid" could not be bound.
+Invalid column name 'studentid'.

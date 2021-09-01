@@ -1,0 +1,38 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Member_TokenDto : Member_Token
+    {
+    }
+
+    public class Member_TokenAdd
+    {
+        public string email { get; set; }
+        public string token { get; set; }
+    }
+
+    public class Member_TokenGetEmail
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string email { get; set; }
+        public string token { get; set; }
+        public string tokenActive { get; set; }
+        public DateTime dateadded { get; set; }
+    }
+
+    public class Member_TokenEmail
+    {
+        public string email { get; set; }
+    }
+
+    public class Member_TokenCheck
+    {
+        public string email { get; set; }
+        public string token { get; set; }
+    }
+}

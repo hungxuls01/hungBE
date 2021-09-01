@@ -1,0 +1,30 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class ImageDto :Image
+    {
+    }
+    public class ImageSearchDto : SearchBase
+    {
+        public int catalogid { get; set; }
+    }
+
+    public class ImageList
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string dateadded { get; set; }
+        public Nullable<int> catalogid { get; set; }
+    }
+
+    public class ImageAdd
+    {
+        public string title { get; set; }
+        public Nullable<int> catalogid { get; set; }
+    }
+}

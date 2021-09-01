@@ -1,0 +1,28 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.SystemHistory
+{
+    public interface ISystemHistoryDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<SystemHistoryList>, int> SelectPaging(SystemHistorySearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(SystemHistoryLock obj);
+
+        int Delete(SystemHistoryDeleted arrayId);
+
+        Tuple<SystemHistoryAdd, int> GetById(SystemHistoryGetbyId objGetbyId);
+
+        int Insert(SystemHistoryAdd objAdd);
+
+        #endregion
+
+
+    }
+}

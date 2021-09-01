@@ -1,0 +1,5 @@
+2021-08-15 22:38:25.2847|ERROR|Service.Controllers.StudentsController|Object of type 'System.Int64' cannot be converted to type 'System.Int32'.
+2021-08-15 22:38:32.0946|ERROR|Service.Controllers.StudentsController|Object of type 'System.Int64' cannot be converted to type 'System.Int32'.
+2021-08-15 22:39:29.0143|ERROR|Service.Controllers.StudentsController|Object of type 'System.Int64' cannot be converted to type 'System.Int32'.
+2021-08-15 22:57:59.9290|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-15 22:58:50.6439|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.

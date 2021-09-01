@@ -1,0 +1,19 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Evaluation
+{
+    public interface IEvaluationDal
+    {
+        string Insert(EvaluationAdd objAdd);
+
+        string UpdatePoint(EvaluationUpdatePoint obj);
+
+        EvaluationGetId GetById(EvaluationGetbyId objGetbyId);
+        EvaluationGetId GetByIdProduct(EvaluationGetbyId objGetbyId);
+        EvaluationProduct Evaluation_ProductSelectById(EvaluationGetbyId objGetbyId);
+    }
+}

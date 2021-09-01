@@ -1,0 +1,40 @@
+2020-08-28 09:16:14.6112|ERROR|ApiTng.Controllers.Sale_OrdersController|Object reference not set to an instance of an object.
+2020-08-28 09:26:04.7144|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.
+2020-08-28 09:26:27.9704|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.
+2020-08-28 09:39:24.0392|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.
+2020-08-28 09:44:15.1738|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.
+2020-08-28 09:54:48.1757|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.
+2020-08-28 09:55:14.3732|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 09:57:00.6254|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:14:47.8607|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:15:04.4558|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:15:56.9312|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:25:29.9399|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:27:38.9497|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:36:18.8016|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 10:36:32.9825|ERROR|ApiTng.Controllers.Sale_OrdersController|Invalid object name 'SDY_ADMIN1.dbo.Sale_Order'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-08-28 11:00:14.4822|ERROR|ApiTng.SendMail|System.ArgumentException: The parameter 'address' cannot be an empty string.
+Parameter name: address
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName, Encoding displayNameEncoding)
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName)
+   at ApiTng.SendMail.<>c__DisplayClass2_0.<SendMailNet>b__0() in D:\ApiSan\ApiTng\SendMail.cs:line 39
+2020-08-28 16:52:25.3480|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.
+2020-08-28 17:14:23.6976|ERROR|ApiTng.Controllers.Sale_OrdersController|Unrecognized Guid format.

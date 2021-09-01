@@ -1,0 +1,10 @@
+2020-08-26 15:53:49.9004|ERROR|ApiTng.SendMail|System.ArgumentException: The parameter 'address' cannot be an empty string.
+Parameter name: address
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName, Encoding displayNameEncoding)
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName)
+   at ApiTng.SendMail.<>c__DisplayClass2_0.<SendMailNet>b__0() in D:\ApiSan\ApiTng\SendMail.cs:line 39
+2020-08-26 16:40:20.4765|ERROR|ApiTng.SendMail|System.ArgumentException: The parameter 'address' cannot be an empty string.
+Parameter name: address
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName, Encoding displayNameEncoding)
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName)
+   at ApiTng.SendMail.<>c__DisplayClass2_0.<SendMailNet>b__0() in D:\ApiSan\ApiTng\SendMail.cs:line 39

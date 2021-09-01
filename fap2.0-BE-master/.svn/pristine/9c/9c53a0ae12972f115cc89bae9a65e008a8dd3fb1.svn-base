@@ -1,0 +1,80 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class DiscountCodeDto : DiscountCode
+    {
+    }
+    public class DiscountCodeSearchDto : SearchBase
+    {
+        public string codemember { get; set; }
+        public int isuse { get; set; }
+       
+    }
+    public class DiscountCodeSearchCGDto : SearchBase
+    {
+
+    }
+
+    public class DiscountCodeList
+    {
+        public long id { get; set; }
+        public string code { get; set; }
+        public string codeMember { get; set; }
+        public string dateadded { get; set; }
+        public string datestart { get; set; }
+        public string dateend { get; set; }
+        public int moneyinwallet { get; set; }
+        public int isdeleted { get; set; }
+        public int islock { get; set; }
+    }
+
+    public class DiscountCodeCGList
+    {
+        public long id { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public string datestart { get; set; }
+        public string dateend { get; set; }
+    }
+
+    public class DiscountCodeInsert
+    {
+        public string datestart { get; set; }
+        public string dateend { get; set; }
+        public int count { get; set; }
+    }
+
+    public class DiscountCodeInsertOne
+    {
+        public string code { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+    }
+    public class DiscountCodeLock
+    {
+        public bool islock { get; set; }
+        public string id { get; set; }
+    }
+    public class DiscountCodeGetMemberid
+    {
+        public Guid id { get; set; }
+    }
+    public class DiscountCodeBdyGetMemberid
+    {
+        public Guid memberid { get; set; }
+        public decimal moneyinwallet { get; set; }
+        public long id { get; set; }
+        public string code { get; set; }
+        public int ismember { get; set; }
+    }
+    public class DiscountCodeCheck
+    {
+        public Guid? memberid { get; set; }
+        public string code { get; set; }
+    }
+
+} 

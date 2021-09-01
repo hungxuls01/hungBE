@@ -1,0 +1,23 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.DiscountCode
+{
+    public interface IDiscountCodeDal
+    {
+        Tuple<int, List<DiscountCodeList>> SelectPaging(DiscountCodeSearchDto companySearch, int pageIndex, int pageSize);
+
+        Tuple<int, List<DiscountCodeCGList>> SelectPagingCG(DiscountCodeSearchCGDto companySearch, int pageIndex, int pageSize);
+        bool Insert(DiscountCodeInsert objAdd);
+
+        bool InsertOne(DiscountCodeInsertOne objAdd);
+
+        bool IsLock(DiscountCodeLock obj);
+
+        DiscountCodeBdyGetMemberid GetMemberid(Guid id);
+        DiscountCodeBdyGetMemberid GetbyCode(DiscountCodeCheck obj);
+    }
+}

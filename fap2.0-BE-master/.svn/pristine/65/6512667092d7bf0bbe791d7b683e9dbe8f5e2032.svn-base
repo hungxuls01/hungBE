@@ -1,0 +1,36 @@
+2019-09-12 08:32:30.4219|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@RecordCount', which was not supplied.
+2019-09-12 13:38:58.1090|ERROR|ApiTng.Controllers.Sale_OrdersController|No mapping exists from object type System.Collections.Generic.List`1[[_2.DataTransferObject.SaleOrderLineAdd, 2.DataTransferObject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to a known managed provider native type.
+2019-09-12 13:42:10.7235|ERROR|ApiTng.Controllers.Sale_OrdersController|The procedure "sp_Sale_OrdersInsertOrUpdate" has no parameter named "@OderDetail".
+2019-09-12 13:45:42.1180|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'fe_Sale_Orders_Add' expects parameter '@id', which was not supplied.
+2019-09-12 13:46:46.1598|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'fe_Sale_Orders_Add' expects parameter '@PaymentType', which was not supplied.
+2019-09-12 13:48:46.3544|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'fe_Sale_Orders_Add' expects parameter '@receiver_rewardid', which was not supplied.
+2019-09-12 14:24:24.7521|ERROR|ApiTng.SendMail|System.Net.Mail.SmtpException: Failure sending mail. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 74.125.204.109:587
+   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
+   at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
+   at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
+   at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
+   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   --- End of inner exception stack trace ---
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ApiTng.SendMail.<>c__DisplayClass1_0.<SendMailNet>b__0() in D:\code\api\ApiTng\ApiTng\SendMail.cs:line 47
+2019-09-12 14:28:06.3773|ERROR|ApiTng.SendMail|System.Net.Mail.SmtpException: Failure sending mail. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 64.233.189.109:587
+   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
+   at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
+   at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
+   at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
+   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   --- End of inner exception stack trace ---
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ApiTng.SendMail.<>c__DisplayClass1_0.<SendMailNet>b__0() in D:\code\api\ApiTng\ApiTng\SendMail.cs:line 47

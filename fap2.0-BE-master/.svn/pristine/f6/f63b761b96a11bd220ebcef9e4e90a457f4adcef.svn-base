@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _1.DataAccessLayer.Banner;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Autoid
+{
+    public class AutoidDal : DbInteractionBase, IAutoidDal
+    {
+       
+        public string GetbyId(AutoidGetbyId objAdd)
+        {
+            return ExecuteNonQueryOutputGuid("sp_AutoidgetId", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "tables", ValueParam = objAdd.tables},
+                new QueryParam {NameParam = "code", IsOutParam = true}
+            });
+        }
+
+    }
+}

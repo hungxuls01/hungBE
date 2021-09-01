@@ -1,0 +1,13 @@
+2021-07-24 00:27:05.6004|ERROR|Service.Controllers.StudentsController|String or binary data would be truncated.
+The statement has been terminated.
+2021-07-24 00:27:19.6412|ERROR|Service.Controllers.StudentsController|String or binary data would be truncated.
+The statement has been terminated.
+2021-07-24 00:27:26.5232|ERROR|Service.Controllers.StudentsController|String or binary data would be truncated.
+The statement has been terminated.
+2021-07-24 00:27:59.0923|ERROR|Service.Controllers.StudentsController|String or binary data would be truncated.
+The statement has been terminated.
+2021-07-24 00:30:47.4249|ERROR|Service.Controllers.StudentsController|String or binary data would be truncated.
+The statement has been terminated.
+2021-07-24 14:36:26.4024|ERROR|Service.Controllers.NotificationController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.Int32]'.
+2021-07-24 14:36:35.7691|ERROR|Service.Controllers.NotificationController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.Int32]'.
+2021-07-24 14:37:21.8445|ERROR|Service.Controllers.NotificationController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.Int32]'.

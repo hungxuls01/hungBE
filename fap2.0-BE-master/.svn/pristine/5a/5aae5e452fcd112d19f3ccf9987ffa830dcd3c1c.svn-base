@@ -1,0 +1,65 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class VoucherDto : Voucher
+    {
+    }
+    public class VoucherSearchDto : SearchIncompetentBase
+    {
+        public int IsUsed { get; set; }
+        public int UserType { get; set; }
+    }
+    public class VoucherAdd : IncompetentBase
+    {
+        public string Title { get; set; }
+        public Nullable<System.DateTime> FromDate { get; set; }
+        public Nullable<System.DateTime> ToDate { get; set; }
+        public Nullable<double> Money { get; set; }
+        public Nullable<int> IsUsed { get; set; }
+        public Nullable<byte> UserType { get; set; }
+        public int quanlity { get; set; }
+    }
+
+    public class VoucherDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class VoucherGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class VoucherLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class VoucherList
+    {
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public string Title { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<byte> UserType { get; set; }
+        public Nullable<bool> IsUsed { get; set; }
+    }
+    public class VoucherCheckCode
+    {
+        public string code { get; set; }
+        public Nullable<double> Amount { get; set; }
+        public string ToDate { get; set; }
+
+    }
+    public class VoucherUse
+    {
+        public string code { get; set; }
+
+    }
+
+}

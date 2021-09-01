@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Product_Units
+{
+    public class Product_UnitsDal : DbInteractionBase, IProduct_UnitsDal
+    {
+        #region BACKEND
+
+        public bool IsLock(Product_UnitsLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_Product_UnitsIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public bool Delete(Product_UnitsDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_Product_UnitsDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Product_UnitsAdd GetById(Product_UnitsGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<Product_UnitsAdd>("sp_Product_UnitsSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public bool Insert(Product_UnitsAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_Product_UnitsInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid}
+            });
+        }
+
+        #endregion
+        #region FONTEND
+        public List<Product_UnitsSelectAll> SelectAll()
+        {
+            return ExecuteReader<Product_UnitsSelectAll>("sp_Product_UnitsSelectAll");
+        }
+
+        public Tuple<int, List<Product_UnitsList>> SelectPaging(Product_UnitsSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<Product_UnitsList>("sp_Product_UnitsSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public Product_UnitsAdd CheckName(string Keyword)
+        {
+            return ExecuteReaderObject<Product_UnitsAdd>("sp_Product_UnitsCheckName", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Keyword",ValueParam = Keyword}
+            });
+        }
+        #endregion
+    }
+}

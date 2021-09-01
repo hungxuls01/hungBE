@@ -1,0 +1,134 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+
+    public class Product_CatalogDto : Product_Catalog
+    {
+    }
+    public class Product_CatalogSearchDto : SearchBase
+    {
+    }
+    public class Product_CatalogGetById
+    {
+        public Guid id { get; set; }
+    }
+    
+    public class Product_CatalogAdd 
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string name { get; set; }
+        public string imgpath { get; set; }
+        public Nullable<System.Guid> ParentId { get; set; }
+        public int orderstt { get; set; }
+    }
+
+    public class Product_CatalogUpdateIslock
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public bool islock { get; set; }
+    }
+
+    public class Product_CatalogDeleted 
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Product_CatalogGetbyId 
+    {
+        public Guid id { get; set; }
+    }
+
+     public class Product_CatalogCheckName
+    {
+        public string name { get; set; }
+        public Guid? catalogid { get; set; }
+    }
+    public class Product_CatalogLock 
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Product_CatalogList
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public string imgpath { get; set; }
+        public string rewite { get; set; }
+        public Nullable<System.Guid> ParentId { get; set; }
+        public int orderstt { get; set; }
+    }
+    public class Product_CatalogListFeGetAll
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+    }
+    public class Product_CatalogFeGetbyRewite
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> orderstt { get; set; }
+        public int ParentId { get; set; }
+        public string rewite { get; set; }
+    }
+    public class Product_CatalogFeGetBanner
+    {
+        public int id { get; set; }      
+        public string imgpath { get; set; }
+    }
+    public class Product_CatalogFeShopCat
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public int ParentId { get; set; }
+        public string rewite { get; set; }
+    }
+
+    public class Product_CatalogByRewite
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> orderstt { get; set; }
+        public int ParentId { get; set; }
+        public string rewite { get; set; }
+        public Product_CatalogByRewiteChild Child { get; set; }
+    }
+    public class Product_CatalogByRewiteChild
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public Nullable<int> orderstt { get; set; }
+        public int ParentId { get; set; }
+        public string rewite { get; set; }
+        public List<Product_CatalogFeGetbyRewite> Child { get; set; }
+    }
+    public class Product_CatalogFeGetbyId
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public int ParentId { get; set; }
+        public string rewite { get; set; }
+    }
+    public class Product_CatalogCombobox
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+    }
+
+    public class Product_CatalogDataPaging
+    {
+        public Guid id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public string titlestatus { get; set; }
+        public string titlelocation { get; set; }
+        public string dateadded { get; set; }
+    }
+
+
+}

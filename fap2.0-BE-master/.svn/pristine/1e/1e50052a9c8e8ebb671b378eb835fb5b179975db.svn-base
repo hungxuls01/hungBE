@@ -1,0 +1,351 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.IO;
+using System.Web.Script.Serialization;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Linq;
+using System.Globalization;
+
+namespace ApiTng.ApiExpress
+{
+    public class LalamoveService
+    {
+        #region Variables and properties
+        public string Url { get; set; }
+        public string Key { get; set; }
+        public string Secret { get; set; }
+        public string Country { get; set; }
+        #endregion
+
+        public LalamoveService()
+        {
+            //Get from data if need
+            Url = @"https://sandbox-rest.lalamove.com";
+            Key = "51f42d62a8c741f182505fa5979706f1";
+            Secret = "MC0CAQACBQCyAxYpAgMBAAECBQCSQcgBAgMA3GECAwDOyQICacECAwCkuQIC";
+            Country = "VN_SGN";
+        }
+
+        public LalamoveService(string url, string key, string secret, string country)
+        {
+            Url = url;
+            Key = key;
+            Secret = secret;
+            Country = country;
+        }
+
+        #region Methods
+
+        /// <summary>
+        /// Method allow getting data using httprequest
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="path"></param>
+        /// <param name="method"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private string GetDataUsingHttpRequest(string url, string path, string method, string data)
+        {
+            try
+            {
+                //Check data is not null
+                if (!string.IsNullOrEmpty(data))
+                    url += path;
+
+                // create token 
+                var token = CreateToken(method, path, data);
+                string postData = data;
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                // getting data using httprequest
+                var requester = (HttpWebRequest)WebRequest.Create(url);
+                requester.Method = method;
+                requester.Headers.Add("Authorization", token);
+                requester.Headers.Add("X-LLM-Country", Country);
+                requester.Headers.Add("X-Request-ID", Guid.NewGuid().ToString());
+                requester.ContentType = "application/json";
+                requester.ContentLength = byteArray.Length;
+                requester.Proxy = null;
+                ServicePointManager.Expect100Continue = false;
+                requester.ServicePoint.ConnectionLimit = 10;
+                requester.ServicePoint.MaxIdleTime = 2000;
+                Stream dataStream = requester.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+
+                var httpResponse = (HttpWebResponse)requester.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream() ?? throw new InvalidOperationException()))
+                {
+                    var responseText = streamReader.ReadToEnd();
+                    return responseText;
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"zxc {ex.Message}";
+            }
+        }
+
+        /// <summary>
+        /// Create Order
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public CreatingOrderResult CreateOrder(Order order)
+        {
+            var result = new CreatingOrderResult()
+            {
+                error_code = "-1",
+                description = "Call api failed"
+            };
+            try
+            {
+                var jsonSerializer = new JavaScriptSerializer();
+                var data = jsonSerializer.Serialize(order);
+
+                var responseResult = GetDataUsingHttpRequest(Url, "/v2/quotations", "POST", data);
+
+                result = jsonSerializer.Deserialize<CreatingOrderResult>(responseResult);
+            }
+            catch (Exception ex)
+            {
+                result.description = ex.Message;
+            }
+            return result;
+        }
+
+        //public CancelOrderResult CancelOrder(string orderCode)
+        //{
+        //    CancelOrderResult result = new CancelOrderResult()
+        //    {
+        //        error_code = "-1",
+        //        description = "Call api failed"
+        //    };
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(orderCode))
+        //            orderCode = "124SP70231321";
+        //        string requestUrl = string.Format("{0}cancelOrder", URL);
+        //        JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+        //        //long seconds = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        //        string timeStamp = GetTimestamp(DateTime.Now);
+
+        //        string parameters = "{\"api_key\":\"" + APIKey + "\",\"timestamp\":\"" + timeStamp + "\",\"order_no\":\"" + orderCode + "\"}";
+        //        string authorization = GetHashMACH(parameters + SecretKey, "SPEEDLINK");
+
+        //        string ResponseResult = GetDataUsingHTTPRequest(requestUrl, "POST", "application/json", parameters, authorization);
+
+        //        result = json_serializer.Deserialize<CancelOrderResult>(ResponseResult);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.description = ex.Message;
+        //    }
+        //    return result;
+        //}
+
+        //public TrackingOrderResult TrackingOrder(string orderCode)
+        //{
+        //    TrackingOrderResult result = new TrackingOrderResult()
+        //    {
+        //        error_code = "-1",
+        //        description = "Call api failed"
+        //    };
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(orderCode))
+        //            orderCode = "124SP70231321";
+        //        string requestUrl = string.Format("{0}trackingOrder", URL);
+        //        JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+        //        //long seconds = (long)(DateTime.UtcNow.Subtract(DateTime.Now)).TotalSeconds;
+        //        string timeStamp = GetTimestamp(DateTime.Now);
+
+        //        string parameters = "{\"api_key\":\"" + APIKey + "\",\"timestamp\":\"" + timeStamp + "\",\"order_no\":\"" + orderCode + "\"}";
+        //        string authorization = GetHashMACH(parameters + SecretKey, "SPEEDLINK");
+
+        //        string ResponseResult = GetDataUsingHTTPRequest(requestUrl, "POST", "application/json", parameters, authorization);
+
+        //        result = json_serializer.Deserialize<TrackingOrderResult>(ResponseResult);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.description = ex.Message;
+        //    }
+        //    return result;
+        //}
+
+        /// <summary>
+        /// getting total Fee 
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public CallOrderResult CallOrder(CallOrder order)
+        {
+            // Create result 
+            var result = new CallOrderResult()
+            {
+                message = "Call api failed"
+            };
+
+            try
+            {
+                // Convert data to Json
+                var data = JsonConvert.SerializeObject(order);
+
+                // getting total Fee 
+                var responseResult = GetDataUsingHttpRequest(Url, "/v2/quotations", "POST", data);
+                result = JsonConvert.DeserializeObject<CallOrderResult>(responseResult);
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Convert to HMAC256
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        private string GetHashMach(string message, string secret)
+        {
+            HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
+            hmac.Initialize();
+
+            byte[] buffer = Encoding.UTF8.GetBytes(message);
+
+            string signature = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "").ToLower();
+
+            return signature;
+        }
+
+        /// <summary>
+        /// Create Token
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="path"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private string CreateToken(string method, string path, string data)
+        {
+    
+            // timestamp in millisecond
+            long time = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+
+            // Hash HMAC256
+            string rawSignature = string.Format("{0}\r\n{1}\r\n{2}\r\n\r\n{3}", time, method, path, data);
+           
+            string signature = GetHashMach(rawSignature, Secret);
+
+            //Create token
+            string token = string.Format("hmac {0}:{1}:{2}", Key, time, signature);
+            return token;
+        }
+        #endregion
+    }
+
+    #region Classes
+    public class Order
+    {
+        public string order_no { get; set; }
+        public string order_note { get; set; }
+        public string pickup_address { get; set; }
+        public string pickup_address_code { get; set; }
+        public string shipper_phone { get; set; }
+        public string shipper_name { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_address_code { get; set; }
+        public string receiver_name { get; set; }
+        public string receiver_phone { get; set; }
+        public decimal weight { get; set; }
+        public string service_code { get; set; }
+        public int payment_method { get; set; }
+        public int payer { get; set; }
+        public decimal cod_value { get; set; }
+        public decimal cash { get; set; }
+        public List<OrderItem> dimensions { get; set; }
+    }
+
+    public class OrderItem
+    {
+        public int pcs { get; set; }
+        public decimal height { get; set; }
+        public decimal width { get; set; }
+        public decimal length { get; set; }
+    }
+
+    public class CallOrder
+    {
+        public string scheduleAt { get; set; }
+        public string serviceType { get; set; }
+        public List<Waypoint> stops { get; set; }
+        public List<DeliveryInfo> deliveries { get; set; }
+        public Contact requesterContact { get; set; }
+        //public string[] specialRequests { get; set; }
+    }
+
+    public class Waypoint
+    {
+        //public location location { get; set; }
+        public addresses addresses { get; set; }
+    }
+
+    public class location
+    {
+        public string lat { get; set; }
+        public string lng { get; set; }
+    }
+
+    public class addresses
+    {
+        public vi_VN vi_VN { get; set; }
+    }
+
+    public class vi_VN
+    {
+        public string displayString { get; set; }
+        public string country { get; set; }
+    }
+
+    public class DeliveryInfo
+    {
+        public int toStop { get; set; }
+        public Contact toContact { get; set; }
+        public string remarks { get; set; }
+    }
+
+    public class Contact
+    {
+        public string name { get; set; }
+        public string phone { get; set; }
+    }
+
+    public class ResponseResult
+    {
+        public string error_code { get; set; }
+        public string description { get; set; }
+    }
+
+    public class ResponseResultCall
+    {
+        public string message { get; set; }
+    }
+
+    public class CreatingOrderResult : ResponseResult { }
+
+    public class CancelOrderResult : ResponseResult { }
+
+    public class TrackingOrderResult : ResponseResult { }
+
+    public class CallOrderResult : ResponseResultCall
+    {
+        public string totalFeeCurrency { get; set; }
+        public decimal totalFee { get; set; }
+    }
+    #endregion
+}

@@ -1,0 +1,207 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class ImportGoodsDto : ImportGood
+    {
+
+    }
+    public class ImportGoodsSearchDto : SearchBase
+    {
+        public string dateadded { get; set; }
+        public string deliverydate { get; set; }
+        public string statusall { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public int Sort { get; set; }
+    }
+
+    public class ImportGoodsAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string dateadded { get; set; }
+        public int status { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public string addresscompany { get; set; }
+        public string mobilecompany { get; set; }
+        public string contact { get; set; }
+        public string mobilecontact { get; set; }
+        public Nullable<System.Guid> storeid { get; set; }
+        public string deliverydate { get; set; }
+        public string code { get; set; }
+        public string storecontact { get; set; }
+        public string storemobilecontact { get; set; }
+        public List<ListImportGoods_Lines> Goods_Lines { get; set; }
+    }
+
+    public class ImportGoodsGetByid
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string dateadded { get; set; }
+        public int status { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public string addresscompany { get; set; }
+        public string mobilecompany { get; set; }
+        public string contact { get; set; }
+        public string mobilecontact { get; set; }
+        public Nullable<System.Guid> storeid { get; set; }
+        public string deliverydate { get; set; }
+        public string code { get; set; }
+        public string storecontact { get; set; }
+        public string storemobilecontact { get; set; }
+        public string addressstore { get; set; }
+        public string mobilestore { get; set; }
+        public List<ListImportGoods_LinesGetid> Goods_Lines { get; set; }
+        public string codestore { get; set; }
+        public string namestore { get; set; }
+    }
+
+    public class ImportGoodsList
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public string deliverydate { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        
+        public string listproduct { get; set; }
+        public int status { get; set; }
+    }
+
+    public class ImportGoodsGetbyId
+    {
+        public System.Guid id { get; set; }
+    }
+    public class ImportGoodsStatus
+    {
+        public int status { get; set; }
+        public System.Guid id { get; set; }
+        public string note { get; set; }
+        public string deliverydate { get; set; }
+        public List<ListImportGoods_Lines> Goods_Lines { get; set; }
+    }
+    public class ListImportGoods_LinesGetid
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public Nullable<System.Guid> importGoodsid { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public string productcode { get; set; }
+        public string productname { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public string unitname { get; set; }
+        public int productcatalogid { get; set; }
+        public Nullable<decimal> pricecomnpany { get; set; }
+        public Nullable<decimal> discount { get; set; }
+        public Nullable<decimal> qty { get; set; }
+        public Nullable<decimal> total { get; set; }
+        public bool isdeleted { get; set; }
+        public bool islock { get; set; }
+        public decimal slthuc { get; set; }
+        public decimal sltrave { get; set; }
+        public decimal sldat { get; set; }
+        public string notestore { get; set; }
+        public decimal slUpdate { get; set; }
+        public string notesale { get; set; }
+    }
+    public class ListImportGoods_Lines
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public Nullable<System.Guid> importGoodsid { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public Nullable<decimal> pricecomnpany { get; set; }
+        public Nullable<decimal> discount { get; set; }
+        public Nullable<decimal> qty { get; set; }
+        public Nullable<decimal> total { get; set; }
+        public decimal slthuc { get; set; }
+        public decimal sltrave { get; set; }
+        public decimal sldat { get; set; }
+        public string notestore { get; set; }
+        public decimal slUpdate { get; set; }
+        public string notesale { get; set; }
+    }
+    public class ChecklistAdd
+    {
+        public int type { get; set; }
+        public string code { get; set; }
+        public int status { get; set; }
+        public string codeycnh { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string codecompany { get; set; }
+        public string namecompany { get; set; }
+        public string addresscompany { get; set; }
+        public string usercompany { get; set; }
+        public string usermobilecompany { get; set; }
+        public string mobilecompany { get; set; }
+        public Nullable<System.Guid> storeid { get; set; }
+        public string codestore { get; set; }
+        public string namestore { get; set; }
+        public string addressstore { get; set; }
+        public string userstore { get; set; }
+        public string usermobilestore { get; set; }
+        public string mobilestore { get; set; }
+        public string checkdate { get; set; }
+        public string namedelivery { get; set; }
+        public string mobiledelivery { get; set; }
+        public Nullable<System.Guid> employeeid { get; set; }
+        public Nullable<System.Guid> importOrderid { get; set; }
+        public List<listDetail> listDetail { get; set; }
+    }
+    public class listDetail
+    {
+        public Nullable<System.Guid> productid { get; set; }
+        public string productcode { get; set; }
+        public string productname { get; set; }
+        public Nullable<decimal> sl { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public string unitname { get; set; }
+        public int productcatalogid { get; set; }
+    }
+    public class ChecklistUpdateAdmin
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string checkdate { get; set; }
+        public int status { get; set; }
+        public List<listDetailAdmin> listDetail { get; set; }
+    }
+    public class listDetailAdmin
+    {
+        public Nullable<System.Guid> productid { get; set; }
+        public string productcode { get; set; }
+        public string productname { get; set; }
+        public Nullable<decimal> sl { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public string unitname { get; set; }
+        public Nullable<System.Guid> checklistid { get; set; }
+        public Nullable<int> productcatalogid { get; set; }
+        public decimal slthuc { get; set; }
+        public decimal sltrave { get; set; }
+        public decimal sldat { get; set; }
+        public string notestore { get; set; }
+        public decimal slUpdate { get; set; }
+        public string notesale { get; set; }
+    }
+
+    public class ChecklistUpdateStatusAdmin
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public int status { get; set; }
+    }
+    public class ImportGoodsUpdateKHO
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public int status { get; set; }
+        public List<ListImportGoods_Lines> Goods_Lines { get; set; }
+    }
+
+
+}

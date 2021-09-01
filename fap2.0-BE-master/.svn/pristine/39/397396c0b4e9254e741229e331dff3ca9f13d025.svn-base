@@ -1,0 +1,86 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class StoreDto : Store
+    {
+    }
+    public class StoreSearchDto : SearchBase
+    {
+    }
+    public class StoreAdd
+    {
+        public System.Guid id { get; set; }
+        public string name { get; set; }
+        public string address { get; set; }
+        public string mobile { get; set; }
+        public string mail { get; set; }
+        public string dateadded { get; set; }
+        public string contactname { get; set; }
+        public string contactnumber { get; set; }
+        public Nullable<int> provinceid { get; set; }
+        public Nullable<int> districtid { get; set; }
+        public Nullable<int> rewardid { get; set; }
+        public string code { get; set; }
+        public string storecontact { get; set; }
+        public string storemobilecontact { get; set; }
+    }
+
+    public class StoreDeleted 
+    {
+        public string ArrayId { get; set; }
+    }
+    public class StoreGetbyId { 
+        public System.Guid id { get; set; }
+    }
+    public class StoreLock 
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class StoreList
+    {
+        public System.Guid id { get; set; }
+        public string codetitle { get; set; }
+        public string dateadded { get; set; }
+        public string address { get; set; }
+        public string contactname { get; set; }
+        public string contactnumber { get; set; }
+        public string mobile { get; set; }
+    }
+    public class StoreView
+    {
+        public int id { get; set; }
+        public string fullname { get; set; }
+        public string address { get; set; }
+        public string tel { get; set; }
+        public string mail { get; set; }
+        public string dateadded { get; set; }
+        public string desc { get; set; }
+        public string titleCompany { get; set; }
+        public string contactname { get; set; }
+        public string contactnumber { get; set; }
+        public string titleProvince { get; set; }
+        public string titleDistrict { get; set; }
+        public string titleReward { get; set; }
+        public int IsLock { get; set; }
+        public string titleCargoType { get; set; }
+    }
+    public class StoreSelectByUserId
+    {
+        public int id { get; set; }
+        public string fullname { get; set; }
+    }
+    public class GetStore
+    {
+        public int id { get; set; }
+        public string fullname { get; set; }
+        public string adress { get; set; }
+        public string tel { get; set; }      
+        public string dateadded { get; set; }
+    }
+}

@@ -1,0 +1,75 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Products_CommentDto : Products_Comment
+    {
+    }
+    public class Products_CommentSearchDto : SearchIncompetentBase
+    {
+    }
+    public class Products_CommentAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public Nullable<int> productid { get; set; }
+        public string fullname { get; set; }
+        public string title { get; set; }
+        public string comment { get; set; }
+        public Nullable<int> memberid { get; set; }
+        public Nullable<int> numberrate { get; set; }
+        public Nullable<int> ParentId { get; set; }
+    }
+    public class Products_FeCommentAdd
+    {
+        public int id { get; set; }
+        public Nullable<int> productid { get; set; }
+        public string fullname { get; set; }
+        public string title { get; set; }
+        public string comment { get; set; }
+        public Nullable<int> memberid { get; set; }
+        public Nullable<int> numberrate { get; set; }
+        public Nullable<int> ParentId { get; set; }
+    }
+    public class Products_CommentDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Products_CommentGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class Products_CommentLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Products_CommentList
+    {
+        public int id { get; set; }
+        public string fullname { get; set; }
+        public string title { get; set; }
+        public Nullable<int> numberrate { get; set; }
+        public int IsLock { get; set; }
+    }
+    #region FONTEND
+    public class Products_GetCommentList
+    {
+        public int id { get; set; }
+        public int productid  { get; set; }
+        public string fullname { get; set; }
+        public string title { get; set; }
+        public string comment { get; set; }
+        public Nullable<int> numberrate { get; set; }
+        public string dateadded { get; set; }
+    }
+    public class ProductCommentPadingDto : SearchIncompetentBase
+    {
+        public int productid { get; set; }
+
+    }
+    #endregion
+}

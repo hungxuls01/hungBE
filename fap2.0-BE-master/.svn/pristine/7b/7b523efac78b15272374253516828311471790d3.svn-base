@@ -1,0 +1,192 @@
+﻿using _1.DataAccessLayer.Employee;
+using _1.DataAccessLayer.Member;
+using _1.DataAccessLayer.Quotation;
+using _2.DataTransferObject;
+using _4.Utils;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class QuotationController : ApiController
+    {
+        private static IQuotationDal _QuotationDal;
+        private static EmployeeDal _EmployeeDal;
+        private static MemberDal _MemberDal;
+        private static Logger _logger;
+        string Admin = ConfigurationManager.AppSettings["Admin"];
+        public QuotationController()
+        {
+            _QuotationDal = new QuotationDal();
+            _EmployeeDal = new EmployeeDal();
+            _MemberDal = new MemberDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetPaging(QuotationSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _QuotationDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<QuotationList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(QuotationGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(QuotationAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.Insert(objAdd);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult InsertHistory(QuotationHistoryInsert objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.InsertHistory(objAdd);
+                if (data)
+                {
+                    QuotationGetbyId quotationId = new QuotationGetbyId();
+                    EmployeeGetbyId emp = new EmployeeGetbyId();
+                    quotationId.id = (Guid)objAdd.id;
+                    var quotation = _QuotationDal.GetById(quotationId);
+                    emp.id = (Guid)quotation.userid;
+                    var employee = _EmployeeDal.GetListEmployee(emp);
+                    var lsproduct = JsonConvert.DeserializeObject<List<ProductInfoSendmail>>(quotation.listproduct);
+                    string lsidmember = string.Join(",", objAdd.quotationHistory.Select(o => o.memberid).ToArray());
+                    var listmmember=_MemberDal.GetListMenberByListId(lsidmember);
+
+                    string infoemp = "Em là " + employee.name + " - " + employee.mobile + " - " + employee.NameDepartments + " tại website SDY";
+
+                    string strDetailProduct = "";
+                    int stt = 0;
+                    foreach (var item in lsproduct)
+                    {
+                        stt++;
+                        strDetailProduct += "<tr><td>" + stt + "</td>" + "<td>" + item.codeproduct + "</td>" + "<td>" + item.nameproduct + "</td>" + "<td>" + item.qty + "</td>" + "<td>" + item.titleUnit + "</td>" + "<td>" + item.price + "</td>" + "<td><a href='"+ Admin + item.filegknsp + "'>Link</a></td></tr>";
+                    }
+
+                    string infocontact = "- Tên người tạo: " + employee.name + "<br/>- Điện thoại: " + employee.mobile + "<br/>- Email: " + employee.email + "<br/> ";
+
+                    foreach (var item in listmmember)
+                    {
+                        SendMail.sendMailByType(item.email, new string[] { item.name, infoemp, strDetailProduct, infocontact }, "37");
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(QuotationGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _QuotationDal.Delete(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

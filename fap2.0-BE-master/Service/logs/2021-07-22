@@ -1,0 +1,9 @@
+2021-07-22 16:07:05.2661|ERROR|Service.Controllers.NotificationController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.Int32]'.
+2021-07-22 16:23:57.8748|ERROR|Service.Controllers.NotificationController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.Int32]'.
+2021-07-22 16:24:25.3237|ERROR|Service.Controllers.NotificationController|Object of type 'System.DBNull' cannot be converted to type 'System.Nullable`1[System.Int32]'.
+2021-07-22 16:26:24.9710|ERROR|Service.Controllers.NotificationController|Object reference not set to an instance of an object.
+2021-07-22 21:29:43.7241|ERROR|Service.Controllers.NotificationController|The correlation name 'cp' is specified multiple times in a FROM clause.
+2021-07-22 21:32:06.7701|ERROR|Service.Controllers.NotificationController|Invalid column name 'categoryid'.
+2021-07-22 22:53:36.1932|ERROR|Service.Controllers.InboxReadController|Incorrect syntax near 'SETisRead'.
+2021-07-22 22:54:14.9075|ERROR|Service.Controllers.InboxReadController|Incorrect syntax near 'SETisRead'.
+2021-07-22 22:54:49.9662|ERROR|Service.Controllers.InboxReadController|Incorrect syntax near 'SETisRead'.

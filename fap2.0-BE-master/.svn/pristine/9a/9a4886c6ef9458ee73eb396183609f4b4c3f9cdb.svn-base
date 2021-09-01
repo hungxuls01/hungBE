@@ -1,0 +1,55 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class EmailRegisterDto : EmailRegister
+    {
+    }
+
+    public class EmailRegisterSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+
+    public class EmailRegisterAdd : SearchIncompetentBase
+    {
+        public int id { get; set; }
+        public string email { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class EmailRegisterDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+
+    public class EmailRegisterGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+
+    public class EmailRegisterLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+
+    public class EmailRegisterList
+    {
+        public int id { get; set; }
+        public string email { get; set; }
+        public string dateadded { get; set; }
+        public int IsLock { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class AddEmailRegister
+    {      
+        public string email { get; set; }
+      
+    }
+
+}

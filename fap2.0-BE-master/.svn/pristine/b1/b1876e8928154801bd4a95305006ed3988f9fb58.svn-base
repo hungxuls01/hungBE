@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace ApiTng.Models
+{
+    public class StaticEnum
+    {
+        public const string Stt_ChoXacNhan = "confirmrequest"; //Yêu cầu đặt hàng
+        public const string Stt_ChoLayHang = "confirmed"; //Đã xác nhận
+        public const string Stt_DaHuy = "canceled"; //Đã xác nhận
+        public const string Stt_DangGiao = "inTransit"; //Đã xác nhận
+        public const string Stt_HoanThanh = "delivered"; //Đã xác nhận
+        public const string Stt_TraHang = "returned"; //Đã xác nhận
+        public const string Stt_XoaDon = "deleted"; //Đã xác nhận
+        public const bool IsFreeShip = false; //Đã xác nhận
+    }
+}

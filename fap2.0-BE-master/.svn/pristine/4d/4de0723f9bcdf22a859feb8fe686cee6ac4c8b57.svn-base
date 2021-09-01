@@ -1,0 +1,37 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Member_Token
+{
+    public class Member_TokenDal : DbInteractionBase, IMember_TokenDal
+    {
+        public Member_TokenGetEmail GetEmail(Member_TokenEmail objAdd)
+        {
+            return ExecuteReaderObject<Member_TokenGetEmail>("sp_Member_TokenGetEmail", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="email",ValueParam = objAdd.email}
+            });
+        }
+
+        public Member_TokenGetEmailCount GetEmailCount(string objAdd)
+        {
+            return ExecuteReaderObject<Member_TokenGetEmailCount>("sp_Member_TokenGetEmailCount", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="email",ValueParam = objAdd}
+            });
+        }
+
+        public bool Insert(Member_TokenAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_Member_TokenInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "email", ValueParam = objAdd.email},
+                new QueryParam {NameParam = "token", ValueParam = objAdd.token}
+              
+            });
+        }
+    }
+}

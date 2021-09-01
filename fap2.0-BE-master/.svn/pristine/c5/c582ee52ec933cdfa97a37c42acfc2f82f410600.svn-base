@@ -1,0 +1,139 @@
+﻿using _1.DataAccessLayer.Store;
+using _2.DataTransferObject;
+using _4.Utils;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    
+    public class StoreController : ApiController
+    {
+        private static IStoreDal _StoreDal;
+        private static Logger _logger;
+
+        public StoreController()
+        {
+            _StoreDal = new StoreDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ResponeResult GetPaging(StoreSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _StoreDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<StoreGetAll>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult Insert(StoreAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _StoreDal.Insert(objAdd);
+                if (data)
+                {
+
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult Update(StoreAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _StoreDal.Update(objAdd);
+                if (data)
+                {
+
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+
+        [HttpPost]
+        public ResponeResult GetById(StoreGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _StoreDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

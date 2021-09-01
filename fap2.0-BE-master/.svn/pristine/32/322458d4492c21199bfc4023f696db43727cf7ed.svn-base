@@ -1,0 +1,114 @@
+﻿<div class="container">
+    <p>Cảm ơn quý khách <b>[FullName_Customer]</b> đã đặt hàng tại SDY,</p>
+    <p>SDY rất vui thông báo đơn hàng <b>#[OrderCode]</b> của quý khách đã được tiếp nhận và đang trong quá trình xử lý. SDY sẽ thông báo đến quý khách ngay khi hàng chuẩn bị được giao.</p>
+    <p>Thông tin đơn hàng</p>
+    <table class="table table-striped" style="border: 2px solid #542319 !important; border-collapse: initial !important;width: 100%">
+        <tbody>
+        <tr><td colspan="12" class="text-center bold" style="background: #542319; color: white; padding: 3px">DANH SÁCH SẢN PHẨM</td></tr>
+        <tr>
+            <td class="text-center"><b>Mã</b></td>
+            <td class="text-center"><b>Tên sản phẩm</b></td>
+            <td class="text-center"><b>Đơn vị tính</b></td>
+            <td class="text-center"><b>Trọng lượng</b></td>
+            <td class="text-center"><b>Số lượng</b></td>
+            <td class="text-center"><b>Đơn giá</b></td>
+            <td class="text-center"><b>Thành tiền</b></td>
+        </tr>
+        [Order_Line]
+        <tr class="text-center">
+            <td colspan="12" class="text-center" style="background: #542319; color: white; padding: 3px"><b>THÔNG TIN CHI TIẾT ĐƠN HÀNG</b></td>
+        </tr>
+        <tr>
+            <td colspan="12"><b>Thông tin người nhận</b></td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <div style="display: -webkit-box">
+                    <div style="width: 30%">
+                        <label style="margin-left: 20px;"><b>Họ tên:</b> </label>
+                        <label>[ReceiverName]</label>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="margin-left: 20px;"><b>Email:</b> </label>
+                        <label>[ReceiverEmail]</label>
+                    </div>
+                    <div class="my-col-sm-3">
+                        <label style="margin-left: 20px;"><b>Số điện thoại:</b> </label>
+                        <label>[ReceiverMobile]</label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <div style="display: -webkit-box">
+                    <div>
+                        <label style="margin-left: 20px;"><b>Địa chỉ:</b> </label>
+                        <label>[ReceiverAddress]</label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1"><b>Trạng thái thanh toán</b></td>
+            <td colspan="11">[StatusPayment]</td>
+        </tr>
+        <tr>
+            <td colspan="1"><b>Ghi chú</b></td>
+            <td colspan="11">[NoteOrder]</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2"><b>Tổng tiền hàng</b></td>
+            <td class="bold" colspan="5" style="text-align: right; color: red;font-weight: bold">[BefforeDiscount] đ</td>
+
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2"><b>Phí vận chuyển </b><label>([ServiceType])</label></td>
+            <td class="bold" colspan="5" style="text-align: right; color: red;font-weight: bold">[CPVC] đ</td>
+
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2"><b>Thành tiền </b><label>(Hình thức: [PaymentType])</label></td>
+            <td class="bold" colspan="5" style="text-align: right; color: red;font-weight: bold">[TotalMoney] đ</td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <br />
+    <p>
+        Mọi thắc mắc vui lòng liên hệ tổng đài PSC <b>1900232424</b> hoặc email hỗ trợ <b>SDY.HoTro@tlsoft.com.vn</b>.
+    </p>
+    <br />
+    <p>Trân trọng, Đội ngũ SDY.</p>
+    <p>Đây là email tự động, vui lòng không hồi âm.</p>
+</div>
+
+
+<style>
+    #checkOrder {
+        background: #542319;
+        color: white;
+        padding: 3px 5px;
+        text-decoration: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .my-col-sm-offset-1 {
+        margin-left: 20px;
+    }
+
+    .my-col-sm-4 {
+        width: 33.33333333%;
+    }
+
+    .my-col-sm-3 {
+        width: 25%;
+    }
+    .my-row {
+        display: -webkit-box;
+    }
+</style>

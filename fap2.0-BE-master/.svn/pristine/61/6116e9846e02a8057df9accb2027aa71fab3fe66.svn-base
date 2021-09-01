@@ -1,0 +1,21 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.ImportGoods
+{
+    public interface IImportGoodsDal
+    {
+        Tuple<int, List<ImportGoodsList>> SelectPaging(ImportGoodsSearchDto ImportGoodsSearch, int pageIndex, int pageSize);
+
+        ImportGoodsGetByid GetById(ImportGoodsGetbyId id);
+
+        List<ListImportGoods_LinesGetid> GetListDetai(ImportGoodsGetbyId id);
+
+        string Insert(ImportGoodsAdd objAdd);
+        bool UpdateStatus(ImportGoodsStatus obj);
+        bool UpdateKHO(ImportGoodsUpdateKHO obj);
+    }
+}

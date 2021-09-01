@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Employee
+{
+    public class EmployeeDal : DbInteractionBase, IEmployeeDal
+    {
+        #region BACKEND
+        public Tuple<int, List<EmployeeList>> SelectPaging(EmployeeSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<EmployeeList>("sp_EmployeesSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "email", ValueParam = obj.email},
+                new QueryParam {NameParam = "mobile", ValueParam = obj.mobile},
+                new QueryParam {NameParam = "departmentid", ValueParam = obj.departmentid},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+            });
+        }
+
+        public bool IsLock(EmployeeLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(string));
+
+            foreach (var item in ConvertUtil.GetValuesArrayString(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_EmployeesIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId}
+            });
+        }
+
+
+        public EmployeeAdd GetById(EmployeeGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<EmployeeAdd>("sp_EmployeesSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public EmployeeAdd GetByEmail(EmployeeGetbyEmail obj)
+        {
+            return ExecuteReaderObject<EmployeeAdd>("sp_EmployeesSelectByEmail", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="email",ValueParam = obj.email}
+            });
+        }
+
+        public bool Insert(EmployeeAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_EmployeesInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "email", ValueParam = objAdd.email},
+                new QueryParam {NameParam = "departmentid", ValueParam = objAdd.departmentid},
+                new QueryParam {NameParam = "positionid", ValueParam = objAdd.positionid},
+                new QueryParam {NameParam = "birthday", ValueParam = objAdd.birthday},
+                new QueryParam {NameParam = "mobile", ValueParam = objAdd.mobile},
+                new QueryParam {NameParam = "address", ValueParam = objAdd.address},
+                new QueryParam {NameParam = "dateexpired", ValueParam = objAdd.dateexpired},
+                new QueryParam {NameParam = "startday", ValueParam = objAdd.startday},
+                new QueryParam {NameParam = "password", ValueParam = objAdd.password},
+                new QueryParam {NameParam = "KeyLock", ValueParam = objAdd.KeyLock},
+                new QueryParam {NameParam = "RegEmail", ValueParam = objAdd.RegEmail},
+                new QueryParam {NameParam = "tokenNoti", ValueParam = objAdd.tokenNoti},
+                new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+                new QueryParam {NameParam = "images", ValueParam = objAdd.images}
+            });
+        }
+
+        public EmployeeCheckEmailAndMobile CheckEmailAndMobile(string Keyword)
+        {
+            return ExecuteReaderObject<EmployeeCheckEmailAndMobile>("sp_EmployeesCheckEmailAndMobile", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="Keyword",ValueParam = Keyword}
+            });
+        }
+
+        public bool UpdatePasswordBytokenActive(EmployeeUpdatePasswordBytokenActive objAdd)
+        {
+            return ExecuteNonQuery("sp_EmployeesUpdatePasswordBytokenActive", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+                new QueryParam {NameParam = "password", ValueParam = objAdd.password}
+              
+            });
+        }
+
+        public EmployeeAdd SelectBytokenActive(EmployeeSelectBytokenActive objGetbyId)
+        {
+            return ExecuteReaderObject<EmployeeAdd>("sp_EmployeesSelectBytokenActive", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+        #endregion
+
+
+    }
+}

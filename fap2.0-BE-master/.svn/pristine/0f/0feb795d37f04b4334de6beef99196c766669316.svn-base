@@ -1,0 +1,19 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.ProductConsignment
+{
+    public interface IProductConsignmentDal
+    {
+        Tuple<int, List<ProductConsignmentCombobox>> SelectPaging(ProductConsignmentSearchDto companySearch, int pageIndex, int pageSize);
+
+        ProductConsignmentGetById GetById(ProductConsignmentGetId objGetbyId);
+
+        bool Insert(ProductConsignmentAdd objAdd);
+
+        List<ProductConsignmentListAll> GetByList(ProductConsignmentGetList obj);
+    }
+}

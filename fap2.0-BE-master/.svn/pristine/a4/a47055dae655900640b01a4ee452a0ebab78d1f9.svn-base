@@ -1,0 +1,5 @@
+2019-11-05 14:13:30.9784|ERROR|ApiTng.Controllers.ReportController|Object cannot be cast from DBNull to other types.
+2019-11-05 14:13:47.4245|ERROR|ApiTng.Controllers.ReportController|Object cannot be cast from DBNull to other types.
+2019-11-05 14:14:36.6460|ERROR|ApiTng.Controllers.ReportController|Object cannot be cast from DBNull to other types.
+2019-11-05 14:15:54.3969|ERROR|ApiTng.Controllers.ReportController|Object cannot be cast from DBNull to other types.
+2019-11-05 14:16:30.3496|ERROR|ApiTng.Controllers.ReportController|Object cannot be cast from DBNull to other types.

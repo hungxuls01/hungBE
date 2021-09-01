@@ -1,0 +1,18 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Sale_Order_ProvisionalDto : Sale_Order_Provisional
+    {
+        public string listproduct { get; set; }
+    }
+    public class Sale_Order_ProvisionalGetId : Sale_Order_Provisional
+    {
+        public string listproduct { get; set; }
+    }
+
+}

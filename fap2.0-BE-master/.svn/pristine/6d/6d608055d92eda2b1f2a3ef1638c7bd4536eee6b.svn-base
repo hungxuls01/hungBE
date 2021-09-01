@@ -1,0 +1,27 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Seo
+{
+    public interface ISeoDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<SeoList>, int> SelectPaging(SeoSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(SeoLock obj);
+
+        int Delete(SeoDeleted arrayId);
+
+        Tuple<SeoAdd, int> GetById(SeoGetbyId objGetbyId);
+
+        int Insert(SeoAdd objAdd);
+
+        #endregion
+
+    }
+}

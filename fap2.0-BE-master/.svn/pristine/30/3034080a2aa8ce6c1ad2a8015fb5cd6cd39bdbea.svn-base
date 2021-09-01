@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.News
+{
+    public class NewsDal : DbInteractionBase, INewsDal
+    {
+        #region BACKEND
+        public Tuple<int, List<NewsList>, int> SelectPaging(NewsSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<NewsList>("sp_NewsSelectPaging", new List<QueryParam>
+            {
+                
+                new QueryParam {NameParam = "Companyid", ValueParam = obj.Companyid},
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = obj.CargoTypeId},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(NewsLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_NewsIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(NewsDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_NewsDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<NewsAdd, int> GetById(NewsGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<NewsAdd>("sp_NewsSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam ="role",ValueParam = objGetbyId.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objGetbyId.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objGetbyId.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Insert(NewsAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_NewsInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "title", ValueParam = objAdd.title},
+                new QueryParam {NameParam = "imgpath", ValueParam = objAdd.imgpath},
+                new QueryParam {NameParam = "ishot", ValueParam = objAdd.ishot},
+                new QueryParam {NameParam = "isnew", ValueParam = objAdd.isnew},
+                new QueryParam {NameParam = "companyid", ValueParam = objAdd.companyid},
+                new QueryParam {NameParam = "SeoTitle", ValueParam = objAdd.SeoTitle},
+                new QueryParam {NameParam = "MetaKeywords", ValueParam = objAdd.MetaKeywords},
+                new QueryParam {NameParam = "MetaDescriptions", ValueParam = objAdd.MetaDescriptions},
+                new QueryParam {NameParam = "shortdesc", ValueParam = objAdd.shortdesc},
+                new QueryParam {NameParam = "longdesc", ValueParam = objAdd.longdesc},
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = objAdd.CargoTypeId},
+                new QueryParam {NameParam = "IsLock", ValueParam = objAdd.IsLock},
+                //
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+
+        #region FONTEND     
+
+        public List<GetNewsListAll> FeGetNewsListAll(int id)
+        {
+            return ExecuteReader<GetNewsListAll>("fe_News_ListAll", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "CargoTypeId", ValueParam = id}
+            });
+        }
+        public List<GetNewsDetail> FeGetNewsDetail(string id)
+        {
+            return ExecuteReader<GetNewsDetail>("fe_News_Detail", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "rewite", ValueParam = id}
+            });
+        }
+        #endregion
+
+    }
+}

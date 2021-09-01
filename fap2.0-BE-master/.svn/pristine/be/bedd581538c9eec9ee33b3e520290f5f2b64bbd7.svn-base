@@ -1,0 +1,43 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Product_SizeDto 
+    {
+    }
+    public class Product_SizeSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+    }
+    public class Product_SizeAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class Product_SizeDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Product_SizeGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class Product_SizeLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Product_SizeList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int CargoTypeId { get; set; }
+        public int islock { get; set; }
+    }
+}

@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using _4.Utils;
+
+namespace ApiTng.Extentions
+{
+    public class CodeAndReason<T> : IHttpActionResult
+    {
+        private readonly HttpStatusCode statusCode;
+        readonly T data;
+
+        public CodeAndReason(HttpStatusCode statusCode, T data)
+        {
+            this.statusCode = statusCode;
+            this.data = data;
+        }
+        public HttpResponseMessage CreateResponse(HttpStatusCode statusCode, T data)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(); request.Properties.Add(System.Web.Http.Hosting.HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
+
+            HttpResponseMessage response = request.CreateResponse(statusCode, data);
+
+            return response;
+        }
+
+        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
+        {
+            return Task.FromResult(CreateResponse(this.statusCode, this.data));
+        }
+
+        internal IHttpActionResult NotFound(ResponeResult response)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

@@ -1,0 +1,87 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class QuotationDto : Quotation
+    {
+    }
+
+    public class QuotationSearchDto : SearchBase
+    {
+        public string dateadded { get; set; }
+        public string code { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+    }
+
+    public class QuotationAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string note { get; set; }
+        public string code { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+        public int status { get; set; }
+        public List<QuotationDetailList> QuotationDetail { get; set; }
+    }
+
+    public class QuotationList
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+        public string nameuser { get; set; }
+        public int status { get; set; }
+        public string titlestatus { get; set; }
+    }
+    public class QuotationId
+    {
+        public System.Guid id { get; set; }
+        public string note { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+        public int status { get; set; }
+        public int islock { get; set; }
+        public int isdeleted { get; set; }
+        public string listproduct { get; set; }
+
+    }
+    public class QuotationGetbyId
+    {
+        public System.Guid id { get; set; }
+       
+    }
+
+
+    public class QuotationHistoryInsert
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public List<QuotationHistoryList> quotationHistory { get; set; }
+
+    }
+    public class QuotationHistoryList
+    {
+        public Nullable<System.Guid> quotationid { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+
+    }
+    
+    public class QuotationDetailList 
+    {
+        public System.Guid id { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public int qty { get; set; }
+        public decimal price { get; set; }
+        public bool ishoso { get; set; }
+        public bool isgiaychungnhan { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public Nullable<System.Guid> quotationid { get; set; }
+    }
+
+}

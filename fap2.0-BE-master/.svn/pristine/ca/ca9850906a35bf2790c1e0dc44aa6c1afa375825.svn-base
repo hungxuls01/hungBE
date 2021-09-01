@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Sale_Order_Logs
+{
+    public class Sale_Order_LogsDal : DbInteractionBase, ISale_Order_LogsDal
+    {
+        /// <summary>
+        /// Lấy danh sách phân trang
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+      
+        public bool Insert(Sale_Order_LogsAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_SaleOrderLogInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Orderid", ValueParam = objAdd.OrderId},
+                new QueryParam {NameParam = "Status", ValueParam = objAdd.Status},
+                new QueryParam {NameParam = "CreatedUser", ValueParam = objAdd.CreatedUser}
+            });
+        }
+       
+    }
+}

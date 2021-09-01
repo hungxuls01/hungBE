@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Sale_Orders_MSB
+{
+    public class Sale_Orders_MSBDal : DbInteractionBase, ISale_Orders_MSBDal
+    {
+        #region BACKEND
+       
+
+        public bool Insert(Sale_Orders_MSBAdd objAdd)
+        {
+            return ExecuteNonQuery("sp_Sale_Orders_MSBInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "msbResponse", ValueParam = objAdd.msbResponse},
+                new QueryParam {NameParam = "orderid", ValueParam = objAdd.orderid}
+            });
+        }
+
+       
+        #endregion
+
+    }
+}

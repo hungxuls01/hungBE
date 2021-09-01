@@ -1,0 +1,30 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product_Warranty
+{
+    public interface IProduct_WarrantyDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Product_WarrantyList>, int> SelectPaging(Product_WarrantySearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Product_WarrantyLock obj);
+
+        int Delete(Product_WarrantyDeleted arrayId);
+
+        Tuple<Product_WarrantyAdd, int> GetById(Product_WarrantyGetbyId objGetbyId);
+
+        int Insert(Product_WarrantyAdd objAdd);
+
+        #endregion
+
+        #region FONTEND
+        List<Product_WarrantySelectAll> SelectAll(int id);
+        #endregion
+    }
+}

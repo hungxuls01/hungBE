@@ -1,0 +1,3 @@
+2020-05-21 09:55:09.0972|ERROR|ApiTng.Controllers.CompanyController|Object reference not set to an instance of an object.
+2020-05-21 09:56:07.6405|ERROR|ApiTng.Controllers.CompanyController|Input string was not in a correct format.Couldn't store <2e0cd045-2ee1-4598-bf1f-97f7094ac39a> in id Column.  Expected type is Int32.
+2020-05-21 09:56:30.0652|ERROR|ApiTng.Controllers.CompanyController|Input string was not in a correct format.Couldn't store <2e0cd045-2ee1-4598-bf1f-97f7094ac39a> in id Column.  Expected type is Int32.

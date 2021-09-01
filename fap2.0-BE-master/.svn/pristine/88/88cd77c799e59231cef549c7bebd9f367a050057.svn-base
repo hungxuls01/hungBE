@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+
+namespace _1.DataAccessLayer.Department
+{
+    public class DepartmentsDal : DbInteractionBase, IDepartmentsDal
+    {
+        public List<DepartmentsCombobox> GetAll()
+        {
+            return ExecuteReader<DepartmentsCombobox>("sp_DepartmentsSelectCombobox");
+        }
+    }
+}

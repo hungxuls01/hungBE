@@ -1,0 +1,56 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class SickDto : Sick
+    {
+    }
+    public class SickSearchDto : SearchBase
+    {
+        
+    }
+
+    public class SickList
+    {
+        public System.Guid id { get; set; }
+        public string product_catalogid { get; set; }
+        public string name { get; set; }
+        public int IsLock { get; set; }
+        public string namecatalog { get; set; }
+        public string dateadded { get; set; }
+    }
+    public class SickAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string product_catalogid { get; set; }
+        public string name { get; set; }
+        public string dinhnghia { get; set; }
+        public string trieuchung { get; set; }
+        public string benhchung { get; set; }
+        public string kiengki { get; set; }
+        public string doituongdemac { get; set; }
+        public string nguyennhan { get; set; }
+        public string loikhuyen { get; set; }
+        public string dieutri { get; set; }
+        public string chuandoan { get; set; }
+        public string phanloai { get; set; }
+        public string benhlienquan { get; set; }
+    }
+    public class SickDeleted
+    {
+        public string ArrayId { get; set; }
+    }
+    public class SickCheckName
+    {
+        public string Keyword { get; set; }
+    }
+
+    public class SickGetbyId
+    {
+        public System.Guid id { get; set; }
+    }
+}

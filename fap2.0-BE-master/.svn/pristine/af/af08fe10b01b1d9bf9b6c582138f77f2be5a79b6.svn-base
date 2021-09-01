@@ -1,0 +1,32 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Permision
+{
+    public interface IPermisionDal
+    {
+        
+        #region BACKEND
+
+        Tuple<int, List<PermisionList>, int> SelectPaging(PermisionSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(PermisionLock obj);
+
+        int Delete(PermisionDeleted arrayId);
+
+        PermisionGetbyIdObj GetById(PermisionGetbyId obj);
+
+        int Insert(PermisionAdd objAdd);
+
+        List<PermisionMenu> GetMenu(int id);
+
+        #endregion
+
+        #region FONTEND
+        List<PermisionCombo> GetAll();
+        #endregion
+    }
+}

@@ -1,0 +1,21 @@
+2020-08-24 10:06:58.5649|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 10:14:48.7556|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 10:19:25.1344|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 10:24:33.0730|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 10:32:56.2824|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 10:39:34.3567|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 10:41:16.5074|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+
+2020-08-24 11:32:17.1801|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-08-24 11:35:00.7403|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-08-24 11:40:30.3297|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-08-24 11:40:39.3084|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-08-24 11:45:14.3820|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-08-24 11:46:24.1479|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.
+2020-08-24 11:48:29.3162|ERROR|ApiTng.Controllers.Sale_OrdersController|Nullable object must have a value.

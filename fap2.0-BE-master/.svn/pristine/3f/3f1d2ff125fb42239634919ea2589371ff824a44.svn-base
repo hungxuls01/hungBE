@@ -1,0 +1,208 @@
+﻿using _4.Utils;
+using ApiTng.ApiExpress;
+using ApiTng.ApiPay;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using static ApiTng.ApiExpress.LoziService;
+using static ApiTng.ApiPay.MsbService;
+using static ApiTng.ApiPay.TNGServices;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class PaymentController : ApiController
+    {
+        private static Logger _logger;
+        private readonly MsbService _MsbService;
+        private readonly LoziService _LoziService;
+        private readonly TNGServices _TNGService;
+        public PaymentController()
+        {
+            _logger = LogManager.GetCurrentClassLogger();
+            _MsbService = new MsbService();
+            _LoziService = new LoziService();
+            _TNGService = new TNGServices();
+        }
+
+        //[Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetQrCode(CreateQrcode createQrcode)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _MsbService.CreateQrcodeData(createQrcode);
+                if (data != null)
+                {
+                    if (data.code != "00")
+                    {
+                        _logger.Error(data.message);
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult Checking(CheckingObj createQrcode)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _MsbService.Checking(createQrcode);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        #region Vận chuyển Lozi
+        [HttpPost]
+        public ResponeResult EstimatePrice(EstimatePriceItem createQrcode)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _LoziService.EstimatePrice(createQrcode);
+                if (data.data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpGet]
+        public ResponeResult CreateOrder(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+               
+                // timestamp in millisecond
+                long time = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+               
+                var createQrcode = new CreateOrder();
+                createQrcode.timestamp = Convert.ToInt32(time);
+                createQrcode.orderId = id;
+                var data = _LoziService.CreateOrderLozi(createQrcode);
+                if (data.data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        //[HttpPost]
+        //public ResponeResult UpdateOrder(OrderItemTNG jsonOrder)
+        //{
+        //    var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+        //    try
+        //    {
+        //        var data = _TNGService.updateOrder(jsonOrder);
+        //        if (data != null)
+        //        {
+        //            response = data;
+        //            return response;
+        //        }
+        //        response.Status = ConstUtil.Error;
+        //        response.Message = "Có lỗi sảy ra !";
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Error(ex.Message);
+        //        response.Status = ConstUtil.Error;
+        //        response.Message = "Có lỗi sảy ra !";
+        //        return response;
+        //    }
+        //}
+
+        //[HttpPost]
+        //public ResponeResult GetOrder(OrderGetTNGLozi jsonOrder)
+        //{
+        //    var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+        //    try
+        //    {
+        //        var data = _TNGService.GetOrder(jsonOrder);
+        //        if (data != null)
+        //        {
+        //            response = data;
+        //            return response;
+        //        }
+        //        response.Status = ConstUtil.Error;
+        //        response.Message = "Có lỗi sảy ra !";
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Error(ex.Message);
+        //        response.Status = ConstUtil.Error;
+        //        response.Message = "Có lỗi sảy ra !";
+        //        return response;
+        //    }
+        //}
+        #endregion
+    }
+}

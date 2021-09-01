@@ -1,0 +1,314 @@
+﻿using _1.DataAccessLayer.ImportGoods;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class ImportGoodsController : ApiController
+    {
+        private static IImportGoodsDal _ImportGoodsDal;
+        private static Logger _logger;
+        private Api api;
+
+        public ImportGoodsController()
+        {
+            _ImportGoodsDal = new ImportGoodsDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(ImportGoodsSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ImportGoodsDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<ImportGoodsList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(ImportGoodsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.GetById(id);
+                if (data != null)
+                {
+                    var detail = _ImportGoodsDal.GetListDetai(id);
+                    data.Goods_Lines = detail;
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetByImportGoodsId(ImportGoodsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ImportGoodsDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Insert(ImportGoodsAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.Insert(objAdd);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult UpdateKHO(ImportGoodsUpdateKHO objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.UpdateKHO(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult UpdateStatus(ImportGoodsStatus objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.UpdateStatus(objAdd);
+                if (data)
+                {
+                    if (objAdd.status == 1)
+                    {
+                        var idnew = new ImportGoodsGetbyId();
+                        idnew.id = objAdd.id;
+                        var getid = _ImportGoodsDal.GetById(idnew);
+                        var detailgetid = _ImportGoodsDal.GetListDetai(idnew);
+                        getid.Goods_Lines = detailgetid;
+                        //
+                        var getidKHO = api.GetidImportGoods(idnew);
+                        if (getidKHO.Result.Status == ConstUtil.Error)
+                        {
+                            var master = new ChecklistAdd();
+                            var listdetai = new List<listDetail>();
+                            master.type = 0;
+                            master.status = 0;
+                            master.codeycnh = getid.code;
+                            master.companyid = getid.companyid;
+                            master.codecompany = getid.codecompany;
+                            master.namecompany = getid.namecompany;
+                            master.addresscompany = getid.addresscompany;
+                            master.usercompany = getid.contact;
+                            master.usermobilecompany = getid.mobilecontact;
+                            master.mobilecompany = getid.mobilecompany;
+                            master.storeid = getid.storeid;
+                            master.codestore = getid.codestore;
+                            master.namestore = getid.namestore;
+                            master.addressstore = getid.addressstore;
+                            master.userstore = getid.storecontact;
+                            master.usermobilestore = getid.storemobilecontact;
+                            master.mobilestore = getid.mobilestore;
+                            master.checkdate = getid.deliverydate;
+                            master.employeeid = null;
+                            master.importOrderid = getid.id;
+                            master.mobiledelivery = "";
+                            master.namedelivery = "";
+                            foreach (var item in getid.Goods_Lines)
+                            {
+                                var detail = new listDetail();
+                                detail.productid = item.productid;
+                                detail.productcode = item.productcode;
+                                detail.productname = item.productname;
+                                detail.sl = item.qty;
+                                detail.unitid = item.unitid;
+                                detail.unitname = item.unitname;
+                                detail.productcatalogid = item.productcatalogid;
+                                listdetai.Add(detail);
+                            }
+                            if (listdetai.Count > 0)
+                            {
+                                master.listDetail = listdetai;
+                            }
+                            
+                            var KHO = api.InsertImportGoods(master);
+                            if (KHO.Result.Status == ConstUtil.Success)
+                            {
+                                response.Status = ConstUtil.Success;
+                                response.Message = "Thành công !";
+                                return response;
+                            }
+                        }
+                        else
+                        {
+                            var master = new ChecklistUpdateAdmin();
+                            var listdetai = new List<listDetailAdmin>();
+                            master.status = 1;
+                            master.checkdate = getid.deliverydate;
+                            master.id = getid.id;
+                            foreach (var item in getid.Goods_Lines)
+                            {
+                                var detail = new listDetailAdmin();
+                                detail.productid = item.productid;
+                                detail.productcode = item.productcode;
+                                detail.productname = item.productname;
+                                detail.sl = item.qty;
+                                detail.unitid = item.unitid;
+                                detail.unitname = item.unitname;
+                                detail.productcatalogid = item.productcatalogid;
+                                detail.slthuc = item.slthuc;
+                                detail.sltrave = item.sltrave;
+                                detail.sldat = item.sldat;
+                                detail.notestore = item.notestore;
+                                detail.slUpdate = item.slUpdate;
+                                detail.notesale = item.notesale;
+                                listdetai.Add(detail);
+                            }
+                            if (listdetai.Count > 0)
+                            {
+                                master.listDetail = listdetai;
+                            }
+
+                            var KHO = api.UpdateImportGoods(master);
+                            if (KHO.Result.Status == ConstUtil.Success)
+                            {
+                                response.Status = ConstUtil.Success;
+                                response.Message = "Thành công !";
+                                return response;
+                            }
+
+                        }
+                    }
+
+                    if (objAdd.status == 5)
+                    {
+                        var statusKHO = new ChecklistUpdateStatusAdmin();
+                        statusKHO.id = objAdd.id;
+                        statusKHO.status = 2;
+                        var updateStatus = api.UpdateStatusImportGoods(statusKHO);
+                        if (updateStatus.Result.Status == ConstUtil.Success)
+                        {
+                            response.Status = ConstUtil.Success;
+                            response.Message = "Thành công !";
+                            return response;
+                        }
+
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

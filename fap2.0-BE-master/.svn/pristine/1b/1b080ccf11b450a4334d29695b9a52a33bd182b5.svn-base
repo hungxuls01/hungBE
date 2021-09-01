@@ -1,0 +1,26 @@
+2020-08-18 13:19:30.8700|ERROR|ApiTng.Controllers.Sale_OrdersController|Procedure or function 'sp_MemberCheckEmailAndMobile' expects parameter '@Keyword', which was not supplied.
+2020-08-18 13:22:37.9758|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:30:20.3460|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:30:53.2812|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:33:39.5600|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:37:10.6193|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:38:05.8674|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:38:18.8338|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:41:05.6369|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 13:41:51.9719|ERROR|ApiTng.Controllers.CompanyController|Network access for Distributed Transaction Manager (MSDTC) has been disabled. Please enable DTC for network access in the security configuration for MSDTC using the Component Services Administrative tool.
+2020-08-18 14:28:54.2563|ERROR|ApiTng.Controllers.CompanyController|Procedure or function sp_CompanyInsert has too many arguments specified.
+2020-08-18 14:29:23.5136|ERROR|ApiTng.Controllers.CompanyController|Procedure or function sp_CompanyInsert has too many arguments specified.
+2020-08-18 14:29:37.7720|ERROR|ApiTng.Controllers.CompanyController|Procedure or function sp_CompanyInsert has too many arguments specified.
+2020-08-18 15:00:51.8917|ERROR|ApiTng.Controllers.CompanyController|Cannot roll back Tran1. No transaction or savepoint of that name was found.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+2020-08-18 15:02:06.0341|ERROR|ApiTng.Controllers.CompanyController|Cannot roll back Tran1. No transaction or savepoint of that name was found.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+2020-08-18 15:02:16.1872|ERROR|ApiTng.Controllers.CompanyController|Cannot roll back Tran1. No transaction or savepoint of that name was found.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+2020-08-18 15:03:58.6043|ERROR|ApiTng.Controllers.CompanyController|Cannot roll back Tran. No transaction or savepoint of that name was found.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+2020-08-18 15:32:35.3357|ERROR|ApiTng.Controllers.CompanyController|Procedure or function 'sp_CompanyUpdate' expects parameter '@KeyLock', which was not supplied.
+2020-08-18 17:53:42.2363|ERROR|ApiTng.Controllers.ProductController|Cannot insert the value NULL into column 'id', table 'UAT_WEB.dbo.Product_Units'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2020-08-18 17:55:09.9282|ERROR|ApiTng.Controllers.ProductController|Cannot insert the value NULL into column 'id', table 'UAT_WEB.dbo.Product_Units'; column does not allow nulls. INSERT fails.
+The statement has been terminated.

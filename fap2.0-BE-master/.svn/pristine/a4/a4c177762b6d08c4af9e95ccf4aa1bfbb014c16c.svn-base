@@ -1,0 +1,20 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Images
+{
+    public interface IImagesDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<ImageList>> SelectPaging(ImageSearchDto companySearch, int pageIndex, int pageSize);
+
+        bool Insert(ImageAdd objAdd);
+
+        #endregion
+    }
+}

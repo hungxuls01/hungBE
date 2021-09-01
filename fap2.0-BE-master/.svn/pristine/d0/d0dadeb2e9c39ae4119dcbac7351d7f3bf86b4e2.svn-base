@@ -1,0 +1,1010 @@
+﻿using _1.DataAccessLayer.Company;
+using _1.DataAccessLayer.Member;
+using _1.DataAccessLayer.Sale_Order_Provisional;
+using _1.DataAccessLayer.Sale_OrderHistory;
+using _1.DataAccessLayer.Sale_Orders;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using ApiTng.ApiExpress;
+using ApiTng.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
+using NLog;
+using Nuclex.Cloning;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Web.Script.Serialization;
+using static ApiTng.apiconnect.Api;
+
+namespace ApiTng.Controllers
+{
+    
+    public class Sale_OrdersController : ApiController
+    {
+        private static ICompanyDal _CompanyDal;
+        private static ISale_OrderHistoryDal _Sale_OrderHistoryDal;
+        private static ISale_Order_ProvisionalDal _Sale_Order_ProvisionalDal;
+        private static IMemberDal _MemberDal;
+        private static ISale_OrdersDal _saleOrdersDal;
+        private static Logger _logger;
+        private readonly LalamoveService _lalamoveService;
+        private VIETTELService api;
+        private Api apiconnect;
+        public Sale_OrdersController()
+        {
+            api = new VIETTELService();
+            _CompanyDal = new CompanyDal();
+            _MemberDal = new MemberDal();
+            _saleOrdersDal = new Sale_OrdersDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            _lalamoveService = new LalamoveService();
+            _Sale_OrderHistoryDal = new Sale_OrderHistoryDal();
+            _Sale_Order_ProvisionalDal = new Sale_Order_ProvisionalDal();
+            apiconnect = new Api();
+        }
+
+        #region BACKEND
+        [HttpPost]
+        public ResponeResult GetPaging(Sale_OrdersSearchDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _saleOrdersDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<Sale_OrdersList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+
+        [HttpPost]
+        public ResponeResult GetPagingByMemberId(Sale_OrdersSearchByMemberIdDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _saleOrdersDal.SelectPagingByMemberId(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<Sale_OrdersList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(Sale_OrdersGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.GetById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Insert(Sale_OrdersAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                //objAdd.membercode = "";
+                // Check tồn kho
+                var productConsignment = objAdd.saleorderline.Where(x => x.isConsignment == 1).ToList();
+                var getkho = new ListProduct_StoreGetKHO();
+                var getkholist = new List<Product_StoreGetKHO>();
+                foreach (var item in productConsignment)
+                {
+                    var getkhodetail = new Product_StoreGetKHO();
+                    getkhodetail.id = (Guid)item.productid;
+                    getkhodetail.khohang = (int)item.qty;
+                    getkholist.Add(getkhodetail);
+                }
+                getkho.productid = getkholist;
+                var kho = apiconnect.GetKHO(getkho);
+                if ((kho == null || kho.Result.Count == 0) && productConsignment.Count > 0)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Sản phẩm hết hàng trong kho !";
+                    return response;
+                }
+                //Lấy quyền
+
+                var identity = (ClaimsIdentity)User.Identity;
+                string isadmin = identity.Claims.Where(c => c.Type == "isadmin").Select(c => c.Value).SingleOrDefault();
+
+                if (objAdd.member_birthday == null)
+                {
+                    objAdd.member_birthday = "";
+                }
+
+                //Create Member
+                if (objAdd.memberid == null && isadmin == "1")
+                {
+                    var ckeckmobile = _MemberDal.CheckEmailAndMobile(objAdd.member_tel);
+                    if (ckeckmobile != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Số điện thoại đã tồn tại !";
+                        return response;
+                    }
+                    if (objAdd.member_email != null && objAdd.member_email != "")
+                    {
+                        var ckeckemail = _MemberDal.CheckEmailAndMobile(objAdd.member_email);
+                        if (ckeckemail != null)
+                        {
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Email đã tồn tại !";
+                            return response;
+                        }
+                    }
+
+                    //Create pass auto
+                    //var passnotMD5 = ConvertUtil.RandomNumber(10000000, 99999999).ToString();
+                    var passnotMD5 = "123456";
+
+                    var datamember = CreateMember(objAdd, passnotMD5);
+                    if (datamember == null && datamember == "")
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    else
+                    {
+
+                        apiconnect.SMSSendPass(objAdd.member_tel, passnotMD5);
+                    }
+                    objAdd.memberid = new Guid(datamember);
+                }
+                var listidsale = "";
+
+
+                if (objAdd.PaymentType == 1)
+                {
+                    objAdd.status = 6;
+                }
+                else
+                {
+                    objAdd.status = 1;
+                }
+
+                // tạo đơn kí gửi
+                var Use = objAdd.saleorderUse;
+                var stores = kho.Result.GroupBy(x => new { x.storeid }, (k, g) => new { id = k.storeid }).ToList();
+                foreach (var item in stores)
+                {
+                    // Get by id kho
+                    var storegetid = kho.Result.Where(x => x.storeid == item.id).FirstOrDefault();
+
+                    //Get products in kho
+                    var UseInSale = new List<Saleorderuse>();
+                    var productin = kho.Result.Where(x => x.storeid == item.id).GroupBy(x => new { x.id }, (k, g) => new { id = k.id }).ToList();
+                    var myInClause = new List<Guid>();
+                    foreach (var item1 in productin)
+                    {
+                        myInClause.Add(item1.id);
+                    }
+                    var productInStores = stores.Count > 1 ? productConsignment.Where(v => myInClause.Contains((Guid)v.productid)).ToList() : productConsignment;
+
+                    // Create Sale_Order
+                    var data = CreateSale_Order(objAdd, Use, productInStores, item.id, null, storegetid.address, storegetid.provinceid, storegetid.wardid, storegetid.districtid, storegetid.employeename, storegetid.employeemobile, true);
+                    if (data == null && data == "")
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    listidsale = listidsale + data + ",";
+
+                }
+
+
+                // Nếu PaymentType = 1(Đã thanh toán) thì status = 6(Xác nhận chuyển tiền) 
+                // Nếu PaymentType = 0 (Chưa thanh toán) thì nếu isadmin = 1 (là admin) thì status = 0( chờ xác nhận từ NCC) nếu không phải admin thì là status = 1 (Chờ lấy hàng)
+                if (objAdd.PaymentType == 1)
+                {
+                    objAdd.status = 6;
+                }
+                else
+                {
+                    if (isadmin == "1")
+                    {
+                        objAdd.status = 0;
+                    }
+                    else
+                    {
+                        objAdd.status = 1;
+                    }
+
+                }
+                // tạo đơn vãng lai
+                var products = objAdd.saleorderline.Where(x => x.isConsignment == 0).ToList();
+                var companys = products.GroupBy(x => new { x.companyid }, (k, g) => new { id = k.companyid }).ToList();
+
+                foreach (var item in companys)
+                {
+                    var getidc = new CompanyGetbyId();
+                    getidc.id = (Guid)item.id;
+                    var companygetid = _CompanyDal.GetById(getidc);
+                    var UseInSale = new List<Saleorderuse>();
+                    var productInStores = companys.Count > 1 ? products.Where(x => x.companyid == item.id).ToList() : products;
+                    var isSendExpress = false;
+                    if (objAdd.status == 1)
+                    {
+                        isSendExpress = true;
+                    }
+                    // Create Sale_Order
+                    var data = CreateSale_Order(objAdd, Use, productInStores, null, companygetid.id, companygetid.wh_address, companygetid.wh_provinceid, companygetid.wh_rewardid, companygetid.wh_districtid, companygetid.nameAdmin, companygetid.mobileUser, isSendExpress, isadmin);
+                    if (data == null && data == "")
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    listidsale = listidsale + data + ",";
+                }
+
+                //Load list Order
+                var header = new Sale_OrderSelectByListIdHeader();
+                header.id = listidsale;
+                var dataload = _saleOrdersDal.SelectByListId(header);
+                if (dataload != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = dataload;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        public static object ConvertList(List<object> value, Type type)
+        {
+            var containedType = type.GenericTypeArguments.First();
+            return value.Select(item => Convert.ChangeType(item, containedType)).ToList();
+        }
+
+        //[Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult ChangeStatus(Sale_OrdersChangeStatus objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var GetStatus = _saleOrdersDal.GetStatus(objAdd.id);
+                if (GetStatus == null)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Không tìm thấy đơn hàng !";
+                    return response;
+                }
+                var data = _saleOrdersDal.ChangeStatus(objAdd);
+                if (data)
+                {
+                    //var updatestatus = new UpdateOrderViettelPost();
+
+                    //if (objAdd.status == 5 && GetStatus.status == 42)
+                    //{
+                    //    updatestatus.TYPE = 2;
+                    //    updatestatus.ORDER_NUMBER = objAdd.ORDER_NUMBER;
+                    //    updatestatus.NOTE = objAdd.NoteCancel;
+                    //    var update = api.updateorder(updatestatus);
+                    //    if (update.Result.status != 200)
+                    //    {
+                    //        response.Status = ConstUtil.Error;
+                    //        response.Message = update.Result.message;
+                    //        return response;
+                    //    }
+
+
+                    //}
+                    //if (objAdd.status == 5 && GetStatus.status != 0 && GetStatus.status != 42)
+                    //{
+                    //    updatestatus.TYPE = 4;
+                    //    updatestatus.ORDER_NUMBER = objAdd.ORDER_NUMBER;
+                    //    updatestatus.NOTE = objAdd.NoteCancel;
+                    //    var update = api.updateorder(updatestatus);
+                    //    if (update.Result.status != 200)
+                    //    {
+                    //        response.Status = ConstUtil.Error;
+                    //        response.Message = update.Result.message;
+                    //        return response;
+                    //    }
+                    //}
+                    //if (objAdd.status == 2 && GetStatus.status == 42)
+                    //{
+                    //    updatestatus.TYPE = 3;
+                    //    updatestatus.ORDER_NUMBER = objAdd.ORDER_NUMBER;
+                    //    updatestatus.NOTE = objAdd.NoteCancel;
+                    //    var update = api.updateorder(updatestatus);
+                    //    if (update.Result.status != 200)
+                    //    {
+                    //        response.Status = ConstUtil.Error;
+                    //        response.Message = update.Result.message;
+                    //        return response;
+                    //    }
+                    //}
+
+                    //if (objAdd.status == 41 && GetStatus.status == 42)
+                    //{
+                    //    updatestatus.TYPE = 2;
+                    //    updatestatus.ORDER_NUMBER = objAdd.ORDER_NUMBER;
+                    //    updatestatus.NOTE = objAdd.NoteCancel;
+                    //    var update = api.updateorder(updatestatus);
+                    //    if (update.Result.status != 200)
+                    //    {
+                    //        response.Status = ConstUtil.Error;
+                    //        response.Message = update.Result.message;
+                    //        return response;
+                    //    }
+                    //}
+                    if (objAdd.status == 1)
+                    {
+                        var datagetid = GetbyIdFE(objAdd.id.ToString());
+                        CreateOrderExpress(datagetid, datagetid.code);
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+
+        [HttpPost]
+        public ResponeResult ChangeStatusVTPOST(Sale_OrdersChangeStatusVTP objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
+
+                var token = "MC0CAQACBQCyAxYpAgcMBAAECBQCSQcgBAgrMA3GECAwDOyQICacECAwCkuQIC:aqeqwedssacasc741f182505fa5979706f1redscvhytywwvxv";
+                if (objAdd.TOKEN != token)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Sai token";
+                    return response;
+                }
+                if (ConstUtil.Approved.Contains(objAdd.DATA.ORDER_STATUS.ToString()))
+                {
+                    objAdd.DATA.ORDER_STATUS = 1;
+                }
+                if (ConstUtil.HasGoods.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.BeingTransported.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.BeingTransported.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.SentStore.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.OnDelivery.Contains(objAdd.DATA.ORDER_STATUS.ToString()))
+                {
+                    objAdd.DATA.ORDER_STATUS = 2;
+                }
+                if (ConstUtil.SuccessfulDelivery.Contains(objAdd.DATA.ORDER_STATUS.ToString()))
+                {
+                    objAdd.DATA.ORDER_STATUS = 3;
+                }
+                if (ConstUtil.Canceled.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.SuccessfulDestroyed.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.SuccessfulReturn.Contains(objAdd.DATA.ORDER_STATUS.ToString()))
+                {
+                    objAdd.DATA.ORDER_STATUS = 5;
+                }
+                if (ConstUtil.DeliveryFailed.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.ApprovalReturn.Contains(objAdd.DATA.ORDER_STATUS.ToString()) || ConstUtil.WaitReturn.Contains(objAdd.DATA.ORDER_STATUS.ToString()))
+                {
+                    objAdd.DATA.ORDER_STATUS = 42;
+                }
+
+                var data = _saleOrdersDal.ChangeStatusVTP(objAdd);
+                if (data != "")
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Changetransfers(Sale_OrdersChangetransfers objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.Changetransfers(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(Sale_OrdersDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.Delete(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult InsertFE(Sale_OrdersAdd obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.InsertFE(obj);
+                if (data != null && data != "")
+                {
+                    SendMail.sendMailByType(obj.receiver_email, new string[] { obj.code, obj.receiver_fullname, obj.deliverydate }, "30", "");
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult GetProvisional(Sale_OrdersGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Sale_Order_ProvisionalDal.GetById(id.id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Lock(Sale_OrdersLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.IsLock(obj);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        #endregion
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Sale_Order_UseInsert(Sale_Order_UseDetail objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _saleOrdersDal.Sale_Order_UseInsert(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+
+
+        public Sale_OrdersAdd GetbyIdFE(string id)
+        {
+            var getid = new Sale_OrdersGetbyId();
+            getid.id = new Guid(id);
+            var data = new Sale_OrdersAdd();
+            var saleorderline = new List<Saleorderline>();
+            var saleorderuse = new List<Saleorderuse>();
+            data = _saleOrdersDal.GetByIdFE(getid);
+            saleorderline = _saleOrdersDal.Sale_Order_LinesSelectByIdFE(getid);
+            saleorderuse = _saleOrdersDal.Sale_Order_UseSelectByIdFE(getid);
+            data.saleorderline = saleorderline;
+            data.saleorderUse = saleorderuse;
+            return data;
+        }
+
+        public string ConvertDate(DateTime date)
+        {
+            var month = date.Month.ToString();
+            var day = date.Day.ToString();
+            if (date.Month < 10)
+            {
+                month = "0" + date.Month.ToString();
+            }
+            if (date.Day < 10)
+            {
+                day = "0" + date.Day.ToString();
+            }
+            return date.Year.ToString() + month + day + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString();
+        }
+
+
+        private string CreateMember(Sale_OrdersAdd obj, string passnotMD5)
+        {
+            var memberadd = new MemberAdd();
+            memberadd.code = obj.membercode;
+            memberadd.name = obj.member_fullname;
+            if (obj.member_sex == 0)
+            {
+                memberadd.sex = false;
+            }
+            else
+            {
+                memberadd.sex = true;
+            }
+            memberadd.birthday = obj.member_birthday;
+            memberadd.mobile = obj.member_tel;
+            memberadd.email = obj.member_email;
+            memberadd.address = obj.member_address;
+            memberadd.provinceid = obj.member_provinceid;
+            memberadd.zalo = "";
+            memberadd.facebook = "";
+            memberadd.ispersonal = false;
+            memberadd.purpose = "";
+            memberadd.field = "";
+            memberadd.nameproducer = "";
+            memberadd.mobileproducer = "";
+            memberadd.emailproducer = "";
+            memberadd.productproducer = "";
+            memberadd.productbuyproducer = "";
+            memberadd.addressproducer = "";
+            memberadd.isshowproducer = false;
+            memberadd.issellproducer = false;
+            memberadd.namedistributor = "";
+            memberadd.mobiledistributor = "";
+            memberadd.emaildistributor = "";
+            memberadd.productdistributor = "";
+            memberadd.productbuydistributor = "";
+            memberadd.addressdistributor = "";
+            memberadd.isshowdistributor = false;
+            memberadd.isselldistributor = false;
+            memberadd.namePCT = "";
+            memberadd.mobilePCT = "";
+            memberadd.emailPCT = "";
+            memberadd.productPCT = "";
+            memberadd.productbuyPCT = "";
+            memberadd.addressPCT = "";
+            memberadd.isshowPCT = false;
+            memberadd.issellPCT = false;
+            memberadd.note = "";
+            memberadd.productcatelogyPCT = "";
+            memberadd.mstproducer = "";
+            memberadd.mstdistributor = "";
+            memberadd.mstPCT = "";
+            memberadd.KeyLock = ConvertUtil.RandomString(20, false);
+            memberadd.RegEmail = ConvertUtil.RandomString(8, false);
+
+            var password = ConvertUtil.MD5Hash(passnotMD5);
+            password = ConvertUtil.MD5Hash(password);
+            memberadd.password = memberadd.KeyLock.Trim() + memberadd.RegEmail.Trim() + password.Trim();
+            memberadd.tokenActive = ConvertUtil.MD5Hash(memberadd.KeyLock.Trim() + memberadd.RegEmail.Trim()) + ConvertUtil.MD5Hash(memberadd.KeyLock.Trim()) + ConvertUtil.MD5Hash(memberadd.RegEmail.Trim());
+            memberadd.memberUselist = new List<Member_UseList>();
+            var membernewid = _MemberDal.Insert(memberadd);
+            return membernewid;
+        }
+
+
+        private string CreateSale_Order(Sale_OrdersAdd obj, List<Saleorderuse> listOrderUser, List<Saleorderline> productInStores, Guid? storeid, Guid? companyid, string receiver_address, int receiver_provinceid, int receiver_rewardid, int receiver_districtid, string receiver_fullname, string receiver_tel, bool isSendExpress = false, string isadmin = "0")
+        {
+            var UseInSale = new List<Saleorderuse>();
+            var Total = Convert.ToInt32(productInStores.Sum(x => x.total));
+            var WEIGHT = Convert.ToInt32(productInStores.Sum(x => x.Weight));
+            var qty = Convert.ToInt32(productInStores.Sum(x => x.qty));
+            var nameproduct = "";
+            var transferscode = "";
+            foreach (var itempro in productInStores)
+            {
+                nameproduct = nameproduct + itempro.title + ";";
+            }
+
+            if (listOrderUser != null)
+            {
+                foreach (var itemUse in listOrderUser)
+                {
+                    var productidUse = itemUse.productid;
+                    var list = productidUse.Split(',');
+                    foreach (var itemList in list)
+                    {
+                        if (itemList != null && itemList != "")
+                        {
+                            var idproductUse = new Guid(itemList);
+                            var count = productInStores.Where(x => x.productid == idproductUse).Count();
+                            if (count > 0)
+                            {
+                                UseInSale.Add(itemUse);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            var sale = new Sale_OrdersAdd();
+            sale = ReflectionCloner.DeepFieldClone<Sale_OrdersAdd>(obj);
+
+            sale.CompanyId = companyid;
+            sale.storeid = storeid;
+            sale.receiver_address = receiver_address;
+            sale.receiver_provinceid = receiver_provinceid;
+            sale.receiver_rewardid = receiver_rewardid;
+            sale.receiver_districtid = receiver_districtid;
+            sale.receiver_fullname = receiver_fullname;
+            sale.receiver_tel = receiver_tel;
+            sale.receiver_email = "";
+            sale.member_sex = 1;
+            var getprice = new PriceAllApiViettelPostModel();
+            getprice.SENDER_PROVINCE = (int)sale.receiver_provinceid;
+            getprice.SENDER_DISTRICT = (int)sale.receiver_districtid;
+            getprice.RECEIVER_PROVINCE = (int)sale.member_provinceid;
+            getprice.RECEIVER_DISTRICT = (int)sale.member_districtid;
+            getprice.PRODUCT_WEIGHT = WEIGHT;
+            getprice.PRODUCT_PRICE = Total;
+            getprice.TYPE = 1;
+            getprice.PRODUCT_TYPE = "HH";
+            getprice.MONEY_COLLECTION = Total;
+            var datapvc = api.getallpvc(getprice);
+            var datafor = datapvc.Result.ToList();
+            if (obj.typeTransport == 0) // Giao hàng tiêu chuẩn
+            {
+                if (sale.member_provinceid == sale.receiver_provinceid)
+                {
+                    foreach (var item1 in datafor)
+                    {
+                        if (item1.MA_DV_CHINH == "PHS")
+                        {
+                            sale.cpvc = item1.GIA_CUOC;
+                            var lines = item1.THOI_GIAN.Split(' ');
+                            var date = DateTime.Now.AddHours(Convert.ToInt32(lines[0]));
+                            sale.deliverydate = ConvertDate(date);
+                            transferscode = "PHS";
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var item2 in datafor)
+                    {
+                        if (item2.MA_DV_CHINH == "VTK")
+                        {
+                            sale.cpvc = item2.GIA_CUOC;
+                            var lines = item2.THOI_GIAN.Split(' ');
+                            var date = DateTime.Now.AddHours(Convert.ToInt32(lines[0]));
+                            sale.deliverydate = ConvertDate(date);
+                            transferscode = "VTK";
+                        }
+                    }
+                }
+            }
+            if (obj.typeTransport == 1) // Giao hàng nhanh
+            {
+                if (sale.member_provinceid == sale.receiver_provinceid)
+                {
+                    foreach (var item1 in datafor)
+                    {
+                        if (item1.MA_DV_CHINH == "VCN")
+                        {
+                            sale.cpvc = item1.GIA_CUOC;
+                            var lines = item1.THOI_GIAN.Split(' ');
+                            var date = DateTime.Now.AddHours(Convert.ToInt32(lines[0]));
+                            sale.deliverydate = date.Year.ToString() + date.Month.ToString() + date.Day.ToString() + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString();
+                            transferscode = "VCN";
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var item2 in datafor)
+                    {
+                        if (item2.MA_DV_CHINH == "VBS")
+                        {
+                            sale.cpvc = item2.GIA_CUOC;
+                            var lines = item2.THOI_GIAN.Split(' ');
+                            var date = DateTime.Now.AddHours(Convert.ToInt32(lines[0]));
+                            sale.deliverydate = ConvertDate(date);
+                            transferscode = "VBS";
+                        }
+                    }
+                }
+            }
+
+            sale.money_total = Total;
+            sale.id = null;
+            sale.saleorderline = productInStores;
+            sale.saleorderUse = UseInSale;
+            sale.transferscode = transferscode;
+            var data = _saleOrdersDal.Insert(sale);
+            if (data == "" || data == null)
+            {
+                return "";
+            }
+            else
+            {
+                if (isadmin == "1")
+                {
+                    var getByCode = new Sale_OrdersGetbyId();
+                    getByCode.id = new Guid(data);
+                    var code = _saleOrdersDal.GetCodeById(getByCode);
+                    var getidmember = new MemberGetbyId();
+                    getidmember.id = (Guid)sale.memberid;
+                    var member = _MemberDal.GetById(getidmember);
+                    apiconnect.SMSSendSuccessOrder(member.mobile, code.code, sale.money_total.ToString());
+                }
+                else
+                {
+                    var getByCode = new Sale_OrdersGetbyId();
+                    getByCode.id = new Guid(data);
+                    var code = _saleOrdersDal.GetCodeById(getByCode);
+                    apiconnect.SMSSendSuccessOrder(receiver_tel, code.code, sale.money_total.ToString());
+                }
+            }
+            if (isSendExpress)
+            {
+                var codesaleOrders = _saleOrdersDal.SelectByIdOutCode(new Guid(data));
+                CreateOrderExpress(sale, codesaleOrders.code);
+            }
+            return data;
+        }
+
+        private bool CreateOrderExpress(Sale_OrdersAdd obj, string code)
+        {
+            var Total = Convert.ToInt32(obj.saleorderline.Sum(x => x.total));
+            var WEIGHT = Convert.ToInt32(obj.saleorderline.Sum(x => x.Weight));
+            var qty = Convert.ToInt32(obj.saleorderline.Sum(x => x.qty));
+            var nameproduct = "";
+            foreach (var itempro in obj.saleorderline)
+            {
+                nameproduct = nameproduct + itempro.title + ";";
+            }
+            //var express = new ViettelpostCreate();
+            //express.ORDER_NUMBER = datagetid.code.ToString();
+            //express.GROUPADDRESS_ID = 0;
+            //express.CUS_ID = 7925014;
+            //express.DELIVERY_DATE = "";
+            //express.SENDER_FULLNAME = datagetid.receiver_fullname;
+            //express.SENDER_ADDRESS = datagetid.receiver_address;
+            //express.SENDER_PHONE = datagetid.receiver_tel;
+            //express.SENDER_EMAIL = datagetid.receiver_email;
+            //express.SENDER_WARD = (int)datagetid.receiver_rewardid;
+            //express.SENDER_DISTRICT = (int)datagetid.receiver_districtid;
+            //express.SENDER_PROVINCE = (int)datagetid.receiver_provinceid;
+            //express.SENDER_LATITUDE = 0;
+            //express.SENDER_LONGITUDE = 0;
+            //express.RECEIVER_FULLNAME = datagetid.member_fullname;
+            //express.RECEIVER_ADDRESS = datagetid.member_address;
+            //express.RECEIVER_PHONE = datagetid.member_tel;
+            //express.RECEIVER_EMAIL = datagetid.member_email;
+            //express.RECEIVER_WARD = (int)datagetid.member_rewardid;
+            //express.RECEIVER_DISTRICT = (int)datagetid.member_districtid;
+            //express.RECEIVER_PROVINCE = (int)datagetid.member_provinceid;
+            //express.RECEIVER_LATITUDE = 0;
+            //express.RECEIVER_LONGITUDE = 0;
+            //express.PRODUCT_NAME = nameproduct;
+            //express.PRODUCT_DESCRIPTION = "";
+            //express.PRODUCT_QUANTITY = qty;
+            //express.PRODUCT_PRICE = Total;
+            //express.PRODUCT_WEIGHT = WEIGHT;
+            //express.PRODUCT_LENGTH = 0;
+            //express.PRODUCT_WIDTH = 0;
+            //express.PRODUCT_HEIGHT = 0;
+            //express.PRODUCT_TYPE = "HH";
+            //express.ORDER_PAYMENT = 3; // thu hộ tiền cước và tiền hàng
+            //express.ORDER_SERVICE = datagetid.transferscode;
+            //express.ORDER_SERVICE_ADD = "";
+            //express.ORDER_VOUCHER = "";
+            //express.ORDER_NOTE = datagetid.note;
+
+            //express.MONEY_COLLECTION = Total;
+            //express.MONEY_TOTALFEE = 0;
+            //express.MONEY_FEECOD = 0;
+            //express.MONEY_FEEVAS = 0;
+            //express.MONEY_FEEINSURRANCE = 0;
+            //express.MONEY_FEE = 0;
+            //express.MONEY_FEEOTHER = 0;
+            //express.MONEY_TOTALVAT = 0;
+            //express.MONEY_TOTAL = 0;
+            //var dataexpress = api.createorder(express);
+            //if (dataexpress.Result.status != 200)
+            //{
+            //    _logger.Error(dataexpress.Result.message);
+            //    return false;
+            //}
+            //else
+            //{
+            //    var expresupdate = new Sale_OrderUpdateExpress();
+            //    expresupdate.id = datagetid.code.ToString();
+            //    expresupdate.transfersid = dataexpress.Result.data.ORDER_NUMBER;
+            //    expresupdate.transferscode = datagetid.transferscode;
+            //    expresupdate.transfersmoney = dataexpress.Result.data.MONEY_TOTAL;
+            //    _saleOrdersDal.UpdateExpress(expresupdate);
+            //}
+            var expresupdate = new Sale_OrderUpdateExpress();
+            expresupdate.id = code;
+            expresupdate.transfersid = ConvertUtil.RandomString(8, false);
+            expresupdate.transferscode = obj.transferscode;
+            expresupdate.transfersmoney = Total;
+            _saleOrdersDal.UpdateExpress(expresupdate);
+
+            return true;
+        }
+    }
+}

@@ -1,0 +1,229 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
+using _1.DataAccessLayer.Users;
+using _2.DataTransferObject;
+using _4.Utils;
+using System.Web.Http.Cors;
+
+namespace ApiTng.provider
+{
+
+    public class OAuthAppProvider : OAuthAuthorizationServerProvider
+    {
+        #region Private Properties  
+
+        /// <summary>  
+        /// Public client ID property.  
+        /// </summary>  
+        private readonly string _publicClientId;
+        #endregion
+
+        #region Default Constructor method.  
+
+        /// <summary>  
+        /// Default Constructor method.  
+        /// </summary>  
+        /// <param name="publicClientId">Public client ID parameter</param>  
+        public OAuthAppProvider(string publicClientId)
+        {
+            //TODO: Pull from configuration  
+            if (publicClientId == null)
+            {
+                throw new ArgumentNullException(nameof(publicClientId));
+            }
+
+            // Settings.  
+            _publicClientId = publicClientId;
+        }
+
+        #endregion
+
+        #region Grant resource owner credentials override method.  
+
+        /// <summary>  
+        /// Grant resource owner credentials overload method.  
+        /// </summary>  
+        /// <param name="context">Context parameter</param>  
+        /// <returns>Returns when task is completed</returns> 
+        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "*" });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "*" });
+            var username = context.UserName;
+            var userService = new UsersDal();
+            var password = ConvertUtil.MD5Hash(context.Password);
+            var userold = userService.GetByEmail(username);
+            if (userold == null)
+            {
+                context.SetError("1", "Tài khoản không tồn tại.");
+                return;
+            }
+            string pass = userold.KeyLock.Trim() + userold.RegEmail.Trim() + password.Trim();
+            UsersLogin user = userService.Login(username, pass);
+            if (user == null)
+            {
+                context.SetError("1", "Sai mật khẩu .");
+                return;
+            }
+            if (ConvertUtil.StringToDate(user.dateexpired) < DateTime.Now & user.dateexpired != null)
+            {
+                context.SetError("1", "Tài khoản đã hết hạn");
+                return;
+            }
+            if (user.islock == 1)
+            {
+                context.SetError("1", "Tài khoản đã bị khóa");
+                return;
+            }
+            var companyid = "";
+            var memberid = "";
+            if (user.companyid != null)
+            {
+                companyid = user.companyid.ToString();
+            }
+            if (user.memberid != null)
+            {
+                memberid = user.memberid.ToString();
+            }
+            if (user.departmentname == null)
+            {
+                user.departmentname = "";
+            }
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, user.name));
+            claims.Add(new Claim("isadmin", user.isadmin.ToString()));
+            claims.Add(new Claim("userid", user.id.ToString()));
+            foreach (var role in ConvertUtil.GetValuesArrayString(user.authoritiesid))
+            {
+                claims.Add(new Claim(ClaimTypes.Role,role));
+            }
+                
+            // Setting Claim Identities for OAUTH 2 protocol.  
+            ClaimsIdentity oAuthClaimIdentity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+            ClaimsIdentity cookiesClaimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationType);
+
+            // Setting user authentication.  
+            AuthenticationProperties properties = CreateProperties(user.name, user.id.ToString(), companyid, user.isadmin.ToString(), memberid, user.islock.ToString(), user.authoritiesid.ToString(), user.departmentname, user.companyname,user.statusDesign.ToString(), user.isapproval.ToString() , user.note);
+            AuthenticationTicket ticket = new AuthenticationTicket(oAuthClaimIdentity, properties);
+
+            // Grant access to authorize user.  
+            context.Validated(ticket);
+            context.Request.Context.Authentication.SignIn(cookiesClaimIdentity);
+
+        }
+        #endregion
+
+        #region Token endpoint override method.
+
+        /// <summary>
+        /// Token endpoint override method
+        /// </summary>
+        /// <param name="context">Context parameter</param>
+        /// <returns>Returns when task is completed</returns>
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                // Adding.
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+
+            // Return info.
+            return Task.FromResult<object>(null);
+        }
+
+        #endregion
+
+        #region Validate Client authntication override method
+
+        /// <summary>
+        /// Validate Client authntication override method
+        /// </summary>
+        /// <param name="context">Contect parameter</param>
+        /// <returns>Returns validation of client authentication</returns>
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        {
+            // Resource owner password credentials does not provide a client ID.
+            if (context.ClientId == null)
+            {
+                // Validate Authoorization.
+                context.Validated();
+            }
+
+            // Return info.
+            return Task.FromResult<object>(null);
+        }
+
+        #endregion
+
+        #region Validate client redirect URI override method
+
+        /// <summary>
+        /// Validate client redirect URI override method
+        /// </summary>
+        /// <param name="context">Context parmeter</param>
+        /// <returns>Returns validation of client redirect URI</returns>
+        public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
+        {
+            // Verification.
+            if (context.ClientId == _publicClientId)
+            {
+                // Initialization.
+                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
+
+                // Verification.
+                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
+                {
+                    // Validating.
+                    context.Validated();
+                }
+            }
+
+            // Return info.
+            return Task.FromResult<object>(null);
+        }
+
+        #endregion
+
+        #region Create Authentication properties method.
+
+        /// <summary>
+        /// Create Authentication properties method.
+        /// </summary>
+        /// <param name="userName">User name parameter</param>
+        /// <returns>Returns authenticated properties.</returns>
+        public static AuthenticationProperties CreateProperties(string name, string id, string companyid, string isadmin, string memberid, string islock, string authoritiesid, string departmentname, string companyname, string statusDesign, string isapproval , string note)
+        {
+            // Settings.
+            IDictionary<string, string> data = new Dictionary<string, string>
+                                               {
+                                                   { "name", name },
+                                                   { "id", id },
+                                                   { "companyid", companyid },
+                                                   { "isadmin", isadmin },
+                                                   { "memberid", memberid },
+                                                   { "islock", islock },
+                                                   { "authoritiesid", authoritiesid },
+                                                   { "departmentname", departmentname },
+                                                   { "companyname", companyname },
+                                                   { "statusDesign", statusDesign },
+                                                   { "isapproval", isapproval },
+                                                   { "note", note }
+                                               };
+
+            // Return info.
+            return new AuthenticationProperties(data);
+        }
+
+        #endregion
+    }
+}

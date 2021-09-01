@@ -1,0 +1,27 @@
+2021-08-14 14:53:20.5792|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 14:53:32.5080|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 14:53:37.4842|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 15:20:09.5083|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 15:20:12.3853|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 15:20:19.0693|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 18:54:45.2758|ERROR|Service.Controllers.DecisionController|Invalid column name 'createDate'.
+2021-08-14 18:55:48.0074|ERROR|Service.Controllers.DecisionController|Invalid column name 'createDate'.
+2021-08-14 18:57:21.9394|ERROR|Service.Controllers.DecisionController|Invalid column name 'createDate'.
+2021-08-14 19:07:05.0845|ERROR|Service.Controllers.DecisionController|Incorrect syntax near 'no'.
+2021-08-14 19:17:23.9575|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 19:17:54.9091|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 19:18:12.5927|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-14 19:20:28.2781|ERROR|Service.Controllers.DecisionController|Invalid column name 'Name'.
+Invalid column name 'Mobile'.
+Invalid column name 'RollNumberOld'.
+2021-08-14 19:21:51.1955|ERROR|Service.Controllers.DecisionController|Invalid column name 'Name'.
+2021-08-14 19:22:04.8648|ERROR|Service.Controllers.DecisionController|Invalid column name 'Name'.
+2021-08-14 19:25:10.0482|ERROR|Service.Controllers.DecisionController|The multi-part identifier "sst.FirstName" could not be bound.
+2021-08-14 19:25:54.5359|ERROR|Service.Controllers.DecisionController|Object of type 'System.Double' cannot be converted to type 'System.Single'.
+2021-08-14 19:26:06.5733|ERROR|Service.Controllers.DecisionController|Object of type 'System.Double' cannot be converted to type 'System.Single'.
+2021-08-14 19:30:23.3561|ERROR|Service.Controllers.DecisionController|Object of type 'System.Double' cannot be converted to type 'System.Single'.
+2021-08-14 19:55:16.9933|ERROR|Service.Controllers.DecisionController|Incorrect syntax near 'dc'.
+2021-08-14 19:56:19.7568|ERROR|Service.Controllers.DecisionController|Incorrect syntax near 'dc'.
+2021-08-14 19:56:21.0118|ERROR|Service.Controllers.DecisionController|Incorrect syntax near 'dc'.
+2021-08-14 19:56:21.9428|ERROR|Service.Controllers.DecisionController|Incorrect syntax near 'dc'.
+2021-08-14 19:56:40.1035|ERROR|Service.Controllers.DecisionController|Incorrect syntax near 'dc'.

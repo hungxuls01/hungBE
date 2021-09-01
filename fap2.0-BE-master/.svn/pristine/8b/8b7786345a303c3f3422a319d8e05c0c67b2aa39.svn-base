@@ -1,0 +1,62 @@
+﻿using _1.DataAccessLayer.Home;
+using _4.Utils;
+using ApiTng.ApiExpress;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+namespace ApiTng.Controllers
+{
+    public class HomeController : Controller
+    {
+        private static IHomeDal _HomeDal;
+        private static Logger _logger;
+        public HomeController()
+        {
+            _HomeDal = new HomeDal();
+            _logger = LogManager.GetCurrentClassLogger();
+
+
+
+        }
+        public ActionResult Index()
+        {
+            ViewBag.Title = "Home Page";
+
+            var aa = HmacshaUtil.ComputeHash();
+            return View();
+        }
+
+        public ResponeResult HomeGet(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _HomeDal.HomeGet(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+    }
+}

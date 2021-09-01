@@ -1,0 +1,26 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product_Color
+{
+    public interface IProduct_ColorDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Product_ColorList>, int> SelectPaging(Product_ColorSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Product_ColorLock obj);
+
+        int Delete(Product_ColorDeleted arrayId);
+
+        Tuple<Product_ColorAdd, int> GetById(Product_ColorGetbyId objGetbyId);
+
+        int Insert(Product_ColorAdd objAdd);
+
+        #endregion
+    }
+}

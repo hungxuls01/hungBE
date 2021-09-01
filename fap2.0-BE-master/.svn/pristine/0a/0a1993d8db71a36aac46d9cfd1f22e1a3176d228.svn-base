@@ -1,0 +1,200 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _1.DataAccessLayer.Users;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Users
+{
+    public class UsersDal : DbInteractionBase, IUsersDal
+    {
+        #region BACKEND
+
+        public int IsLock(UsersLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_UsersIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(UsersDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_UsersDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public Tuple<UsersAdd, int> GetById(UsersGetbyId objGetbyId)
+        {
+            return ExecuteReaderObjectOutput<UsersAdd>("sp_UsersSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+        #region FONTEND
+        public UsersLogin Login(string username, string password)
+        {
+            return ExecuteReaderObject<UsersLogin>("sp_UsersLogin", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="username",ValueParam = username},
+                new QueryParam {NameParam ="password",ValueParam = password}
+            });
+        }
+        public List<GetUsers> FeGetUsers(int id)
+        {
+            return ExecuteReader<GetUsers>("fe_Users_GetUser", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+        public List<GetUsersDetail> FeGetUsersDetail(int id)
+        {
+            return ExecuteReader<GetUsersDetail>("fe_Users_GetUser_Detail", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = id}
+            });
+        }
+        public List<GetUserMemberStore> GetUserMemberStore(int id)
+        {
+            return ExecuteReader<GetUserMemberStore>("fe_MemberStoreUser", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "userid", ValueParam = id}
+            });
+        }
+
+        public bool Register(UsersRegister objAdd)
+        {
+
+            if (objAdd.Password == "")
+            {
+                objAdd.Password = ConvertUtil.MD5Hash("123456");
+            }
+            else
+            {
+                objAdd.Password = ConvertUtil.MD5Hash(objAdd.Password);
+            }
+            objAdd.tokenForgot = ConvertUtil.MD5Hash(objAdd.Email);
+            return ExecuteNonQuery("fe_Users_InsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "Username", ValueParam = objAdd.Username},
+                new QueryParam {NameParam = "Password", ValueParam = objAdd.Password},
+                new QueryParam {NameParam = "Email", ValueParam = objAdd.Email},
+                 new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+                 new QueryParam {NameParam = "tokenForgot", ValueParam = objAdd.tokenForgot},
+
+            });
+        }
+
+        public bool Update(UsersUpdate objUpdate)
+        {
+            return ExecuteNonQuery("sp_UserUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objUpdate.id},
+                new QueryParam {NameParam = "tokenNoti", ValueParam = objUpdate.tokenNoti}
+
+            });
+        }
+        public int UpdatePassWord(UsersUpdatePass objUpdate)
+        {
+            
+                objUpdate.PassWord = ConvertUtil.MD5Hash(objUpdate.PassWord);
+            
+            return ExecuteNonQueryOutput("fe_Users_UpdatePassWord", new List<QueryParam>
+            {
+
+                new QueryParam {NameParam = "tokenForgot", ValueParam = objUpdate.Token},
+                new QueryParam {NameParam = "pass", ValueParam = objUpdate.PassWord},
+                new QueryParam {NameParam = "isError", IsOutParam = true}
+
+            });
+        }
+        public int ChangePassWord(UsersChangePass objUpdate)
+        {
+
+            objUpdate.NewPassWord = ConvertUtil.MD5Hash(objUpdate.NewPassWord);
+            objUpdate.OldPassWord = ConvertUtil.MD5Hash(objUpdate.OldPassWord);
+
+            return ExecuteNonQueryOutput("fe_Users_ChangePassword", new List<QueryParam>
+            {
+
+                new QueryParam {NameParam = "id", ValueParam = objUpdate.id},
+                new QueryParam {NameParam = "newpass", ValueParam = objUpdate.NewPassWord},
+                new QueryParam {NameParam = "oldpass", ValueParam = objUpdate.OldPassWord},
+                new QueryParam {NameParam = "isError", IsOutParam = true}
+
+            });
+        }
+        public List<UsersCheckUserName> CheckUserName(string username)
+        {
+            return ExecuteReader<UsersCheckUserName>("fe_Check_Register", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "username", ValueParam = username}
+            });
+        }
+        public List<UsersCheckEmail> CheckUserEmail(string email)
+        {
+            return ExecuteReader<UsersCheckEmail>("fe_Check_Email_Register", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "email", ValueParam = email}
+            });
+        }
+        public List<UsersCheckEmailForgot> CheckUserEmailForgot(string email)
+        {
+            return ExecuteReader<UsersCheckEmailForgot>("fe_Check_Email_Forgot", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "email", ValueParam = email}
+            });
+        }
+        public List<UsersCheckTokenForgot> CheckTokenForgot(string email)
+        {
+            return ExecuteReader<UsersCheckTokenForgot>("fe_Check_ToKenFogot", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "email", ValueParam = email}
+            });
+        }
+        public bool CheckActiveUser(UsersCheckActive objAdd)
+        {
+            return ExecuteNonQuery("fe_Check_Active_User", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "email", ValueParam = objAdd.email},
+                 new QueryParam {NameParam = "tokenActive", ValueParam = objAdd.tokenActive},
+
+            });
+        }
+
+        public UsersAdd GetByEmail(string email)
+        {
+            return ExecuteReaderObject<UsersAdd>("sp_UsersGetbyemail", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="email",ValueParam = email}
+            });
+        }
+        #endregion
+    }
+}

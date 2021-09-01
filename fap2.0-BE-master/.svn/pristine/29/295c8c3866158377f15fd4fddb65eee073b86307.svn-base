@@ -1,0 +1,1 @@
+2020-03-17 13:41:28.4417|ERROR|ApiTng.Controllers.MemberStoreController|Procedure or function 'sp_Member_storeGetBymemberid' expects parameter '@memberid', which was not supplied.

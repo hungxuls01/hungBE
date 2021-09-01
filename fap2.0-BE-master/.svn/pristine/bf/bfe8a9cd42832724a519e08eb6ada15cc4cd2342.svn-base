@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+
+namespace _4.Utils
+{
+    public class ObjectUtil
+    {
+        public static T GetFromQueryString<T>() where T : new()
+        {
+            var obj = new T();
+            var properties = typeof(T).GetProperties(); // to get all properties from Class(Object)
+            foreach (var property in properties)
+            {
+                //var valueAsString = HttpContext.Current.Request.QueryString[property.Name];
+                var valueAsString = HttpContext.Current.Request[property.Name];
+                object value = Parse(property.PropertyType, valueAsString); // parse data types
+
+                if (value == null)
+                    continue;
+
+                property.SetValue(obj, value, null); //set values to properties.
+            }
+            return obj;
+        }
+
+
+
+
+
+
+        // all in one parse method.
+        public static object Parse(Type dataType, string valueToConvert)
+        {
+            if (!string.IsNullOrEmpty(valueToConvert))
+            {
+                TypeConverter obj = TypeDescriptor.GetConverter(dataType);
+                object value = obj.ConvertFromString(null, CultureInfo.InvariantCulture, valueToConvert);
+                return value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+
+    }
+}

@@ -1,0 +1,47 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Permision_CatalogDto 
+    {
+    }
+
+    public class Permision_CatalogSearchDto : SearchIncompetentBase
+    {
+    }
+
+    public class Permision_CatalogAdd : SearchIncompetentBase
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int IsVender { get; set; }
+    }
+
+    public class Permision_CatalogDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+
+    public class Permision_CatalogGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+
+    public class Permision_CatalogLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+
+    public class Permision_CatalogList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int Islock { get; set; }
+        public int IsVender { get; set; }
+    }
+}

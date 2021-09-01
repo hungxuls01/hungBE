@@ -1,0 +1,199 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class EvaluationDto : Evaluation
+    {
+    }
+
+    public class EvaluationAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public Nullable<System.Guid> nsxid { get; set; }
+        public string namensx { get; set; }
+        public string addressnsx { get; set; }
+        public string sdk { get; set; }
+        public string giayphepdangki { get; set; }
+        public string giaychungnhanGMP { get; set; }
+        public string giaychungnhandk { get; set; }
+        public Nullable<int> mucdoGMP { get; set; }
+        public string giaychungnhandatGMP { get; set; }
+        public Nullable<int> hethongkhepkin { get; set; }
+        public string hinhanhnhamay { get; set; }
+        public Nullable<int> hethongkhongkhi { get; set; }
+        public string baocaotongthe { get; set; }
+        public Nullable<int> hethongchatluong { get; set; }
+        public string danhmucGLP { get; set; }
+        public Nullable<int> tongspsanxuat { get; set; }
+        public string danhmucthuoc { get; set; }
+        public Nullable<int> sospdatngoisao { get; set; }
+        public string giaychungnhan { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string namecompany { get; set; }
+        public string addresscompany { get; set; }
+        public string giaycnkinhdoanhduoc { get; set; }
+        public Nullable<int> hethongpp { get; set; }
+        public string danhsachpp { get; set; }
+        public string doanhthuthuoc { get; set; }
+        public string baocaothue { get; set; }
+        public Nullable<int> lichsupt { get; set; }
+        public Nullable<int> danhgianguoidung { get; set; }
+        public Nullable<int> cungcapVNnam { get; set; }
+        public string giayCNthanhlapVN { get; set; }
+        public Nullable<int> doanhsoVN { get; set; }
+        public Nullable<int> uytincosoVN { get; set; }
+        public string sp_sdk { get; set; }
+        public string sp_filedk { get; set; }
+        public Nullable<int> sp_nguongoc { get; set; }
+        public string sp_hinhanhbiasach { get; set; }
+        public string sp_namxb { get; set; }
+        public string sp_mucluc { get; set; }
+        public string sp_tendean { get; set; }
+        public string sp_filedean { get; set; }
+        public string sp_thanhphan { get; set; }
+        public Nullable<int> sp_mucdohieuqua { get; set; }
+        public string sp_huongdansudung { get; set; }
+        public Nullable<int> sp_sospcanhtranh { get; set; }
+        public Nullable<int> sp_doanhsoban { get; set; }
+        public Nullable<int> sp_namthanhlap { get; set; }
+        public string sp_baocaosudung { get; set; }
+        public Nullable<int> sp_sobenhnhan { get; set; }
+        public Nullable<int> sp_tylekhoi { get; set; }
+        public string sp_filebenhnhan { get; set; }
+        public Nullable<int> sp_trinhdo { get; set; }
+        public string sp_bangcap { get; set; }
+        public Nullable<int> sp_nguoinuoitrong { get; set; }
+        public string sp_giaycndoanhnghiep { get; set; }
+        public Nullable<int> sp_quytrinhnuoitrong { get; set; }
+        public string sp_giaychungnhan { get; set; }
+        public Nullable<int> sp_dientichtrong { get; set; }
+        public string sp_dientichquyhoach { get; set; }
+        public Nullable<int> sp_duoclieutrongdung { get; set; }
+        public Nullable<int> sp_hamluonghoatchat { get; set; }
+        public string sp_giaykiemnghiem { get; set; }
+        public Nullable<int> sp_QR { get; set; }
+        public Nullable<int> sp_cosonhapkhau { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public string npp_giaychungnhandk { get; set; }
+        public string lichsupt_detail { get; set; }
+        public string tencoso { get; set; }
+        public string diachicoso { get; set; }
+        public int nguonduoclieu { get; set; }
+        public int thanhphantinhdau { get; set; }
+        public int quytrinhchietxuat { get; set; }
+        public int tutrong { get; set; }
+        public int thumua { get; set; }
+    }
+
+    public class EvaluationGetbyId
+    {
+        public System.Guid id { get; set; }
+    }
+
+    public class EvaluationUpdatePoint
+    {
+        public System.Guid id { get; set; }
+        public int pointnsx { get; set; }
+        public  string notensx { get; set; }
+        public int pointnpp { get; set; }
+        public string notenpp { get; set; }
+        public int sp_point { get; set; }
+        public string sp_note { get; set; }
+        public int status { get; set; }
+        public decimal pointTotal { get; set; }
+        public bool isachieved { get; set; }
+        public string noteTotal { get; set; }
+        public int statusProduct { get; set; }
+        public System.Guid productid { get; set; }
+    }
+
+    public class EvaluationGetId 
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public Nullable<System.Guid> nsxid { get; set; }
+        public string namensx { get; set; }
+        public string addressnsx { get; set; }
+        public string sdk { get; set; }
+        public string giayphepdangki { get; set; }
+        public string giaychungnhanGMP { get; set; }
+        public string giaychungnhandk { get; set; }
+        public Nullable<int> mucdoGMP { get; set; }
+        public string giaychungnhandatGMP { get; set; }
+        public Nullable<int> hethongkhepkin { get; set; }
+        public string hinhanhnhamay { get; set; }
+        public Nullable<int> hethongkhongkhi { get; set; }
+        public string baocaotongthe { get; set; }
+        public Nullable<int> hethongchatluong { get; set; }
+        public string danhmucGLP { get; set; }
+        public Nullable<int> tongspsanxuat { get; set; }
+        public string danhmucthuoc { get; set; }
+        public Nullable<int> sospdatngoisao { get; set; }
+        public string giaychungnhan { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string namecompany { get; set; }
+        public string addresscompany { get; set; }
+        public string giaycnkinhdoanhduoc { get; set; }
+        public Nullable<int> hethongpp { get; set; }
+        public string danhsachpp { get; set; }
+        public string doanhthuthuoc { get; set; }
+        public string baocaothue { get; set; }
+        public Nullable<int> lichsupt { get; set; }
+        public Nullable<int> danhgianguoidung { get; set; }
+        public Nullable<int> cungcapVNnam { get; set; }
+        public string giayCNthanhlapVN { get; set; }
+        public Nullable<int> doanhsoVN { get; set; }
+        public Nullable<int> uytincosoVN { get; set; }
+        public string sp_sdk { get; set; }
+        public string sp_filedk { get; set; }
+        public Nullable<int> sp_nguongoc { get; set; }
+        public string sp_hinhanhbiasach { get; set; }
+        public string sp_namxb { get; set; }
+        public string sp_mucluc { get; set; }
+        public string sp_tendean { get; set; }
+        public string sp_filedean { get; set; }
+        public string sp_thanhphan { get; set; }
+        public Nullable<int> sp_mucdohieuqua { get; set; }
+        public string sp_huongdansudung { get; set; }
+        public Nullable<int> sp_sospcanhtranh { get; set; }
+        public Nullable<int> sp_doanhsoban { get; set; }
+        public Nullable<int> sp_namthanhlap { get; set; }
+        public string sp_baocaosudung { get; set; }
+        public Nullable<int> sp_sobenhnhan { get; set; }
+        public Nullable<int> sp_tylekhoi { get; set; }
+        public string sp_filebenhnhan { get; set; }
+        public Nullable<int> sp_trinhdo { get; set; }
+        public string sp_bangcap { get; set; }
+        public Nullable<int> sp_nguoinuoitrong { get; set; }
+        public string sp_giaycndoanhnghiep { get; set; }
+        public Nullable<int> sp_quytrinhnuoitrong { get; set; }
+        public string sp_giaychungnhan { get; set; }
+        public Nullable<int> sp_dientichtrong { get; set; }
+        public string sp_dientichquyhoach { get; set; }
+        public Nullable<int> sp_duoclieutrongdung { get; set; }
+        public Nullable<int> sp_hamluonghoatchat { get; set; }
+        public string sp_giaykiemnghiem { get; set; }
+        public Nullable<int> sp_QR { get; set; }
+        public Nullable<int> sp_cosonhapkhau { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public string npp_giaychungnhandk { get; set; }
+        public string lichsupt_detail { get; set; }
+        public string tencoso { get; set; }
+        public string diachicoso { get; set; }
+        public int nguonduoclieu { get; set; }
+        public int thanhphantinhdau { get; set; }
+        public int quytrinhchietxuat { get; set; }
+        public int tutrong { get; set; }
+        public int thumua { get; set; }
+        public int pointnsx { get; set; }
+        public string notensx { get; set; }
+        public int pointnpp { get; set; }
+        public string notenpp { get; set; }
+        public int sp_point { get; set; }
+        public string sp_note { get; set; }
+    }
+
+}

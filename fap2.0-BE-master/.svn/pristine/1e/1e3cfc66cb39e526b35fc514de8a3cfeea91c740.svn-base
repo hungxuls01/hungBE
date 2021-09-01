@@ -1,0 +1,28 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Report
+{
+    public interface IReportDal
+    {
+        #region BACKEND
+
+
+        Tuple<int, List<ReportSalesList>> ReportSales(ReportSales obj);
+        Tuple<int, List<ReportProductsList>> ReportProducts(ReportProducts obj);
+        Tuple<int, List<ReportOrderStatusList>> ReportOrderStatus(ReportOrderStatus obj);
+        Tuple<int, List<ReportTopProvinceList>> ReportTopProvince(ReportTopProvince obj);
+        Tuple<int, List<ReportPaymentTypeList>> ReportPaymentType(ReportPaymentType obj);
+        Tuple<int, List<ReportServiceTransportList>> ReportServiceTransport(ReportServiceTransport obj);
+        Tuple<int, List<ReportOrderList>, int> ReportOrder(ReportOrder obj, int pageIndex, int pageSize);
+        Tuple<int, List<ReportOrderDetailList>, int> ReportOrderDetail(ReportOrderDetail obj, int pageIndex, int pageSize);
+        #endregion
+        #region FONTEND
+        #endregion
+
+    }
+}

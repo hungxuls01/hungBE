@@ -1,0 +1,14 @@
+2020-07-13 15:45:43.7253|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:46:04.2325|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:47:47.3695|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:48:52.5887|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:50:48.9534|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:51:57.9089|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:52:56.1220|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:53:48.0354|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 15:56:02.4951|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 16:05:55.2005|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 16:06:01.1434|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 16:44:51.1761|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 16:45:40.5233|ERROR|ApiTng.Controllers.Product_CatalogController|Operand type clash: bit is incompatible with uniqueidentifier
+2020-07-13 17:07:40.2181|ERROR|ApiTng.Controllers.Product_CatalogController|Object reference not set to an instance of an object.

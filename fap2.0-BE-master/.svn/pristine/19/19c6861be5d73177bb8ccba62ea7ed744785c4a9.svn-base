@@ -1,0 +1,14 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Member_Use
+{
+    public interface IMember_UseDal
+    {
+        List<ListMember_UseMemberid> GetByMemberid(Member_UseGetByMemberid obj);
+        ListMember_UseMemberid GetByMemberByid(Member_UseGetByMemberid obj);
+    }
+}

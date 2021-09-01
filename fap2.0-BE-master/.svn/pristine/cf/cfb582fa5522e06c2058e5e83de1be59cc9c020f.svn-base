@@ -1,0 +1,30 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Province
+{
+    public interface IProvinceDal
+    {
+        #region BACKEND
+
+        int IsLock(ProvinceLock obj);
+
+        int Delete(ProvinceDeleted arrayId);
+
+        Tuple<ProvinceAdd, int> GetById(ProvinceGetbyId objGetbyId);
+
+        int Insert(ProvinceAdd objAdd);
+
+        #endregion
+
+        #region FONTEND
+        List<ProvinceCombobox> GetCombobox();
+        List<ProvinceGetList> GetListProvince(string id);
+        #endregion
+
+    }
+}

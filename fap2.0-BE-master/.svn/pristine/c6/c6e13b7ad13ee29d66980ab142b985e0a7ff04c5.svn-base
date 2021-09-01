@@ -1,0 +1,24 @@
+2020-02-03 13:32:08.3387|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductDataPaging has too many arguments specified.
+2020-02-03 13:33:46.0025|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductDataPaging has too many arguments specified.
+2020-02-03 13:33:49.8205|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductDataPaging has too many arguments specified.
+2020-02-03 13:38:53.1820|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 13:40:33.4788|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 13:41:36.3559|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 13:50:41.4350|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 13:51:23.7166|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 13:55:42.2333|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 14:03:14.2069|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 14:04:36.4393|ERROR|ApiTng.Controllers.ProductController|Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2020-02-03 14:08:28.5988|ERROR|ApiTng.Controllers.ProductController|Invalid column name 'title'.
+Invalid column name 'imgpath'.
+Invalid column name 'price_sale'.
+Invalid column name 'islock'.
+Invalid column name 'price_discount'.
+Invalid column name 'title'.
+Invalid column name 'imgpath'.
+Invalid column name 'price_sale'.
+Invalid column name 'islock'.
+Invalid column name 'price_discount'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 0, current count = 1.
+A transaction that was started in a MARS batch is still active at the end of the batch. The transaction is rolled back.
+2020-02-03 14:10:12.8556|ERROR|ApiTng.Controllers.ProductController|: 1c88caa6-6dff-44a8-996f-f82822c19107 => Object must implement IConvertible.

@@ -1,0 +1,27 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product_Size
+{
+    public interface IProduct_SizeDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Product_SizeList>, int> SelectPaging(Product_SizeSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(Product_SizeLock obj);
+
+        int Delete(Product_SizeDeleted arrayId);
+
+        Tuple<Product_SizeAdd, int> GetById(Product_SizeGetbyId objGetbyId);
+
+        int Insert(Product_SizeAdd objAdd);
+
+        #endregion
+
+    }
+}

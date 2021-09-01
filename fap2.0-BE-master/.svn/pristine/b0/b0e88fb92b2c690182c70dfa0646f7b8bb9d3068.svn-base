@@ -1,0 +1,45 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Product_ColorDto 
+    {
+    }
+    public class Product_ColorSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+
+    }
+    public class Product_ColorAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string imgpath { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+
+    public class Product_ColorDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Product_ColorGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class Product_ColorLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Product_ColorList
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public int CargoTypeId { get; set; }
+        public int islock { get; set; }
+    }
+}

@@ -1,0 +1,649 @@
+﻿using _1.DataAccessLayer.Company;
+using _1.DataAccessLayer.Users;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using ApiTng.provider;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class CompanyController : ApiController
+    {
+        private static ICompanyDal _CompanyDal;
+        private static Logger _logger;
+        private Api api;
+        private string tokenkey = "SDYTLSOFT@1234554321";
+        public CompanyController()
+        {
+            _CompanyDal = new CompanyDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+
+        #region BACKEND
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(CompanySearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _CompanyDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<CompanyList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        //[CustomAuthorize(Roles = "E9AA5B9A-0674-4589-B274-F9C46AB3796E")]
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(CompanyGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetStore(CompanyGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.GetStore(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult CheckBankSTT(Companyckeckbody obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.CheckBankSTT(obj.Keyword);
+                if (data == null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Không trùng !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetByCompanyId(CompanyGetbyCompanyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.GetbyCompanyid(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        public ResponeResult Insert(CompanyAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (objAdd.id != null)
+                {
+                    var getid = new CompanyGetbyId();
+                    getid.id = (Guid)objAdd.id;
+                    var company = _CompanyDal.GetById(getid);
+                    if (company == null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Nhà cung cấp không tồn tại !";
+                        return response;
+                    }
+                    if (company.email != objAdd.email)
+                    {
+                        var ckeckemail1 = _CompanyDal.CheckEmail(objAdd.email);
+                        if (ckeckemail1 != null)
+                        {
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Email đã tồn tại !";
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    var ckeckemail = _CompanyDal.CheckEmail(objAdd.email);
+                    if (ckeckemail != null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Email đã tồn tại !";
+                        return response;
+                    }
+                }
+
+                if (objAdd.banklist.Count() > 0)
+                {
+
+                    foreach (var item in objAdd.banklist)
+                    {
+                        var datalistbank = new List<CompanyBankList>();
+                        if (objAdd.id != null)
+                        {
+                            var getid = new CompanyGetbyCompanyId();
+                            getid.id = (Guid)objAdd.id;
+                            datalistbank = _CompanyDal.GetbyCompanyid(getid);
+                        }
+                        var ckeckmobile = _CompanyDal.CheckBankSTT(item.number);
+                        if (ckeckmobile != null && datalistbank.Where(c => c.number == item.number).ToList().Count() == 0)
+                        {
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Số tài khoản " + item.number + " đã tồn tại !";
+                            return response;
+                        }
+                    }
+
+                }
+                if (objAdd.id == null)
+                {
+                    var passmd5 = ConvertUtil.MD5Hash(ConvertUtil.RandomString(8, false));
+                    objAdd.KeyLock = ConvertUtil.RandomString(20, false);
+                    objAdd.RegEmail = ConvertUtil.RandomString(8, false);
+                    var password = ConvertUtil.MD5Hash(passmd5);
+                    objAdd.password = objAdd.KeyLock.Trim() + objAdd.RegEmail.Trim() + password.Trim();
+                    objAdd.tokenActive = ConvertUtil.MD5Hash(objAdd.KeyLock.Trim() + objAdd.RegEmail.Trim()) + ConvertUtil.MD5Hash(objAdd.KeyLock.Trim()) + ConvertUtil.MD5Hash(objAdd.RegEmail.Trim());
+                }
+                else
+                {
+                    objAdd.password = "";
+                }
+                var data = _CompanyDal.Insert(objAdd);
+                if (data != null)
+                {
+                    SendMail.sendMailByType(objAdd.email, new string[] { objAdd.nameAdmin, objAdd.tokenActive }, "20", "");
+                    try
+                    {
+                        if (objAdd.id == null)
+                        {
+                            var getidokenNoti = new CompanyUpdatetokenNoti();
+                            getidokenNoti.id = new Guid(data);
+                            getidokenNoti.tokenNoti = ConvertUtil.MD5Hash(data + tokenkey) + ConvertUtil.MD5Hash(data) + ConvertUtil.MD5Hash(tokenkey);
+                            var tokenNoti = _CompanyDal.UpdatetokenNoti(getidokenNoti);
+                        }
+                        //
+                        var getidnew = new CompanyGetbyId();
+                        getidnew.id = new Guid(data);
+                        var companynew = _CompanyDal.GetById(getidnew);
+
+                        //Thêm company FE
+                        var getidFE = api.GetbyIdCompany(getidnew);
+                        if (getidFE.Result.Status == ConstUtil.Success)
+                        {
+                            var data1 = api.UpdateCompanyAsync(objAdd);
+                            if (data1.Result.Status == ConstUtil.Success)
+                            {
+                                response.Status = ConstUtil.Success;
+                                response.Message = "Thành công !";
+                                response.Data = data;
+                                return response;
+                            }
+
+                        }
+                        else
+                        {
+                            objAdd.id = new Guid(data);
+                            var data1 = api.InsertCompanyAsync(objAdd);
+                            if (data1.Result.Status == ConstUtil.Success)
+                            {
+                                response.Status = ConstUtil.Success;
+                                response.Message = "Thành công !";
+                                response.Data = data;
+                                return response;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        _logger.Error(ex.Message);
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(CompanyDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.Delete(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult UpdateKHO(CompanyUpdateKHO obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.UpdateKHO(obj);
+                if (data)
+                {
+
+                    var updatekhofe = api.UpdateKHOtoFE(obj);
+                    if (updatekhofe.Result.Status == 1)
+                    {
+                        response.Status = ConstUtil.Success;
+                        response.Message = "Thành công !";
+                        return response;
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult IsLock(CompanyLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.IsLock(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Isapproval(CompanyApproval obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.Isapproval(obj);
+                if (data)
+                {
+                    //Thêm company FE
+                    var getidFE = api.UpdateIsApprovalCompany(obj);
+                    if (getidFE.Result.Status == ConstUtil.Error)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+
+                    }
+                    if (obj.isapproval == 1)
+                    {
+                        var getid = new CompanyGetbyId();
+                        getid.id = obj.id;
+                        var datagetid = _CompanyDal.GetById(getid);
+                        SendMail.sendMailByType(datagetid.email, new string[] { datagetid.nameStall,"" }, "20");
+                    }
+                   
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult UpdateStatusDesign(CompanyStatusDesign obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.UpdateStatusDesign(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult UpdatePassword(CompanyUpdatePassword obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.UpdatePassword(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult UpdatePasswordBytokenActive(CompanyUpdatePasswordBytokenActive obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var EmployeeGetId = new CompanySelectBytokenActive();
+                EmployeeGetId.id = obj.tokenActive;
+                var Employee = _CompanyDal.SelectBytokenActive(EmployeeGetId);
+                if (Employee == null)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Nhà cung cấp không tồn tại !";
+                    return response;
+                }
+                var password = ConvertUtil.MD5Hash(obj.password);
+                obj.password = Employee.KeyLock.Trim() + Employee.RegEmail.Trim() + password.Trim();
+                var data = _CompanyDal.UpdatePasswordBytokenActive(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        #endregion
+        #region FONTEND
+        [HttpGet]
+        public ResponeResult GetAll(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.GetAll(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpGet]
+        public ResponeResult GetCompanyInfo(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.GetCompanyInfo(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult SelectAllByCompanyId(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.GetAll(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpPost]
+        public ResponeResult FeCompanyAdd(CompanyAddFe objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _CompanyDal.FeCompanyAdd(objAdd);
+                if (data == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                if (data == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Không thành công!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        #endregion
+    }
+}

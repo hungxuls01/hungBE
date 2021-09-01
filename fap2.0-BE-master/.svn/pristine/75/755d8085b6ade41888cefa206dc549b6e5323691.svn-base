@@ -1,0 +1,26 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Images
+{
+    public interface IImagesDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<ImagesList>> SelectPaging(ImagesSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(ImagesLock obj);
+
+        int Delete(ImagesDeleted arrayId);
+
+        Tuple<ImagesAdd, int> GetById(ImagesGetbyId objGetbyId);
+
+        bool Insert(ImagesAdd objAdd);
+
+        #endregion
+    }
+}

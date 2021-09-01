@@ -1,0 +1,32 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Company
+{
+    public interface ICompanyDal
+    {
+        Tuple<int, List<CompanyList>> SelectPaging(CompanySearchDto companySearch, int pageIndex, int pageSize);
+
+        bool IsLock(CompanyLock obj);
+        bool Isapproval(CompanyApproval obj);
+
+        bool Delete(CompanyDeleted arrayId);
+
+        CompanyAdd GetById(CompanyGetbyId id);
+
+        bool Insert(CompanyAdd objAdd);
+
+
+        #region FONTEND
+        List<CompanyAll> GetAll(int id);
+        List<CompanyBankList> GetbyCompanyid(CompanyGetbyCompanyId obj);
+        CompanyInfo GetCompanyInfo(int id);
+        int FeCompanyAdd(CompanyAddFe objAdd);
+        List<CompanyAll> SelectAllByCompanyId(int id);
+        #endregion
+    }
+}

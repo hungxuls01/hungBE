@@ -1,0 +1,31 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Voucher
+{
+    public interface IVoucherDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<VoucherList>, int> SelectPaging(VoucherSearchDto companySearch, int pageIndex, int pageSize);
+
+        int IsLock(VoucherLock obj);
+
+        int Delete(VoucherDeleted arrayId);
+
+        Tuple<VoucherAdd, int> GetById(VoucherGetbyId objGetbyId);
+
+        int Insert(VoucherAdd objAdd);
+
+        #endregion
+        #region FONTEND
+        List<VoucherList> GetListVoucher(int id);
+        VoucherCheckCode CheckVoucher(string id);
+        int UpdateVoucherUse(VoucherUse objUpdate);
+        #endregion
+    }
+}

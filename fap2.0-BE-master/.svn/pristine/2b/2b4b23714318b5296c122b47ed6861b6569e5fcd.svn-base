@@ -1,0 +1,19 @@
+2020-04-08 11:15:42.4385|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-04-08 13:24:22.2029|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-04-08 13:25:24.7888|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-04-08 13:27:23.6362|ERROR|ApiTng.Controllers.MemberController|Object reference not set to an instance of an object.
+2020-04-08 13:30:32.1079|ERROR|ApiTng.Controllers.MemberController|Cannot insert the value NULL into column 'id', table '@memberUselist'; column does not allow nulls. INSERT fails.
+The data for table-valued parameter "@memberUselist" doesn't conform to the table type of the parameter. SQL Server error is: 515, state: 2
+The statement has been terminated.
+2020-04-08 13:30:42.2817|ERROR|ApiTng.Controllers.MemberController|Trying to pass a table-valued parameter with 12 column(s) where the corresponding user-defined table type requires 11 column(s).
+2020-04-08 13:31:38.0362|ERROR|ApiTng.Controllers.MemberController|Cannot find column 11.
+2020-04-08 13:32:29.8221|ERROR|ApiTng.Controllers.MemberController|Cannot find column 11.
+2020-04-08 13:33:42.9435|ERROR|ApiTng.Controllers.MemberController|String or binary data would be truncated.
+The data for table-valued parameter "@memberUselist" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-04-08 13:35:31.6535|ERROR|ApiTng.Controllers.MemberController|String or binary data would be truncated.
+The data for table-valued parameter "@memberUselist" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.
+2020-04-08 13:37:05.5959|ERROR|ApiTng.Controllers.MemberController|String or binary data would be truncated.
+The data for table-valued parameter "@memberUselist" doesn't conform to the table type of the parameter. SQL Server error is: 8152, state: 10
+The statement has been terminated.

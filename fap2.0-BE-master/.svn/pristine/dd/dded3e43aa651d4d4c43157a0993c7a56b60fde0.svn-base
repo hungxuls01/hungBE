@@ -1,0 +1,34 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Member
+{
+    public interface IMemberDal
+    {
+        Tuple<int, List<MemberList>> SelectPaging(MemberSearchDto companySearch, int pageIndex, int pageSize);
+
+        bool IsLock(MemberLock obj);
+
+        bool IsNews(MemberisNews obj);
+
+        bool Delete(MemberDeleted objDeleted);
+
+        List<MemberSelectParent> SelectParent(MemberGetbyId obj);
+
+        MemberAdd  GetById(MemberGetbyId objGetbyId);
+        MemberCheckEmailAndMobile CheckEmailAndMobile(string Keyword);
+
+        bool Insert(MemberAdd objAdd);
+
+        List<GetUsersAddress> FeGetUsersAddress(int id); 
+        List<Member_UseList> FeGetMember_Use(Guid id);
+        
+        List<FeMemberGetbyId> FeMemberGetbyId(int id);
+        bool MemberHistory(FeMemberHistory obj);
+
+    }
+}

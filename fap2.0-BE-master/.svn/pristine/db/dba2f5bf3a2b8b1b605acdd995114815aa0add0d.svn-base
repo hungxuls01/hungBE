@@ -1,0 +1,428 @@
+﻿using _1.DataAccessLayer.Report;
+using _2.DataTransferObject;
+using _4.Utils;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class ReportController : ApiController
+    {
+        private static IReportDal _ReportDal;
+        private static Logger _logger;
+
+        public ReportController()
+        {
+            _ReportDal = new ReportDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportSales(ReportSales obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportSales(obj);
+                if (result.Item1 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = result.Item2;
+                    return response;
+                }
+                if (result.Item1 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportProducts(ReportProducts obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportProducts(obj);
+                if (result.Item1 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = result.Item2;
+                    return response;
+                }
+                if (result.Item1 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportOrderStatus(ReportOrderStatus obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportOrderStatus(obj);
+                if (result.Item1 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = result.Item2;
+                    return response;
+                }
+                if (result.Item1 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportTopProvince(ReportTopProvince obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportTopProvince(obj);
+                if (result.Item1 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = result.Item2;
+                    return response;
+                }
+                if (result.Item1 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportPaymentType(ReportPaymentType obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportPaymentType(obj);
+                if (result.Item1 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = result.Item2;
+                    return response;
+                }
+                if (result.Item1 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportServiceTransport(ReportServiceTransport obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportServiceTransport(obj);
+                if (result.Item1 == 1)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = result.Item2;
+                    return response;
+                }
+                if (result.Item1 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportOrder(ReportOrder obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportOrder(obj,obj.PageIndex,obj.PageSize);
+                var aaa = result;
+                if (result.Item3 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                var data = new DataTableBase<ReportOrderList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult ReportOrderDetail(ReportOrderDetail obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ReportDal.ReportOrderDetail(obj, obj.PageIndex, obj.PageSize);
+                if (result.Item3 == 0)
+                {
+                    response.Status = ConstUtil.Incompetent;
+                    response.Message = "Bạn không có quyền!";
+                    return response;
+                }
+                var data = new DataTableBase<ReportOrderDetailList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        //public static void ExportReportToExcel(string filePath, List<ReportOrderDetailList> report)
+        //{
+        //    var newFile = new FileInfo(filePath);
+        //    int dem = 0;
+        //    using (var xlPackage = new ExcelPackage(newFile))
+        //    {
+        //        // uncomment this line if you want the XML written out to the outputDir
+        //        //xlPackage.DebugMode = true; 
+        //        // get handle to the existing worksheet
+        //        var worksheet = xlPackage.Workbook.Worksheets.Add("Members");
+        //        xlPackage.Workbook.CalcMode = ExcelCalcMode.Manual;
+        //        //Create Headers and format them
+        //        var properties = new string[]
+        //            {
+        //                "Mã đơn hàng",
+        //                "Mã NCC",
+        //                "Tên NCC",
+        //                "Người Liên hệ",
+        //                "Email kho",
+        //                "SĐT kho",
+        //                "Địa chỉ kho",
+        //                "Tên người nhận",
+        //                "Địa chỉ",
+        //                "SĐT",
+        //                "Ngày đặt",
+        //                "Tỉnh đi",
+        //                "Tỉnh đến",
+        //                "Sản phẩm",
+        //                "Số lượng",
+        //                "Đơn vị",
+        //                "Trọng lượng tịnh",
+        //                "Giá bán",
+        //                "Tổng tiền hàng",
+        //                "PVC",
+        //                "Phí COD",
+        //                "Khuyến mãi",
+        //                "Tiền voucher",
+        //                "Tổng tiền thu",
+        //                "Hình thức thanh toán",
+        //                "Dịch vụ vc",
+        //                "Trạng thái thanh toán",
+        //                "Trạng thái đơn",
+        //                "Chú thích"
+
+        //            };
+        //        for (var i = 0; i < properties.Length; i++)
+        //        {
+        //            worksheet.Cells[1, i + 1].Value = properties[i];
+        //            worksheet.Cells[1, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+        //            worksheet.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(184, 204, 228));
+        //            worksheet.Cells[1, i + 1].Style.Font.Bold = true;
+        //        }
+        //        var row = 2;
+        //        foreach (var item in report)
+        //        {
+        //            dem++;
+        //            int col = 1;
+
+        //            worksheet.Cells[row, col].Value = item.code;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.CompanyCode;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.CompanyName;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.ContactName;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.StoreEmail;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.ContactNumber;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.StoreAddress;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.receiver_fullname;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.receiver_address;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.receiver_tel;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.dateadded;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.FromLocal;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.ToLocal;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.ProductName;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.qty;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.UnitName;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.Weight_Order;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.price;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.Total_Order;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.cpvc;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.cod;
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.moneytotal_discount;
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.VoucherAmount;
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.TotalAll;
+        //            col++;
+        //            worksheet.Cells[row, col].Value = item.PaymentType == 0 ? "COD" : item.PaymentType == 1 ? "Trực tuyến" : item.PaymentType == 2 ? "Chuyển khoản" : "";
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.UserServiceTransport;
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.IsPayment == true ? "Đã thanh toán" : "Chưa thanh toán";
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.status;
+        //            col++;
+
+        //            worksheet.Cells[row, col].Value = item.note;
+        //            row++;
+        //        }
+
+        //        // we had better add some document properties to the spreadsheet 
+        //        // set some core property values
+        //        var nameexcel = "Báo cáo chi tiết đơn hàng" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+        //        xlPackage.Workbook.Properties.Title = string.Format("{0} reports", nameexcel);
+        //        xlPackage.Workbook.Properties.Author = "Admin-IT";
+        //        xlPackage.Workbook.Properties.Subject = string.Format("{0} reports", "");
+        //        xlPackage.Workbook.Properties.Category = "Report";
+
+        //        // set some extended property values
+        //        xlPackage.Workbook.Properties.Company = "247shop.vn";
+        //        xlPackage.Save();
+        //    }
+        //}
+    }
+}

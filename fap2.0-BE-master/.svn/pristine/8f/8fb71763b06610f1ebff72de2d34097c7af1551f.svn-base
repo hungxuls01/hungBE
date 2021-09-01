@@ -1,0 +1,44 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Product_Catalog
+{
+    public interface IProduct_CatalogDal
+    {
+        #region BACKEND
+
+        Tuple<int, List<Product_CatalogList>> SelectPaging(Product_CatalogSearchDto companySearch, int pageIndex, int pageSize);
+
+        bool IsLock(Product_CatalogLock obj);
+
+        bool Delete(Product_CatalogDeleted arrayId);
+
+        Product_CatalogAdd GetById(Product_CatalogGetbyId objGetbyId);
+
+        string Insert(Product_CatalogAdd objAdd);
+        Tuple<int, List<Product_CatalogDataPaging>> SelectDataPaging(Product_CatalogSearchDto obj, int pageIndex, int pageSize);
+        bool UpdateIslock(Product_CatalogUpdateIslock obj);
+
+        #endregion
+        #region FONTEND
+        List<Product_CatalogList> SelectAll();
+        List<Product_CatalogListFeGetAll> FeGetAll(int id);
+
+        List<Product_CatalogFeGetbyRewite> FeGetbyRewite(string id);
+
+        List<Product_CatalogFeGetbyRewite> FeGetbyid(int id);
+
+        List<Product_CatalogFeGetbyRewite> FeGetbyParentId(int id);
+
+        List<Product_CatalogFeGetBanner> FeGetBannerMain(string id);
+        List<Product_CatalogFeGetBanner> FeGetBannerBelow(string id);
+        List<Product_CatalogFeShopCat> FeGetShopCat(int id);
+        List<Product_CatalogFeGetbyId> FeGetbyCatId(int id);
+        List<Product_CatalogCombobox> SelectAllParent();
+        #endregion
+    }
+}

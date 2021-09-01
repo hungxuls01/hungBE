@@ -1,0 +1,602 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Sale_OrdersDto : Sale_Order
+    {
+    }
+    public class Product_StoreGetKHO
+    {
+        public System.Guid id { get; set; }
+        public int khohang { get; set; }
+    }
+
+    public class ListProduct_StoreGetKHO
+    {
+        public List<Product_StoreGetKHO> productid { get; set; }
+    }
+    public class Product_StoreGetKHODetail
+    {
+        public System.Guid id { get; set; }
+        public System.Guid storeid { get; set; }
+        public string code { get; set; }
+        public string address { get; set; }
+        public string mobileStore { get; set; }
+        public string nameStore { get; set; }
+        public int provinceid { get; set; }
+        public int districtid { get; set; }
+        public int wardid { get; set; }
+        public string employeename { get; set; }
+        public string employeemobile { get; set; }
+    }
+    public class Sale_OrdersSearchDto : SearchBase
+    {
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+        public Nullable<System.Guid> CompanyId { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public string deliverydate { get; set; }
+        public int receiver_provinceid { get; set; }
+        public int useridCancel { get; set; }
+        public string codecompany { get; set; }
+        public int PaymentType { get; set; }
+        public int Sort { get; set; }
+    }
+    public class Sale_OrdersSearchByMemberIdDto : SearchBase
+    {
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+        public Nullable<System.Guid> CompanyId { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public string deliverydate { get; set; }
+        public int receiver_provinceid { get; set; }
+        public int useridCancel { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public string codecompany { get; set; }
+        public int PaymentType { get; set; }
+        public int Sort { get; set; }
+    }
+
+
+    public class Sale_OrdersAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public int status { get; set; }
+        public string code { get; set; }
+        public int money_total { get; set; }
+        public int discount { get; set; }
+        public int cod { get; set; }
+        public int cpvc { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public string membercode { get; set; }
+        public string note { get; set; }
+        public int IsPayment { get; set; }
+        public int PaymentType { get; set; }
+        public string member_fullname { get; set; }
+        public string member_tel { get; set; }
+        public string member_address { get; set; }
+        public string member_email { get; set; }
+        public string member_birthday { get; set; }
+        public int member_sex { get; set; }
+        public Nullable<int> member_rewardid { get; set; }
+        public Nullable<int> member_districtid { get; set; }
+        public Nullable<int> member_provinceid { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_tel { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_email { get; set; }
+        public string receiver_birthday { get; set; }
+        public int receiver_sex { get; set; }
+        public Nullable<int> receiver_rewardid { get; set; }
+        public Nullable<int> receiver_districtid { get; set; }
+        public Nullable<int> receiver_provinceid { get; set; }
+        public string NoteCancel { get; set; }
+        public Nullable<System.Guid> CompanyId { get; set; }
+        public string deliverydate { get; set; }
+        public string password { get; set; }
+        public string transferscode { get; set; }
+        public int typeTransport { get; set; }
+        public Nullable<System.Guid> storeid { get; set; }
+        public List<Saleorderline> saleorderline { get; set; }
+        public List<Saleorderuse> saleorderUse { get; set; }
+
+    }
+    public class Sale_OrdersId
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public int status { get; set; }
+        public string code { get; set; }
+        public Nullable<decimal> money_total { get; set; }
+        public Nullable<decimal> discount { get; set; }
+        public Nullable<decimal> cod { get; set; }
+        public Nullable<decimal> cpvc { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public string note { get; set; }
+        public int IsPayment { get; set; }
+        public int PaymentType { get; set; }
+        public string member_fullname { get; set; }
+        public string member_tel { get; set; }
+        public string member_telhidden { get; set; }
+        public string member_address { get; set; }
+        public string member_email { get; set; }
+        public string member_birthday { get; set; }
+        public int member_sex { get; set; }
+        public Nullable<int> member_rewardid { get; set; }
+        public Nullable<int> member_districtid { get; set; }
+        public Nullable<int> member_provinceid { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_tel { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_email { get; set; }
+        public string receiver_birthday { get; set; }
+        public int receiver_sex { get; set; }
+        public Nullable<int> receiver_rewardid { get; set; }
+        public Nullable<int> receiver_districtid { get; set; }
+        public Nullable<int> receiver_provinceid { get; set; }
+        public string NoteCancel { get; set; }
+        public Nullable<System.Guid> CompanyId { get; set; }
+        public string deliverydate { get; set; }
+        public string codecompany { get; set; }
+        public string titlecompany { get; set; }
+        public string mobilecompany { get; set; }
+        public string addresscompany { get; set; }
+        public string codemenber { get; set; }
+        public string namemember { get; set; }
+        public string listproduct { get; set; }
+        public string listuse { get; set; }
+        public string addresstitle { get; set; }
+        public string dateadded { get; set; }
+        public string titleadress { get; set; }
+        public string transfersid { get; set; }
+        public string transferscode { get; set; }
+
+    }
+
+    public class Sale_OrdersDeleted 
+    {
+        public string ArrayId { get; set; }
+    }
+    public class Sale_OrdersGetbyId 
+    {
+        public System.Guid id { get; set; }
+    }
+    public class Sale_OrdersGetCodebyId
+    {
+        public string code { get; set; }
+    }
+    public class Sale_OrdersLock
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class Sale_OrdersChangeStatus 
+    {
+        public System.Guid id { get; set; }
+        public int status { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
+        public string NoteCancel { get; set; }
+        public string ORDER_NUMBER { get; set; }
+    }
+
+
+    public class Sale_OrdersChangeStatusVTPDATA
+    {
+        public string ORDER_NUMBER { get; set; }
+        public string ORDER_REFERENCE { get; set; }
+        public string ORDER_STATUSDATE { get; set; }
+        public int ORDER_STATUS { get; set; }
+        public string NOTE { get; set; }
+        public int MONEY_COLLECTION { get; set; }
+        public int MONEY_FEECOD { get; set; }
+        public int MONEY_TOTAL { get; set; }
+        public string EXPECTED_DELIVERY { get; set; }
+        public int PRODUCT_WEIGHT { get; set; }
+        public string ORDER_SERVICE { get; set; }
+       
+    }
+    public class Sale_OrdersChangeStatusVTP
+    {
+        public Sale_OrdersChangeStatusVTPDATA DATA { get; set; }
+        public string TOKEN { get; set; }
+
+    }
+
+    public class Sale_OrdersChangetransfers
+    {
+        public System.Guid id { get; set; }
+        public int transfersmoney { get; set; }
+        public string transfersid { get; set; }
+        public string transfersnote { get; set; }
+    }
+
+    public class Sale_OrdersList
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string dateadded { get; set; }
+        public decimal cpvc { get; set; }
+        public int money_total { get; set; }
+        public string status { get; set; }
+        public string deliverydate { get; set; }
+        public string listproduct { get; set; }
+        public string dateaddedtitle { get; set; }
+        public string titlestatus { get; set; }
+        public string transfersid { get; set; }
+
+        public int IsPayment { get; set; }
+        public int Provisional { get; set; }
+    }
+    public class Saleorderline
+    {
+        public Nullable<System.Guid> sale_orderid { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public Nullable<int> qty { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public string title { get; set; }
+        public int price_sale { get; set; }
+        public int price_discount { get; set; }
+        public int discount { get; set; }
+        public int catalogid { get; set; }
+        public int isConsignment { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public int Weight { get; set; }
+        public int total { get; set; }
+        
+    }
+
+    public class Saleorderuse
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public bool isuse { get; set; }
+        public string productcatalogid { get; set; }
+        public string filesick { get; set; }
+        public string description { get; set; }
+        public string drugnow { get; set; }
+        public string relationship { get; set; }
+        public string name { get; set; }
+        public string mobile { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public string birthday { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+
+        public Nullable<System.Guid> member_Useid { get; set; }
+        public string productid { get; set; }
+        public Nullable<System.Guid> sale_Orderid { get; set; }
+    }
+    public class GetSaleOrdersList
+    {
+        public int id { get; set; }
+        public string Status { get; set; }
+        public string DateAdded { get; set; }
+        public float MoneyTotal { get; set; }
+        public int Quantity { get; set; }
+        public int ColorId { get; set; }
+        public float PriceDiscount { get; set; }
+        public float PriceSale { get; set; }
+        public int SizeId { get; set; }
+        public string imgpath { get; set; }
+        public string title { get; set; }
+        public int issale { get; set; }
+    }
+    public class GetSaleOrdersDetail
+    {
+        public int id { get; set; }
+        public string Status { get; set; }
+        public string DateAdded { get; set; }
+        public string MoneyTotal { get; set; }
+        public float Cpvc { get; set; }
+        public string IsPayment { get; set; }
+        public int PaymentType { get; set; }
+        public string ReceiverFullName { get; set; }
+        public string ReceiverAdress { get; set; }
+        public string ReceiverRewardId { get; set; }
+        public string ReceiverDistrict { get; set; }
+        public string ReceiverProvince { get; set; }
+        public string ReceiverTel { get; set; }
+        public int ExpressId { get; set; }
+        public string mavandon { get; set; }
+    }
+    public class GetByIdLozi
+    {
+        public int id { get; set; }
+        public int price { get; set; }
+        public int shipping_fee { get; set; }
+        public string payment_method { get; set; }
+        public float receiverlat { get; set; }
+        public float receiverlng { get; set; }
+        public string receiveraddress { get; set; }
+        public string receivertel { get; set; }
+        public string receiverfullname { get; set; }
+        public float lat { get; set; }
+        public float lng { get; set; }
+        public string address { get; set; }
+        public string phone { get; set; }
+        public string name { get; set; }
+        public string note { get; set; }
+        public string status { get; set; }
+        public string city { get; set; }
+    }
+    public class GetByIdLoziLine
+    {
+        public int id { get; set; }
+        public float price { get; set; }
+        public string name { get; set; }
+        public int qty { get; set; }
+    }
+
+    public class Sale_OrdersAddFontend
+    {
+        public int id { get; set; }
+        public int UserId { get; set; }
+        public int CategoryId { get; set; }
+        public string status { get; set; }
+        public decimal money_total { get; set; }
+        public decimal discount { get; set; }
+        public decimal cod { get; set; }
+        public decimal cpvc { get; set; }
+        public Nullable<int> memberid { get; set; }
+        public string note { get; set; }
+        public bool IsPayment { get; set; }
+        public Nullable<int> PaymentType { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_tel { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_email { get; set; }
+        public Nullable<int> receiver_rewardid { get; set; }
+        public Nullable<int> receiver_districtid { get; set; }
+        public Nullable<int> receiver_provinceid { get; set; }
+        public string member_fullname { get; set; }
+        public string member_tel { get; set; }
+        public string member_address { get; set; }
+        public string member_email { get; set; }
+        public Nullable<int> Expressid { get; set; }
+        public Nullable<int> storeId { get; set; }
+        public Nullable<bool> IsFreeShip { get; set; }
+        public int CompanyId { get; set; }
+        public int CargoTypeId { get; set; }
+        public string code { get; set; }
+        public decimal money_discount { get; set; }
+        public decimal money_cod { get; set; }
+        public Nullable<double> Latitude { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public List<SaleOrderLineAdd> oderDetail { get; set; }
+        public string VoucherCode { get; set; }
+        public decimal VoucherAmount { get; set; }
+        public Nullable<bool> IsVoucher { get; set; }
+    }
+
+    public class SaleOrderLineAdd
+    {
+        public Nullable<int> productid { get; set; }
+        public Nullable<double> qty { get; set; }
+        public Nullable<int> unitid { get; set; }
+        public string title { get; set; }
+        public Nullable<int> ColorId { get; set; }
+        public Nullable<int> SizeId { get; set; }
+        public Nullable<double> price_sale { get; set; }
+        public Nullable<double> price_discount { get; set; }
+        public Nullable<int> Discount { get; set; }
+        public Nullable<int> storeid { get; set; }
+        public Nullable<int> catalogid { get; set; }
+        public Nullable<int> Weight { get; set; }
+        public Nullable<double> Total { get; set; }
+        public int companyid { get; set; }
+
+    }
+    public class GetSaleOrdersForUser
+    {
+        public int id { get; set; }
+        public string Status { get; set; }
+        public string DateAdded { get; set; }
+        public string Code { get; set; }
+        public string ProvinceId { get; set; }
+        public string DistrictId { get; set; }
+        public string RewardId { get; set; }
+        public string Address { get; set; }
+        public float Cpvc { get; set; }
+        public int ExpressId { get; set; }
+        public string Mavandon { get; set; }
+        public string MoneyTotal { get; set; }
+        public int Quantity { get; set; }
+        public float PriceDiscount { get; set; }
+        public float PriceSale { get; set; }
+        public string imgpath { get; set; }
+        public string title { get; set; }
+        public string fullname { get; set; }
+        public string phone { get; set; }
+        public string note { get; set; }
+    }
+
+    public class SaleOrderLineSelectByOrderidPrint
+    {
+        public string code { get; set; }
+        public string title { get; set; }
+        public string UnitName { get; set; }
+        public int weight { get; set; }
+        public int qty { get; set; }
+        public int price_sale { get; set; }
+        public int Total { get; set; }
+
+    }
+
+    public class SaleOrderGetDetailPrint
+    {
+        public int id { get; set; }
+        public string receiver_email { get; set; }
+        public string receiver_fullname { get; set; }
+        public string code { get; set; }
+
+    }
+    public class SaleOrderSelectByidPrint
+    {
+        public string code { get; set; }
+        public string member_fullname { get; set; }
+        public string member_tel { get; set; }
+        public string member_address { get; set; }
+        public string member_email { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_tel { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_email { get; set; }
+        public string ReceiverRewaldName { get; set; }
+        public string ReceiverDistrictName { get; set; }
+        public string ReceiverProvinceName { get; set; }
+        public string CompanyName { get; set; }
+        public string note { get; set; }
+        public int PaymentType { get; set; }
+        public int money_total { get; set; }
+        public int cod { get; set; }
+        public int cpvc { get; set; }
+        public int VoucherAmount { get; set; }
+        public int money_discount { get; set; }
+        public int IsPayment { get; set; }
+    }
+
+    public class Sale_Order_UseDetail
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public List<ListDetail> detail { get; set; }
+    }
+
+    public class Sale_OrderUpdateExpress
+    {
+        public string id { get; set; }
+        public string transfersid { get; set; }
+        public string transferscode { get; set; }
+        public int transfersmoney { get; set; }
+    }
+
+    public class ListDetail 
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public bool isuse { get; set; }
+        public string filesick { get; set; }
+        public string description { get; set; }
+        public string drugnow { get; set; }
+        public string relationship { get; set; }
+        public string name { get; set; }
+        public string mobile { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public string productcatalogid { get; set; }
+        public Nullable<System.Guid> member_Useid { get; set; }
+        public string productid { get; set; }
+        public Nullable<System.Guid> sale_Orderid { get; set; }
+    }
+
+    public class Sale_OrdersSelectByListId
+    {
+        public System.Guid id { get; set; }
+        public string code { get; set; }
+        public string deliverydate { get; set; }
+        public string codeCompany { get; set; }
+        public string nameCompany { get; set; }
+        public decimal money_total { get; set; }
+        public string listproduct { get; set; }
+    }
+
+    public class Sale_OrderSelectByListIdHeader
+    {
+        public string id { get; set; }
+    }
+
+    public class WS_Sale_OrderAddKHO
+    {
+        public int status { get; set; }
+        public Nullable<decimal> money_total { get; set; }
+        public Nullable<decimal> discount { get; set; }
+        public Nullable<decimal> cod { get; set; }
+        public Nullable<decimal> cpvc { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public string note { get; set; }
+        public bool IsPayment { get; set; }
+        public int PaymentType { get; set; }
+        public string member_fullname { get; set; }
+        public string member_tel { get; set; }
+        public string member_address { get; set; }
+        public string member_email { get; set; }
+        public string member_birthday { get; set; }
+        public bool member_sex { get; set; }
+        public Nullable<int> member_rewardid { get; set; }
+        public Nullable<int> member_districtid { get; set; }
+        public Nullable<int> member_provinceid { get; set; }
+        public string NoteCancel { get; set; }
+        public Nullable<System.Guid> CompanyId { get; set; }
+        public string deliverydate { get; set; }
+        public Nullable<int> useridCancel { get; set; }
+        public bool ispack { get; set; }
+        public int type { get; set; }
+        public string datepack { get; set; }
+        public Nullable<System.Guid> employeepack { get; set; }
+        public Nullable<System.Guid> storeid { get; set; }
+        public Nullable<System.Guid> transportCompanyid { get; set; }
+        public string transportCompanycode { get; set; }
+        public string transportCompanyname { get; set; }
+        public string waybillCode { get; set; }
+        public bool isshipping { get; set; }
+        public string member_code { get; set; }
+        public string storecode { get; set; }
+        public string storename { get; set; }
+        public string storemobile { get; set; }
+        public string storeaddress { get; set; }
+        public Nullable<int> store_provinceid { get; set; }
+        public Nullable<int> store_districtid { get; set; }
+        public Nullable<int> store_rewardid { get; set; }
+        public Nullable<System.Guid> sale_Orderidnew { get; set; }
+        public List<ListWS_Sale_OrderDetailKHO> listDetail { get; set; }
+    }
+
+    public class ListWS_Sale_OrderDetailKHO
+    {
+        public Nullable<System.Guid> sale_orderid { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public Nullable<int> qty { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public string title { get; set; }
+        public decimal price_sale { get; set; }
+        public decimal price_discount { get; set; }
+        public int discount { get; set; }
+        public int Weight { get; set; }
+        public decimal total { get; set; }
+        public Nullable<int> catalogid { get; set; }
+        public Nullable<System.Guid> idre { get; set; }
+        public string codere { get; set; }
+        public string notere { get; set; }
+        public string expiryDate { get; set; }
+        public Nullable<System.Guid> shelfid { get; set; }
+        public Nullable<System.Guid> receiptid { get; set; }
+        public string receiptcode { get; set; }
+    }
+
+    public class Sale_OrderFEUpdateStatus
+    {
+        public Guid id { get; set; }
+        public int status { get; set; }
+    }
+    public class Sale_OrderGetStatus
+    {
+        public int status { get; set; }
+    }
+    public class Sale_Order_LinesSelectByOrderidPrint
+    {
+        public string code { get; set; }
+        public string producttitle { get; set; }
+        public string unittitle { get; set; }
+        public int Weight_Order { get; set; }
+        public int qty { get; set; }
+        public int price { get; set; }
+        public int Total_Order { get; set; }
+    }
+    public class Sale_OrderSelectByIdOutCode
+    {
+        public string code { get; set; }
+    }
+
+
+}

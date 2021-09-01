@@ -1,0 +1,27 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class MemberStoreDto : Member_store
+    {
+        
+    }
+    public class MemberStoreAdd 
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string recipientName { get; set; }
+        public string mobile { get; set; }
+        public Nullable<int> provinceid { get; set; }
+        public Nullable<int> districtid { get; set; }
+        public Nullable<int> rewardid { get; set; }
+        public string addresss { get; set; }
+        public Nullable<int> isaddress { get; set; }
+        public bool isdefault { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+
+    }
+}

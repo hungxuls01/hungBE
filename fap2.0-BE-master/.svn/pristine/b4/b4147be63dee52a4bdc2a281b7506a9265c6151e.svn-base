@@ -1,0 +1,3 @@
+2020-05-07 10:12:47.1529|ERROR|ApiTng.Controllers.fileuploadController|Could not find stored procedure 'dbo.sp_ImagesInsertOrUpdate'.
+2020-05-07 10:18:06.9154|ERROR|ApiTng.Controllers.fileuploadController|Cannot create a file when that file already exists.
+

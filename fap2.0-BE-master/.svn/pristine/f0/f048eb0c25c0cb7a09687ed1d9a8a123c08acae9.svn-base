@@ -1,0 +1,199 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+
+namespace _1.DataAccessLayer.Product
+{
+    public class ProductDal : DbInteractionBase, IProductDal
+    {
+        #region BACKEND
+        public Tuple<int, List<ProductList>> SelectPaging(ProductSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<ProductList>("sp_ProductDataPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "fromdate", ValueParam = obj.fromdate},
+                new QueryParam {NameParam = "companyid", ValueParam = obj.companyid},
+                new QueryParam {NameParam = "todate", ValueParam = obj.todate},
+                new QueryParam {NameParam = "fromapproval", ValueParam = obj.fromapproval},
+                new QueryParam {NameParam = "toapproval", ValueParam = obj.toapproval},
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "name", ValueParam = obj.name},
+                new QueryParam {NameParam = "codecompany", ValueParam = obj.codecompany},
+                new QueryParam {NameParam = "namecompany", ValueParam = obj.namecompany},
+                new QueryParam {NameParam = "sdk", ValueParam = obj.sdk},
+                new QueryParam {NameParam = "productcatalogid", ValueParam = obj.productcatalogid},
+                new QueryParam {NameParam = "isview", ValueParam = obj.isview},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public bool IsLock(ProductLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(string));
+
+            foreach (var item in ConvertUtil.GetValuesArrayString(obj.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQuery("sp_ProductsIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="isview",ValueParam = obj.isview}
+            });
+        }
+
+        public bool Delete(ProductDeleted objDeleted)
+        {
+            return ExecuteNonQuery("sp_ProductsDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objDeleted.id}
+            });
+        }
+
+        public ProductGetid GetById(ProductGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<ProductGetid>("sp_ProductsSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+
+        public string Insert(ProductAdd objAdd)
+        {
+            return ExecuteNonQueryOutputGuid("sp_ProductsInsert", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "productcatalogid", ValueParam = objAdd.productcatalogid},
+                new QueryParam {NameParam = "companyid", ValueParam = objAdd.companyid},
+                new QueryParam {NameParam = "code", ValueParam = objAdd.code},
+                new QueryParam {NameParam = "sdk", ValueParam = objAdd.sdk},
+                new QueryParam {NameParam = "name", ValueParam = objAdd.name},
+                new QueryParam {NameParam = "price", ValueParam = objAdd.price},
+                new QueryParam {NameParam = "unit", ValueParam = objAdd.unit},
+                new QueryParam {NameParam = "otherunits", ValueParam = objAdd.otherunits},
+                new QueryParam {NameParam = "sickcatalogid", ValueParam = objAdd.sickcatalogid},
+                new QueryParam {NameParam = "sick", ValueParam = objAdd.sick},
+                new QueryParam {NameParam = "quycachsanpham", ValueParam = objAdd.quycachsanpham},
+                new QueryParam {NameParam = "thanhphan", ValueParam = objAdd.thanhphan},
+                new QueryParam {NameParam = "congdung", ValueParam = objAdd.congdung},
+                new QueryParam {NameParam = "chidinh", ValueParam = objAdd.chidinh},
+                new QueryParam {NameParam = "chongchidinh", ValueParam = objAdd.chongchidinh},
+                new QueryParam {NameParam = "lieudung_cachdung", ValueParam = objAdd.lieudung_cachdung},
+                new QueryParam {NameParam = "thantrong", ValueParam = objAdd.thantrong},
+                new QueryParam {NameParam = "choconbu", ValueParam = objAdd.choconbu},
+                new QueryParam {NameParam = "khananglaixe", ValueParam = objAdd.khananglaixe},
+                new QueryParam {NameParam = "tuongtacthuoc", ValueParam = objAdd.tuongtacthuoc},
+                new QueryParam {NameParam = "tacdungkhongmuon", ValueParam = objAdd.tacdungkhongmuon},
+                new QueryParam {NameParam = "qualieu_cachxuly", ValueParam = objAdd.qualieu_cachxuly},
+                new QueryParam {NameParam = "baoquan", ValueParam = objAdd.baoquan},
+                new QueryParam {NameParam = "handung", ValueParam = objAdd.handung},
+                new QueryParam {NameParam = "tieuchuan", ValueParam = objAdd.tieuchuan},
+                new QueryParam {NameParam = "cososanxuat", ValueParam = objAdd.cososanxuat},
+                new QueryParam {NameParam = "diachisanxuat", ValueParam = objAdd.diachisanxuat},
+                new QueryParam {NameParam = "imanges", ValueParam = objAdd.imanges},
+                new QueryParam {NameParam = "filegdk", ValueParam = objAdd.filegdk},
+                new QueryParam {NameParam = "filegknsp", ValueParam = objAdd.filegknsp},
+                new QueryParam {NameParam = "filegcnGMP", ValueParam = objAdd.filegcnGMP},
+                new QueryParam {NameParam = "baiviet", ValueParam = objAdd.baiviet},
+                new QueryParam {NameParam = "giaycnthocgiatruyen", ValueParam = objAdd.giaycnthocgiatruyen},
+                new QueryParam {NameParam = "danhmuchotro", ValueParam = objAdd.danhmuchotro},
+                new QueryParam {NameParam = "thuonghieu", ValueParam = objAdd.thuonghieu},
+                new QueryParam {NameParam = "xuatxu", ValueParam = objAdd.xuatxu},
+                new QueryParam {NameParam = "nguongoc", ValueParam = objAdd.nguongoc},
+                new QueryParam {NameParam = "thanhphanhoahoc", ValueParam = objAdd.thanhphanhoahoc},
+                new QueryParam {NameParam = "doituongsudung", ValueParam = objAdd.doituongsudung},
+                new QueryParam {NameParam = "luuysudung", ValueParam = objAdd.luuysudung},
+                new QueryParam {NameParam = "soCOCQ", ValueParam = objAdd.soCOCQ},
+                new QueryParam {NameParam = "fileCOCQ", ValueParam = objAdd.fileCOCQ},
+                new QueryParam {NameParam = "khohang", ValueParam = objAdd.khohang},
+                new QueryParam {NameParam = "cannang", ValueParam = objAdd.cannang},
+                new QueryParam {NameParam = "ktcao", ValueParam = objAdd.ktcao},
+                new QueryParam {NameParam = "ktdai", ValueParam = objAdd.ktdai},
+                new QueryParam {NameParam = "ktrong", ValueParam = objAdd.ktrong},
+                new QueryParam {NameParam = "isview", ValueParam = objAdd.isview},
+                new QueryParam {NameParam = "status", ValueParam = objAdd.status},
+                new QueryParam {NameParam = "kiguisanpham", ValueParam = objAdd.kiguisanpham},
+                new QueryParam {NameParam = "chietxuat", ValueParam = objAdd.chietxuat},
+                new QueryParam {NameParam = "lathuocgiatruyen", ValueParam = objAdd.lathuocgiatruyen},
+                new QueryParam {NameParam = "userid", ValueParam = objAdd.userid},
+                new QueryParam {NameParam = "idout", IsOutParam = true}
+            });
+        }
+       
+        public bool IsStatus(ProductStatus obj)
+        {
+            return ExecuteNonQuery("sp_ProductsStatus", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id},
+                new QueryParam {NameParam ="status",ValueParam = obj.status},
+                new QueryParam {NameParam = "note", ValueParam = obj.note}
+            });
+        }
+
+        public Tuple<int, List<ProductListSale_Order>> SelectPagingSale_Order(ProductSale_OrderSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<ProductListSale_Order>("sp_ProductDataPagingSale_Order", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "name", ValueParam = obj.name},
+                new QueryParam {NameParam = "CompanyId", ValueParam = obj.CompanyId},
+                new QueryParam {NameParam = "codecompany", ValueParam = obj.codecompany},
+                new QueryParam {NameParam = "namecompany", ValueParam = obj.namecompany},
+                new QueryParam {NameParam = "productcatalogid", ValueParam = obj.productcatalogid},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public Tuple<int, List<ProductListAll>> SelectPagingAll(ProductAllSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPaging<ProductListAll>("sp_ProductDataPagingAll", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "code", ValueParam = obj.code},
+                new QueryParam {NameParam = "companyid", ValueParam = obj.companyid},
+                new QueryParam {NameParam = "name", ValueParam = obj.name},
+                new QueryParam {NameParam = "namecompany", ValueParam = obj.namecompany},
+                new QueryParam {NameParam = "productcatalogid", ValueParam = obj.productcatalogid},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true}
+            });
+        }
+
+        public List<ProductListAll> GetByList(ProductGetbyList obj)
+        {
+            return ExecuteReader<ProductListAll>("sp_ProductsSelectBylist", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = obj.id}
+            });
+        }
+
+        public ProductGetCompany GetCompany(ProductGetbyId objGetbyId)
+        {
+            return ExecuteReaderObject<ProductGetCompany>("sp_ProductsGetCompany", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = objGetbyId.id}
+            });
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,115 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _2.DataTransferObject;
+using _4.Utils;
+using System.Data;
+
+namespace _1.DataAccessLayer.Permision
+{
+    public class PermisionDal : DbInteractionBase, IPermisionDal
+    {
+        #region BACKEND
+        public Tuple<int, List<PermisionList>, int> SelectPaging(PermisionSearchDto obj, int pageIndex, int pageSize)
+        {
+            return ExecuteReaderPagingOutput<PermisionList>("sp_PermisionSelectPaging", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "Keyword", ValueParam = obj.Keyword},
+                new QueryParam {NameParam = "Status", ValueParam = obj.Status},
+                new QueryParam {NameParam = "PageIndex", ValueParam = pageIndex},
+                new QueryParam {NameParam = "PageSize", ValueParam = pageSize},
+                new QueryParam {NameParam = "order", ValueParam = obj.Order},
+                new QueryParam {NameParam = "orderdir", ValueParam = obj.Orderdir},
+                new QueryParam {NameParam = "RecordCount", IsOutParam = true},
+                new QueryParam {NameParam = "role", ValueParam =  obj.role},
+                new QueryParam {NameParam = "UserId", ValueParam = obj.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = obj.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int IsLock(PermisionLock obj)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(obj.arrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_PermisionIsLock", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="islock",ValueParam = obj.islock},
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                new QueryParam {NameParam ="role",ValueParam = obj.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = obj.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = obj.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public int Delete(PermisionDeleted objDeleted)
+        {
+            DataTable arrayId = new DataTable();
+            arrayId.Columns.Add("id", typeof(int));
+
+            foreach (var item in ConvertUtil.GetValuesArray(objDeleted.ArrayId))
+            {
+                arrayId.Rows.Add(item);
+            }
+            return ExecuteNonQueryOutput("sp_PermisionDelete", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="ArrayId",ValueParam = arrayId},
+                 new QueryParam {NameParam ="role",ValueParam = objDeleted.role},
+                new QueryParam {NameParam ="CategoryId",ValueParam = objDeleted.CategoryId},
+                new QueryParam {NameParam ="UserId",ValueParam = objDeleted.UserId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        public PermisionGetbyIdObj GetById(PermisionGetbyId obj)
+        {
+            return ExecuteReaderObject<PermisionGetbyIdObj>("sp_PermisionSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = obj.id},
+                 new QueryParam {NameParam ="permisionId",ValueParam = obj.permisionId},
+            });
+        }
+
+        public int Insert(PermisionAdd objAdd)
+        {
+            return ExecuteNonQueryOutput("sp_PermisionInsertOrUpdate", new List<QueryParam>
+            {
+                new QueryParam {NameParam = "id", ValueParam = objAdd.id},
+                new QueryParam {NameParam = "IsAdd", ValueParam = objAdd.IsAdd},
+                new QueryParam {NameParam = "IsEdit", ValueParam = objAdd.IsEdit},
+                new QueryParam {NameParam = "IsLock", ValueParam = objAdd.IsLock},
+                new QueryParam {NameParam = "IsDeleted", ValueParam = objAdd.IsDeleted},
+                new QueryParam {NameParam = "IsExport", ValueParam = objAdd.IsExport},
+                new QueryParam {NameParam = "IsView", ValueParam = objAdd.IsView},
+                new QueryParam {NameParam = "role", ValueParam = objAdd.role},
+                new QueryParam {NameParam = "UserId", ValueParam = objAdd.UserId},
+                new QueryParam {NameParam = "CategoryId", ValueParam = objAdd.CategoryId},
+                new QueryParam {NameParam = "IsIncompetent", IsOutParam = true}
+            });
+        }
+
+        #endregion
+
+        public List<PermisionMenu> GetMenu(int id)
+        {
+            return ExecuteReader<PermisionMenu>("sp_PermisionGetMenu", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="UserId",ValueParam = id}
+            });
+        }
+
+        #region FONTEND
+        public List<PermisionCombo> GetAll()
+        {
+            return ExecuteReader<PermisionCombo>("sp_PermisionSelectAll");
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,51 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Orders
+{
+    public interface ISale_OrdersDal
+    {
+        #region BACKEND
+        
+        Tuple<int, List<Sale_OrdersList>> SelectPaging(Sale_OrdersSearchDto companySearch, int pageIndex, int pageSize);
+        Tuple<int, List<Sale_OrdersList>> SelectPagingByMemberId(Sale_OrdersSearchByMemberIdDto companySearch, int pageIndex, int pageSize);
+        int IsLock(Sale_OrdersLock obj);
+
+        int Delete(Sale_OrdersDeleted arrayId);
+
+        Sale_OrdersId GetById(Sale_OrdersGetbyId objGetbyId);
+        Sale_OrderTransfersid GetByTransfersid(string id);
+
+        Sale_OrdersGetCodebyId GetCodeById(Sale_OrdersGetbyId objGetbyId);
+
+        Sale_OrderGetStatus GetStatus(Guid objGetbyId);
+
+        Sale_OrdersAdd GetByIdFE(Sale_OrdersGetbyId objGetbyId);
+        List<Saleorderline> Sale_Order_LinesSelectByIdFE(Sale_OrdersGetbyId objGetbyId);
+        List<Saleorderuse> Sale_Order_UseSelectByIdFE(Sale_OrdersGetbyId objGetbyId);
+
+        string Insert(Sale_OrdersAdd objAdd);
+        string InsertFE(Sale_OrdersAdd objAdd);
+        bool ChangeStatus(Sale_OrdersChangeStatus objAdd);
+        string ChangeStatusVTP(Sale_OrdersChangeStatusVTP objAdd);
+
+        bool Changetransfers(Sale_OrdersChangetransfers objAdd);
+
+        Sale_OrdersAdd GetByCode(string code);
+
+        bool UpdateStatus_api(int id,string status);
+        bool Sale_Order_UseInsert(Sale_Order_UseDetail obj);
+
+        bool UpdateExpress(Sale_OrderUpdateExpress obj);
+        List<Sale_OrdersSelectByListId> SelectByListId(Sale_OrderSelectByListIdHeader obj);
+        List<Sale_Order_LinesSelectByOrderidPrint> SelectByOrderidPrint(Guid obj);
+
+        Sale_OrderSelectByIdOutCode SelectByIdOutCode(Guid id);
+        #endregion
+        bool ChangeStatusCancel(Sale_OrdersChangeStatusCancel objAdd);
+    }
+}

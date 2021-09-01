@@ -1,0 +1,19 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Company_Bank
+{
+    public class Company_BankDal : DbInteractionBase, ICompany_BankDal
+    {
+        public Company_BankCountBynumber GetCount(CountBynumber obj)
+        {
+            return ExecuteReaderObject<Company_BankCountBynumber>("sp_CompanyCountBynumber", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="number",ValueParam = obj.number}
+            });
+        }
+    }
+}

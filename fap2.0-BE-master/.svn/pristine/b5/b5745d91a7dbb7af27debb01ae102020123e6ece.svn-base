@@ -1,0 +1,301 @@
+﻿using _1.DataAccessLayer.Company;
+using _1.DataAccessLayer.ImportGoods;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class ImportGoodsController : ApiController
+    {
+        private static IImportGoodsDal _ImportGoodsDal;
+        private static ICompanyDal _ICompanyDal;
+        private static Logger _logger;
+        private Api api;
+
+        public ImportGoodsController()
+        {
+            _ImportGoodsDal = new ImportGoodsDal();
+            _ICompanyDal = new CompanyDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(ImportGoodsSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ImportGoodsDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<ImportGoodsList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(ImportGoodsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.GetById(id);
+                if (data != null)
+                {
+                    var detail = _ImportGoodsDal.GetListDetai(id);
+                    data.Goods_Lines = detail;
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetByImportGoodsId(ImportGoodsGetbyId id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ImportGoodsDal.GetById(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult Insert(ImportGoodsAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = "";
+                if (objAdd.id == null)
+                {
+                    data = _ImportGoodsDal.Insert(objAdd);
+                }
+                else
+                {
+                    data = _ImportGoodsDal.Update(objAdd);
+
+                }
+                if (data != null && data != "")
+                {
+                    ImportGoodsGetbyId goodsId = new ImportGoodsGetbyId();
+                    goodsId.id = System.Guid.Parse(data);
+                    var company = _ICompanyDal.GetCompanyById(objAdd.companyid.ToString());
+                    var goodsdal = _ImportGoodsDal.GetById(goodsId);
+                    var goodsdaldetail = _ImportGoodsDal.GetListDetai(goodsId);
+                    string strDetail = "";
+                    int stt = 0;
+                    foreach (var item in goodsdaldetail)
+                    {
+                        stt++;
+                        strDetail += "<tr><td>" + stt + "</td>" + "<td>" + item.productcode + "</td>" + "<td>" + item.productname + "</td>" + "<td>" + item.unitname + "</td>" + "<td>" + item.total + "</td>" + "<td>" + item.discount + "</td>" + "<td>" + item.qty + "</td></tr>";
+                    }
+
+                    string strinfosto = "<table style='width: 100 %;'><tr><td>Ngày nhận hàng:</td><td>" + DateTime.ParseExact(goodsdal.deliverydate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy") + "</td><td>Số điện thoại:</td><td>" + goodsdal.mobilestore + "</td></tr></table>";
+                    strinfosto += "<tr><td>Mã kho:</td><td>" + goodsdal.codestore + "</td><td>Người liên hệ:</td><td>" + goodsdal.contact + "</td></tr>";
+                    strinfosto += "<tr><td>Tên kho hàng:</td><td>" + goodsdal.namestore + "</td><td>SĐT người liên hệ:</td><td>" + goodsdal.mobilecontact + "</td></tr>";
+                    strinfosto += "<tr><td>Địa chỉ:</td><td>" + goodsdal.addressstore + "</td><td></td><td></td></tr>";
+                    strinfosto += "</table>";
+
+
+                    SendMail.sendMailByType(company.email, new string[] { goodsdal.code, strDetail, strinfosto }, "34");
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult UpdateKHO(ImportGoodsUpdateKHO objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ImportGoodsDal.UpdateKHO(objAdd);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult UpdateStatus(ImportGoodsStatus objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var id = new ImportGoodsGetbyId
+                {
+                    id = (Guid)objAdd.id
+                };
+                var datagetid = _ImportGoodsDal.GetById(id);
+                if (datagetid != null)
+                {
+                    var detail = _ImportGoodsDal.GetListDetai(id);
+                    if (detail == null)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                    }
+                    datagetid.Goods_Lines = detail;
+                }
+                else
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Không tìm thấy phiếu nhập kho !";
+                    return response;
+                }
+                objAdd.deliverydate = datagetid.deliverydate;
+                var Goods_Lines = new List<ListImportGoods_Lines>();
+                foreach (var item in datagetid.Goods_Lines)
+                {
+                    var detail = new ListImportGoods_Lines
+                    {
+                        id = item.id,
+                        importGoodsid = item.importGoodsid,
+                        productid = item.productid,
+                        unitid = item.unitid,
+                        pricecomnpany = item.pricecomnpany,
+                        discount = item.discount,
+                        qty = item.qty,
+                        total = item.total,
+                        slthuc = item.slthuc,
+                        sltrave = item.sltrave,
+                        sldat = item.sldat,
+                        notestore = item.notestore,
+                        slUpdate = item.slUpdate,
+                        notesale = item.notesale
+                    };
+                    Goods_Lines.Add(detail);
+                }
+                objAdd.Goods_Lines = Goods_Lines;
+
+                var data = _ImportGoodsDal.UpdateStatus(objAdd);
+                if (data)
+                {
+                    if (objAdd.status == 5)
+                    {
+                        ImportGoodsGetbyId goodsId = new ImportGoodsGetbyId();
+                        goodsId.id = System.Guid.Parse(objAdd.id.ToString());
+                        var goodsdal = _ImportGoodsDal.GetById(goodsId);
+                        var goodsdaldetail = _ImportGoodsDal.GetListDetai(goodsId);
+                        var company = _ICompanyDal.GetCompanyById(goodsdal.companyid.ToString());
+
+                        string strDetail = "";
+                        int stt = 0;
+                        foreach (var item in goodsdaldetail)
+                        {
+                            stt++;
+                            strDetail += "<tr><td>" + stt + "</td>" + "<td>" + item.productcode + "</td>" + "<td>" + item.productname + "</td>" + "<td>" + item.unitname + "</td>" + "<td>" + item.total + "</td>" + "<td>" + item.discount + "</td>" + "<td>" + item.qty + "</td></tr>";
+                        }
+
+                        string strinfosto = "<table style='width: 100 %;'><tr><td>Ngày nhận hàng:</td><td>" + DateTime.ParseExact(goodsdal.deliverydate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy") + "</td><td>Số điện thoại:</td><td>" + goodsdal.mobilestore + "</td></tr></table>";
+                        strinfosto += "<tr><td>Mã kho:</td><td>" + goodsdal.codestore + "</td><td>Người liên hệ:</td><td>" + goodsdal.contact + "</td></tr>";
+                        strinfosto += "<tr><td>Tên kho hàng:</td><td>" + goodsdal.namestore + "</td><td>SĐT người liên hệ:</td><td>" + goodsdal.mobilecontact + "</td></tr>";
+                        strinfosto += "<tr><td>Địa chỉ:</td><td>" + goodsdal.addressstore + "</td><td></td><td></td></tr>";
+                        strinfosto += "</table>";
+                        SendMail.sendMailByType(company.email, new string[] { goodsdal.code, strDetail, strinfosto, objAdd.note }, "36");
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

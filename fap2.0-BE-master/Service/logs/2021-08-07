@@ -1,0 +1,5 @@
+2021-08-07 16:52:34.8197|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-07 16:57:07.2118|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-07 16:57:35.7835|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-07 16:57:54.5736|ERROR|Service.Controllers.NotificationController|Invalid column name 'Departmentid'.
+2021-08-07 17:18:11.9963|ERROR|Service.Controllers.StudentsController|Invalid column name 'nameRole'.

@@ -1,0 +1,11 @@
+2019-07-17 09:05:42.4348|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@RecordCount', which was not supplied.
+2019-07-17 09:06:04.2630|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@RecordCount', which was not supplied.
+2019-07-17 09:36:29.4876|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@RecordCount', which was not supplied.
+2019-07-17 09:38:58.1002|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:39:16.6145|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:39:36.4378|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:40:34.3030|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:41:35.3452|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:42:13.7100|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:45:12.8558|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.
+2019-07-17 09:45:32.5013|ERROR|ApiTng.Controllers.ProductCommentController|Procedure or function 'fe_Product_GetComment' expects parameter '@productid', which was not supplied.

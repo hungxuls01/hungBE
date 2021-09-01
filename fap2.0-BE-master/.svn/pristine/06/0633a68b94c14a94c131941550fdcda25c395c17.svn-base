@@ -1,0 +1,589 @@
+﻿using _1.DataAccessLayer.Product_Catalog;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    
+    public class Product_CatalogController : ApiController
+    {
+        private static IProduct_CatalogDal _Product_CatalogDal;
+        private static Logger _logger;
+        private Api api;
+
+        public Product_CatalogController()
+        {
+            _Product_CatalogDal = new Product_CatalogDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+
+        #region BACKEND
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(Product_CatalogSearchDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _Product_CatalogDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<Product_CatalogList>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetDataPaging(Product_CatalogSearchDto obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _Product_CatalogDal.SelectDataPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<Product_CatalogDataPaging>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetById(Product_CatalogGetbyId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.GetById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(Product_CatalogAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                Product_CatalogCheckName saveName = new Product_CatalogCheckName();
+                saveName.name = objAdd.name;
+                saveName.catalogid = objAdd.ParentId;
+                var dataname = _Product_CatalogDal.Checkname(saveName);
+                if (dataname != null)
+                {
+                    response.Status = ConstUtil.Error;
+                    response.Message = "Tên danh mục bệnh đã tồn tại";
+                    return response;
+                }
+                if (objAdd.id != null)
+                {
+                    try
+                    {
+                        var getidnew = new Product_CatalogGetById();
+                        getidnew.id = Guid.Parse(objAdd.id.ToString());
+                        var getidFE = api.GetbyIdProductCatalog(getidnew);
+                        if (getidFE.Result.Status == ConstUtil.Success)
+                        {
+                            var data1 = api.UpdateProductCatalogAsync(objAdd);
+                            if (data1.Result.Status == ConstUtil.Success)
+                            {
+                                response.Status = ConstUtil.Success;
+                                response.Message = "Thành công !";
+                            }
+
+                        }
+                        
+
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message);
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                    }
+
+                }
+                else
+                {
+                    var data = _Product_CatalogDal.Insert(objAdd);
+                    var obj = new Product_CatalogGetbyId();
+                    obj.id = Guid.Parse(data);
+                    var objdata = _Product_CatalogDal.GetById(obj);
+                    var data1 = api.InsertProductCatalogAsync(objdata);
+                    if (data1.Result.Status == ConstUtil.Success)
+                    {
+                        response.Status = ConstUtil.Success;
+                        response.Message = "Thành công !";
+                    }
+
+                }
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Delete(Product_CatalogDeleted obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.Delete(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Lock(Product_CatalogLock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.IsLock(obj);
+                if (data)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult UpdateIslock(Product_CatalogUpdateIslock obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.UpdateIslock(obj);
+                if (data)
+                {
+                    if (data)
+                    {
+                        try
+                        {
+                            var getidnew = new Product_CatalogUpdateIslock();
+
+                            var data1 = api.ProductCatalogUpdateIslockAsync(obj);
+                            if (data1.Result.Status == ConstUtil.Success)
+                            {
+                                response.Status = ConstUtil.Success;
+                                response.Message = "Thành công !";
+                                response.Data = data;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.Error(ex.Message);
+                            response.Status = ConstUtil.Error;
+                            response.Message = "Có lỗi sảy ra !";
+                        }
+
+                    }
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        #endregion
+        #region FONTEND
+        [HttpGet]
+        public ResponeResult SelectAll()
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.SelectAll();
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetAll(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetAll(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetbyRewite(string id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetbyRewite(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpGet]
+        public ResponeResult FeGetAllbyRewite(string id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetbyRewite(id).FirstOrDefault();
+                if (data != null)
+                {
+                    var product_Catalog3 = new List<Product_CatalogFeGetbyRewite>();
+                    var product_Catalog2 = new Product_CatalogFeGetbyRewite();
+                    var product_Catalog1 = new Product_CatalogFeGetbyRewite();
+
+                    product_Catalog3 = _Product_CatalogDal.FeGetbyParentId(data.ParentId);
+
+                    var obj = _Product_CatalogDal.FeGetbyid(data.ParentId).FirstOrDefault();
+                    if (obj != null)
+                    {
+                        product_Catalog2 = obj;
+                        var product_CatalogAll2 = new Product_CatalogByRewiteChild
+                        {
+                            id = product_Catalog2.id,
+                            title = product_Catalog2.title,
+                            orderstt = product_Catalog2.orderstt,
+                            ParentId = product_Catalog2.ParentId,
+                            rewite = product_Catalog2.rewite,
+                            Child = product_Catalog3
+                        };
+                        var obj1 = _Product_CatalogDal.FeGetbyid(product_Catalog2.ParentId).FirstOrDefault();
+                        if (obj1 != null)
+                        {
+                            product_Catalog1 = obj1;
+                            var product_CatalogAll = new Product_CatalogByRewite
+                            {
+                                id = product_Catalog1.id,
+                                title = product_Catalog1.title,
+                                orderstt = product_Catalog1.orderstt,
+                                ParentId = product_Catalog1.ParentId,
+                                rewite = product_Catalog1.rewite,
+                                Child = product_CatalogAll2
+                            };
+                            response.Status = ConstUtil.Success;
+                            response.Message = "Thành công !";
+                            response.Data = product_CatalogAll;
+                            return response;
+                        }
+                        else
+                        {
+                            var product_CatalogAll = new Product_CatalogByRewiteChild
+                            {
+                                id = product_Catalog2.id,
+                                title = product_Catalog2.title,
+                                orderstt = product_Catalog2.orderstt,
+                                ParentId = product_Catalog2.ParentId,
+                                rewite = product_Catalog2.rewite,
+                                Child = product_Catalog3
+                            };
+                            response.Status = ConstUtil.Success;
+                            response.Message = "Thành công !";
+                            response.Data = product_CatalogAll;
+                            return response;
+                        }
+                    }
+                    else
+                    {
+                        var product_CatalogAll = new Product_CatalogByRewite
+                        {
+                            id = product_Catalog2.id,
+                            title = product_Catalog2.title,
+                            orderstt = product_Catalog2.orderstt,
+                            ParentId = product_Catalog2.ParentId,
+                            rewite = product_Catalog2.rewite,
+                            Child = null
+                        };
+                        response.Status = ConstUtil.Success;
+                        response.Message = "Thành công !";
+                        response.Data = product_CatalogAll;
+                        return response;
+                    }
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpGet]
+        public ResponeResult FeGetBannerMain(string id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetBannerMain(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetBannerBelow(string id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetBannerBelow(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetShopCat(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetShopCat(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [HttpGet]
+        public ResponeResult FeGetByCatId(int id)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.FeGetbyCatId(id);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpGet]
+        public ResponeResult SelectAllParent()
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _Product_CatalogDal.SelectAllParent();
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        #endregion
+    }
+}

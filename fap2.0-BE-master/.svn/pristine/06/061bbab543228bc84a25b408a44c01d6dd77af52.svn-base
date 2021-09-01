@@ -1,0 +1,11 @@
+﻿<li id="[ID]">
+    <a href="javascript:void(0)" class="prev" onclick="movePrev(this)"><< </a>
+    <div>
+        <img src="[Src_Image]"/>
+    </div>
+    <div>
+        <a href="javascript:void(0)" class="delete-img" onclick="deleteImage(this)">Xóa</a>
+    </div>
+    <a href="javascript:void(0)" class="next" onclick="moveNext(this)"> >></a>
+    <input type="hidden" name="[InputName]" value="[ValueName]"/>
+</li>

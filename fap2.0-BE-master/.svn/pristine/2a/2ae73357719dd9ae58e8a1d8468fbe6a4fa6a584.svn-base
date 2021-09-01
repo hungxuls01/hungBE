@@ -1,0 +1,40 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Users
+{
+    public interface IUsersDal
+    {
+        #region BACKEND
+
+        int IsLock(UsersLock obj);
+
+        int Delete(UsersDeleted arrayId);
+
+        Tuple<UsersAdd, int> GetById(UsersGetbyId objGetbyId);
+
+        bool Register(UsersRegister objAdd);
+        bool Update(UsersUpdate objUpdate);
+        int UpdatePassWord(UsersUpdatePass objUpdate);
+        int ChangePassWord(UsersChangePass objUpdate);
+
+        #endregion
+
+        UsersLogin Login(string username, string password);
+        UsersAdd GetByEmail(string email);
+        #region FONTEND
+        List<GetUsers> FeGetUsers(int id);
+        List<GetUsersDetail> FeGetUsersDetail(int id);
+        List<GetUserMemberStore> GetUserMemberStore(int id);
+        List<UsersCheckUserName> CheckUserName(string id);
+        List<UsersCheckEmail> CheckUserEmail(string id);
+        List<UsersCheckEmailForgot> CheckUserEmailForgot(string id);
+        List<UsersCheckTokenForgot> CheckTokenForgot(string id);
+        bool CheckActiveUser(UsersCheckActive objAdd);
+        #endregion
+    }
+}

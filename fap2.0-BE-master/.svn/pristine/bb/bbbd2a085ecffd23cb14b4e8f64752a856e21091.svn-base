@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using _3.Data;
+
+namespace _2.DataTransferObject
+{
+    public class Products_favoriteDto:Product_favorite
+    {
+    }
+    public class Products_favoriteAdd : IncompetentBase
+    {
+        public Nullable<int> userid { get; set; }
+        public Nullable<int> productid { get; set; }
+        public string dateadded { get; set; }
+
+    }
+    public class Products_favoriteList
+    {
+        public int id { get; set; }
+        public int productid { get; set; }
+        public string dateadded { get; set; }
+        public string title { get; set; }
+        public string imgpath { get; set; }
+        public Nullable<int> discount { get; set; }            
+        public Nullable<decimal> price_sale { get; set; }
+        public Nullable<decimal> price_discount { get; set; }
+        public string rewite { get; set; }
+
+    }
+    public class FeProducts_FavoriteAdd
+    {
+        public Nullable<int> userid { get; set; }
+        public Nullable<int> productid { get; set; }        
+    }
+    public class FeProducts_FavoriteDelete
+    {
+        public Nullable<int> userid { get; set; }
+        public Nullable<int> productid { get; set; }
+    }
+}

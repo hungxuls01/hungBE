@@ -1,0 +1,9 @@
+﻿<tr>
+    <td class="text-center">[Product_Code]</td>
+    <td>[Product_Name]</td>
+    <td class="text-center">[Unit_Title]</td>
+    <td class="text-center">[Product_Weight] gam</td>
+    <td class="text-right">[Product_Quantity]</td>
+    <td class="text-right">[Product_Price]</td>
+    <td class="text-right">[Product_Money]</td>
+</tr>

@@ -1,0 +1,7 @@
+﻿<div class="container">
+    <p>Kính chào quý khách: <b>[FullName_Customer]</b>!</p>
+    <p>Đơn đặt hàng mã số: <b>[OrderCode]</b> đã được giao thành công.</p>
+    <p>
+        Cám ơn quý khách đã sử dụng dịch vụ của sàn thương mại điện tử TLSOFT !
+    </p>
+</div>

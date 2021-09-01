@@ -1,0 +1,119 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class Sale_Order_WholesaleDto : Sale_Order_Wholesale
+    {
+    }
+
+    public class Sale_Order_WholesaleSearchDto : SearchBase
+    {
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+
+    }
+
+    public class Sale_Order_WholesaleGetbyId
+    {
+        public Nullable<System.Guid> id { get; set; }
+    }
+
+    public class Sale_Order_WholesaleChangeStatus
+    {
+        public System.Guid id { get; set; }
+        public int status { get; set; }
+    }
+
+    public class Sale_Order_WholesaleAdd
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string code { get; set; }
+        public decimal vat { get; set; }
+        public decimal total { get; set; }
+        public string note { get; set; }
+        public string deliverydate { get; set; }
+        public decimal cpvc { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_tel { get; set; }
+        public string receiver_address { get; set; }
+        public bool IsPayment { get; set; }
+        public int PaymentType { get; set; }
+        public int status { get; set; }
+        public Nullable<System.Guid> bankid { get; set; }
+        public string stk { get; set; }
+        public string nametk { get; set; }
+        public string branch { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public List<Listsale_Order_WholesaleLines> sale_Order_WholesaleLines { get; set; }
+    }
+
+    public class Sale_Order_WholesaleList
+    {
+        public string code { get; set; }
+        public System.Guid id { get; set; }
+        public string dateadded { get; set; }
+        public System.Guid memberid { get; set; }
+        public string name { get; set; }
+        public string deliverydate { get; set; }
+        public int status { get; set; }
+        public string maskdetail { get; set; }
+        public string codemember { get; set; }
+    }
+    public class Listsale_Order_WholesaleLines
+    {
+        public System.Guid id { get; set; }
+        public Nullable<System.Guid> productid { get; set; }
+        public Nullable<int> qty { get; set; }
+        public Nullable<System.Guid> unitid { get; set; }
+        public string title { get; set; }
+        public decimal price_sale { get; set; }
+        public decimal price_discount { get; set; }
+        public int discount { get; set; }
+        public int catalogid { get; set; }
+        public int Weight { get; set; }
+        public decimal total { get; set; }
+        public Nullable<System.Guid> companyid { get; set; }
+        public string note { get; set; }
+        public decimal entryprice { get; set; }
+    }
+
+    public class Sale_Order_WholesaleId
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string code { get; set; }
+        public Nullable<System.Guid> memberid { get; set; }
+        public string name { get; set; }
+        public string mobile { get; set; }
+        public string address { get; set; }
+        public decimal vat { get; set; }
+        public decimal total { get; set; }
+        public string note { get; set; }
+        public string deliverydate { get; set; }
+        public string dateadded { get; set; }
+        public decimal cpvc { get; set; }
+        public string receiver_address { get; set; }
+        public string receiver_fullname { get; set; }
+        public string receiver_tel { get; set; }
+        public int PaymentType { get; set; }
+        public string listproduct { get; set; }
+    }
+
+    public class Sale_Order_WhosaleLinesGetBySaleOrderId
+    {
+        public Nullable<System.Guid> id { get; set; }
+        public string code { get; set; }
+        public string codecon { get; set; }
+        public string codecompany { get; set; }
+        public string companyname { get; set; }
+        public string mobilecompany { get; set; }
+        public string nameUser { get; set; }
+        public string mobileUser { get; set; }
+        public string dateadded { get; set; }
+        public string listproduct { get; set; }
+
+    }
+}

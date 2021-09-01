@@ -1,0 +1,75 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class NewsDto : News
+    {
+    }
+    public class NewsSearchDto : SearchIncompetentBase
+    {
+        public int CargoTypeId { get; set; }
+        public int Companyid { get; set; }
+    }
+    public class NewsAdd : IncompetentBase
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string imgpath { get; set; }
+        public Nullable<int> ishot { get; set; }
+        public Nullable<int> isnew { get; set; }
+        public Nullable<int> companyid { get; set; }
+        public string SeoTitle { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaDescriptions { get; set; }
+        public string shortdesc { get; set; }
+        public string longdesc { get; set; }
+        public int CargoTypeId { get; set; }
+        public Nullable<int> IsLock { get; set; }
+        
+    }
+
+    public class NewsDeleted : IncompetentBase
+    {
+        public string ArrayId { get; set; }
+    }
+    public class NewsGetbyId : IncompetentBase
+    {
+        public int id { get; set; }
+    }
+    public class NewsLock : IncompetentBase
+    {
+        public int islock { get; set; }
+        public string arrayId { get; set; }
+    }
+    public class NewsList
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string dateadded { get; set; }
+        public Nullable<int> TotalView { get; set; }
+        public int IsLock { get; set; }
+        public int CargoTypeId { get; set; }
+    }
+    public class GetNewsListAll
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string rewite { get; set; }
+        public int IsLock { get; set; }
+     
+    }
+    public class GetNewsDetail
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string rewite { get; set; }
+        public string dateadded { get; set; }
+        public string longdesc { get; set; }
+        public string imgpath { get; set; }
+
+    }
+}

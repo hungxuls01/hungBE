@@ -1,0 +1,47 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Company
+{
+    public interface ICompanyDal
+    {
+        Tuple<int, List<CompanyList>> SelectPaging(CompanySearchDto companySearch, int pageIndex, int pageSize);
+
+        bool IsLock(CompanyLock obj);
+
+        bool UpdatePassword(CompanyUpdatePassword obj);
+
+        bool UpdatePasswordBytokenActive(CompanyUpdatePasswordBytokenActive obj);
+
+        bool Isapproval(CompanyApproval obj);
+
+        bool Delete(CompanyDeleted arrayId);
+
+        bool Isfontend(CompanyGetbyId arrayId);
+
+        CompanyAdd GetById(CompanyGetbyId id);
+        CompanyAdd SelectBytokenActive(CompanySelectBytokenActive objGetbyId);
+        CompanyGetStore GetStore(CompanyGetbyId id);
+
+        string Insert(CompanyAdd objAdd);
+        bool UpdateKHO(CompanyUpdateKHO objAdd);
+
+
+        CompanyCheck CheckEmail(string Keyword);
+
+        CompanyCheck CheckBankSTT(string Keyword);
+
+        bool UpdatetokenNoti(CompanyUpdatetokenNoti objUpdate);
+        #region FONTEND
+        List<CompanyAll> GetAll(int id);
+        List<CompanyBankList> GetbyCompanyid(CompanyGetbyCompanyId obj);
+        CompanyInfo GetCompanyInfo(int id);
+        int FeCompanyAdd(CompanyAddFe objAdd);
+        List<CompanyAll> SelectAllByCompanyId(int id);
+        #endregion
+    }
+}

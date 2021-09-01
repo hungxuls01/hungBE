@@ -1,0 +1,8 @@
+2019-10-04 11:21:36.0616|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 11:21:47.6517|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 11:21:56.4178|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 11:22:11.7722|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 13:31:33.9259|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 13:31:46.8190|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 13:35:31.6185|ERROR|ApiTng.Controllers.ProductController|Procedure or function sp_ProductsInsert has too many arguments specified.
+2019-10-04 14:57:07.6949|ERROR|ApiTng.Controllers.ProductController|Procedure or function 'sp_ProductsInsert' expects parameter '@price_discount', which was not supplied.

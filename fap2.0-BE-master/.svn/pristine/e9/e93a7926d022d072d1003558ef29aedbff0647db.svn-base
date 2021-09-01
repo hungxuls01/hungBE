@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class BankDto
+    {
+    }
+
+    public class BankCombobox
+    {
+        public System.Guid id { get; set; }
+        public string name { get; set; }
+    }
+}

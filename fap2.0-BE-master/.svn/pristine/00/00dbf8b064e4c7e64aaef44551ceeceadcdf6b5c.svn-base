@@ -1,0 +1,263 @@
+﻿using _1.DataAccessLayer.Product_Units;
+using _1.DataAccessLayer.ProductConsignment;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.apiconnect;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ApiTng.Controllers
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class ProductConsignmentController : ApiController
+    {
+        private static IProductConsignmentDal _ProductConsignmentDal;
+        private static IProduct_UnitsDal _Product_UnitsDal;
+        private static Logger _logger;
+        private Api api;
+
+        public ProductConsignmentController()
+        {
+            _Product_UnitsDal = new Product_UnitsDal();
+            _ProductConsignmentDal = new ProductConsignmentDal();
+            _logger = LogManager.GetCurrentClassLogger();
+            api = new Api();
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetPaging(ProductConsignmentSearchDto obj)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var result = _ProductConsignmentDal.SelectPaging(obj, obj.PageIndex, obj.PageSize);
+                var data = new DataTableBase<ProductConsignmentCombobox>(result.Item2, result.Item1, obj.PageIndex + 1).Init();
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = data;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57,918C3FCB-F6C4-47B5-AA23-6CD788B010C5")]
+        [HttpPost]
+        public ResponeResult GetById(ProductConsignmentGetId obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ProductConsignmentDal.GetById(obj);
+                if (data != null)
+                {
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult GetByList(ProductConsignmentGetList obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ProductConsignmentDal.GetByList(obj);
+                if (data != null)
+                {
+
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult Insert(ProductConsignmentAdd objAdd)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+
+                var data = _ProductConsignmentDal.Insert(objAdd);
+                if (data)
+                {
+                    var getidnew = new ProductConsignmentGetId();
+                    getidnew.id = objAdd.id;
+                    var productnew = _ProductConsignmentDal.GetByIdFE(getidnew);
+                    productnew.isConsignment = true;
+                    var productunitgetid = new Product_UnitsGetbyId();
+                    productunitgetid.id = (Guid)productnew.unit;
+                    var dataproductunit = _Product_UnitsDal.GetById(productunitgetid);
+                    var productunit = api.InsertProduct_Unit(dataproductunit);
+                    var data2 = api.UpdateProductTD(productnew);
+                    if (data2.Result.Status == ConstUtil.Error)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+                       
+                    }
+                    var productkho = new ProductsAddKho();
+                    productkho.id = (Guid)productnew.id;
+                    productkho.code = productnew.code;
+                    productkho.sdk = productnew.sdk;
+                    productkho.name = productnew.name;
+                    productkho.price = productnew.price;
+                    productkho.unit = productnew.unit;
+                    productkho.otherunits = productnew.otherunits;
+                    productkho.quycachsanpham = productnew.quycachsanpham;
+                    productkho.imanges = productnew.imanges;
+                    productkho.cannang = productnew.cannang;
+                    productkho.ktcao = productnew.ktcao;
+                    productkho.ktdai = productnew.ktdai;
+                    productkho.ktrong = productnew.ktrong;
+                    productkho.status = productnew.status;
+                    productkho.productcatalogid = productnew.productcatalogid;
+                    productkho.sickcatalogid = productnew.sickcatalogid;
+                    productkho.sick = productnew.sick;
+                    productkho.note = "";
+                    productkho.companyid = productnew.companyid;
+                    var datakho = api.UpdateProductKho(productkho);
+                    if (datakho.Result.Status == ConstUtil.Error)
+                    {
+                        response.Status = ConstUtil.Error;
+                        response.Message = "Có lỗi sảy ra !";
+                        return response;
+
+                    }
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [Authorize(Roles = "FE1B570B-22F1-42E8-847E-A177B931BC57")]
+        [HttpPost]
+        public ResponeResult IsStatus(ProductConsignmentStatus obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ProductConsignmentDal.IsStatus(obj);
+                if (data)
+                {
+                    if (obj.status == 1)
+                    {
+                        var getidnew = new ProductConsignmentGetId();
+                        getidnew.id = obj.id;
+                        var productnew = _ProductConsignmentDal.GetByIdFE(getidnew);
+                        productnew.isConsignment = true;
+                        var productunitgetid = new Product_UnitsGetbyId();
+                        productunitgetid.id = (Guid)productnew.unit;
+                        var dataproductunit = _Product_UnitsDal.GetById(productunitgetid);
+                        var productunit = api.InsertProduct_Unit(dataproductunit);
+                        var data2 = api.UpdateProductTD(productnew);
+                        if (data2.Result.Status == ConstUtil.Success)
+                        {
+                            response.Status = ConstUtil.Success;
+                            response.Message = "Thành công !";
+                            response.Data = data;
+                            return response;
+                        }
+                    }
+
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+
+        [HttpPost]
+        public ResponeResult UpdateKhoHang(ProductConsignmentUpdateKhoHang obj)
+        {
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                var data = _ProductConsignmentDal.UpdateKhoHang(obj);
+                if (data)
+                {
+
+                    response.Status = ConstUtil.Success;
+                    response.Message = "Thành công !";
+                    response.Data = data;
+                    return response;
+                }
+
+                response.Status = ConstUtil.Error;
+                response.Message = "Không tìm thấy dữ liệu!";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = "Có lỗi sảy ra !";
+                return response;
+            }
+        }
+    }
+}

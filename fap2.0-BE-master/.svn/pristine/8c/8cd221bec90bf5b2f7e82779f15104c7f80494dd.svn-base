@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class HomeDto
+    {
+        public string money_total { get; set; }
+        public string order_total { get; set; }
+        public string product_total { get; set; }
+        public string member_total { get; set; }
+    }
+}

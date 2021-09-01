@@ -1,0 +1,35 @@
+﻿using _3.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _2.DataTransferObject
+{
+    public class NationsDto : Nation
+    {
+    }
+
+    public class NationsSearchDto : SearchBase
+    {
+       
+    }
+
+    public class NationsCombobox
+    {
+        public System.Guid id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class NationsGetbyId
+    {
+        public System.Guid id { get; set; }
+    }
+    public class NationsAdd
+    {
+        public System.Guid id { get; set; }
+        public string name { get; set; }
+        public string dateadded { get; set; }
+    }
+    
+}

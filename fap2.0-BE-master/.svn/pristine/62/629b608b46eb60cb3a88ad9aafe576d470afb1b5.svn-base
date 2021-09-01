@@ -1,0 +1,19 @@
+﻿using _2.DataTransferObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace _1.DataAccessLayer.Sale_Order_Provisional
+{
+    public class Sale_Order_ProvisionalDal : DbInteractionBase, ISale_Order_ProvisionalDal
+    {
+        public Sale_Order_ProvisionalDto GetById(Guid id)
+        {
+            return ExecuteReaderObject<Sale_Order_ProvisionalDto>("sp_Sale_Order_ProvisionalSelectById", new List<QueryParam>
+            {
+                new QueryParam {NameParam ="id",ValueParam = id}
+            });
+        }
+    }
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e518047daf534df68b3ae0a99bd4436d" Name="Diagram1" ZoomLevel="61">
+        <EntityTypeShape EntityType="APIModel.Autoid" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Bank" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Banner" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Cart" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.Category" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Company" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="APIModel.Company_Bank" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.Department" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.EmailRegister" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="APIModel.Employee" Width="1.5" PointX="4.75" PointY="8.75" />
+        <EntityTypeShape EntityType="APIModel.Evaluate_Order" Width="1.5" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="APIModel.Evaluation" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Feedback" Width="1.5" PointX="6.75" PointY="10.75" />
+        <EntityTypeShape EntityType="APIModel.Help" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Image" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="APIModel.Images_Catalog" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="APIModel.ImportGood" Width="1.5" PointX="12.75" PointY="9.75" />
+        <EntityTypeShape EntityType="APIModel.ImportGoods_Lines" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Member" Width="1.5" PointX="14.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.Member_History" Width="1.5" PointX="4.75" PointY="14.75" />
+        <EntityTypeShape EntityType="APIModel.Member_store" Width="1.5" PointX="6.75" PointY="14.75" />
+        <EntityTypeShape EntityType="APIModel.Member_Use" Width="1.5" PointX="0.75" PointY="15.75" />
+        <EntityTypeShape EntityType="APIModel.Nation" Width="1.5" PointX="12.75" PointY="15.75" />
+        <EntityTypeShape EntityType="APIModel.News" Width="1.5" PointX="14.75" PointY="15.75" />
+        <EntityTypeShape EntityType="APIModel.News_Catalog" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Notification" Width="1.5" PointX="16.75" PointY="3.75" />
+        <EntityTypeShape EntityType="APIModel.Permision" Width="1.5" PointX="16.75" PointY="7.75" />
+        <EntityTypeShape EntityType="APIModel.Position" Width="1.5" PointX="16.75" PointY="11.75" />
+        <EntityTypeShape EntityType="APIModel.Product_Catalog" Width="1.5" PointX="16.75" PointY="14.75" />
+        <EntityTypeShape EntityType="APIModel.Product_favorite" Width="1.5" PointX="2.75" PointY="17.75" />
+        <EntityTypeShape EntityType="APIModel.Product_Units" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.ProductConsignment" Width="1.5" PointX="18.75" PointY="3.75" />
+        <EntityTypeShape EntityType="APIModel.Product" Width="1.5" PointX="18.75" PointY="16.75" />
+        <EntityTypeShape EntityType="APIModel.Products_Comment" Width="1.5" PointX="4.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.Products_Tag" Width="1.5" PointX="6.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.Quotation" Width="1.5" PointX="8.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.QuotationDetail" Width="1.5" PointX="10.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.QuotationHistory" Width="1.5" PointX="20.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Role" Width="1.5" PointX="0.75" PointY="20.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order" Width="1.5" PointX="20.75" PointY="3.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Express" Width="1.5" PointX="20.75" PointY="13.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_ExpressStatus" Width="1.5" PointX="20.75" PointY="16.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Lines" Width="1.5" PointX="20.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Logs" Width="1.5" PointX="12.75" PointY="21.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_StatusDetail" Width="1.5" PointX="14.75" PointY="21.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Use" Width="1.5" PointX="22.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Wholesale" Width="1.5" PointX="22.75" PointY="6.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_WholesaleLines" Width="1.5" PointX="22.75" PointY="13.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Orders_MSB" Width="1.5" PointX="22.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.Search_keyword" Width="1.5" PointX="22.75" PointY="22.75" />
+        <EntityTypeShape EntityType="APIModel.Seo" Width="1.5" PointX="0.75" PointY="23.75" />
+        <EntityTypeShape EntityType="APIModel.Sick" Width="1.5" PointX="6.75" PointY="23.75" />
+        <EntityTypeShape EntityType="APIModel.Store" Width="1.5" PointX="8.75" PointY="23.75" />
+        <EntityTypeShape EntityType="APIModel.SystemHistory" Width="1.5" PointX="24.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.User" Width="1.5" PointX="2.75" PointY="24.75" />
+        <EntityTypeShape EntityType="APIModel.Voucher" Width="1.5" PointX="24.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.District" Width="1.5" PointX="24.75" PointY="10.75" />
+        <EntityTypeShape EntityType="APIModel.Province" Width="1.5" PointX="10.75" PointY="24.75" />
+        <EntityTypeShape EntityType="APIModel.Reward" Width="1.5" PointX="12.75" PointY="24.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_ExpressTransfering" Width="1.5" PointX="24.75" PointY="14.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e518047daf534df68b3ae0a99bd4436d" Name="Diagram1" ZoomLevel="61">
+        <EntityTypeShape EntityType="APIModel.Autoid" Width="1.5" PointX="12.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.Bank" Width="1.5" PointX="7.75" PointY="14.5" />
+        <EntityTypeShape EntityType="APIModel.Banner" Width="1.5" PointX="14.75" PointY="11.75" />
+        <EntityTypeShape EntityType="APIModel.Cart" Width="1.5" PointX="14.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.Category" Width="1.5" PointX="15.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.Company" Width="1.5" PointX="7.75" PointY="2.375" />
+        <EntityTypeShape EntityType="APIModel.Company_Bank" Width="1.5" PointX="10" PointY="6.375" />
+        <EntityTypeShape EntityType="APIModel.Department" Width="1.5" PointX="9.75" PointY="13.375" />
+        <EntityTypeShape EntityType="APIModel.District" Width="1.5" PointX="0.75" PointY="8.25" />
+        <EntityTypeShape EntityType="APIModel.EmailRegister" Width="1.5" PointX="15.75" PointY="8.75" />
+        <EntityTypeShape EntityType="APIModel.Employee" Width="1.5" PointX="12" PointY="12.125" />
+        <EntityTypeShape EntityType="APIModel.Evaluate_Order" Width="1.5" PointX="16.75" PointY="11.75" />
+        <EntityTypeShape EntityType="APIModel.Evaluation" Width="1.5" PointX="10.75" PointY="18.75" />
+        <EntityTypeShape EntityType="APIModel.Expert" Width="1.5" PointX="16.75" PointY="15.75" />
+        <EntityTypeShape EntityType="APIModel.Feedback" Width="1.5" PointX="17.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.Help" Width="1.5" PointX="17.75" PointY="5.75" />
+        <EntityTypeShape EntityType="APIModel.Image" Width="1.5" PointX="17.75" PointY="8.75" />
+        <EntityTypeShape EntityType="APIModel.Images_Catalog" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.ImportGood" Width="1.5" PointX="13" PointY="5.25" />
+        <EntityTypeShape EntityType="APIModel.ImportGoods_Lines" Width="1.5" PointX="15.25" PointY="25" />
+        <EntityTypeShape EntityType="APIModel.Member" Width="1.5" PointX="3" PointY="20.625" />
+        <EntityTypeShape EntityType="APIModel.Member_History" Width="1.5" PointX="7.75" PointY="18.75" />
+        <EntityTypeShape EntityType="APIModel.Member_store" Width="1.5" PointX="5.25" PointY="20.875" />
+        <EntityTypeShape EntityType="APIModel.Member_Token" Width="1.5" PointX="12.75" PointY="18.75" />
+        <EntityTypeShape EntityType="APIModel.Member_Use" Width="1.5" PointX="5.25" PointY="29.5" />
+        <EntityTypeShape EntityType="APIModel.Nation" Width="1.5" PointX="18.75" PointY="11.75" />
+        <EntityTypeShape EntityType="APIModel.News" Width="1.5" PointX="18.75" PointY="14.75" />
+        <EntityTypeShape EntityType="APIModel.News_Catalog" Width="1.5" PointX="14.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.Notification" Width="1.5" PointX="19.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.Permision" Width="1.5" PointX="19.75" PointY="5.75" />
+        <EntityTypeShape EntityType="APIModel.Position" Width="1.5" PointX="16.75" PointY="20.75" />
+        <EntityTypeShape EntityType="APIModel.Product_Catalog" Width="1.5" PointX="18.75" PointY="20.75" />
+        <EntityTypeShape EntityType="APIModel.Product_favorite" Width="1.5" PointX="20.75" PointY="9.75" />
+        <EntityTypeShape EntityType="APIModel.Product_Units" Width="1.5" PointX="6" PointY="34.5" />
+        <EntityTypeShape EntityType="APIModel.Product" Width="1.5" PointX="3" PointY="34.625" />
+        <EntityTypeShape EntityType="APIModel.Province" Width="1.5" PointX="0.75" PointY="13.25" />
+        <EntityTypeShape EntityType="APIModel.Quotation" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="APIModel.QuotationDetail" Width="1.5" PointX="8.25" PointY="22.75" />
+        <EntityTypeShape EntityType="APIModel.QuotationHistory" Width="1.5" PointX="5.25" PointY="26.625" />
+        <EntityTypeShape EntityType="APIModel.Reward" Width="1.5" PointX="0.75" PointY="18.25" />
+        <EntityTypeShape EntityType="APIModel.Role" Width="1.5" PointX="20.75" PointY="12.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order" Width="1.5" PointX="3" PointY="8.375" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Express" Width="1.5" PointX="20.75" PointY="15.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_ExpressStatus" Width="1.5" PointX="20.75" PointY="18.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Lines" Width="1.5" PointX="5.25" PointY="8.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Logs" Width="1.5" PointX="20.75" PointY="21.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_StatusDetail" Width="1.5" PointX="21.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Use" Width="1.5" PointX="5.25" PointY="14.625" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_VnPay" Width="1.5" PointX="21.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_Wholesale" Width="1.5" PointX="3" PointY="49.875" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_WholesaleGroup" Width="1.5" PointX="0.75" PointY="50.25" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_WholesaleLines" Width="1.5" PointX="5.25" PointY="39.5" />
+        <EntityTypeShape EntityType="APIModel.Sale_OrderHistory" Width="1.5" PointX="22.75" PointY="9.75" />
+        <EntityTypeShape EntityType="APIModel.Search_keyword" Width="1.5" PointX="22.75" PointY="12.75" />
+        <EntityTypeShape EntityType="APIModel.Seo" Width="1.5" PointX="22.75" PointY="16.75" />
+        <EntityTypeShape EntityType="APIModel.Sick" Width="1.5" PointX="22.75" PointY="19.75" />
+        <EntityTypeShape EntityType="APIModel.Store" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="APIModel.sysdiagram" Width="1.5" PointX="23.75" PointY="1.75" />
+        <EntityTypeShape EntityType="APIModel.SystemHistory" Width="1.5" PointX="23.75" PointY="4.75" />
+        <EntityTypeShape EntityType="APIModel.User" Width="1.5" PointX="17.75" PointY="24.75" />
+        <EntityTypeShape EntityType="APIModel.Voucher" Width="1.5" PointX="19.75" PointY="24.75" />
+        <EntityTypeShape EntityType="APIModel.Sale_Order_ExpressTransfering" Width="1.5" PointX="24.75" PointY="8.75" />
+        <AssociationConnector Association="APIModel.FK_Company_Bank_Bank" />
+        <AssociationConnector Association="APIModel.FK_Company_Bank_Company" />
+        <AssociationConnector Association="APIModel.FK_ImportGoods_Company" />
+        <AssociationConnector Association="APIModel.FK_ImportGoods_Company1" />
+        <AssociationConnector Association="APIModel.FK_Employees_Departments" />
+        <AssociationConnector Association="APIModel.FK_Member_store_District" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_District" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_District1" />
+        <AssociationConnector Association="APIModel.FK_ImportGoods_Lines_ImportGoods" />
+        <AssociationConnector Association="APIModel.FK_ImportGoods_Stores" />
+        <AssociationConnector Association="APIModel.FK_ImportGoods_Lines_Products" />
+        <AssociationConnector Association="APIModel.FK_Member_Province" />
+        <AssociationConnector Association="APIModel.FK_Member_store_Member" />
+        <AssociationConnector Association="APIModel.FK_Member_Use_Member" />
+        <AssociationConnector Association="APIModel.FK_QuotationHistory_Member" />
+        <AssociationConnector Association="APIModel.FK_Member_store_Province" />
+        <AssociationConnector Association="APIModel.FK_Member_store_Reward" />
+        <AssociationConnector Association="APIModel.FK_QuotationDetail_Product_Units" />
+        <AssociationConnector Association="APIModel.FK_QuotationDetail_Products" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Lines_Products" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_WholesaleLines_Products" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Province" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Province1" />
+        <AssociationConnector Association="APIModel.FK_QuotationDetail_Quotation" />
+        <AssociationConnector Association="APIModel.FK_QuotationHistory_Quotation" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Reward" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Reward1" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Lines_Sale_Order" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Use_Sale_Order" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_Wholesale_Sale_Order_WholesaleGroup" />
+        <AssociationConnector Association="APIModel.FK_Sale_Order_WholesaleLines_Sale_Order_Wholesale" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using _2.DataTransferObject;
+namespace _1.DataAccessLayer.MemberStore
+{
+   public interface IMemberStoreDal
+    {
+        bool Insert(MemberStoreAdd objAdd);
+        MemberStoreAdd GetByid(Guid id);
+        List<MemberStoreAdd> GetBymemberid(Guid id);
+    }
+}

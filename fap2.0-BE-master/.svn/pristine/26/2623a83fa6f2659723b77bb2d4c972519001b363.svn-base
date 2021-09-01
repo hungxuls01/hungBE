@@ -1,0 +1,289 @@
+﻿using _1.DataAccessLayer.Sale_Orders;
+using _2.DataTransferObject;
+using _4.Utils;
+using ApiTng.Models;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+
+namespace ApiTng.ApiPay
+{
+    public class TNGServices
+    {
+        #region Variables and properties
+        public string Url { get; set; }
+        public string Key { get; set; }
+        public string Secret { get; set; }
+        private static ISale_OrdersDal _saleOrdersDal;
+        private static Logger _logger;
+        #endregion
+
+        public TNGServices()
+        {
+            //Get from data if need
+            Key = "51f42d62a8c741f182505fa5979706f1";
+            _saleOrdersDal = new Sale_OrdersDal();
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        public TNGServices(string key)
+        {
+            Key = key;
+        }
+
+        public ResponeResult updateOrder(OrderItemTNG jsonOrder)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (jsonOrder.user != "lozi_tng" || jsonOrder.pass != "12345678902345")
+                {
+                    response.Status = -1;
+                    response.Message = "Sai tài khoản hoặc mật khẩu";
+                    return response;
+                }
+                var status = GetStatus(jsonOrder.status);
+                if (status == string.Empty)
+                {
+                    response.Status = -1;
+                    response.Message = "Trạng thái đơn hàng không hợp lệ";
+                    return response;
+                }
+                var order = _saleOrdersDal.GetByIdLozi(jsonOrder.idorder);
+                if (order == null)
+                {
+                    response.Status = -1;
+                    response.Message = "Mã đơn hàng không hợp lệ";
+                    return response;
+                }
+
+                var id = order.id;
+                var result = _saleOrdersDal.UpdateStatus_api(id, jsonOrder.status);
+                if (result)
+                {
+                    //var detail = _orderDal.SelectById(Convert.ToInt32(id));
+                    //if (StaticEnum.Stt_PhatThanhCong.Contains(request.TrangThai) && StaticEnum.Stt_PhatThanhCong.Contains(detail.status))
+                    //{
+
+                    //    //Cập nhật số tiền voucher
+                    //    var sql = string.Format("EXEC sp_VoucherUpdateAmountByOrderId @orderid={0},@status={1}", id, request.TrangThai);
+                    //    DBUtil.Execute(sql);
+
+                    //    comm.sendMailByType(data.Rows[0]["email"].ToString(), new string[] { data.Rows[0]["code"].ToString(), data.Rows[0]["fullname_customer"].ToString() }, "3", "");
+
+                    //}
+
+                    //MemberActionUtil.updateItemAPI(MemberActionMsg.CAPNHAT_DON_HANG + ":id=" + id + ", Status = " + request.TrangThai, result.ToString(), request.ipclient);
+                    response.Status = 1;
+                    response.Message = "Cập nhật trạng thái đơn hàng thành công";
+                    return response;
+                }
+                else
+                {
+                    response.Status = -1;
+                    response.Message = "lỗi hệ thống xin vui lòng kiểu tra lại";
+                    return response;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+
+
+        public ResponeResult GetOrder(OrderGetTNGLozi jsonOrder)
+        {
+
+            var response = new ResponeResult(ConstUtil.Error, "Có lỗi xảy ra!", null);
+            try
+            {
+                if (jsonOrder.user != "lozi_tng" || jsonOrder.pass != "12345678902345")
+                {
+                    response.Status = -1;
+                    response.Message = "Sai tài khoản hoặc mật khẩu";
+                    return response;
+                }
+                var result = _saleOrdersDal.GetByIdLozi(jsonOrder.idorder);
+                if(result == null)
+                {
+                    response.Status = -1;
+                    response.Message = "KHông tìm thấy đơn hàng";
+                    return response;
+                }
+                var order = new OrderGetTNG
+                {
+                    price = result.price,
+                    shipping_fee = result.shipping_fee,
+                    note = result.note,
+                    payment_method = result.payment_method,
+                    status = result.status,
+                    totalUserFee = result.price + result.shipping_fee,
+                    city = result.city
+                };
+               
+                var source = new source
+                {
+                    lat = result.lat,
+                    lng = result.lng,
+                    name = result.name,
+                    phone = result.phone,
+                    address = result.address
+                };
+                var destination = new destination
+                {
+                    lat = result.receiverlat,
+                    lng = result.receiverlng,
+                    name = result.receiverfullname,
+                    phone = result.receivertel,
+                    address = result.receiveraddress
+                };
+                var routes = new routes
+                {
+                    destination = destination,
+                    source = source
+                };
+                var line = _saleOrdersDal.GetByIdLoziLine(jsonOrder.idorder);
+                order.lines = line;
+                order.routes = routes;
+                response.Status = ConstUtil.Success;
+                response.Message = "Thành công !";
+                response.Data = order;
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Error(ex.Message);
+                response.Status = ConstUtil.Error;
+                response.Message = ex.ToString();
+                return response;
+            }
+        }
+        public static string GetStatus(string status)
+        {
+            if (StaticEnum.Stt_ChoXacNhan.Contains(status))
+            {
+                return "Chờ xác nhận";
+            }
+            if (StaticEnum.Stt_ChoLayHang.Contains(status))
+            {
+                return "Chờ lấy hàng";
+            }
+            if (StaticEnum.Stt_DaHuy.Contains(status))
+            {
+                return "Đã hủy";
+            }
+            if (StaticEnum.Stt_DangGiao.Contains(status))
+            {
+                return "Đang giao";
+            }
+            if (StaticEnum.Stt_HoanThanh.Contains(status))
+            {
+                return "Hoàn thành";
+            }
+            if (StaticEnum.Stt_TraHang.Contains(status))
+            {
+                return "Trả hàng";
+            }
+            if (StaticEnum.Stt_XoaDon.Contains(status))
+            {
+                return "Xóa đơn";
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Convert to HMAC256
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        private string GetHashMach(string message, string secret)
+        {
+            HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
+            hmac.Initialize();
+
+            byte[] buffer = Encoding.UTF8.GetBytes(message);
+
+            string signature = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "").ToLower();
+
+            return signature;
+        }
+
+        /// <summary>
+        /// Create Token
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="path"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public string CreateToken(string method, string path, string data)
+        {
+            // Hash HMAC256
+            string rawSignature = string.Format("{0}\r\n{1}\r\n{2}", method, path, data);
+            string signature = GetHashMach(rawSignature, Key);
+            return signature;
+        }
+
+        public class OrderItemTNG
+        {
+            public int idorder { get; set; }
+            public string status { get; set; }
+            public string user { get; set; }
+            public string pass { get; set; }
+        }
+        public class OrderGetTNGLozi
+        {
+            public int idorder { get; set; }
+            public string user { get; set; }
+            public string pass { get; set; }
+        }
+        public class OrderGetTNG
+        {
+            public int price { get; set; }
+            public int shipping_fee { get; set; }
+            public string note { get; set; }
+            public List<GetByIdLoziLine> lines { get; set; }
+            public string payment_method { get; set; }
+            public routes routes { get; set; }
+            public string status { get; set; }
+            public string city { get; set; }
+            public int totalUserFee { get; set; }
+        }
+        public class routes
+        {
+            public source source { get; set; }
+            public destination destination { get; set; }
+        }
+        public class source
+        {
+            public float lat { get; set; }
+            public float lng { get; set; }
+            public string address { get; set; }
+            public string phone { get; set; }
+            public string name { get; set; }
+        }
+        public class destination
+        {
+            public float lat { get; set; }
+            public float lng { get; set; }
+            public string address { get; set; }
+            public string phone { get; set; }
+            public string name { get; set; }
+        }
+    }
+
+}
